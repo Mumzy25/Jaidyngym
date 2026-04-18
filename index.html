@@ -677,6 +677,57 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
 .dash-rec-item{text-align:center;background:var(--s2);border-radius:8px;padding:8px 4px}
 .dash-rec-val{font-size:18px}
 .dash-rec-lbl{font-size:9px;color:var(--td);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+
+/* ===== STAGE 15 — RECOVERY & SLEEP ===== */
+.rec-wrap{padding:16px;padding-bottom:80px}
+.rec-score-hero{background:linear-gradient(135deg,#0a1a2e 0%,#12121a 100%);border:1px solid rgba(0,229,160,.2);border-radius:var(--r);padding:16px;margin-bottom:12px;text-align:center;position:relative;overflow:hidden}
+.rec-score-hero::after{content:'';position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:160px;height:160px;background:radial-gradient(circle,rgba(0,229,160,.08) 0%,transparent 70%);pointer-events:none}
+.rec-score-label{font-size:10px;font-weight:700;color:var(--td);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.rec-score-num{font-size:64px;font-weight:900;line-height:1;margin-bottom:4px}
+.rec-score-num.great{color:var(--a)}
+.rec-score-num.good{color:#7fff7f}
+.rec-score-num.ok{color:var(--a3)}
+.rec-score-num.low{color:var(--a2)}
+.rec-score-verdict{font-size:14px;font-weight:700;color:var(--t);margin-bottom:4px}
+.rec-score-advice{font-size:12px;color:var(--td);line-height:1.5}
+.rec-intensity-badge{display:inline-block;margin-top:10px;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:.5px}
+.rec-intensity-badge.full{background:rgba(0,229,160,.15);color:var(--a)}
+.rec-intensity-badge.moderate{background:rgba(255,204,0,.15);color:var(--a3)}
+.rec-intensity-badge.rest{background:rgba(255,61,107,.15);color:var(--a2)}
+.rec-card{background:var(--s1);border:1px solid var(--b);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.rec-card-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.rec-card-title{font-size:11px;font-weight:700;color:var(--td);letter-spacing:1.5px;text-transform:uppercase}
+.rec-card-badge{font-size:11px;font-weight:700;color:var(--a);background:rgba(0,229,160,.1);padding:3px 8px;border-radius:10px}
+.rec-input-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.rec-input-label{font-size:12px;color:var(--t);font-weight:600;width:80px;flex-shrink:0}
+.rec-slider{flex:1;-webkit-appearance:none;height:4px;border-radius:2px;background:var(--s3);outline:none}
+.rec-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--a);cursor:pointer}
+.rec-slider-val{font-size:14px;font-weight:700;color:var(--a3);width:30px;text-align:right;flex-shrink:0}
+.rec-sleep-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.rec-sleep-inp{background:var(--s2);border:1px solid var(--b);border-radius:8px;padding:10px;text-align:center}
+.rec-sleep-inp label{font-size:10px;color:var(--td);display:block;margin-bottom:6px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.rec-sleep-inp input{width:100%;background:var(--s3);border:1px solid var(--b);border-radius:6px;padding:8px;color:var(--t);font-size:18px;font-weight:700;text-align:center;font-family:inherit;-moz-appearance:textfield}
+.rec-sleep-inp input::-webkit-outer-spin-button,.rec-sleep-inp input::-webkit-inner-spin-button{-webkit-appearance:none}
+.rec-sleep-inp input:focus{outline:none;border-color:var(--a)}
+.rec-muscle-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.rec-muscle-btn{background:var(--s2);border:1px solid var(--b);border-radius:20px;padding:6px 12px;font-size:12px;font-weight:600;color:var(--td);cursor:pointer;font-family:inherit;transition:all .2s}
+.rec-muscle-btn.sore{background:rgba(255,61,107,.15);border-color:var(--a2);color:var(--a2)}
+.rec-log-btn{width:100%;background:var(--a);color:#000;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;margin-top:4px}
+.rec-history-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--b)}
+.rec-history-item:last-child{border-bottom:none}
+.rec-history-date{font-size:12px;color:var(--td)}
+.rec-history-score{font-size:16px;font-weight:900}
+.rec-history-detail{font-size:11px;color:var(--td);margin-top:2px}
+.rec-history-right{text-align:right}
+.rec-chart-wrap{display:flex;align-items:flex-end;gap:4px;height:60px;margin-bottom:4px}
+.rec-chart-bar{flex:1;border-radius:3px 3px 0 0;min-height:4px;transition:height .3s}
+.rec-chart-labels{display:flex;gap:4px}
+.rec-chart-label{flex:1;font-size:9px;color:var(--tf);text-align:center}
+.rec-hrv-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.rec-hrv-inp{flex:1;background:var(--s2);border:1px solid var(--b);border-radius:8px;padding:10px;color:var(--t);font-size:16px;font-weight:700;text-align:center;font-family:inherit;-moz-appearance:textfield}
+.rec-hrv-inp::-webkit-outer-spin-button,.rec-hrv-inp::-webkit-inner-spin-button{-webkit-appearance:none}
+.rec-hrv-inp:focus{outline:none;border-color:var(--a)}
+.rec-hrv-unit{font-size:12px;color:var(--td);font-weight:600}
 </style>
 </head>
 <body>
@@ -700,6 +751,7 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
   <button class="tab" onclick="switchTab('nutrition')">Nutrition</button>
   <button class="tab" onclick="switchTab('analytics')">Analytics</button>
   <button class="tab" onclick="switchTab('evolution')">Programme</button>
+  <button class="tab" onclick="switchTab('recovery')">Recovery</button>
 </div>
 
 <!-- TODAY -->
@@ -834,6 +886,89 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
       <div class="checkin-history" id="checkinHistory"></div>
     </div>
 
+  </div>
+</div>
+
+
+<!-- RECOVERY & SLEEP (STAGE 15) -->
+<div class="view" id="view-recovery">
+  <div class="rec-wrap">
+    <div class="rec-score-hero">
+      <div class="rec-score-label">Today's Recovery Score</div>
+      <div class="rec-score-num" id="recScoreNum">—</div>
+      <div class="rec-score-verdict" id="recScoreVerdict">Log today's data below</div>
+      <div class="rec-score-advice" id="recScoreAdvice">Fill in sleep, HRV, soreness and stress to get your score</div>
+      <div id="recIntensityBadge"></div>
+    </div>
+
+    <!-- SLEEP -->
+    <div class="rec-card">
+      <div class="rec-card-hdr">
+        <div class="rec-card-title">😴 Sleep</div>
+        <div class="rec-card-badge" id="recSleepBadge">Not logged</div>
+      </div>
+      <div class="rec-sleep-row">
+        <div class="rec-sleep-inp">
+          <label>Hours Slept</label>
+          <input type="number" id="recSleepHours" inputmode="decimal" placeholder="7.5" step="0.5" min="0" max="14" onchange="calcRecoveryScore()">
+        </div>
+        <div class="rec-sleep-inp">
+          <label>Sleep Quality</label>
+          <input type="number" id="recSleepQuality" inputmode="numeric" placeholder="7" min="1" max="10" onchange="calcRecoveryScore()">
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--tf)">Hours slept + quality out of 10</div>
+    </div>
+
+    <!-- HRV -->
+    <div class="rec-card">
+      <div class="rec-card-hdr">
+        <div class="rec-card-title">❤️ HRV</div>
+        <div class="rec-card-badge" id="recHRVBadge">Optional</div>
+      </div>
+      <div class="rec-hrv-row">
+        <input class="rec-hrv-inp" type="number" id="recHRV" inputmode="numeric" placeholder="65" min="0" max="200" onchange="calcRecoveryScore()">
+        <div class="rec-hrv-unit">ms</div>
+      </div>
+      <div style="font-size:11px;color:var(--tf)">Check Apple Health, Whoop, or Garmin for your HRV. Leave blank if unavailable.</div>
+    </div>
+
+    <!-- SORENESS -->
+    <div class="rec-card">
+      <div class="rec-card-hdr">
+        <div class="rec-card-title">💪 Muscle Soreness</div>
+        <div class="rec-card-badge" id="recSorenessBadge">Tap sore muscles</div>
+      </div>
+      <div class="rec-muscle-grid" id="recMuscleGrid"></div>
+      <div style="font-size:11px;color:var(--tf)">Tap any muscles that are sore today</div>
+    </div>
+
+    <!-- STRESS -->
+    <div class="rec-card">
+      <div class="rec-card-hdr">
+        <div class="rec-card-title">🧠 Stress Level</div>
+        <div class="rec-card-badge" id="recStressBadge">Not set</div>
+      </div>
+      <div class="rec-input-row">
+        <div class="rec-input-label">Stress</div>
+        <input class="rec-slider" type="range" id="recStress" min="1" max="10" value="5" oninput="updateStressLabel();calcRecoveryScore()">
+        <div class="rec-slider-val" id="recStressVal">5</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--tf)"><span>Very low</span><span>Very high</span></div>
+    </div>
+
+    <!-- LOG BUTTON -->
+    <button class="rec-log-btn" onclick="logRecovery()">Save Today's Recovery</button>
+
+    <!-- HISTORY -->
+    <div class="rec-card" style="margin-top:12px">
+      <div class="rec-card-hdr">
+        <div class="rec-card-title">📈 7-Day Trend</div>
+      </div>
+      <div class="rec-chart-wrap" id="recChartBars"></div>
+      <div class="rec-chart-labels" id="recChartLabels"></div>
+      <div id="recHistory" style="margin-top:12px"></div>
+    </div>
   </div>
 </div>
 
@@ -1209,6 +1344,7 @@ let scans=[], bwLog=[], checkins=[];
 let proteinToday={}, suppToday={};
 let checkinsRatings={energy:0,sleep:0,hunger:0,recovery:0};
 let current=null, selId=null, curProg='onsite', barWeight=20;
+let recoveryLog=[], recSoreness=new Set();
 let timerSec=90, timerOrig=90, timerRunning=false, timerInt=null;
 
 // ============================================================
@@ -1252,6 +1388,7 @@ function loadLocal() {
     scans=JSON.parse(localStorage.getItem('jt_scans')||'[]');
     bwLog=JSON.parse(localStorage.getItem('jt_bwlog')||'[]');
     checkins=JSON.parse(localStorage.getItem('jt_checkins')||'[]');
+    recoveryLog=JSON.parse(localStorage.getItem('jt_recovery')||'[]');
   } catch(e){}
   const today=todayStr();
   try{proteinToday=JSON.parse(localStorage.getItem('jt_protein_'+today)||'{}');}catch(e){}
@@ -1268,13 +1405,14 @@ async function saveCloud() {
   localStorage.setItem('jt_scans',JSON.stringify(scans));
   localStorage.setItem('jt_bwlog',JSON.stringify(bwLog));
   localStorage.setItem('jt_checkins',JSON.stringify(checkins));
+  localStorage.setItem('jt_recovery',JSON.stringify(recoveryLog));
   localStorage.setItem('jt_protein_'+today,JSON.stringify(proteinToday));
   localStorage.setItem('jt_supp_'+today,JSON.stringify(suppToday));
   const k=getKeys();
   if(!k.master||!k.access){setCloud('err');return;}
   setCloud('loading');
   try {
-    await fetch('https://api.jsonbin.io/v3/b/'+getBinID(),{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':k.master,'X-Access-Key':k.access},body:JSON.stringify({sessions,weights,prs,blockState,scans,bwLog,checkins})});
+    await fetch('https://api.jsonbin.io/v3/b/'+getBinID(),{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':k.master,'X-Access-Key':k.access},body:JSON.stringify({sessions,weights,prs,blockState,scans,bwLog,checkins,recoveryLog})});
     setCloud('ok');
   } catch(e){setCloud('err');}
 }
@@ -2358,6 +2496,223 @@ function renderEvolution() {
 }
 
 
+
+// ============================================================
+// STAGE 15 — RECOVERY & SLEEP
+// ============================================================
+const MUSCLE_GROUPS = ['Chest','Back','Shoulders','Biceps','Triceps','Quads','Hamstrings','Glutes','Calves','Core','Full Body'];
+
+function initRecovery() {
+  recSoreness = new Set();
+  renderMuscleGrid();
+  updateStressLabel();
+  // Pre-fill today if already logged
+  const today = new Date().toLocaleDateString('en-AU');
+  const todayLog = recoveryLog.find(r => r.date === today);
+  if (todayLog) {
+    if (todayLog.sleepHours) document.getElementById('recSleepHours').value = todayLog.sleepHours;
+    if (todayLog.sleepQuality) document.getElementById('recSleepQuality').value = todayLog.sleepQuality;
+    if (todayLog.hrv) document.getElementById('recHRV').value = todayLog.hrv;
+    if (todayLog.stress) document.getElementById('recStress').value = todayLog.stress;
+    if (todayLog.soreness) { recSoreness = new Set(todayLog.soreness); renderMuscleGrid(); }
+    updateStressLabel();
+    calcRecoveryScore();
+  }
+}
+
+function renderMuscleGrid() {
+  document.getElementById('recMuscleGrid').innerHTML = MUSCLE_GROUPS.map(m =>
+    `<button class="rec-muscle-btn ${recSoreness.has(m)?'sore':''}" onclick="toggleMuscle('${m}')">${m}</button>`
+  ).join('');
+  const count = recSoreness.size;
+  document.getElementById('recSorenessBadge').textContent = count ? count + ' sore' : 'Tap sore muscles';
+}
+
+function toggleMuscle(m) {
+  if (recSoreness.has(m)) recSoreness.delete(m);
+  else recSoreness.add(m);
+  renderMuscleGrid();
+  calcRecoveryScore();
+}
+
+function updateStressLabel() {
+  const v = document.getElementById('recStress').value;
+  document.getElementById('recStressVal').textContent = v;
+  document.getElementById('recStressBadge').textContent = v<=3?'Low 😌':v<=6?'Moderate 😐':v<=8?'High 😟':'Very High 😰';
+}
+
+function calcRecoveryScore() {
+  const sleepH = parseFloat(document.getElementById('recSleepHours').value)||0;
+  const sleepQ = parseInt(document.getElementById('recSleepQuality').value)||0;
+  const hrv = parseInt(document.getElementById('recHRV').value)||0;
+  const stress = parseInt(document.getElementById('recStress').value)||5;
+  const soreness = recSoreness.size;
+
+  if (!sleepH && !sleepQ) {
+    document.getElementById('recScoreNum').textContent = '—';
+    document.getElementById('recScoreNum').className = 'rec-score-num';
+    document.getElementById('recScoreVerdict').textContent = "Log today's data below";
+    document.getElementById('recScoreAdvice').textContent = 'Fill in sleep, HRV, soreness and stress to get your score';
+    document.getElementById('recIntensityBadge').innerHTML = '';
+    return 0;
+  }
+
+  // Score components (all out of 10)
+  let sleepScore = 0;
+  if (sleepH >= 8) sleepScore = 10;
+  else if (sleepH >= 7) sleepScore = 8;
+  else if (sleepH >= 6) sleepScore = 6;
+  else if (sleepH >= 5) sleepScore = 4;
+  else sleepScore = 2;
+  if (sleepQ) sleepScore = (sleepScore + sleepQ) / 2;
+
+  const stressScore = 10 - (stress - 1);
+  const sorenessScore = Math.max(0, 10 - (soreness * 1.5));
+
+  let score;
+  if (hrv) {
+    // HRV baseline ~65ms — adjust up or down
+    const hrvScore = Math.min(10, Math.max(0, (hrv / 65) * 7));
+    score = (sleepScore * 0.35) + (stressScore * 0.25) + (sorenessScore * 0.2) + (hrvScore * 0.2);
+  } else {
+    score = (sleepScore * 0.45) + (stressScore * 0.3) + (sorenessScore * 0.25);
+  }
+  score = Math.round(Math.min(10, Math.max(1, score)));
+
+  // Update UI
+  const el = document.getElementById('recScoreNum');
+  el.textContent = score;
+  el.className = 'rec-score-num ' + (score>=8?'great':score>=6?'good':score>=4?'ok':'low');
+
+  let verdict, advice, intensity, intensityCls;
+  if (score >= 8) {
+    verdict = 'Fully Recovered';
+    advice = 'Your body is ready. Push hard today — this is a day to set PRs.';
+    intensity = 'Train at Full Intensity';
+    intensityCls = 'full';
+  } else if (score >= 6) {
+    verdict = 'Good to Train';
+    advice = 'You are recovered enough. Train normally — stay within your RPE targets.';
+    intensity = 'Normal Session — Stay at Target RPE';
+    intensityCls = 'full';
+  } else if (score >= 4) {
+    verdict = 'Train with Caution';
+    advice = 'Consider reducing weights by 10-15% and skipping max effort sets today.';
+    intensity = 'Moderate Session — Reduce RPE by 1-2';
+    intensityCls = 'moderate';
+  } else {
+    verdict = 'Rest Day Recommended';
+    advice = 'Your body needs recovery. Rest day — walk, stretch, mobility work only.';
+    intensity = 'Rest Day or Active Recovery Only';
+    intensityCls = 'rest';
+  }
+
+  document.getElementById('recScoreVerdict').textContent = verdict;
+  document.getElementById('recScoreAdvice').textContent = advice;
+  document.getElementById('recIntensityBadge').innerHTML = `<div class="rec-intensity-badge ${intensityCls}">${intensity}</div>`;
+
+  // Update sleep badge
+  if (sleepH) document.getElementById('recSleepBadge').textContent = sleepH + 'hrs' + (sleepQ?' • Q:'+sleepQ+'/10':'');
+
+  return score;
+}
+
+function logRecovery() {
+  const score = calcRecoveryScore();
+  if (!score) { showToast('Log at least sleep hours first'); return; }
+
+  const sleepH = parseFloat(document.getElementById('recSleepHours').value)||0;
+  const sleepQ = parseInt(document.getElementById('recSleepQuality').value)||0;
+  const hrv = parseInt(document.getElementById('recHRV').value)||0;
+  const stress = parseInt(document.getElementById('recStress').value)||5;
+  const today = new Date().toLocaleDateString('en-AU');
+
+  const verdict = document.getElementById('recScoreVerdict').textContent;
+  const intensityEl = document.getElementById('recIntensityBadge').querySelector('.rec-intensity-badge');
+  const intensityAdvice = intensityEl ? intensityEl.textContent : '';
+
+  const entry = {
+    date: today,
+    score,
+    verdict,
+    intensityAdvice,
+    sleepHours: sleepH,
+    sleepQuality: sleepQ,
+    hrv: hrv||null,
+    stress,
+    soreness: [...recSoreness]
+  };
+
+  // Replace today if already exists
+  const existingIdx = recoveryLog.findIndex(r => r.date === today);
+  if (existingIdx >= 0) recoveryLog[existingIdx] = entry;
+  else recoveryLog.unshift(entry);
+
+  // Keep last 30 days
+  if (recoveryLog.length > 30) recoveryLog = recoveryLog.slice(0, 30);
+
+  saveCloud();
+  renderRecovery();
+  renderDashboard();
+  showToast('Recovery logged! Score: ' + score + '/10');
+}
+
+function renderRecoveryScore() {
+  // Called from refreshAll to update dashboard
+  const today = new Date().toLocaleDateString('en-AU');
+  const todayRec = recoveryLog.find(r => r.date === today);
+  if (todayRec) renderDashboard();
+}
+
+function renderRecovery() {
+  initRecovery();
+  renderRecoveryChart();
+  renderRecoveryHistory();
+}
+
+function renderRecoveryChart() {
+  const last7 = recoveryLog.slice(0, 7).reverse();
+  const bars = document.getElementById('recChartBars');
+  const labels = document.getElementById('recChartLabels');
+  if (!bars) return;
+  if (!last7.length) {
+    bars.innerHTML = '<div style="font-size:12px;color:var(--tf);padding:10px 0">No recovery data yet</div>';
+    labels.innerHTML = '';
+    return;
+  }
+  const maxScore = 10;
+  bars.innerHTML = last7.map(r => {
+    const h = Math.max(4, (r.score / maxScore) * 56);
+    const col = r.score>=8?'var(--a)':r.score>=6?'#7fff7f':r.score>=4?'var(--a3)':'var(--a2)';
+    return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px">
+      <div style="font-size:9px;color:var(--td)">${r.score}</div>
+      <div class="rec-chart-bar" style="height:${h}px;background:${col};width:100%"></div>
+    </div>`;
+  }).join('');
+  labels.innerHTML = last7.map(r => {
+    const parts = r.date.split('/');
+    return `<div class="rec-chart-label">${parts[0]+'/'+parts[1]}</div>`;
+  }).join('');
+}
+
+function renderRecoveryHistory() {
+  const el = document.getElementById('recHistory');
+  if (!el || !recoveryLog.length) { if(el) el.innerHTML = ''; return; }
+  el.innerHTML = recoveryLog.slice(0, 7).map(r => {
+    const col = r.score>=8?'var(--a)':r.score>=6?'#7fff7f':r.score>=4?'var(--a3)':'var(--a2)';
+    return `<div class="rec-history-item">
+      <div>
+        <div class="rec-history-date">${r.date}</div>
+        <div class="rec-history-detail">Sleep: ${r.sleepHours}hrs${r.sleepQuality?' Q:'+r.sleepQuality+'/10':''}${r.hrv?' • HRV:'+r.hrv:''}${r.soreness.length?' • Sore: '+r.soreness.join(', '):''}</div>
+      </div>
+      <div class="rec-history-right">
+        <div class="rec-history-score" style="color:${col}">${r.score}/10</div>
+        <div style="font-size:10px;color:var(--td)">${r.verdict}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
 function init() {
   loadCustomData();
   try{document.getElementById('topDate').textContent=new Date().toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'}).toUpperCase();}catch(e){}
@@ -2371,6 +2726,7 @@ function init() {
     scans=JSON.parse(localStorage.getItem('jt_scans')||'[]');
     bwLog=JSON.parse(localStorage.getItem('jt_bwlog')||'[]');
     checkins=JSON.parse(localStorage.getItem('jt_checkins')||'[]');
+    recoveryLog=JSON.parse(localStorage.getItem('jt_recovery')||'[]');
   }catch(e){}
   try{
     const today=todayStr();
@@ -2411,6 +2767,7 @@ async function syncCloud() {
         scans=d.record.scans||[];
         bwLog=d.record.bwLog||[];
         checkins=d.record.checkins||[];
+        recoveryLog=d.record.recoveryLog||[];
         // Re-render silently
         try{renderBlockTracker();}catch(e){}
         try{renderPicker();}catch(e){}
@@ -2433,13 +2790,14 @@ function refreshAll() {
   renderProgress();
   renderCheckin();
   renderTools();
+  try{renderRecoveryScore();}catch(e){}
 }
 
 // ============================================================
 // TABS
 // ============================================================
 function switchTab(tab) {
-  const tabs=['today','programme','history','progress','checkin','tools','settings','nutrition','analytics','evolution'];
+  const tabs=['today','programme','history','progress','checkin','tools','settings','nutrition','analytics','evolution','recovery'];
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',tabs[i]===tab));
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+tab).classList.add('active');
@@ -2449,6 +2807,7 @@ function switchTab(tab) {
   if(tab==='nutrition') { loadWater(); renderNutrition(); }
   if(tab==='analytics') renderAnalytics();
   if(tab==='evolution') renderEvolution();
+  if(tab==='recovery') renderRecovery();
 }
 
 // ============================================================
@@ -2673,6 +3032,21 @@ function renderDashboard() {
       ${topPRs.map(([n,pr])=>`<div class="dash-pr-row"><div class="dash-pr-name">${n}</div><div class="dash-pr-val">${pr.weight} × ${pr.reps} <span style="font-size:9px;background:rgba(255,61,107,.15);color:var(--a2);padding:2px 5px;border-radius:4px;font-weight:700">PR</span></div></div>`).join('')}
     </div>`:''}
 
+    ${(()=>{const todayRec=recoveryLog.find(r=>r.date===new Date().toLocaleDateString('en-AU'));return todayRec?`
+    <div class="dash-section">
+      <div class="dash-section-hdr">
+        <div class="dash-section-title">Today's Recovery</div>
+        <button class="dash-section-action" onclick="switchTab('recovery')">Log</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="font-size:44px;font-weight:900;color:${todayRec.score>=8?'var(--a)':todayRec.score>=6?'var(--a3)':'var(--a2)'}">${todayRec.score}</div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--t)">${todayRec.verdict}</div>
+          <div style="font-size:11px;color:var(--td);margin-top:2px">${todayRec.intensityAdvice}</div>
+          ${todayRec.soreness.length?`<div style="font-size:11px;color:var(--a2);margin-top:4px">Sore: ${todayRec.soreness.join(', ')}</div>`:''}
+        </div>
+      </div>
+    </div>`:''})()}
     ${ci&&ciRatings.some(r=>r.v>0)?`
     <!-- RECOVERY -->
     <div class="dash-section">
