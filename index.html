@@ -786,6 +786,63 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
 .mp-fifo-icon{font-size:16px;flex-shrink:0}
 .mp-fifo-text{font-size:12px;color:var(--t);line-height:1.5}
 .mp-fifo-text b{color:var(--a);display:block;margin-bottom:2px}
+
+/* ===== STAGE 19 — NEXT PROGRAMME BUILDER ===== */
+.nb-wrap{padding:16px;padding-bottom:80px}
+.nb-status-card{background:linear-gradient(135deg,#0d1a2e 0%,#12121a 100%);border:1px solid rgba(0,229,160,.2);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.nb-status-label{font-size:10px;font-weight:700;color:var(--a);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.nb-status-title{font-size:18px;font-weight:900;color:var(--t);margin-bottom:6px}
+.nb-progress-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.nb-week-num{font-size:36px;font-weight:900;color:var(--a);line-height:1}
+.nb-week-info{flex:1}
+.nb-week-label{font-size:11px;color:var(--td)}
+.nb-week-phase{font-size:13px;font-weight:700;color:var(--t)}
+.nb-prog-bar{height:6px;background:var(--s3);border-radius:3px;overflow:hidden;margin-top:6px}
+.nb-prog-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--a),var(--a3));transition:width .5s}
+.nb-week-dots{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:12px}
+.nb-dot{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700}
+.nb-dot.done{background:var(--a);color:#000}
+.nb-dot.current{background:var(--a3);color:#000}
+.nb-dot.deload{background:rgba(136,136,170,.3);color:var(--td)}
+.nb-dot.future{background:var(--s3);color:var(--tf)}
+.nb-build-btn{width:100%;background:var(--a);color:#000;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:800;letter-spacing:1px;cursor:pointer;font-family:inherit;margin-bottom:14px;transition:all .2s}
+.nb-build-btn:disabled{background:var(--s3);color:var(--tf);cursor:not-allowed}
+.nb-build-btn.ready{animation:pulse-green 2s infinite}
+@keyframes pulse-green{0%,100%{box-shadow:0 0 0 0 rgba(0,229,160,.4)}50%{box-shadow:0 0 0 8px rgba(0,229,160,0)}}
+.nb-analysis-card{background:var(--s1);border:1px solid var(--b);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.nb-analysis-card h3{font-size:11px;font-weight:700;color:var(--td);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.nb-analysis-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--b);font-size:13px;color:var(--t);line-height:1.4}
+.nb-analysis-item:last-child{border-bottom:none}
+.nb-analysis-item.win::before{content:"✅";flex-shrink:0}
+.nb-analysis-item.stall::before{content:"⚠️";flex-shrink:0}
+.nb-analysis-item.action::before{content:"→";flex-shrink:0;color:var(--a)}
+.nb-analysis-item.miss::before{content:"❌";flex-shrink:0}
+.nb-new-prog{background:var(--s1);border:1px solid rgba(0,229,160,.2);border-radius:var(--r);padding:14px;margin-bottom:12px;display:none}
+.nb-new-prog.show{display:block}
+.nb-new-prog h3{font-size:14px;font-weight:700;color:var(--a);margin-bottom:4px}
+.nb-new-prog-sub{font-size:11px;color:var(--td);margin-bottom:14px}
+.nb-prog-day{background:var(--s2);border:1px solid var(--b);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.nb-prog-day-hdr{display:flex;justify-content:space-between;align-items:center;padding:11px 12px;cursor:pointer}
+.nb-prog-day-name{font-size:13px;font-weight:700;color:var(--t)}
+.nb-prog-day-tag{font-size:10px;color:var(--td)}
+.nb-prog-day-chev{color:var(--td);transition:transform .2s}
+.nb-prog-day-hdr.open .nb-prog-day-chev{transform:rotate(180deg)}
+.nb-prog-day-body{display:none;padding:0 12px 12px}
+.nb-prog-day-body.show{display:block}
+.nb-prog-ex{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--b)}
+.nb-prog-ex:last-child{border-bottom:none}
+.nb-prog-ex-name{font-size:12px;font-weight:600;color:var(--t)}
+.nb-prog-ex-detail{font-size:11px;color:var(--td);margin-top:1px}
+.nb-prog-ex-weight{font-size:13px;font-weight:700;color:var(--a3);text-align:right}
+.nb-prog-ex-weight.up{color:var(--a)}
+.nb-prog-ex-weight.same{color:var(--td)}
+.nb-save-btn{width:100%;background:var(--s2);border:1px solid var(--a);color:var(--a);border-radius:8px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:8px;transition:all .2s}
+.nb-save-btn:active{background:var(--a);color:#000}
+.nb-history-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--b)}
+.nb-history-item:last-child{border-bottom:none}
+.nb-history-label{font-size:13px;font-weight:600;color:var(--t)}
+.nb-history-date{font-size:11px;color:var(--td);margin-top:2px}
+.nb-history-val{font-size:12px;color:var(--a3);font-weight:700;text-align:right}
 </style>
 </head>
 <body>
@@ -811,6 +868,7 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
   <button class="tab" onclick="switchTab('evolution')">Programme</button>
   <button class="tab" onclick="switchTab('recovery')">Recovery</button>
   <button class="tab" onclick="switchTab('meals')">Meals</button>
+  <button class="tab" onclick="switchTab('nextprog')">Next Prog</button>
 </div>
 
 <!-- TODAY -->
@@ -1082,6 +1140,53 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
         <div class="mp-fifo-tip"><div class="mp-fifo-icon">🍳</div><div class="mp-fifo-text"><b>Breakfast is your biggest win</b>Mess breakfast usually has eggs, meat, and good protein options. Load up — it sets your protein base for the day.</div></div>
         <div class="mp-fifo-tip"><div class="mp-fifo-icon">🌙</div><div class="mp-fifo-text"><b>Evening snack</b>Cottage cheese or Greek yogurt before bed supports overnight muscle recovery. Check the mess fridge.</div></div>
       </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- NEXT PROGRAMME BUILDER (STAGE 19) -->
+<div class="view" id="view-nextprog">
+  <div class="nb-wrap">
+
+    <!-- STATUS CARD -->
+    <div class="nb-status-card">
+      <div class="nb-status-label">Programme Builder</div>
+      <div class="nb-status-title" id="nbStatusTitle">Loading...</div>
+      <div class="nb-progress-row">
+        <div class="nb-week-num" id="nbWeekNum">—</div>
+        <div class="nb-week-info">
+          <div class="nb-week-label">Current week of 12</div>
+          <div class="nb-week-phase" id="nbWeekPhase">—</div>
+          <div class="nb-prog-bar"><div class="nb-prog-fill" id="nbProgFill" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="nb-week-dots" id="nbWeekDots"></div>
+      <div id="nbStatusMsg" style="font-size:12px;color:var(--td);line-height:1.5"></div>
+    </div>
+
+    <!-- BUILD BUTTON -->
+    <button class="nb-build-btn" id="nbBuildBtn" onclick="buildNextProgramme()">Analyse & Build Next Programme</button>
+
+    <!-- ANALYSIS -->
+    <div class="nb-analysis-card" id="nbAnalysisCard" style="display:none">
+      <h3>Programme Analysis</h3>
+      <div id="nbAnalysisList"></div>
+    </div>
+
+    <!-- NEW PROGRAMME -->
+    <div class="nb-new-prog" id="nbNewProg">
+      <h3 id="nbNewProgTitle">Next 12-Week Programme</h3>
+      <div class="nb-new-prog-sub" id="nbNewProgSub"></div>
+      <div id="nbNewProgDays"></div>
+      <button class="nb-save-btn" onclick="saveNextProgramme()">✓ Save & Start This Programme</button>
+    </div>
+
+    <!-- PROGRAMME HISTORY -->
+    <div class="nb-analysis-card" id="nbHistoryCard" style="display:none">
+      <h3>Programme History</h3>
+      <div id="nbHistoryList"></div>
     </div>
 
   </div>
@@ -1460,6 +1565,7 @@ let proteinToday={}, suppToday={};
 let checkinsRatings={energy:0,sleep:0,hunger:0,recovery:0};
 let current=null, selId=null, curProg='onsite', barWeight=20;
 let recoveryLog=[], recSoreness=new Set();
+let progHistory=[], generatedProg=null;
 let mealPlan=[], groceryChecked={}, mpMode='onsite';
 let timerSec=90, timerOrig=90, timerRunning=false, timerInt=null;
 
@@ -1505,6 +1611,7 @@ function loadLocal() {
     bwLog=JSON.parse(localStorage.getItem('jt_bwlog')||'[]');
     checkins=JSON.parse(localStorage.getItem('jt_checkins')||'[]');
     recoveryLog=JSON.parse(localStorage.getItem('jt_recovery')||'[]');
+    progHistory=JSON.parse(localStorage.getItem('jt_proghistory')||'[]');
   } catch(e){}
   const today=todayStr();
   try{proteinToday=JSON.parse(localStorage.getItem('jt_protein_'+today)||'{}');}catch(e){}
@@ -1522,6 +1629,7 @@ async function saveCloud() {
   localStorage.setItem('jt_bwlog',JSON.stringify(bwLog));
   localStorage.setItem('jt_checkins',JSON.stringify(checkins));
   localStorage.setItem('jt_recovery',JSON.stringify(recoveryLog));
+  localStorage.setItem('jt_proghistory',JSON.stringify(progHistory));
   localStorage.setItem('jt_protein_'+today,JSON.stringify(proteinToday));
   localStorage.setItem('jt_supp_'+today,JSON.stringify(suppToday));
   const k=getKeys();
@@ -3107,6 +3215,296 @@ function clearGroceries() {
   renderGroceryList();
 }
 
+
+// ============================================================
+// STAGE 19 — NEXT PROGRAMME BUILDER
+// ============================================================
+
+function renderNextProg() {
+  const w = blockState.week || 1;
+  const {block, phase} = getBlockInfo();
+  const pct = Math.round((w/12)*100);
+  const isComplete = w >= 12;
+  const isReady = w >= 10;
+
+  document.getElementById('nbWeekNum').textContent = w;
+  document.getElementById('nbProgFill').style.width = pct + '%';
+  document.getElementById('nbWeekPhase').textContent = 'Block ' + block + ' — ' + phase;
+
+  document.getElementById('nbStatusTitle').textContent = isComplete
+    ? 'Week 12 Complete — Ready to Build!'
+    : isReady
+    ? 'Almost Done — Build Preparation Available'
+    : 'Programme In Progress — Keep Going';
+
+  document.getElementById('nbStatusMsg').textContent = isComplete
+    ? 'Your 12-week cycle is done. Tap below to analyse your performance and generate your next programme.'
+    : isReady
+    ? 'You can preview your next programme now. Complete Week 12 deload before starting it.'
+    : 'You are on Week ' + w + ' of 12. Complete the full cycle to unlock the programme builder. You can preview early from Week 10.';
+
+  // Week dots
+  const dots = [];
+  for (let i=1; i<=12; i++) {
+    const cls = i<w?'done':i===w?'current':i===12?'deload':'future';
+    const label = i===12?'D':i;
+    dots.push(`<div class="nb-dot ${cls}">${label}</div>`);
+  }
+  document.getElementById('nbWeekDots').innerHTML = dots.join('');
+
+  // Build button state
+  const btn = document.getElementById('nbBuildBtn');
+  btn.disabled = w < 10;
+  if (isComplete) btn.classList.add('ready');
+  btn.textContent = isComplete
+    ? '🔥 Analyse & Build Next Programme'
+    : isReady
+    ? 'Preview Next Programme (Early Access)'
+    : 'Available from Week 10';
+
+  // Show history if exists
+  renderProgHistory();
+
+  // Show existing generated prog if any
+  if (generatedProg) {
+    renderGeneratedProg();
+    document.getElementById('nbAnalysisCard').style.display = 'block';
+  }
+}
+
+function analysePerformance() {
+  const analysis = [];
+  const allEx = [...PROGRAMME.onsite, ...PROGRAMME.offsite].flatMap(d => d.exercises);
+
+  // Check progression on key lifts
+  allEx.forEach(ex => {
+    const name = ex.name;
+    const history = [];
+    sessions.slice().reverse().forEach(s => {
+      s.exercises.forEach(e => {
+        const eName = e.usingSwap ? e.swap : e.name;
+        if (eName === name) {
+          e.sets.filter(st => st.completed).forEach(st => {
+            const w = parseFloat(st.weight);
+            if (w > 0) history.push(w);
+          });
+        }
+      });
+    });
+
+    if (history.length >= 4) {
+      const first = history.slice(0, 2).reduce((a,b) => a+b, 0) / 2;
+      const last = history.slice(-2).reduce((a,b) => a+b, 0) / 2;
+      const diff = last - first;
+      const pct = Math.round((diff/first)*100);
+
+      if (diff > 0) {
+        analysis.push({type:'win', text: name + ': Up ' + diff.toFixed(1) + 'kg (' + pct + '% increase) — excellent progression'});
+      } else if (diff < -2) {
+        analysis.push({type:'miss', text: name + ': Weight dropped — review technique or recovery'});
+      } else if (history.length >= 6 && Math.abs(diff) < 2.5) {
+        analysis.push({type:'stall', text: name + ': Stalled at ~' + last.toFixed(1) + 'kg — needs volume or technique adjustment'});
+      }
+    } else if (weights[name]) {
+      analysis.push({type:'action', text: name + ': Current weight ' + weights[name] + ' — log more sessions to track progression'});
+    }
+  });
+
+  // Session frequency
+  const weekCount = blockState.week || 1;
+  const avgPerWeek = sessions.length / Math.max(1, weekCount);
+  if (avgPerWeek >= 4) {
+    analysis.push({type:'win', text: 'Consistency: Averaging ' + avgPerWeek.toFixed(1) + ' sessions/week — excellent'});
+  } else if (avgPerWeek >= 3) {
+    analysis.push({type:'win', text: 'Consistency: Averaging ' + avgPerWeek.toFixed(1) + ' sessions/week — solid'});
+  } else {
+    analysis.push({type:'stall', text: 'Consistency: Only ' + avgPerWeek.toFixed(1) + ' sessions/week avg — needs improvement next cycle'});
+  }
+
+  // PR count
+  const prCount = Object.keys(prs).length;
+  if (prCount >= 5) {
+    analysis.push({type:'win', text: prCount + ' personal records set this cycle — strong performance'});
+  } else if (prCount > 0) {
+    analysis.push({type:'action', text: prCount + ' PR' + (prCount>1?'s':'') + ' set — aim for more in the next cycle by staying consistent'});
+  }
+
+  // Recovery
+  const avgRecovery = recoveryLog.length
+    ? (recoveryLog.reduce((a,r) => a+r.score, 0) / recoveryLog.length).toFixed(1)
+    : null;
+  if (avgRecovery) {
+    if (avgRecovery >= 7) {
+      analysis.push({type:'win', text: 'Recovery average: ' + avgRecovery + '/10 — good recovery habits'});
+    } else {
+      analysis.push({type:'stall', text: 'Recovery average: ' + avgRecovery + '/10 — prioritise sleep and stress management next cycle'});
+    }
+  }
+
+  // Next cycle recommendations
+  analysis.push({type:'action', text: 'Next cycle: Increase compound starting weights by 5-10% from current working weights'});
+  analysis.push({type:'action', text: 'Next cycle: Maintain volume in Block 1, push harder in Block 2 and 3 based on this cycle data'});
+
+  return analysis.length ? analysis : [{type:'action', text:'Complete more sessions to get detailed performance analysis'}];
+}
+
+function buildNextProgramme() {
+  const analysis = analysePerformance();
+
+  // Show analysis
+  const analysisCard = document.getElementById('nbAnalysisCard');
+  const analysisList = document.getElementById('nbAnalysisList');
+  analysisCard.style.display = 'block';
+  analysisList.innerHTML = analysis.map(a =>
+    `<div class="nb-analysis-item ${a.type}">${a.text}</div>`
+  ).join('');
+
+  // Generate new programme with updated weights
+  const newWeights = {};
+  const allEx = [...PROGRAMME.onsite, ...PROGRAMME.offsite].flatMap(d => d.exercises);
+
+  allEx.forEach(ex => {
+    const name = ex.name;
+    const current = parseFloat(weights[name]) || parseFloat(ex.weight);
+    if (!isNaN(current)) {
+      // Check if progressed well
+      const history = [];
+      sessions.forEach(s => {
+        s.exercises.forEach(e => {
+          if ((e.usingSwap ? e.swap : e.name) === name) {
+            e.sets.filter(st => st.completed).forEach(st => {
+              const w = parseFloat(st.weight);
+              if (w > 0) history.push(w);
+            });
+          }
+        });
+      });
+      const maxLogged = history.length ? Math.max(...history) : current;
+      const isUpper = ['Chest','Back','Shoulders','Biceps','Triceps'].some(m =>
+        ['Bench','Press','Row','Curl','Pulldown','Fly','Pushdown','OHP','Pull'].some(k => name.includes(k))
+      );
+      const increment = isUpper ? 2.5 : 5;
+      // If progressed, start next cycle slightly above current working weight
+      if (maxLogged > current) {
+        newWeights[name] = (Math.round((maxLogged * 0.9) / 2.5) * 2.5).toFixed(1) + ' kg';
+      } else {
+        newWeights[name] = (Math.round((current * 0.95) / 2.5) * 2.5).toFixed(1) + ' kg';
+      }
+    }
+  });
+
+  generatedProg = {
+    createdAt: new Date().toLocaleDateString('en-AU'),
+    cycleNum: (progHistory.length + 2),
+    newWeights,
+    analysis: analysis.slice(0,5)
+  };
+
+  renderGeneratedProg();
+  document.getElementById('nbNewProg').scrollIntoView({behavior:'smooth'});
+  showToast('Programme built! Review and save to start it.');
+}
+
+function renderGeneratedProg() {
+  if (!generatedProg) return;
+  const el = document.getElementById('nbNewProg');
+  el.classList.add('show');
+
+  document.getElementById('nbNewProgTitle').textContent = 'Cycle ' + generatedProg.cycleNum + ' — 12 Week Programme';
+  document.getElementById('nbNewProgSub').textContent =
+    'Built ' + generatedProg.createdAt + ' • Weights adjusted based on your ' + sessions.length + ' logged sessions • Same block structure: Volume → Intensity → Heavy → Deload';
+
+  const allDays = [...PROGRAMME.onsite, ...PROGRAMME.offsite];
+  document.getElementById('nbNewProgDays').innerHTML = allDays.map((day, di) => `
+    <div class="nb-prog-day">
+      <div class="nb-prog-day-hdr" id="nbdh-${di}" onclick="toggleNbDay(${di})">
+        <div>
+          <div class="nb-prog-day-name">${day.name}</div>
+          <div class="nb-prog-day-tag">${day.tag} • ${day.desc}</div>
+        </div>
+        <span class="nb-prog-day-chev">▾</span>
+      </div>
+      <div class="nb-prog-day-body" id="nbdb-${di}">
+        ${day.exercises.map(ex => {
+          const newW = generatedProg.newWeights[ex.name];
+          const oldW = weights[ex.name] || ex.weight;
+          const newNum = parseFloat(newW);
+          const oldNum = parseFloat(oldW);
+          const isUp = newNum > oldNum;
+          const isSame = Math.abs(newNum - oldNum) < 0.1;
+          return `<div class="nb-prog-ex">
+            <div>
+              <div class="nb-prog-ex-name">${ex.name}</div>
+              <div class="nb-prog-ex-detail">${ex.sets}×${ex.reps} • RPE ${ex.rpe} • ${ex.rest}</div>
+            </div>
+            <div>
+              <div class="nb-prog-ex-weight ${isUp?'up':isSame?'same':''}">${newW || ex.weight}</div>
+              ${isUp?'<div style="font-size:9px;color:var(--a);text-align:right">↑ from '+oldW+'</div>':
+                !isSame&&newNum<oldNum?'<div style="font-size:9px;color:var(--td);text-align:right">reset from '+oldW+'</div>':''}
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleNbDay(di) {
+  document.getElementById('nbdh-'+di).classList.toggle('open');
+  document.getElementById('nbdb-'+di).classList.toggle('show');
+}
+
+function saveNextProgramme() {
+  if (!generatedProg) return;
+
+  // Save to history
+  const historyEntry = {
+    cycleNum: generatedProg.cycleNum - 1,
+    completedAt: new Date().toLocaleDateString('en-AU'),
+    totalSessions: sessions.length,
+    totalPRs: Object.keys(prs).length,
+    finalWeights: {...weights}
+  };
+  progHistory.unshift(historyEntry);
+  if (progHistory.length > 5) progHistory = progHistory.slice(0, 5);
+
+  // Apply new weights
+  Object.assign(weights, generatedProg.newWeights);
+
+  // Reset block to week 1
+  blockState.week = 1;
+
+  // Clear sessions for new cycle (keep last 5 for reference)
+  const keepSessions = sessions.slice(0, 5);
+  sessions = keepSessions;
+
+  saveCloud();
+  generatedProg = null;
+  renderNextProg();
+  renderDashboard();
+  showToast('New programme started! Week 1 begins now 💪');
+  switchTab('today');
+}
+
+function renderProgHistory() {
+  const card = document.getElementById('nbHistoryCard');
+  const list = document.getElementById('nbHistoryList');
+  if (!progHistory.length) { card.style.display='none'; return; }
+  card.style.display = 'block';
+  list.innerHTML = progHistory.map(h => `
+    <div class="nb-history-item">
+      <div>
+        <div class="nb-history-label">Cycle ${h.cycleNum}</div>
+        <div class="nb-history-date">Completed ${h.completedAt}</div>
+      </div>
+      <div class="nb-history-val">
+        ${h.totalSessions} sessions<br>
+        <span style="font-size:10px;color:var(--a2)">${h.totalPRs} PRs</span>
+      </div>
+    </div>
+  `).join('');
+}
+
 function init() {
   loadCustomData();
   try{document.getElementById('topDate').textContent=new Date().toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'}).toUpperCase();}catch(e){}
@@ -3121,6 +3519,7 @@ function init() {
     bwLog=JSON.parse(localStorage.getItem('jt_bwlog')||'[]');
     checkins=JSON.parse(localStorage.getItem('jt_checkins')||'[]');
     recoveryLog=JSON.parse(localStorage.getItem('jt_recovery')||'[]');
+    progHistory=JSON.parse(localStorage.getItem('jt_proghistory')||'[]');
   }catch(e){}
   try{
     const today=todayStr();
@@ -3191,7 +3590,7 @@ function refreshAll() {
 // TABS
 // ============================================================
 function switchTab(tab) {
-  const tabs=['today','programme','history','progress','checkin','tools','settings','nutrition','analytics','evolution','recovery','meals'];
+  const tabs=['today','programme','history','progress','checkin','tools','settings','nutrition','analytics','evolution','recovery','meals','nextprog'];
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',tabs[i]===tab));
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+tab).classList.add('active');
@@ -3203,6 +3602,7 @@ function switchTab(tab) {
   if(tab==='evolution') renderEvolution();
   if(tab==='recovery') renderRecovery();
   if(tab==='meals') initMeals();
+  if(tab==='nextprog') renderNextProg();
 }
 
 // ============================================================
