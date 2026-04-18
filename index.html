@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>JAIDYN TRAIN v4.0</title>
+<meta name="application-name" content="Jaidyn Train">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Train">
+<meta name="theme-color" content="#0a0a0f">
+<meta name="description" content="Jaidyn's personal training app — sessions, tracking, nutrition and coaching.">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icon-192.png">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
@@ -883,6 +891,31 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
 .lib-cue-label{font-size:10px;font-weight:700;color:var(--a);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
 .lib-cue-text{font-size:12px;color:var(--td);line-height:1.6}
 .lib-empty{text-align:center;padding:40px 20px;color:var(--tf);font-size:13px}
+
+/* ===== STAGE 20 — PWA ===== */
+.pwa-banner{position:fixed;bottom:0;left:0;right:0;background:var(--s1);border-top:1px solid rgba(0,229,160,.3);padding:14px 16px;display:flex;align-items:center;gap:12px;z-index:200;transform:translateY(100%);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.pwa-banner.show{transform:translateY(0)}
+.pwa-banner-icon{width:44px;height:44px;background:var(--a);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.pwa-banner-info{flex:1}
+.pwa-banner-title{font-size:13px;font-weight:700;color:var(--t)}
+.pwa-banner-sub{font-size:11px;color:var(--td);margin-top:2px}
+.pwa-banner-btn{background:var(--a);color:#000;border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
+.pwa-banner-close{background:none;border:none;color:var(--td);font-size:18px;cursor:pointer;padding:4px;flex-shrink:0}
+.notif-card{background:var(--s1);border:1px solid var(--b);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.notif-card h3{font-size:11px;font-weight:700;color:var(--td);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.notif-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b)}
+.notif-row:last-child{border-bottom:none}
+.notif-label{font-size:13px;color:var(--t);font-weight:500}
+.notif-sub{font-size:11px;color:var(--td);margin-top:2px}
+.notif-toggle{width:44px;height:24px;background:var(--s3);border-radius:12px;cursor:pointer;position:relative;transition:background .2s;border:none;flex-shrink:0}
+.notif-toggle.on{background:var(--a)}
+.notif-toggle::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;background:#fff;border-radius:50%;transition:transform .2s}
+.notif-toggle.on::after{transform:translateX(20px)}
+.notif-time-inp{background:var(--s2);border:1px solid var(--b);border-radius:8px;padding:8px 12px;color:var(--t);font-size:14px;font-family:inherit;width:120px}
+.notif-time-inp:focus{outline:none;border-color:var(--a)}
+.install-steps{background:rgba(0,229,160,.06);border:1px solid rgba(0,229,160,.2);border-radius:8px;padding:12px;margin-top:10px}
+.install-step{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:12px;color:var(--t);line-height:1.4}
+.install-step-num{width:22px;height:22px;background:var(--a);color:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -1371,6 +1404,44 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
       <button class="copy-btn" onclick="downloadBackup()">Download JSON Backup</button>
       <button class="danger-btn" onclick="resetHistory()">Reset Session History</button>
     </div>
+
+    <!-- NOTIFICATIONS & INSTALL -->
+    <div class="notif-card">
+      <h3>Training Reminders</h3>
+      <div class="notif-row">
+        <div>
+          <div class="notif-label">Daily Training Reminder</div>
+          <div class="notif-sub">Get reminded to train each day</div>
+        </div>
+        <button class="notif-toggle" id="notifToggle" onclick="toggleNotifications()"></button>
+      </div>
+      <div class="notif-row">
+        <div class="notif-label">Reminder Time</div>
+        <input class="notif-time-inp" type="time" id="notifTime" value="07:00" onchange="saveNotifTime()">
+      </div>
+      <div class="notif-row">
+        <div>
+          <div class="notif-label">Notification Status</div>
+          <div class="notif-sub" id="notifStatus">Not enabled</div>
+        </div>
+        <button class="copy-btn" style="width:auto;padding:8px 12px;font-size:12px" onclick="requestNotifPermission()">Enable</button>
+      </div>
+    </div>
+
+    <div class="notif-card">
+      <h3>📱 Install as App</h3>
+      <div style="font-size:12px;color:var(--td);margin-bottom:12px;line-height:1.6">Install Jaidyn Train on your home screen for the full app experience — offline access, faster loading, no browser UI.</div>
+      <div id="installSection">
+        <button class="copy-btn" id="installBtn" onclick="installPWA()" style="margin-bottom:10px;display:none">Install App</button>
+        <div style="font-size:11px;font-weight:700;color:var(--td);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">iPhone / Safari:</div>
+        <div class="install-steps">
+          <div class="install-step"><div class="install-step-num">1</div>Tap the Share button at the bottom of Safari (box with arrow pointing up)</div>
+          <div class="install-step"><div class="install-step-num">2</div>Scroll down and tap "Add to Home Screen"</div>
+          <div class="install-step"><div class="install-step-num">3</div>Tap "Add" — the app icon appears on your home screen</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -1474,6 +1545,19 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
 </div>
 <div class="timer-fab" id="timerFab" onclick="toggleTimer()">⏱</div>
 <div class="toast" id="toast"></div>
+
+<!-- PWA INSTALL BANNER -->
+<div class="pwa-banner" id="pwaBanner">
+  <div class="pwa-banner-icon">💪</div>
+  <div class="pwa-banner-info">
+    <div class="pwa-banner-title">Add to Home Screen</div>
+    <div class="pwa-banner-sub">Install for offline access & notifications</div>
+  </div>
+  <button class="pwa-banner-btn" onclick="installPWA()">Install</button>
+  <button class="pwa-banner-close" onclick="dismissPWA()">✕</button>
+</div>
+
+
 
 <script>
 // ============================================================
@@ -3687,6 +3771,143 @@ function toggleLibEx(name, i) {
   }
 }
 
+
+// ============================================================
+// STAGE 20 — PWA & NOTIFICATIONS
+// ============================================================
+let deferredPrompt = null;
+
+function initPWA() {
+  // Register service worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(reg => console.log('SW registered'))
+      .catch(err => console.log('SW failed:', err));
+  }
+
+  // Android install prompt
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    const btn = document.getElementById('installBtn');
+    if (btn) btn.style.display = 'block';
+    // Show banner after 30 seconds if not dismissed
+    const dismissed = localStorage.getItem('jt_pwa_dismissed');
+    if (!dismissed) {
+      setTimeout(() => document.getElementById('pwaBanner')?.classList.add('show'), 30000);
+    }
+  });
+
+  window.addEventListener('appinstalled', () => {
+    deferredPrompt = null;
+    document.getElementById('pwaBanner')?.classList.remove('show');
+    showToast('App installed! 🎉');
+  });
+
+  // Init notification toggle state
+  const notifEnabled = localStorage.getItem('jt_notif_enabled') === 'true';
+  const notifTime = localStorage.getItem('jt_notif_time') || '07:00';
+  const toggle = document.getElementById('notifToggle');
+  const timeInp = document.getElementById('notifTime');
+  if (toggle) toggle.classList.toggle('on', notifEnabled);
+  if (timeInp) timeInp.value = notifTime;
+  updateNotifStatus();
+}
+
+function installPWA() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(choice => {
+      if (choice.outcome === 'accepted') showToast('Installing app...');
+      deferredPrompt = null;
+    });
+  } else {
+    showToast('Use Safari Share → Add to Home Screen');
+  }
+  dismissPWA();
+}
+
+function dismissPWA() {
+  document.getElementById('pwaBanner')?.classList.remove('show');
+  localStorage.setItem('jt_pwa_dismissed', 'true');
+}
+
+async function requestNotifPermission() {
+  if (!('Notification' in window)) {
+    showToast('Notifications not supported on this browser');
+    return;
+  }
+  const perm = await Notification.requestPermission();
+  if (perm === 'granted') {
+    showToast('Notifications enabled! ✅');
+    localStorage.setItem('jt_notif_enabled', 'true');
+    const toggle = document.getElementById('notifToggle');
+    if (toggle) toggle.classList.add('on');
+    scheduleReminders();
+  } else {
+    showToast('Notifications blocked — enable in phone Settings');
+  }
+  updateNotifStatus();
+}
+
+function toggleNotifications() {
+  const toggle = document.getElementById('notifToggle');
+  if (!toggle) return;
+  const isOn = toggle.classList.contains('on');
+  if (!isOn) {
+    requestNotifPermission();
+  } else {
+    toggle.classList.remove('on');
+    localStorage.setItem('jt_notif_enabled', 'false');
+    showToast('Reminders turned off');
+    updateNotifStatus();
+  }
+}
+
+function saveNotifTime() {
+  const time = document.getElementById('notifTime')?.value || '07:00';
+  localStorage.setItem('jt_notif_time', time);
+  showToast('Reminder time saved: ' + time);
+  scheduleReminders();
+}
+
+function scheduleReminders() {
+  if (!('serviceWorker' in navigator) || Notification.permission !== 'granted') return;
+  const time = localStorage.getItem('jt_notif_time') || '07:00';
+  const enabled = localStorage.getItem('jt_notif_enabled') === 'true';
+  if (!enabled) return;
+
+  // Send schedule to service worker
+  navigator.serviceWorker.ready.then(reg => {
+    reg.active?.postMessage({
+      type: 'SCHEDULE_REMINDER',
+      time: time
+    });
+  });
+}
+
+function updateNotifStatus() {
+  const el = document.getElementById('notifStatus');
+  if (!el) return;
+  if (!('Notification' in window)) {
+    el.textContent = 'Not supported on this browser';
+    return;
+  }
+  const perm = Notification.permission;
+  const enabled = localStorage.getItem('jt_notif_enabled') === 'true';
+  const time = localStorage.getItem('jt_notif_time') || '07:00';
+  if (perm === 'granted' && enabled) {
+    el.textContent = 'Active — reminder set for ' + time;
+    el.style.color = 'var(--a)';
+  } else if (perm === 'denied') {
+    el.textContent = 'Blocked — go to phone Settings to enable';
+    el.style.color = 'var(--a2)';
+  } else {
+    el.textContent = 'Not enabled — tap Enable to set up';
+    el.style.color = 'var(--td)';
+  }
+}
+
 function init() {
   loadCustomData();
   try{document.getElementById('topDate').textContent=new Date().toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'}).toUpperCase();}catch(e){}
@@ -3722,6 +3943,7 @@ function init() {
   if(k.access) try{document.getElementById('settingsAccess').value=k.access;}catch(e){}
   // Sync cloud in background after 1 second — non-blocking
   setTimeout(syncCloud, 1000);
+  initPWA();
 }
 
 async function syncCloud() {
