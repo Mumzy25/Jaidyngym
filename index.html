@@ -860,6 +860,10 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
     <div class="settings-card">
       <h3>Cloud Sync</h3>
       <div style="margin-bottom:10px">
+        <label class="inp-label">Bin ID</label>
+        <input class="settings-inp" id="settingsBinID" type="text" placeholder="Paste your JSONbin Bin ID...">
+      </div>
+      <div style="margin-bottom:10px">
         <label class="inp-label">X-Master-Key</label>
         <input class="settings-inp" id="settingsMaster" type="password" placeholder="Paste X-Master-Key...">
       </div>
@@ -1139,14 +1143,14 @@ let timerSec=90, timerOrig=90, timerRunning=false, timerInt=null;
 // ============================================================
 // CLOUD
 // ============================================================
-function getBinID(){ return '69ddb62a36566621a8aea0ce'; }
-function getKeys(){ return {master:localStorage.getItem('jt_master')||'',access:localStorage.getItem('jt_access')||''}; }
+function getBinID(){ return localStorage.getItem('jt_binid')||''; }
+function getKeys(){ return {master:localStorage.getItem('jt_master')||'',access:localStorage.getItem('jt_access')||'',binid:localStorage.getItem('jt_binid')||''}; }
 function setCloud(s){ document.getElementById('cloudDot').className='cloud-dot '+s; }
 
 async function loadCloud() {
   // Called from settings save — full reload
   const k=getKeys();
-  if(!k.master||!k.access){setCloud('err');return;}
+  if(!k.master||!k.access||!getBinID()){setCloud('err');return;}
   setCloud('loading');
   try {
     const r=await fetch('https://api.jsonbin.io/v3/b/'+getBinID()+'/latest',{headers:{'X-Master-Key':k.master,'X-Access-Key':k.access}});
@@ -2310,6 +2314,7 @@ function init() {
   try{renderProgress();}catch(e){}
   // Fill settings
   const k=getKeys();
+  if(k.binid) try{document.getElementById('settingsBinID').value=k.binid;}catch(e){}
   if(k.master) try{document.getElementById('settingsMaster').value=k.master;}catch(e){}
   if(k.access) try{document.getElementById('settingsAccess').value=k.access;}catch(e){}
   // Sync cloud in background after 1 second — non-blocking
@@ -2318,7 +2323,7 @@ function init() {
 
 async function syncCloud() {
   const k=getKeys();
-  if(!k.master||!k.access){setCloud('err');return;}
+  if(!k.master||!k.access||!getBinID()){setCloud('err');return;}
   setCloud('loading');
   try {
     const r=await fetch('https://api.jsonbin.io/v3/b/'+getBinID()+'/latest',{headers:{'X-Master-Key':k.master,'X-Access-Key':k.access}});
@@ -2996,9 +3001,10 @@ function renderTools() {
 function saveCloudSettings() {
   const m=document.getElementById('settingsMaster').value.trim();
   const a=document.getElementById('settingsAccess').value.trim();
-  if(!m||!a){showToast('Enter both keys');return;}
-  localStorage.setItem('jt_master',m);localStorage.setItem('jt_access',a);
-  showToast('Saved! Syncing...');loadCloud();
+  const b=document.getElementById('settingsBinID').value.trim();
+  if(!m||!a||!b){showToast('Enter all three fields');return;}
+  localStorage.setItem('jt_master',m);localStorage.setItem('jt_access',a);localStorage.setItem('jt_binid',b);
+  showToast('Saved! Syncing...');syncCloud();
 }
 
 function exportCoachPrompt() {
