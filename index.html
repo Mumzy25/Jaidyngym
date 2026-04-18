@@ -843,6 +843,46 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
 .nb-history-label{font-size:13px;font-weight:600;color:var(--t)}
 .nb-history-date{font-size:11px;color:var(--td);margin-top:2px}
 .nb-history-val{font-size:12px;color:var(--a3);font-weight:700;text-align:right}
+
+/* ===== STAGE 17 — VIDEO & FORM LIBRARY ===== */
+.lib-wrap{padding:16px;padding-bottom:80px}
+.lib-search-row{display:flex;gap:8px;margin-bottom:12px}
+.lib-search{flex:1;background:var(--s2);border:1px solid var(--b);border-radius:8px;padding:10px 12px;color:var(--t);font-size:14px;font-family:inherit}
+.lib-search:focus{outline:none;border-color:var(--a)}
+.lib-search::placeholder{color:var(--tf)}
+.lib-filter-scroll{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:14px;padding-bottom:2px}
+.lib-filter-scroll::-webkit-scrollbar{display:none}
+.lib-filter-btn{flex:none;padding:6px 12px;background:var(--s2);border:1px solid var(--b);border-radius:20px;font-size:11px;font-weight:700;color:var(--td);cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .2s}
+.lib-filter-btn.active{background:rgba(0,229,160,.1);border-color:var(--a);color:var(--a)}
+.lib-count{font-size:11px;color:var(--tf);margin-bottom:10px}
+.lib-ex-card{background:var(--s1);border:1px solid var(--b);border-radius:var(--r);margin-bottom:10px;overflow:hidden;transition:border-color .2s}
+.lib-ex-card.open{border-color:rgba(0,229,160,.3)}
+.lib-ex-hdr{display:flex;align-items:center;gap:10px;padding:13px;cursor:pointer}
+.lib-ex-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;background:var(--s3)}
+.lib-ex-info{flex:1;min-width:0}
+.lib-ex-name{font-size:14px;font-weight:700;color:var(--t)}
+.lib-ex-tags{display:flex;gap:4px;margin-top:3px;flex-wrap:wrap}
+.lib-ex-tag{font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;background:var(--s3);color:var(--td);text-transform:uppercase;letter-spacing:.5px}
+.lib-ex-tag.muscle{background:rgba(0,229,160,.1);color:var(--a)}
+.lib-ex-tag.equip{background:rgba(255,204,0,.1);color:var(--a3)}
+.lib-ex-chev{color:var(--td);transition:transform .2s;flex-shrink:0}
+.lib-ex-card.open .lib-ex-chev{transform:rotate(180deg)}
+.lib-ex-body{display:none;border-top:1px solid var(--b)}
+.lib-ex-card.open .lib-ex-body{display:block}
+.lib-video-btn{display:flex;align-items:center;gap:10px;padding:12px 13px;background:rgba(255,0,0,.06);border-bottom:1px solid var(--b);cursor:pointer;text-decoration:none;transition:background .2s}
+.lib-video-btn:active{background:rgba(255,0,0,.12)}
+.lib-video-icon{width:32px;height:32px;background:#ff0000;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.lib-video-icon::after{content:"▶";color:#fff;font-size:11px}
+.lib-video-info{flex:1}
+.lib-video-title{font-size:12px;font-weight:700;color:var(--t)}
+.lib-video-sub{font-size:10px;color:var(--td);margin-top:1px}
+.lib-video-arrow{color:var(--td);font-size:12px}
+.lib-cues{padding:13px}
+.lib-cue-section{margin-bottom:12px}
+.lib-cue-section:last-child{margin-bottom:0}
+.lib-cue-label{font-size:10px;font-weight:700;color:var(--a);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
+.lib-cue-text{font-size:12px;color:var(--td);line-height:1.6}
+.lib-empty{text-align:center;padding:40px 20px;color:var(--tf);font-size:13px}
 </style>
 </head>
 <body>
@@ -868,6 +908,7 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
   <button class="tab" onclick="switchTab('evolution')">Programme</button>
   <button class="tab" onclick="switchTab('recovery')">Recovery</button>
   <button class="tab" onclick="switchTab('meals')">Meals</button>
+  <button class="tab" onclick="switchTab('library')">Library</button>
   <button class="tab" onclick="switchTab('nextprog')">Next Prog</button>
 </div>
 
@@ -1189,6 +1230,19 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
       <div id="nbHistoryList"></div>
     </div>
 
+  </div>
+</div>
+
+
+<!-- VIDEO & FORM LIBRARY (STAGE 17) -->
+<div class="view" id="view-library">
+  <div class="lib-wrap">
+    <div class="lib-search-row">
+      <input class="lib-search" type="text" id="libSearch" placeholder="Search exercises..." oninput="renderLibrary()">
+    </div>
+    <div class="lib-filter-scroll" id="libFilters"></div>
+    <div class="lib-count" id="libCount"></div>
+    <div id="libList"></div>
   </div>
 </div>
 
@@ -3505,6 +3559,134 @@ function renderProgHistory() {
   `).join('');
 }
 
+
+// ============================================================
+// STAGE 17 — VIDEO & FORM LIBRARY
+// ============================================================
+
+const EXERCISE_LIBRARY = [
+  {name:'Barbell Bench Press',muscle:'Chest',equipment:'Barbell',icon:'🏋️',videoUrl:'https://www.youtube.com/watch?v=rT7DgCr-3pg',videoTitle:'Barbell Bench Press — Form Guide',videoChannel:'Jeff Nippard'},
+  {name:'DB Bench Press',muscle:'Chest',equipment:'Dumbbells',icon:'💪',videoUrl:'https://www.youtube.com/watch?v=QsYre__-aro',videoTitle:'Dumbbell Bench Press — Full Tutorial',videoChannel:'Athlean-X'},
+  {name:'Incline DB Press',muscle:'Chest',equipment:'Dumbbells',icon:'📐',videoUrl:'https://www.youtube.com/watch?v=8iPEnn-ltC8',videoTitle:'Incline Dumbbell Press — Perfect Form',videoChannel:'Jeff Nippard'},
+  {name:'Cable Fly',muscle:'Chest',equipment:'Cable',icon:'🔁',videoUrl:'https://www.youtube.com/watch?v=Iwe6AmxVf7o',videoTitle:'Cable Fly — Full Range of Motion',videoChannel:'Athlean-X'},
+  {name:'DB Fly (flat)',muscle:'Chest',equipment:'Dumbbells',icon:'🦅',videoUrl:'https://www.youtube.com/watch?v=eozdVDA78K0',videoTitle:'Dumbbell Fly — Technique Breakdown',videoChannel:'Renaissance Periodization'},
+  {name:'Machine Chest Press',muscle:'Chest',equipment:'Machine',icon:'⚙️',videoUrl:'https://www.youtube.com/watch?v=xUm0BiZCWlQ',videoTitle:'Chest Press Machine — How To',videoChannel:'Scott Herman Fitness'},
+  {name:'Barbell OHP',muscle:'Shoulders',equipment:'Barbell',icon:'🏋️',videoUrl:'https://www.youtube.com/watch?v=2yjwXTZQDDI',videoTitle:'Overhead Press — Complete Guide',videoChannel:'Jeff Nippard'},
+  {name:'DB OHP',muscle:'Shoulders',equipment:'Dumbbells',icon:'🔝',videoUrl:'https://www.youtube.com/watch?v=qEwKCR5JCog',videoTitle:'Dumbbell Shoulder Press — Form',videoChannel:'Athlean-X'},
+  {name:'Lateral Raise (DB)',muscle:'Shoulders',equipment:'Dumbbells',icon:'↔️',videoUrl:'https://www.youtube.com/watch?v=3VcKaXpzqRo',videoTitle:'Lateral Raises — Common Mistakes Fixed',videoChannel:'Jeff Nippard'},
+  {name:'Rear Delt Fly (DB)',muscle:'Shoulders',equipment:'Dumbbells',icon:'🔙',videoUrl:'https://www.youtube.com/watch?v=ttvfGg9d76c',videoTitle:'Rear Delt Fly — Full Tutorial',videoChannel:'Athlean-X'},
+  {name:'Face Pull (cable)',muscle:'Shoulders',equipment:'Cable',icon:'🎯',videoUrl:'https://www.youtube.com/watch?v=rep-qVOkqgk',videoTitle:'Face Pulls — Why & How',videoChannel:'Athlean-X'},
+  {name:'Seated Machine Press',muscle:'Shoulders',equipment:'Machine',icon:'⚙️',videoUrl:'https://www.youtube.com/watch?v=Wqq43dKW1TU',videoTitle:'Machine Shoulder Press — How To',videoChannel:'Scott Herman Fitness'},
+  {name:'Conventional Deadlift',muscle:'Back',equipment:'Barbell',icon:'🏋️',videoUrl:'https://www.youtube.com/watch?v=op9kVnSso6Q',videoTitle:'Deadlift — Master Class',videoChannel:'Jeff Nippard'},
+  {name:'Barbell Bent Over Row',muscle:'Back',equipment:'Barbell',icon:'🔄',videoUrl:'https://www.youtube.com/watch?v=G8l_8chR5BE',videoTitle:'Barbell Row — Complete Guide',videoChannel:'Jeff Nippard'},
+  {name:'Pull Up (bodyweight)',muscle:'Back',equipment:'Bodyweight',icon:'⬆️',videoUrl:'https://www.youtube.com/watch?v=eGo4IYlbE5g',videoTitle:'Pull-Up — From Zero to Strong',videoChannel:'Athlean-X'},
+  {name:'Lat Pulldown (bar)',muscle:'Back',equipment:'Cable',icon:'⬇️',videoUrl:'https://www.youtube.com/watch?v=CAwf7n6Luuc',videoTitle:'Lat Pulldown — Perfect Form',videoChannel:'Jeff Nippard'},
+  {name:'Seated Cable Row',muscle:'Back',equipment:'Cable',icon:'↩️',videoUrl:'https://www.youtube.com/watch?v=GZbfZ033f74',videoTitle:'Seated Cable Row — Full Tutorial',videoChannel:'Athlean-X'},
+  {name:'Machine Row',muscle:'Back',equipment:'Machine',icon:'⚙️',videoUrl:'https://www.youtube.com/watch?v=xQNrFHEMhI4',videoTitle:'Machine Row — How To',videoChannel:'Scott Herman Fitness'},
+  {name:'DB Row',muscle:'Back',equipment:'Dumbbells',icon:'💪',videoUrl:'https://www.youtube.com/watch?v=pYcpY20QaE8',videoTitle:'Dumbbell Row — Full Guide',videoChannel:'Jeff Nippard'},
+  {name:'Romanian Deadlift',muscle:'Back',equipment:'Barbell',icon:'📉',videoUrl:'https://www.youtube.com/watch?v=JCXUYuzwNrM',videoTitle:'Romanian Deadlift — Hamstring Focus',videoChannel:'Jeff Nippard'},
+  {name:'Barbell Curl',muscle:'Biceps',equipment:'Barbell',icon:'💪',videoUrl:'https://www.youtube.com/watch?v=ykJmrZ5v0Oo',videoTitle:'Barbell Curl — Perfect Form',videoChannel:'Jeff Nippard'},
+  {name:'Dumbbell Curl',muscle:'Biceps',equipment:'Dumbbells',icon:'🔄',videoUrl:'https://www.youtube.com/watch?v=sAq_ocpRh_I',videoTitle:'Dumbbell Curl — Common Mistakes',videoChannel:'Athlean-X'},
+  {name:'Incline DB Curl',muscle:'Biceps',equipment:'Dumbbells',icon:'📐',videoUrl:'https://www.youtube.com/watch?v=soxrZlIl35U',videoTitle:'Incline Curl — Long Head Focus',videoChannel:'Jeff Nippard'},
+  {name:'Cable Curl',muscle:'Biceps',equipment:'Cable',icon:'🔁',videoUrl:'https://www.youtube.com/watch?v=NFzTWp2qpiE',videoTitle:'Cable Curl — Constant Tension',videoChannel:'Athlean-X'},
+  {name:'Hammer Curl',muscle:'Biceps',equipment:'Dumbbells',icon:'🔨',videoUrl:'https://www.youtube.com/watch?v=zC3nLlEvin4',videoTitle:'Hammer Curl — Brachialis Builder',videoChannel:'Jeff Nippard'},
+  {name:'Tricep Pushdown',muscle:'Triceps',equipment:'Cable',icon:'⬇️',videoUrl:'https://www.youtube.com/watch?v=2-LAMcpzODU',videoTitle:'Tricep Pushdown — Full Tutorial',videoChannel:'Athlean-X'},
+  {name:'OH Tricep Ext (DB)',muscle:'Triceps',equipment:'Dumbbells',icon:'☝️',videoUrl:'https://www.youtube.com/watch?v=YbX7Wd8jQ-Q',videoTitle:'Overhead Tricep Extension — How To',videoChannel:'Jeff Nippard'},
+  {name:'Close Grip Bench Press',muscle:'Triceps',equipment:'Barbell',icon:'🏋️',videoUrl:'https://www.youtube.com/watch?v=nEF0bv2FW94',videoTitle:'Close Grip Bench Press — Tricep Focus',videoChannel:'Jeff Nippard'},
+  {name:'Skull Crushers',muscle:'Triceps',equipment:'Barbell',icon:'💀',videoUrl:'https://www.youtube.com/watch?v=d_KZxkY_0cM',videoTitle:'Skull Crushers — Safe & Effective',videoChannel:'Athlean-X'},
+  {name:'Barbell Back Squat',muscle:'Legs',equipment:'Barbell',icon:'🏋️',videoUrl:'https://www.youtube.com/watch?v=Dy28eq2PjcM',videoTitle:'Back Squat — Science-Based Guide',videoChannel:'Jeff Nippard'},
+  {name:'Leg Press',muscle:'Legs',equipment:'Machine',icon:'⚙️',videoUrl:'https://www.youtube.com/watch?v=IZxyjW7MPJQ',videoTitle:'Leg Press — Foot Placement & Form',videoChannel:'Athlean-X'},
+  {name:'Bulgarian Split Squat',muscle:'Legs',equipment:'Dumbbells',icon:'🦵',videoUrl:'https://www.youtube.com/watch?v=LL4TDRKS3-A',videoTitle:'Bulgarian Split Squat — Master It',videoChannel:'Jeff Nippard'},
+  {name:'Leg Extension',muscle:'Legs',equipment:'Machine',icon:'⚙️',videoUrl:'https://www.youtube.com/watch?v=YyvSfVjQeL0',videoTitle:'Leg Extension — Quad Isolation',videoChannel:'Athlean-X'},
+  {name:'Goblet Squat (DB)',muscle:'Legs',equipment:'Dumbbells',icon:'🥂',videoUrl:'https://www.youtube.com/watch?v=MxsFDhcyFyE',videoTitle:'Goblet Squat — Perfect for Beginners',videoChannel:'Jeff Nippard'},
+  {name:'Hip Thrust (barbell)',muscle:'Glutes',equipment:'Barbell',icon:'🍑',videoUrl:'https://www.youtube.com/watch?v=LM8XHLYJoYs',videoTitle:'Hip Thrust — Glute Builder',videoChannel:'Jeff Nippard'},
+  {name:'Glute Bridge (DB)',muscle:'Glutes',equipment:'Dumbbells',icon:'🌉',videoUrl:'https://www.youtube.com/watch?v=OUgsJ8-Vi0E',videoTitle:'Glute Bridge — Full Tutorial',videoChannel:'Athlean-X'},
+  {name:'Leg Curl (seated)',muscle:'Hamstrings',equipment:'Machine',icon:'⚙️',videoUrl:'https://www.youtube.com/watch?v=1Tq3QdYUuHs',videoTitle:'Leg Curl — Hamstring Isolation',videoChannel:'Jeff Nippard'},
+  {name:'Nordic Curl',muscle:'Hamstrings',equipment:'Bodyweight',icon:'🔥',videoUrl:'https://www.youtube.com/watch?v=d8AAPk3Dceo',videoTitle:'Nordic Curls — The Hardest Hamstring Exercise',videoChannel:'Athlean-X'},
+  {name:'Cable Crunch',muscle:'Core',equipment:'Cable',icon:'🎯',videoUrl:'https://www.youtube.com/watch?v=2fbujeH3F0E',videoTitle:'Cable Crunch — Abs Isolation',videoChannel:'Athlean-X'},
+  {name:'Hanging Leg Raise',muscle:'Core',equipment:'Bodyweight',icon:'⬆️',videoUrl:'https://www.youtube.com/watch?v=hdng3Nm1x_E',videoTitle:'Hanging Leg Raise — Perfect Form',videoChannel:'Jeff Nippard'},
+  {name:'Ab Wheel',muscle:'Core',equipment:'Bodyweight',icon:'🎡',videoUrl:'https://www.youtube.com/watch?v=p5oXyMvtIWs',videoTitle:'Ab Wheel Rollout — How To Progress',videoChannel:'Athlean-X'},
+  {name:'Standing Calf Raise',muscle:'Calves',equipment:'Bodyweight',icon:'🦵',videoUrl:'https://www.youtube.com/watch?v=gwLzBJYoWlI',videoTitle:'Calf Raises — Full Range Guide',videoChannel:'Jeff Nippard'},
+];
+
+const LIB_FILTERS = ['All','Chest','Shoulders','Back','Biceps','Triceps','Legs','Glutes','Hamstrings','Core','Calves','Barbell','Dumbbells','Cable','Machine','Bodyweight'];
+let libFilter = 'All';
+let libOpenIdx = null;
+
+function renderLibrary() {
+  const filtersEl = document.getElementById('libFilters');
+  if (filtersEl && !filtersEl.children.length) {
+    filtersEl.innerHTML = LIB_FILTERS.map(f =>
+      `<button class="lib-filter-btn ${f===libFilter?'active':''}" onclick="setLibFilter('${f}')">${f}</button>`
+    ).join('');
+  }
+  const query = (document.getElementById('libSearch')||{}).value||'';
+  const results = EXERCISE_LIBRARY.filter(ex => {
+    const matchesSearch = !query || ex.name.toLowerCase().includes(query.toLowerCase()) || ex.muscle.toLowerCase().includes(query.toLowerCase());
+    const matchesFilter = libFilter==='All' || ex.muscle===libFilter || ex.equipment===libFilter;
+    return matchesSearch && matchesFilter;
+  });
+  document.getElementById('libCount').textContent = results.length + ' exercise' + (results.length!==1?'s':'') + (libFilter!=='All'?' — '+libFilter:'');
+  const list = document.getElementById('libList');
+  if (!results.length) {
+    list.innerHTML = '<div class="lib-empty">No exercises found. Try a different search or filter.</div>';
+    return;
+  }
+  list.innerHTML = results.map((ex, i) => {
+    const cues = CUES[ex.name];
+    const isOpen = libOpenIdx === ex.name;
+    return `<div class="lib-ex-card ${isOpen?'open':''}" id="libcard-${i}">
+      <div class="lib-ex-hdr" onclick="toggleLibEx('${ex.name}',${i})">
+        <div class="lib-ex-icon">${ex.icon}</div>
+        <div class="lib-ex-info">
+          <div class="lib-ex-name">${ex.name}</div>
+          <div class="lib-ex-tags">
+            <span class="lib-ex-tag muscle">${ex.muscle}</span>
+            <span class="lib-ex-tag equip">${ex.equipment}</span>
+          </div>
+        </div>
+        <div class="lib-ex-chev">▾</div>
+      </div>
+      ${isOpen?`
+      <div class="lib-ex-body">
+        <a class="lib-video-btn" href="${ex.videoUrl}" target="_blank" rel="noopener">
+          <div class="lib-video-icon"></div>
+          <div class="lib-video-info">
+            <div class="lib-video-title">${ex.videoTitle}</div>
+            <div class="lib-video-sub">${ex.videoChannel} — tap to open in YouTube</div>
+          </div>
+          <div class="lib-video-arrow">▶</div>
+        </a>
+        ${cues?`
+        <div class="lib-cues">
+          <div class="lib-cue-section"><div class="lib-cue-label">Setup</div><div class="lib-cue-text">${cues.setup}</div></div>
+          <div class="lib-cue-section"><div class="lib-cue-label">The Movement</div><div class="lib-cue-text">${cues.movement}</div></div>
+          <div class="lib-cue-section"><div class="lib-cue-label">What to Feel</div><div class="lib-cue-text">${cues.feel}</div></div>
+          <div class="lib-cue-section"><div class="lib-cue-label">Common Mistakes</div><div class="lib-cue-text">${cues.mistakes}</div></div>
+        </div>`:''}
+      </div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function setLibFilter(filter) {
+  libFilter = filter;
+  libOpenIdx = null;
+  document.querySelectorAll('.lib-filter-btn').forEach(btn => btn.classList.toggle('active', btn.textContent===filter));
+  renderLibrary();
+}
+
+function toggleLibEx(name, i) {
+  libOpenIdx = libOpenIdx===name ? null : name;
+  renderLibrary();
+  if (libOpenIdx) {
+    setTimeout(() => {
+      const el = document.getElementById('libcard-'+i);
+      if (el) el.scrollIntoView({behavior:'smooth',block:'nearest'});
+    }, 50);
+  }
+}
+
 function init() {
   loadCustomData();
   try{document.getElementById('topDate').textContent=new Date().toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'}).toUpperCase();}catch(e){}
@@ -3590,7 +3772,7 @@ function refreshAll() {
 // TABS
 // ============================================================
 function switchTab(tab) {
-  const tabs=['today','programme','history','progress','checkin','tools','settings','nutrition','analytics','evolution','recovery','meals','nextprog'];
+  const tabs=['today','programme','history','progress','checkin','tools','settings','nutrition','analytics','evolution','recovery','meals','library','nextprog'];
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',tabs[i]===tab));
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+tab).classList.add('active');
@@ -3602,6 +3784,7 @@ function switchTab(tab) {
   if(tab==='evolution') renderEvolution();
   if(tab==='recovery') renderRecovery();
   if(tab==='meals') initMeals();
+  if(tab==='library') renderLibrary();
   if(tab==='nextprog') renderNextProg();
 }
 
