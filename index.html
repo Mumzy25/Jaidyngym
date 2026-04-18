@@ -1125,6 +1125,277 @@ body{background:var(--bg);color:var(--t);font-family:var(--font-body);min-height
 .vol-summary-box{background:var(--s1);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px;text-align:center}
 .vol-summary-val{font-size:22px;font-weight:800;color:var(--a);font-family:var(--font-display)}
 .vol-summary-lbl{font-size:10px;color:var(--td);margin-top:2px;text-transform:uppercase;letter-spacing:.5px}
+
+/* ===== BATCH A — S49/50/51/52 ===== */
+
+/* Shared smart card */
+.smart-wrap{padding:16px;padding-bottom:calc(var(--nav-h)+20px)}
+.smart-hero{background:linear-gradient(135deg,#091510 0%,#0f0f1a 100%);border:1px solid rgba(0,229,160,.15);border-radius:var(--r);padding:18px;margin-bottom:14px}
+.smart-hero-label{font-size:10px;font-weight:700;color:var(--a);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+.smart-hero-title{font-size:20px;font-weight:800;color:var(--t);margin-bottom:4px}
+.smart-hero-sub{font-size:12px;color:var(--td);line-height:1.5}
+.smart-card{background:var(--s1);border:1px solid rgba(255,255,255,.06);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.smart-card h3{font-size:11px;font-weight:700;color:var(--td);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.smart-btn{width:100%;background:var(--a);color:#000;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-body);transition:all .2s;box-shadow:0 4px 16px rgba(0,229,160,.2)}
+.smart-btn:disabled{background:var(--s3);color:var(--tf);cursor:not-allowed;box-shadow:none}
+.smart-btn-sec{width:100%;background:var(--s2);color:var(--td);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font-body);margin-top:8px}
+.smart-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.smart-row:last-child{border-bottom:none}
+.smart-row-label{font-size:13px;font-weight:600;color:var(--t)}
+.smart-row-sub{font-size:11px;color:var(--td);margin-top:2px}
+.smart-row-val{font-size:14px;font-weight:700;color:var(--a3);text-align:right}
+.smart-badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.smart-badge.green{background:rgba(0,229,160,.1);color:var(--a)}
+.smart-badge.yellow{background:rgba(255,204,0,.1);color:var(--a3)}
+.smart-badge.red{background:rgba(255,61,107,.1);color:var(--a2)}
+.smart-badge.purple{background:rgba(124,106,255,.1);color:var(--a4)}
+
+/* S49 Periodisation */
+.period-block{background:var(--s2);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px;margin-bottom:8px}
+.period-block-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.period-block-name{font-size:13px;font-weight:700;color:var(--t)}
+.period-block-weeks{font-size:11px;color:var(--td)}
+.period-block-bar{height:6px;background:var(--s3);border-radius:3px;overflow:hidden}
+.period-block-fill{height:100%;border-radius:3px}
+.period-ex-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.period-ex-row:last-child{border-bottom:none}
+.period-ex-name{font-size:12px;color:var(--t)}
+.period-ex-detail{font-size:11px;color:var(--td);margin-top:1px}
+.period-ex-weight{font-size:13px;font-weight:700;color:var(--a3)}
+.period-ex-weight.up{color:var(--a)}
+
+/* S51 Fatigue-adjusted */
+.fadj-card{background:var(--s1);border:1px solid rgba(255,255,255,.06);border-radius:var(--r);padding:14px;margin-bottom:10px}
+.fadj-ex-name{font-size:14px;font-weight:700;color:var(--t);margin-bottom:2px}
+.fadj-prescribed{font-size:12px;color:var(--td);margin-bottom:8px}
+.fadj-adjusted{display:flex;align-items:center;gap:8px}
+.fadj-weight{font-size:22px;font-weight:900;color:var(--a);font-family:var(--font-display)}
+.fadj-reason{font-size:11px;color:var(--td);line-height:1.4}
+.fadj-tag{font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;margin-left:6px}
+.fadj-tag.reduced{background:rgba(255,204,0,.1);color:var(--a3)}
+.fadj-tag.normal{background:rgba(0,229,160,.1);color:var(--a)}
+.fadj-tag.increase{background:rgba(124,106,255,.1);color:var(--a4)}
+
+/* S52 Deload builder */
+.deload-prog-day{background:var(--s2);border:1px solid rgba(255,255,255,.06);border-radius:10px;margin-bottom:8px;overflow:hidden}
+.deload-prog-hdr{display:flex;justify-content:space-between;align-items:center;padding:12px;cursor:pointer}
+.deload-prog-name{font-size:13px;font-weight:700;color:var(--t)}
+.deload-prog-tag{font-size:10px;color:var(--td)}
+.deload-prog-chev{color:var(--td);transition:transform .2s}
+.deload-prog-hdr.open .deload-prog-chev{transform:rotate(180deg)}
+.deload-prog-body{display:none;padding:0 12px 12px}
+.deload-prog-body.show{display:block}
+.deload-prog-ex{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.deload-prog-ex:last-child{border-bottom:none}
+.deload-prog-ex-name{font-size:12px;color:var(--t);font-weight:500}
+.deload-prog-ex-detail{font-size:11px;color:var(--td);margin-top:1px}
+.deload-prog-ex-weight{font-size:13px;font-weight:700;color:var(--a3)}
+
+/* ===== BATCH B — S53/54/55 ===== */
+
+/* S53 Training Age */
+.ta-wrap{padding:16px;padding-bottom:calc(var(--nav-h)+20px)}
+.ta-hero{background:linear-gradient(135deg,#0a0818 0%,#0f0f1a 100%);border:1px solid rgba(124,106,255,.2);border-radius:var(--r);padding:20px;margin-bottom:14px;text-align:center;position:relative;overflow:hidden}
+.ta-hero::before{content:'';position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:160px;height:160px;background:radial-gradient(circle,rgba(124,106,255,.1) 0%,transparent 70%);pointer-events:none}
+.ta-level-badge{display:inline-block;padding:6px 18px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.ta-level-badge.beginner{background:rgba(0,229,160,.15);color:var(--a)}
+.ta-level-badge.intermediate{background:rgba(255,204,0,.15);color:var(--a3)}
+.ta-level-badge.advanced{background:rgba(255,61,107,.15);color:var(--a2)}
+.ta-level-badge.elite{background:rgba(124,106,255,.15);color:var(--a4)}
+.ta-score-num{font-family:var(--font-display);font-size:72px;letter-spacing:2px;line-height:1;margin-bottom:4px}
+.ta-score-label{font-size:12px;color:var(--td);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.ta-standard-card{background:var(--s1);border:1px solid rgba(255,255,255,.06);border-radius:var(--r);padding:14px;margin-bottom:10px}
+.ta-standard-card h3{font-size:11px;font-weight:700;color:var(--td);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.ta-lift-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.ta-lift-row:last-child{border-bottom:none}
+.ta-lift-name{font-size:13px;color:var(--t);font-weight:500;width:120px;flex-shrink:0}
+.ta-lift-bar-wrap{flex:1;height:20px;background:var(--s3);border-radius:5px;overflow:hidden;position:relative}
+.ta-lift-bar{height:100%;border-radius:5px;transition:width .6s}
+.ta-lift-standard{position:absolute;top:0;bottom:0;width:2px;background:rgba(255,255,255,.3)}
+.ta-lift-val{font-size:12px;font-weight:700;color:var(--t);width:60px;text-align:right;flex-shrink:0}
+.ta-lift-level{font-size:10px;font-weight:700;width:70px;text-align:right;flex-shrink:0}
+
+/* S54 Muscle Fibre */
+.mf-wrap{padding:16px;padding-bottom:calc(var(--nav-h)+20px)}
+.mf-muscle-card{background:var(--s1);border:1px solid rgba(255,255,255,.06);border-radius:var(--r);padding:14px;margin-bottom:10px}
+.mf-muscle-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.mf-muscle-name{font-size:14px;font-weight:700;color:var(--t)}
+.mf-fibre-bar-wrap{display:flex;height:28px;border-radius:8px;overflow:hidden;margin-bottom:6px}
+.mf-fast{background:linear-gradient(90deg,var(--a2),#ff6b35)}
+.mf-slow{background:linear-gradient(90deg,var(--a),#00b4d8)}
+.mf-fibre-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--td)}
+.mf-fibre-legend{display:flex;gap:14px;margin-bottom:14px}
+.mf-legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--td)}
+.mf-legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.mf-rec-card{background:var(--s2);border-radius:8px;padding:10px;margin-top:8px}
+.mf-rec-title{font-size:11px;font-weight:700;color:var(--a);margin-bottom:4px}
+.mf-rec-text{font-size:12px;color:var(--td);line-height:1.5}
+
+/* S55 Weak Point */
+.wp-wrap{padding:16px;padding-bottom:calc(var(--nav-h)+20px)}
+.wp-score-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.wp-score-box{background:var(--s1);border:1px solid rgba(255,255,255,.06);border-radius:var(--r);padding:14px;text-align:center;position:relative;overflow:hidden}
+.wp-score-val{font-family:var(--font-display);font-size:32px;line-height:1;margin-bottom:4px}
+.wp-score-lbl{font-size:10px;color:var(--td);text-transform:uppercase;letter-spacing:.5px}
+.wp-score-rank{font-size:11px;font-weight:700;margin-top:4px}
+.wp-priority-card{background:var(--s1);border:1px solid rgba(255,255,255,.06);border-radius:var(--r);padding:14px;margin-bottom:10px}
+.wp-priority-card h3{font-size:11px;font-weight:700;color:var(--td);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.wp-priority-item{display:flex;align-items:flex-start;gap:10px;padding:10px;background:var(--s2);border-radius:8px;margin-bottom:8px}
+.wp-priority-item:last-child{margin-bottom:0}
+.wp-priority-rank{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;color:#000}
+.wp-priority-info{flex:1}
+.wp-priority-name{font-size:13px;font-weight:700;color:var(--t)}
+.wp-priority-reason{font-size:12px;color:var(--td);margin-top:3px;line-height:1.4}
+.wp-priority-fix{font-size:11px;font-weight:600;color:var(--a);margin-top:5px}
+
+/* ===== BATCH C — S59/60/61/64 ===== */
+
+/* Shared */
+.health-wrap{padding:16px;padding-bottom:calc(var(--nav-h)+20px)}
+.health-hero{background:linear-gradient(135deg,#0a1520 0%,#0f0f1a 100%);border:1px solid rgba(0,180,216,.15);border-radius:var(--r);padding:18px;margin-bottom:14px}
+.health-hero-label{font-size:10px;font-weight:700;color:#00b4d8;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+.health-hero-title{font-size:20px;font-weight:800;color:var(--t);margin-bottom:4px}
+.health-hero-sub{font-size:12px;color:var(--td);line-height:1.5}
+.health-card{background:var(--s1);border:1px solid rgba(255,255,255,.06);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.health-card h3{font-size:11px;font-weight:700;color:var(--td);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.health-log-btn{width:100%;background:var(--a);color:#000;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-body);transition:all .2s}
+.health-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.health-row:last-child{border-bottom:none}
+.health-row-label{font-size:13px;font-weight:600;color:var(--t)}
+.health-row-sub{font-size:11px;color:var(--td);margin-top:2px}
+.health-row-val{font-size:14px;font-weight:700;color:var(--a3);text-align:right}
+.health-inp{background:var(--s2);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:10px;color:var(--t);font-size:16px;font-weight:600;text-align:center;font-family:var(--font-body);width:100%;-moz-appearance:textfield}
+.health-inp::-webkit-outer-spin-button,.health-inp::-webkit-inner-spin-button{-webkit-appearance:none}
+.health-inp:focus{outline:none;border-color:var(--a)}
+.health-inp-row{display:flex;gap:8px;margin-bottom:12px}
+.health-inp-wrap{flex:1}
+.health-inp-label{font-size:10px;font-weight:700;color:var(--td);letter-spacing:.5px;text-transform:uppercase;margin-bottom:5px}
+.health-history-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px}
+.health-history-row:last-child{border-bottom:none}
+.health-history-date{color:var(--td)}
+.health-history-val{font-weight:700;color:var(--t)}
+.health-history-change{font-size:11px;font-weight:700}
+
+/* S59 Posture */
+.posture-body{display:flex;gap:12px;margin-bottom:14px}
+.posture-silhouette{flex-shrink:0;width:80px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.posture-check-grid{flex:1;display:flex;flex-direction:column;gap:6px}
+.posture-check{display:flex;align-items:center;gap:8px;padding:8px;background:var(--s2);border-radius:8px;cursor:pointer;transition:all .2s}
+.posture-check.good{background:rgba(0,229,160,.08);border:1px solid rgba(0,229,160,.2)}
+.posture-check.bad{background:rgba(255,61,107,.08);border:1px solid rgba(255,61,107,.2)}
+.posture-check-icon{font-size:16px;flex-shrink:0}
+.posture-check-label{font-size:12px;font-weight:600;color:var(--t);flex:1}
+.posture-check-btn{font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;border:none;cursor:pointer;font-family:var(--font-body)}
+.posture-score-ring{width:70px;height:70px;position:relative}
+.posture-score-ring svg{transform:rotate(-90deg)}
+
+/* S60 Joint Health */
+.joint-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.joint-btn{background:var(--s2);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px;cursor:pointer;text-align:center;transition:all .2s;font-family:var(--font-body)}
+.joint-btn.pain{background:rgba(255,61,107,.1);border-color:rgba(255,61,107,.3)}
+.joint-btn.watch{background:rgba(255,204,0,.1);border-color:rgba(255,204,0,.3)}
+.joint-btn.good{background:rgba(0,229,160,.08);border-color:rgba(0,229,160,.2)}
+.joint-icon{font-size:22px;margin-bottom:4px}
+.joint-name{font-size:12px;font-weight:700;color:var(--t)}
+.joint-status{font-size:10px;font-weight:700;margin-top:3px}
+.joint-btn.pain .joint-status{color:var(--a2)}
+.joint-btn.watch .joint-status{color:var(--a3)}
+.joint-btn.good .joint-status{color:var(--a)}
+.joint-pain-card{background:rgba(255,61,107,.06);border:1px solid rgba(255,61,107,.15);border-radius:10px;padding:12px;margin-bottom:8px}
+.joint-pain-name{font-size:13px;font-weight:700;color:var(--a2);margin-bottom:4px}
+.joint-pain-exs{font-size:12px;color:var(--td);line-height:1.5}
+
+/* S61 VO2 Max */
+.vo2-gauge-wrap{text-align:center;padding:20px 0;margin-bottom:14px}
+.vo2-gauge-val{font-family:var(--font-display);font-size:64px;line-height:1;margin-bottom:4px}
+.vo2-gauge-unit{font-size:14px;color:var(--td);margin-bottom:6px}
+.vo2-gauge-label{font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px;display:inline-block}
+.vo2-zones{display:flex;height:12px;border-radius:6px;overflow:hidden;margin-bottom:8px}
+.vo2-zone{flex:1;transition:opacity .2s}
+.vo2-zone-labels{display:flex;font-size:9px;color:var(--tf);margin-bottom:14px}
+.vo2-zone-label{flex:1;text-align:center}
+.vo2-trend-chart{height:60px;display:flex;align-items:flex-end;gap:4px}
+.vo2-trend-bar{flex:1;border-radius:3px 3px 0 0;min-height:4px;background:var(--a4)}
+
+/* S64 Injury Prevention */
+.injury-alert{background:rgba(255,61,107,.08);border:1px solid rgba(255,61,107,.2);border-radius:var(--r);padding:14px;margin-bottom:10px;display:none}
+.injury-alert.show{display:block}
+.injury-alert-hdr{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.injury-alert-icon{font-size:22px;flex-shrink:0}
+.injury-alert-title{font-size:14px;font-weight:700;color:var(--a2)}
+.injury-alert-body{font-size:12px;color:var(--td);line-height:1.5}
+.injury-risk-item{display:flex;align-items:flex-start;gap:10px;padding:10px;background:var(--s2);border-radius:8px;margin-bottom:8px}
+.injury-risk-icon{font-size:18px;flex-shrink:0}
+.injury-risk-title{font-size:13px;font-weight:700;color:var(--t);margin-bottom:2px}
+.injury-risk-desc{font-size:12px;color:var(--td);line-height:1.4}
+.injury-risk-action{font-size:11px;font-weight:700;color:var(--a3);margin-top:4px}
+.injury-ok-item{display:flex;align-items:center;gap:10px;padding:8px;background:rgba(0,229,160,.06);border-radius:8px;margin-bottom:6px}
+.injury-ok-icon{font-size:16px}
+.injury-ok-text{font-size:12px;color:var(--td)}
+
+/* ===== BATCH D — S65/66/67/68 ===== */
+
+/* S65 Blood Pressure */
+.bp-reading{display:flex;align-items:center;justify-content:center;gap:8px;margin:16px 0}
+.bp-num{font-family:var(--font-display);font-size:56px;line-height:1;color:var(--t)}
+.bp-sep{font-family:var(--font-display);font-size:40px;color:var(--td)}
+.bp-unit{font-size:12px;color:var(--td);align-self:flex-end;padding-bottom:8px}
+.bp-status{display:inline-block;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;margin:0 auto;display:block;text-align:center;width:fit-content}
+.bp-status.normal{background:rgba(0,229,160,.1);color:var(--a)}
+.bp-status.elevated{background:rgba(255,204,0,.1);color:var(--a3)}
+.bp-status.high1{background:rgba(255,150,0,.1);color:#ff9500}
+.bp-status.high2{background:rgba(255,61,107,.1);color:var(--a2)}
+.bp-status.crisis{background:rgba(255,61,107,.2);color:var(--a2)}
+.bp-chart{display:flex;gap:4px;height:70px;align-items:flex-end;margin-bottom:6px}
+.bp-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px}
+.bp-bar-sys{border-radius:3px 3px 0 0;width:100%;min-height:4px;background:var(--a2)}
+.bp-bar-dia{width:100%;min-height:4px;background:var(--a)}
+.bp-bar-label{font-size:8px;color:var(--tf);text-align:center}
+.bp-range-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.bp-range-item{background:var(--s2);border-radius:8px;padding:8px;font-size:11px}
+.bp-range-name{font-weight:700;color:var(--t);margin-bottom:2px}
+.bp-range-val{color:var(--td)}
+
+/* S66 Heart Rate Zones */
+.hrz-zone{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;margin-bottom:8px}
+.hrz-zone-num{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#000;flex-shrink:0}
+.hrz-zone-info{flex:1}
+.hrz-zone-name{font-size:13px;font-weight:700;color:var(--t)}
+.hrz-zone-range{font-size:11px;color:var(--td);margin-top:1px}
+.hrz-zone-desc{font-size:11px;color:var(--td);margin-top:2px;line-height:1.4}
+.hrz-zone-bar{height:6px;border-radius:3px;margin-top:4px}
+.hrz-session-log{display:flex;gap:8px;margin-bottom:12px}
+.hrz-session-inp{flex:1;background:var(--s2);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:10px;color:var(--t);font-size:16px;font-weight:600;text-align:center;font-family:var(--font-body);-moz-appearance:textfield}
+.hrz-session-inp::-webkit-outer-spin-button,.hrz-session-inp::-webkit-inner-spin-button{-webkit-appearance:none}
+.hrz-session-inp:focus{outline:none;border-color:var(--a)}
+
+/* S67 Gut Health */
+.gut-slider-row{margin-bottom:14px}
+.gut-slider-label{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px}
+.gut-slider-name{font-weight:600;color:var(--t)}
+.gut-slider-val{font-weight:700;color:var(--a3)}
+.gut-slider{width:100%;-webkit-appearance:none;height:5px;border-radius:3px;background:var(--s3);outline:none}
+.gut-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--a);cursor:pointer}
+.gut-symptom-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.gut-symptom-btn{padding:6px 12px;background:var(--s2);border:1px solid rgba(255,255,255,.06);border-radius:20px;font-size:11px;font-weight:600;color:var(--td);cursor:pointer;font-family:var(--font-body);transition:all .2s}
+.gut-symptom-btn.active{background:rgba(255,61,107,.1);border-color:rgba(255,61,107,.3);color:var(--a2)}
+.gut-history-entry{background:var(--s2);border-radius:10px;padding:12px;margin-bottom:8px}
+.gut-history-date{font-size:11px;color:var(--td);font-weight:700;margin-bottom:6px}
+.gut-history-scores{display:flex;gap:8px;flex-wrap:wrap}
+.gut-history-pill{font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;background:rgba(0,229,160,.1);color:var(--a)}
+
+/* S68 Biological Age */
+.bioage-hero{text-align:center;padding:24px 0 16px}
+.bioage-actual{font-size:13px;color:var(--td);margin-bottom:4px}
+.bioage-num{font-family:var(--font-display);font-size:80px;line-height:1;margin-bottom:4px}
+.bioage-label{font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px;display:inline-block}
+.bioage-component{display:flex;align-items:center;gap:10px;padding:10px;background:var(--s2);border-radius:10px;margin-bottom:8px}
+.bioage-comp-icon{font-size:20px;flex-shrink:0}
+.bioage-comp-info{flex:1}
+.bioage-comp-name{font-size:13px;font-weight:700;color:var(--t)}
+.bioage-comp-val{font-size:11px;color:var(--td);margin-top:2px}
+.bioage-comp-score{font-size:14px;font-weight:800;text-align:right}
+.bioage-trend-chart{display:flex;gap:4px;height:60px;align-items:flex-end}
 </style>
 </head>
 <body>
@@ -1588,6 +1859,393 @@ body{background:var(--bg);color:var(--t);font-family:var(--font-body);min-height
       <div id="volImbalanceList"></div>
     </div>
     <div id="volMuscleList"></div>
+  </div>
+</div>
+
+
+<!-- S49 — PERIODISATION AUTO-PLANNER -->
+<div class="view" id="view-periodise">
+  <div class="smart-wrap">
+    <div class="smart-hero">
+      <div class="smart-hero-label">Periodisation Planner</div>
+      <div class="smart-hero-title" id="periodTitle">Auto-Plan Next Cycle</div>
+      <div class="smart-hero-sub" id="periodSub">Based on your performance data, Claude builds your next 12-week block with progressive weights and the right structure.</div>
+    </div>
+    <div class="smart-card">
+      <h3>Current Cycle Analysis</h3>
+      <div id="periodAnalysis"></div>
+    </div>
+    <button class="smart-btn" onclick="buildPeriodPlan()">Generate Next 12-Week Plan</button>
+    <div id="periodPlanOutput" style="margin-top:14px"></div>
+  </div>
+</div>
+
+<!-- S50 — SMART EXERCISE SWAP -->
+<div class="view" id="view-smartswap">
+  <div class="smart-wrap">
+    <div class="smart-hero">
+      <div class="smart-hero-label">Smart Swap Engine</div>
+      <div class="smart-hero-title">Best Swap For You</div>
+      <div class="smart-hero-sub">Based on your weak points, logged PRs, and equipment — find the optimal alternative for any exercise.</div>
+    </div>
+    <div class="smart-card">
+      <h3>Select Exercise to Swap</h3>
+      <div class="lib-filter-scroll" id="swapExList" style="margin-bottom:0"></div>
+    </div>
+    <div id="swapRecommendation" style="margin-top:4px"></div>
+  </div>
+</div>
+
+<!-- S51 — FATIGUE-ADJUSTED WEIGHTS -->
+<div class="view" id="view-fadjust">
+  <div class="smart-wrap">
+    <div class="smart-hero">
+      <div class="smart-hero-label">Fatigue-Adjusted Session</div>
+      <div class="smart-hero-title" id="fadjTitle">Today's Smart Weights</div>
+      <div class="smart-hero-sub" id="fadjSub">Your prescribed weights adjusted based on today's recovery score and recent fatigue signals.</div>
+    </div>
+    <div class="smart-card" id="fadjRecovery">
+      <h3>Recovery Status</h3>
+      <div id="fadjRecoveryContent"></div>
+    </div>
+    <div id="fadjSessionList"></div>
+  </div>
+</div>
+
+<!-- S52 — DELOAD AUTO-BUILDER -->
+<div class="view" id="view-deloadbuild">
+  <div class="smart-wrap">
+    <div class="smart-hero">
+      <div class="smart-hero-label">Deload Builder</div>
+      <div class="smart-hero-title">Auto Deload Week</div>
+      <div class="smart-hero-sub">A full deload programme built from your current working weights. Drop volume and intensity to let your body absorb the work.</div>
+    </div>
+    <div class="smart-card">
+      <h3>Deload Protocol</h3>
+      <div id="deloadProtocol"></div>
+    </div>
+    <button class="smart-btn" onclick="buildDeloadWeek()">Generate Deload Week</button>
+    <div id="deloadProgramme" style="margin-top:14px"></div>
+    <button class="smart-btn-sec" id="startDeloadBtn" style="display:none" onclick="logDeloadWeek();showToast('Deload week started!')">Start Deload Week</button>
+  </div>
+</div>
+
+
+<!-- S53 — TRAINING AGE TRACKER -->
+<div class="view" id="view-trainage">
+  <div class="ta-wrap">
+    <div class="ta-hero">
+      <div class="ta-score-label">Training Level</div>
+      <div class="ta-score-num" id="taScoreNum" style="color:var(--a4)">—</div>
+      <div class="ta-level-badge intermediate" id="taLevelBadge">Calculating...</div>
+      <div style="font-size:12px;color:var(--td);margin-top:8px;line-height:1.5" id="taSub">Based on your strength relative to bodyweight compared to established training standards.</div>
+    </div>
+    <div class="ta-standard-card">
+      <h3>Strength Standards — Your Lifts vs Norms</h3>
+      <div id="taLiftList"></div>
+    </div>
+    <div class="ta-standard-card">
+      <h3>What This Means For You</h3>
+      <div id="taAdvice" style="font-size:13px;color:var(--td);line-height:1.7"></div>
+    </div>
+  </div>
+</div>
+
+<!-- S54 — MUSCLE FIBRE TYPE ESTIMATOR -->
+<div class="view" id="view-fibretype">
+  <div class="mf-wrap">
+    <div class="smart-hero" style="background:linear-gradient(135deg,#0a1520 0%,#0f0f1a 100%);border-color:rgba(0,180,216,.2)">
+      <div class="smart-hero-label" style="color:#00b4d8">Muscle Fibre Estimator</div>
+      <div class="smart-hero-title">Your Fibre Type Profile</div>
+      <div class="smart-hero-sub">Based on your best rep ranges, RPE data, and performance patterns across logged sessions.</div>
+    </div>
+    <div class="mf-fibre-legend">
+      <div class="mf-legend-item"><div class="mf-legend-dot" style="background:var(--a2)"></div>Fast Twitch (power, strength, hypertrophy)</div>
+      <div class="mf-legend-item"><div class="mf-legend-dot" style="background:var(--a)"></div>Slow Twitch (endurance, fatigue resistance)</div>
+    </div>
+    <div id="mfMuscleList"></div>
+    <div class="smart-card" style="margin-top:4px">
+      <h3>Training Recommendations</h3>
+      <div id="mfRecommendations"></div>
+    </div>
+  </div>
+</div>
+
+<!-- S55 — WEAK POINT ANALYSIS -->
+<div class="view" id="view-weakpoints">
+  <div class="wp-wrap">
+    <div class="smart-hero">
+      <div class="smart-hero-label">Weak Point Analysis</div>
+      <div class="smart-hero-title">Where To Focus</div>
+      <div class="smart-hero-sub">Cross-referencing your volume, PRs, 1RM estimates and progression to identify exactly where your weakest links are.</div>
+    </div>
+    <div class="wp-score-grid" id="wpScoreGrid"></div>
+    <div class="wp-priority-card">
+      <h3>Priority Weak Points — Fix These First</h3>
+      <div id="wpPriorityList"></div>
+    </div>
+    <div class="wp-priority-card">
+      <h3>Strengths — Keep Building</h3>
+      <div id="wpStrengthList"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- S59 — POSTURE TRACKER -->
+<div class="view" id="view-posture">
+  <div class="health-wrap">
+    <div class="health-hero">
+      <div class="health-hero-label">Posture Tracker</div>
+      <div class="health-hero-title">Posture Check-In</div>
+      <div class="health-hero-sub">Log how your posture feels today. Tracked over time to show improvement from targeted exercises.</div>
+    </div>
+    <div class="health-card">
+      <h3>Today's Posture Check</h3>
+      <div class="posture-check-grid" id="postureCheckGrid"></div>
+    </div>
+    <div class="health-card">
+      <h3>Posture Score Trend</h3>
+      <div id="postureScoreTrend"></div>
+    </div>
+    <button class="health-log-btn" onclick="logPosture()">Save Posture Check-In</button>
+    <div class="health-card" style="margin-top:12px">
+      <h3>Corrective Exercises</h3>
+      <div id="postureCorrectiveExs"></div>
+    </div>
+  </div>
+</div>
+
+<!-- S60 — JOINT HEALTH MONITOR -->
+<div class="view" id="view-jointhealth">
+  <div class="health-wrap">
+    <div class="health-hero">
+      <div class="health-hero-label">Joint Health Monitor</div>
+      <div class="health-hero-title">How Are Your Joints?</div>
+      <div class="health-hero-sub">Track pain and discomfort across key joints. Flags exercises that correlate with issues and suggests modifications.</div>
+    </div>
+    <div class="health-card">
+      <h3>Tap Any Joint With Pain or Discomfort</h3>
+      <div class="joint-grid" id="jointGrid"></div>
+    </div>
+    <div class="health-card">
+      <h3>Notes</h3>
+      <textarea class="health-inp" id="jointNotes" rows="2" placeholder="Describe any pain or discomfort..." style="text-align:left;resize:none"></textarea>
+    </div>
+    <button class="health-log-btn" onclick="logJointHealth()">Save Joint Check-In</button>
+    <div id="jointRecommendations" style="margin-top:12px"></div>
+    <div class="health-card" style="margin-top:4px">
+      <h3>History</h3>
+      <div id="jointHistory"></div>
+    </div>
+  </div>
+</div>
+
+<!-- S61 — VO2 MAX ESTIMATOR -->
+<div class="view" id="view-vo2max">
+  <div class="health-wrap">
+    <div class="health-hero">
+      <div class="health-hero-label">VO2 Max Estimator</div>
+      <div class="health-hero-title">Aerobic Fitness</div>
+      <div class="health-hero-sub">Estimated from your resting heart rate, training frequency and session data. Update your resting HR to improve accuracy.</div>
+    </div>
+    <div class="health-card">
+      <h3>Update Resting Heart Rate</h3>
+      <div class="health-inp-row">
+        <div class="health-inp-wrap">
+          <div class="health-inp-label">Resting HR (bpm)</div>
+          <input class="health-inp" type="number" id="vo2RestingHR" inputmode="numeric" placeholder="60">
+        </div>
+        <div class="health-inp-wrap">
+          <div class="health-inp-label">Age</div>
+          <input class="health-inp" type="number" id="vo2Age" inputmode="numeric" placeholder="28" value="28">
+        </div>
+      </div>
+      <button class="health-log-btn" onclick="calcAndLogVO2()">Calculate & Save</button>
+    </div>
+    <div id="vo2Result"></div>
+    <div class="health-card">
+      <h3>VO2 Max Trend</h3>
+      <div id="vo2Trend"></div>
+    </div>
+    <div class="health-card">
+      <h3>How to Improve</h3>
+      <div id="vo2Advice" style="font-size:13px;color:var(--td);line-height:1.7"></div>
+    </div>
+  </div>
+</div>
+
+<!-- S64 — INJURY PREVENTION ALERTS -->
+<div class="view" id="view-injuryprev">
+  <div class="health-wrap">
+    <div class="health-hero" style="border-color:rgba(255,61,107,.15)">
+      <div class="health-hero-label" style="color:var(--a2)">Injury Prevention</div>
+      <div class="health-hero-title">Risk Assessment</div>
+      <div class="health-hero-sub">Analyses your fatigue, RPE trends, training volume and joint logs to flag exercises where injury risk is elevated.</div>
+    </div>
+    <div class="injury-alert" id="injuryMainAlert">
+      <div class="injury-alert-hdr">
+        <div class="injury-alert-icon">🚨</div>
+        <div class="injury-alert-title" id="injuryAlertTitle">Risk Detected</div>
+      </div>
+      <div class="injury-alert-body" id="injuryAlertBody"></div>
+    </div>
+    <div class="health-card">
+      <h3>Risk Factors</h3>
+      <div id="injuryRiskList"></div>
+    </div>
+    <div class="health-card">
+      <h3>All Clear</h3>
+      <div id="injuryOkList"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- S65 — BLOOD PRESSURE LOG -->
+<div class="view" id="view-bloodpressure">
+  <div class="health-wrap">
+    <div class="health-hero" style="border-color:rgba(255,61,107,.15)">
+      <div class="health-hero-label" style="color:var(--a2)">Blood Pressure Log</div>
+      <div class="health-hero-title">BP Tracker</div>
+      <div class="health-hero-sub">Track your resting BP over time. Important while on Mounjaro — weight loss affects blood pressure significantly.</div>
+    </div>
+    <div class="health-card">
+      <h3>Log Reading</h3>
+      <div class="health-inp-row">
+        <div class="health-inp-wrap">
+          <div class="health-inp-label">Systolic (top)</div>
+          <input class="health-inp" type="number" id="bpSystolic" inputmode="numeric" placeholder="120">
+        </div>
+        <div class="health-inp-wrap">
+          <div class="health-inp-label">Diastolic (bottom)</div>
+          <input class="health-inp" type="number" id="bpDiastolic" inputmode="numeric" placeholder="80">
+        </div>
+        <div class="health-inp-wrap">
+          <div class="health-inp-label">Pulse (opt)</div>
+          <input class="health-inp" type="number" id="bpPulse" inputmode="numeric" placeholder="65">
+        </div>
+      </div>
+      <button class="health-log-btn" onclick="logBP()">Log Blood Pressure</button>
+    </div>
+    <div class="health-card" id="bpLatestCard" style="display:none">
+      <h3>Latest Reading</h3>
+      <div id="bpLatestDisplay"></div>
+    </div>
+    <div class="health-card">
+      <h3>Trend — Last 14 Readings</h3>
+      <div id="bpChart"></div>
+      <div style="display:flex;gap:12px;margin-top:8px;font-size:10px">
+        <span style="display:flex;align-items:center;gap:4px;color:var(--td)"><span style="width:10px;height:3px;background:var(--a2);display:inline-block;border-radius:2px"></span>Systolic</span>
+        <span style="display:flex;align-items:center;gap:4px;color:var(--td)"><span style="width:10px;height:3px;background:var(--a);display:inline-block;border-radius:2px"></span>Diastolic</span>
+      </div>
+    </div>
+    <div class="health-card">
+      <h3>Reference Ranges</h3>
+      <div class="bp-range-grid" id="bpRangeGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- S66 — HEART RATE ZONES -->
+<div class="view" id="view-hrzones">
+  <div class="health-wrap">
+    <div class="health-hero" style="border-color:rgba(255,61,107,.15)">
+      <div class="health-hero-label" style="color:var(--a2)">Heart Rate Zones</div>
+      <div class="health-hero-title">Your Training Zones</div>
+      <div class="health-hero-sub">Personalised zones based on your max HR. Log your session HR to track which zone you trained in.</div>
+    </div>
+    <div class="health-card">
+      <h3>Log Session Heart Rate</h3>
+      <div class="hrz-session-log">
+        <div style="flex:1">
+          <div class="health-inp-label">Avg HR (bpm)</div>
+          <input class="hrz-session-inp" type="number" id="hrzAvgHR" inputmode="numeric" placeholder="135">
+        </div>
+        <div style="flex:1">
+          <div class="health-inp-label">Max HR (bpm)</div>
+          <input class="hrz-session-inp" type="number" id="hrzMaxHR" inputmode="numeric" placeholder="165">
+        </div>
+        <div style="flex:1">
+          <div class="health-inp-label">Duration (min)</div>
+          <input class="hrz-session-inp" type="number" id="hrzDuration" inputmode="numeric" placeholder="45">
+        </div>
+      </div>
+      <button class="health-log-btn" onclick="logHRZoneSession()">Log Session HR</button>
+    </div>
+    <div class="health-card">
+      <h3>Your Heart Rate Zones</h3>
+      <div id="hrzZoneList"></div>
+    </div>
+    <div class="health-card">
+      <h3>Recent Session Zones</h3>
+      <div id="hrzSessionHistory"></div>
+    </div>
+  </div>
+</div>
+
+<!-- S67 — GUT HEALTH LOG -->
+<div class="view" id="view-guthealth">
+  <div class="health-wrap">
+    <div class="health-hero" style="border-color:rgba(255,204,0,.15)">
+      <div class="health-hero-label" style="color:var(--a3)">Gut Health Log</div>
+      <div class="health-hero-title">Daily Gut Check</div>
+      <div class="health-hero-sub">Track digestion, appetite and Mounjaro side effects. Correlates with training performance over time.</div>
+    </div>
+    <div class="health-card">
+      <h3>Today's Log</h3>
+      <div class="gut-slider-row">
+        <div class="gut-slider-label"><span class="gut-slider-name">Appetite</span><span class="gut-slider-val" id="gutAppetiteVal">5</span></div>
+        <input class="gut-slider" type="range" id="gutAppetite" min="1" max="10" value="5" oninput="document.getElementById('gutAppetiteVal').textContent=this.value">
+      </div>
+      <div class="gut-slider-row">
+        <div class="gut-slider-label"><span class="gut-slider-name">Digestion</span><span class="gut-slider-val" id="gutDigestionVal">5</span></div>
+        <input class="gut-slider" type="range" id="gutDigestion" min="1" max="10" value="5" oninput="document.getElementById('gutDigestionVal').textContent=this.value">
+      </div>
+      <div class="gut-slider-row">
+        <div class="gut-slider-label"><span class="gut-slider-name">Energy from Food</span><span class="gut-slider-val" id="gutEnergyVal">5</span></div>
+        <input class="gut-slider" type="range" id="gutEnergy" min="1" max="10" value="5" oninput="document.getElementById('gutEnergyVal').textContent=this.value">
+      </div>
+      <div style="font-size:11px;font-weight:700;color:var(--td);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Symptoms Today</div>
+      <div class="gut-symptom-grid" id="gutSymptomGrid"></div>
+      <textarea class="health-inp" id="gutNotes" rows="2" placeholder="Notes — any side effects, how food felt, appetite on Mounjaro..." style="text-align:left;resize:none;margin-top:8px"></textarea>
+      <button class="health-log-btn" style="margin-top:12px" onclick="logGutHealth()">Save Gut Log</button>
+    </div>
+    <div class="health-card">
+      <h3>Recent Logs</h3>
+      <div id="gutHistory"></div>
+    </div>
+    <div class="health-card">
+      <h3>Mounjaro Tips</h3>
+      <div id="gutMounjaroTips" style="font-size:12px;color:var(--td);line-height:1.7"></div>
+    </div>
+  </div>
+</div>
+
+<!-- S68 — BIOLOGICAL AGE TRACKER -->
+<div class="view" id="view-bioage">
+  <div class="health-wrap">
+    <div class="health-hero" style="border-color:rgba(124,106,255,.2)">
+      <div class="health-hero-label" style="color:var(--a4)">Biological Age</div>
+      <div class="health-hero-title">Your True Age</div>
+      <div class="health-hero-sub">A composite score combining your Evolt bio age, VO2 Max, HRV, recovery scores and training age. Lower is better.</div>
+    </div>
+    <div class="health-card">
+      <div class="bioage-hero">
+        <div class="bioage-actual" id="bioageActual">Actual age: 28</div>
+        <div class="bioage-num" id="bioageNum" style="color:var(--a4)">—</div>
+        <div id="bioageLabelBadge"></div>
+      </div>
+      <div id="bioageComponents"></div>
+    </div>
+    <div class="health-card">
+      <h3>Trend</h3>
+      <div id="bioageTrend"></div>
+    </div>
+    <div class="health-card">
+      <h3>How to Lower Your Biological Age</h3>
+      <div id="bioageAdvice" style="font-size:13px;color:var(--td);line-height:1.7"></div>
+    </div>
   </div>
 </div>
 
@@ -5319,6 +5977,1680 @@ function renderVolume() {
   }
 }
 
+
+// ============================================================
+// S49 — PERIODISATION AUTO-PLANNER
+// ============================================================
+
+function renderPeriodise() {
+  const w = blockState.week || 1;
+  const {block, phase} = getBlockInfo();
+  const isLate = w >= 8;
+
+  document.getElementById('periodTitle').textContent =
+    w >= 12 ? 'Ready to Plan Next Cycle' : isLate ? 'Preview Next Cycle' : 'Week ' + w + ' — Keep Going';
+  document.getElementById('periodSub').textContent =
+    w >= 12 ? 'Your cycle is complete. Generate a new periodised plan with auto-adjusted weights and progressive overload built in.'
+    : isLate ? 'You can preview the next cycle now. Finalise after Week 12 deload.'
+    : 'Complete more of your current cycle for the best plan. Available fully from Week 10.';
+
+  // Analysis
+  const analysis = [];
+  const keyLifts = ['Barbell Bench Press','Barbell OHP','Conventional Deadlift','Barbell Back Squat','Barbell Bent Over Row'];
+  keyLifts.forEach(lift => {
+    const cur = parseFloat(weights[lift]);
+    const history = [];
+    sessions.forEach(s => s.exercises.forEach(e => {
+      if ((e.usingSwap?e.swap:e.name) === lift) {
+        e.sets.filter(st=>st.completed).forEach(st => { const w=parseFloat(st.weight); if(w>0) history.push(w); });
+      }
+    }));
+    const max = history.length ? Math.max(...history) : cur;
+    const progression = history.length >= 4 ? ((history[history.length-1]-history[0])/history[0]*100).toFixed(1) : null;
+    analysis.push({lift, current: cur||0, max: max||0, progression, sessions: history.length});
+  });
+
+  const avgProg = analysis.filter(a=>a.progression).reduce((s,a)=>s+parseFloat(a.progression),0) / Math.max(1,analysis.filter(a=>a.progression).length);
+
+  document.getElementById('periodAnalysis').innerHTML = analysis.map(a => `
+    <div class="smart-row">
+      <div>
+        <div class="smart-row-label">${a.lift.replace('Barbell ','').replace(' (bar)','')}</div>
+        <div class="smart-row-sub">${a.sessions} sets logged${a.progression?(' • +'+a.progression+'% progression'):''}</div>
+      </div>
+      <div class="smart-row-val">${a.current?a.current+' kg':'—'}</div>
+    </div>
+  `).join('') + `
+    <div style="margin-top:12px;padding:10px;background:var(--s2);border-radius:8px;font-size:12px;color:var(--td)">
+      ${sessions.length < 8 ? '⚠️ Log more sessions for a stronger plan.' :
+        avgProg > 5 ? '🔥 Strong progression — next cycle will push harder.' :
+        avgProg > 0 ? '📈 Steady progression — next cycle increases weights moderately.' :
+        '⚠️ Limited progression data — next cycle starts conservative.'}
+    </div>
+  `;
+}
+
+function buildPeriodPlan() {
+  const plan = {
+    blocks: [
+      {name:'Block 1 — Volume', weeks:'Weeks 1–4', reps:'10–15', rpe:'RPE 7', color:'var(--a)', pct:0.85},
+      {name:'Block 2 — Intensity', weeks:'Weeks 5–8', reps:'6–10', rpe:'RPE 8', color:'var(--a3)', pct:0.95},
+      {name:'Block 3 — Strength', weeks:'Weeks 9–11', reps:'4–6', rpe:'RPE 8–9', color:'var(--a2)', pct:1.05},
+      {name:'Week 12 — Deload', weeks:'Week 12', reps:'10–12', rpe:'RPE 5–6', color:'var(--td)', pct:0.6},
+    ]
+  };
+
+  // Get starting weights from current working weights + small increase
+  const allEx = [...PROGRAMME.onsite, ...PROGRAMME.offsite].flatMap(d => d.exercises);
+  const newWeights = {};
+  allEx.forEach(ex => {
+    const cur = parseFloat(weights[ex.name]) || parseFloat(ex.weight) || 0;
+    if (cur > 0) {
+      const isLower = ['Squat','Deadlift','Hip Thrust','Leg Press'].some(k => ex.name.includes(k));
+      const inc = isLower ? 5 : 2.5;
+      newWeights[ex.name] = Math.round((cur * 0.85) / 2.5) * 2.5; // Start B1 at 85%
+    }
+  });
+
+  const output = document.getElementById('periodPlanOutput');
+  output.innerHTML = `
+    <div class="smart-card">
+      <h3>Next 12-Week Structure</h3>
+      ${plan.blocks.map((b,bi) => `
+        <div class="period-block">
+          <div class="period-block-hdr">
+            <div class="period-block-name">${b.name}</div>
+            <div class="period-block-weeks">${b.weeks}</div>
+          </div>
+          <div style="font-size:12px;color:var(--td);margin-bottom:8px">${b.reps} • ${b.rpe}</div>
+          <div class="period-block-bar"><div class="period-block-fill" style="width:${b.pct*100}%;background:${b.color}"></div></div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="smart-card">
+      <h3>Block 1 Starting Weights (85% of current)</h3>
+      ${Object.entries(newWeights).slice(0,8).map(([name, w]) => {
+        const cur = parseFloat(weights[name]) || 0;
+        return `<div class="smart-row">
+          <div>
+            <div class="smart-row-label">${name}</div>
+            <div class="smart-row-sub">Current: ${cur>0?cur+' kg':'not set'}</div>
+          </div>
+          <div class="smart-row-val">${w} kg</div>
+        </div>`;
+      }).join('')}
+      <div style="font-size:11px;color:var(--tf);margin-top:10px;text-align:center">Starting conservative in Block 1 allows for proper progression across all 12 weeks</div>
+    </div>
+    <button class="smart-btn" onclick="savePeriodPlan(${JSON.stringify(newWeights).replace(/"/g,'&quot;')})">Save & Apply This Plan</button>
+  `;
+
+  showToast('Plan generated! Review and save to apply.');
+}
+
+function savePeriodPlan(newWeights) {
+  Object.assign(weights, newWeights);
+  blockState.week = 1;
+  saveCloud();
+  renderDashboard();
+  showToast('New periodisation plan applied! Week 1 starts now 💪');
+  switchSection('home');
+}
+
+
+// ============================================================
+// S50 — SMART EXERCISE SWAP ENGINE
+// ============================================================
+
+// Weak point detection based on volume and progression
+function getWeakPoints() {
+  const muscleVol = calcVolumeByMuscle(28); // last 4 weeks
+  const targets = VOL_TARGETS;
+  const weak = [];
+  Object.entries(muscleVol).forEach(([muscle, sets]) => {
+    const target = targets[muscle];
+    if (target && sets < target.min * 4) weak.push(muscle);
+  });
+  return weak;
+}
+
+// Smart swap suggestions with reasoning
+const SMART_SWAPS = {
+  'Barbell Bench Press': [
+    {name:'DB Bench Press', reason:'Better range of motion, fixes shoulder imbalances', priority:'Hypertrophy'},
+    {name:'Incline DB Press', reason:'Shifts focus to upper chest which is often underdeveloped', priority:'Upper Chest'},
+    {name:'Machine Chest Press', reason:'Safer on joints, good for high rep work', priority:'Joints'},
+  ],
+  'Barbell OHP': [
+    {name:'DB OHP', reason:'Greater range of motion, fixes left/right imbalances', priority:'Balanced'},
+    {name:'Seated Machine Press', reason:'More stable, good for pushing higher volume', priority:'Volume'},
+    {name:'Landmine Press', reason:'Shoulder-friendly angle, great for shoulder issues', priority:'Joints'},
+  ],
+  'Conventional Deadlift': [
+    {name:'Romanian Deadlift', reason:'More hamstring focus, less spinal loading', priority:'Hamstrings'},
+    {name:'Trap Bar Deadlift', reason:'More quad-dominant, easier on lower back', priority:'Lower Back'},
+    {name:'Hip Thrust (barbell)', reason:'Pure glute focus without lower back stress', priority:'Glutes'},
+  ],
+  'Barbell Back Squat': [
+    {name:'Leg Press', reason:'Higher load without spinal compression', priority:'Load'},
+    {name:'Bulgarian Split Squat', reason:'Fixes imbalances, higher glute activation', priority:'Glutes'},
+    {name:'Goblet Squat (DB)', reason:'Great for technique, easier on back', priority:'Technique'},
+  ],
+  'Lat Pulldown (bar)': [
+    {name:'Pull Up (bodyweight)', reason:'More functional, higher muscle activation', priority:'Strength'},
+    {name:'Seated Cable Row', reason:'Adds horizontal pulling balance', priority:'Balance'},
+    {name:'DB Row', reason:'Unilateral — fixes left/right lat imbalance', priority:'Imbalance'},
+  ],
+  'Seated Cable Row': [
+    {name:'Barbell Bent Over Row', reason:'More compound, heavier loads possible', priority:'Strength'},
+    {name:'DB Row', reason:'Unilateral — isolates each side', priority:'Imbalance'},
+    {name:'Machine Row', reason:'Chest support removes lower back fatigue', priority:'Isolation'},
+  ],
+  'Dumbbell Curl': [
+    {name:'Incline DB Curl', reason:'Greater long head stretch = more peak', priority:'Peak'},
+    {name:'Cable Curl', reason:'Constant tension through full range', priority:'Hypertrophy'},
+    {name:'Barbell Curl', reason:'Heavier loads, both arms together', priority:'Strength'},
+  ],
+  'Tricep Pushdown': [
+    {name:'OH Tricep Ext (DB)', reason:'Overhead position stretches long head — biggest tricep head', priority:'Long Head'},
+    {name:'Skull Crushers', reason:'Heavy load, great long head stretch', priority:'Strength'},
+    {name:'Close Grip Bench Press', reason:'Compound movement, heavier loads', priority:'Compound'},
+  ],
+};
+
+let selectedSwapEx = null;
+
+function renderSmartSwap() {
+  const allExNames = [...new Set([...PROGRAMME.onsite,...PROGRAMME.offsite].flatMap(d=>d.exercises).map(e=>e.name))];
+  const weakPoints = getWeakPoints();
+
+  document.getElementById('swapExList').innerHTML = allExNames.map(name => `
+    <button class="lib-filter-btn ${name===selectedSwapEx?'active':''}" onclick="selectSwapEx('${name.replace(/'/g,"\'")}')">${name.replace('Barbell ','').replace('Dumbbell ','DB ').replace(' (bar)','').replace(' (bodyweight)','')}</button>
+  `).join('');
+
+  if (!selectedSwapEx) {
+    document.getElementById('swapRecommendation').innerHTML = `
+      <div class="smart-card">
+        <h3>Your Weak Points</h3>
+        ${weakPoints.length ? weakPoints.map(m => `<div class="smart-row"><div class="smart-row-label">${m}</div><div><span class="smart-badge yellow">Under-trained</span></div></div>`).join('') : '<div style="font-size:12px;color:var(--td)">Log more sessions to identify weak points</div>'}
+      </div>
+    `;
+    return;
+  }
+
+  const swaps = SMART_SWAPS[selectedSwapEx];
+  if (!swaps) {
+    document.getElementById('swapRecommendation').innerHTML = `<div class="smart-card"><div style="font-size:13px;color:var(--td)">No smart swaps available for this exercise yet.</div></div>`;
+    return;
+  }
+
+  document.getElementById('swapRecommendation').innerHTML = `
+    <div class="smart-card">
+      <h3>Best Swaps for ${selectedSwapEx}</h3>
+      ${swaps.map((swap, i) => `
+        <div style="background:var(--s2);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px;margin-bottom:8px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <div style="font-size:14px;font-weight:700;color:var(--t)">${swap.name}</div>
+            <span class="smart-badge ${i===0?'green':i===1?'yellow':'purple'}">${swap.priority}</span>
+          </div>
+          <div style="font-size:12px;color:var(--td);line-height:1.5;margin-bottom:10px">${swap.reason}</div>
+          <button onclick="applySmartSwap('${selectedSwapEx.replace(/'/g,"\'")}','${swap.name.replace(/'/g,"\'")}');showToast('Swap applied to all sessions!')" style="background:var(--a);color:#000;border:none;border-radius:7px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body)">Apply This Swap</button>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function selectSwapEx(name) {
+  selectedSwapEx = name;
+  document.querySelectorAll('#swapExList .lib-filter-btn').forEach(b => b.classList.toggle('active', b.textContent.trim() === name.replace('Barbell ','').replace('Dumbbell ','DB ').replace(' (bar)','').replace(' (bodyweight)','')));
+  renderSmartSwap();
+}
+
+function applySmartSwap(fromEx, toEx) {
+  // Apply swap across all programme days
+  ['onsite','offsite'].forEach(type => {
+    PROGRAMME[type].forEach((day, di) => {
+      day.exercises.forEach((ex, ei) => {
+        if (ex.name === fromEx) {
+          const key = type+'_'+di+'_'+ei;
+          customSwaps[key] = {name: toEx};
+        }
+      });
+    });
+  });
+  localStorage.setItem('jt_customSwaps', JSON.stringify(customSwaps));
+  selectedSwapEx = null;
+  renderSmartSwap();
+}
+
+
+// ============================================================
+// S51 — FATIGUE-ADJUSTED WEIGHTS
+// ============================================================
+
+function renderFadjust() {
+  const today = new Date().toLocaleDateString('en-AU');
+  const todayRec = recoveryLog.find(r => r.date === today);
+  const {score: fatigueScore} = calcFatigueScore();
+  const recScore = todayRec ? todayRec.score : null;
+
+  // Determine adjustment factor
+  let adjFactor = 1.0;
+  let adjLabel = 'Normal';
+  let adjColor = 'var(--a)';
+  let adjBadge = 'normal';
+  let adjReason = '';
+
+  if (recScore !== null) {
+    if (recScore >= 8) {
+      adjFactor = 1.0;
+      adjLabel = 'Full Intensity';
+      adjColor = 'var(--a)';
+      adjBadge = 'green';
+      adjReason = 'Recovery score ' + recScore + '/10 — body is ready. Train at full prescribed weights.';
+    } else if (recScore >= 6) {
+      adjFactor = 0.95;
+      adjLabel = 'Slight Reduction';
+      adjColor = 'var(--a3)';
+      adjBadge = 'yellow';
+      adjReason = 'Recovery score ' + recScore + '/10 — slight fatigue. Weights reduced by 5%.';
+    } else if (recScore >= 4) {
+      adjFactor = 0.875;
+      adjLabel = 'Moderate Reduction';
+      adjColor = 'var(--a3)';
+      adjBadge = 'yellow';
+      adjReason = 'Recovery score ' + recScore + '/10 — moderate fatigue. Weights reduced by ~12.5%.';
+    } else {
+      adjFactor = 0.75;
+      adjLabel = 'Significant Reduction';
+      adjColor = 'var(--a2)';
+      adjBadge = 'red';
+      adjReason = 'Recovery score ' + recScore + '/10 — high fatigue. Weights reduced by 25%. Consider rest day.';
+    }
+  } else if (fatigueScore >= 60) {
+    adjFactor = 0.85;
+    adjLabel = 'Fatigue Detected';
+    adjColor = 'var(--a2)';
+    adjBadge = 'red';
+    adjReason = 'Fatigue score ' + fatigueScore + '/100 — multiple signals suggest accumulated fatigue. Weights reduced by 15%.';
+  } else {
+    adjFactor = 1.0;
+    adjLabel = 'No Recovery Data';
+    adjColor = 'var(--td)';
+    adjBadge = 'yellow';
+    adjReason = 'Log today\'s recovery score for personalised weight adjustments.';
+  }
+
+  document.getElementById('fadjTitle').textContent = adjLabel;
+  document.getElementById('fadjSub').textContent = adjReason;
+
+  // Recovery status card
+  document.getElementById('fadjRecoveryContent').innerHTML = `
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="font-size:48px;font-weight:900;color:${adjColor};font-family:var(--font-display)">${recScore !== null ? recScore : '—'}</div>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--t)">${recScore !== null ? (recScore>=8?'Fully Recovered':recScore>=6?'Good to Train':recScore>=4?'Fatigued':'Very Fatigued') : 'Not logged today'}</div>
+        <div style="margin-top:4px"><span class="smart-badge ${adjBadge}">${adjLabel}</span></div>
+        <div style="font-size:11px;color:var(--td);margin-top:6px">Adjustment: ${adjFactor===1?'None':'–'+Math.round((1-adjFactor)*100)+'%'}</div>
+      </div>
+    </div>
+    ${recScore === null ? '<div style="margin-top:12px"><button class="smart-btn-sec" onclick="switchSection(\'recover\')">Log Recovery Score First</button></div>' : ''}
+  `;
+
+  // Get next session exercises with adjusted weights
+  const nextSess = getNextRecommendedSession();
+  if (!nextSess) { document.getElementById('fadjSessionList').innerHTML = ''; return; }
+
+  document.getElementById('fadjSessionList').innerHTML = `
+    <div class="smart-card">
+      <h3>${nextSess.name} — Adjusted Weights</h3>
+      ${nextSess.exercises.map(ex => {
+        const prescribed = parseFloat(weights[ex.name]) || parseFloat(ex.weight) || 0;
+        const adjusted = Math.round((prescribed * adjFactor) / 2.5) * 2.5;
+        const isReduced = adjusted < prescribed;
+        return `<div class="fadj-card">
+          <div class="fadj-ex-name">${ex.name}</div>
+          <div class="fadj-prescribed">Prescribed: ${prescribed>0?prescribed+' kg':ex.weight} • ${ex.sets}×${ex.reps} @RPE${ex.rpe}</div>
+          <div class="fadj-adjusted">
+            <div class="fadj-weight" style="color:${isReduced?'var(--a3)':'var(--a)'}">${adjusted>0?adjusted:prescribed}</div>
+            <div style="font-size:12px;color:var(--td)">kg today</div>
+            <span class="fadj-tag ${isReduced?'reduced':'normal'}">${isReduced?'–'+Math.round((1-adjFactor)*100)+'%':'Full'}</span>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+    <button class="smart-btn" onclick="switchSection('train');switchTab('today');showPicker()">Start Adjusted Session</button>
+  `;
+}
+
+
+// ============================================================
+// S52 — DELOAD AUTO-BUILDER
+// ============================================================
+
+function renderDeloadBuild() {
+  const lastDeload = deloadLog[0];
+  const weeksSince = lastDeload ? Math.floor((Date.now()-new Date(lastDeload.date.split('/').reverse().join('-')))/(7*24*60*60*1000)) : null;
+  const {score: fatigueScore} = calcFatigueScore();
+
+  document.getElementById('deloadProtocol').innerHTML = `
+    <div class="smart-row">
+      <div><div class="smart-row-label">Deload Protocol</div><div class="smart-row-sub">Drop sets to 2, reduce weight 40%, keep reps same</div></div>
+      <span class="smart-badge green">Recommended</span>
+    </div>
+    <div class="smart-row">
+      <div><div class="smart-row-label">Fatigue Score</div><div class="smart-row-sub">Current accumulated fatigue</div></div>
+      <div class="smart-row-val" style="color:${fatigueScore>=60?'var(--a2)':fatigueScore>=35?'var(--a3)':'var(--a)'}">${fatigueScore}/100</div>
+    </div>
+    <div class="smart-row">
+      <div><div class="smart-row-label">Last Deload</div><div class="smart-row-sub">${lastDeload?lastDeload.date:'Never logged'}</div></div>
+      <div class="smart-row-val">${weeksSince!==null?weeksSince+' wks ago':'—'}</div>
+    </div>
+    <div class="smart-row">
+      <div><div class="smart-row-label">Recommendation</div></div>
+      <span class="smart-badge ${fatigueScore>=60?'red':fatigueScore>=35?'yellow':'green'}">${fatigueScore>=60?'Deload Now':fatigueScore>=35?'Due Soon':'Optional'}</span>
+    </div>
+  `;
+}
+
+function buildDeloadWeek() {
+  const allDays = [...PROGRAMME.onsite, ...PROGRAMME.offsite];
+  const deloadFactor = 0.6; // 60% of working weight
+  const deloadSets = 2;
+
+  const progHtml = allDays.map((day, di) => `
+    <div class="deload-prog-day">
+      <div class="deload-prog-hdr" id="dlh-${di}" onclick="toggleDeloadDay(${di})">
+        <div>
+          <div class="deload-prog-name">${day.name}</div>
+          <div class="deload-prog-tag">${day.tag} • Deload Version</div>
+        </div>
+        <span class="deload-prog-chev">▾</span>
+      </div>
+      <div class="deload-prog-body" id="dlb-${di}">
+        ${day.exercises.map(ex => {
+          const prescribed = parseFloat(weights[ex.name]) || parseFloat(ex.weight) || 0;
+          const deloadWeight = Math.round((prescribed * deloadFactor) / 2.5) * 2.5;
+          return `<div class="deload-prog-ex">
+            <div>
+              <div class="deload-prog-ex-name">${ex.name}</div>
+              <div class="deload-prog-ex-detail">${deloadSets}×${ex.reps} • RPE 5–6 • ${ex.rest}</div>
+            </div>
+            <div class="deload-prog-ex-weight">${deloadWeight>0?deloadWeight+' kg':ex.weight}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('deloadProgramme').innerHTML = `
+    <div class="smart-card">
+      <h3>Your Deload Week Programme</h3>
+      <div style="font-size:12px;color:var(--td);margin-bottom:12px;line-height:1.5">All weights at 60% of working weight • Sets reduced to 2 • Same reps and exercises • Focus on movement quality and recovery</div>
+      ${progHtml}
+    </div>
+  `;
+
+  document.getElementById('startDeloadBtn').style.display = 'block';
+  showToast('Deload week built! Tap Start when ready.');
+}
+
+function toggleDeloadDay(di) {
+  document.getElementById('dlh-'+di).classList.toggle('open');
+  document.getElementById('dlb-'+di).classList.toggle('show');
+}
+
+
+// ============================================================
+// S53 — TRAINING AGE TRACKER
+// ============================================================
+
+// Strength standards as a ratio of bodyweight (male)
+// [beginner, novice, intermediate, advanced, elite]
+const STRENGTH_STANDARDS = {
+  'Barbell Bench Press':   {ratios:[0.5, 0.75, 1.0, 1.25, 1.5],  label:'Bench Press'},
+  'Barbell Back Squat':    {ratios:[0.5, 0.75, 1.25, 1.5, 2.0],   label:'Back Squat'},
+  'Conventional Deadlift': {ratios:[0.75, 1.0, 1.5, 2.0, 2.5],   label:'Deadlift'},
+  'Barbell OHP':           {ratios:[0.3, 0.45, 0.6, 0.75, 1.0],   label:'Overhead Press'},
+  'Barbell Bent Over Row': {ratios:[0.4, 0.6, 0.75, 1.0, 1.25],  label:'Bent Over Row'},
+};
+
+const LEVEL_NAMES = ['Beginner','Novice','Intermediate','Advanced','Elite'];
+const LEVEL_COLORS = ['var(--a)','#7fff7f','var(--a3)','var(--a2)','var(--a4)'];
+
+function getBodyweight() {
+  // Use latest logged bodyweight or Evolt scan weight
+  if (bwLog.length) return parseFloat(bwLog[bwLog.length-1].weight) || 83.9;
+  if (scans.length) return parseFloat(scans[scans.length-1].weight) || 83.9;
+  return 83.9; // default from Evolt baseline
+}
+
+function getLiftBest(liftName) {
+  // Get best working weight from weights obj, sessions, or programme
+  if (weights[liftName]) return parseFloat(weights[liftName]);
+  let best = 0;
+  sessions.forEach(s => s.exercises.forEach(e => {
+    if ((e.usingSwap?e.swap:e.name) === liftName) {
+      e.sets.filter(st=>st.completed).forEach(st => {
+        const w = parseFloat(st.weight)||0;
+        if (w > best) best = w;
+      });
+    }
+  }));
+  // Check programme defaults
+  if (!best) {
+    const allEx = [...PROGRAMME.onsite,...PROGRAMME.offsite].flatMap(d=>d.exercises);
+    const ex = allEx.find(e=>e.name===liftName);
+    if (ex) best = parseFloat(ex.weight)||0;
+  }
+  return best;
+}
+
+function getLevelForRatio(ratio, standards) {
+  let level = 0;
+  for (let i=0; i<standards.ratios.length; i++) {
+    if (ratio >= standards.ratios[i]) level = i;
+  }
+  return level;
+}
+
+function renderTrainingAge() {
+  const bw = getBodyweight();
+  const results = [];
+  let totalLevel = 0;
+  let liftCount = 0;
+
+  Object.entries(STRENGTH_STANDARDS).forEach(([lift, std]) => {
+    const best = getLiftBest(lift);
+    if (best > 0) {
+      const ratio = best / bw;
+      const level = getLevelForRatio(ratio, std);
+      const nextRatio = std.ratios[Math.min(level+1, 4)];
+      const pct = Math.min(100, Math.round((ratio / std.ratios[4]) * 100));
+      results.push({lift, label:std.label, best, ratio:ratio.toFixed(2), level, levelName:LEVEL_NAMES[level], pct, nextRatio, standards:std.ratios});
+      totalLevel += level;
+      liftCount++;
+    }
+  });
+
+  const avgLevel = liftCount ? Math.round(totalLevel / liftCount) : 1;
+  const levelName = LEVEL_NAMES[avgLevel] || 'Intermediate';
+  const levelColor = LEVEL_COLORS[avgLevel];
+  const levelClass = levelName.toLowerCase();
+
+  document.getElementById('taScoreNum').textContent = liftCount ? (totalLevel/liftCount*25).toFixed(0) : '—';
+  document.getElementById('taScoreNum').style.color = levelColor;
+  const badge = document.getElementById('taLevelBadge');
+  badge.textContent = levelName;
+  badge.className = 'ta-level-badge ' + levelClass;
+  document.getElementById('taSub').textContent = liftCount
+    ? `Based on ${liftCount} tracked lifts vs your ${bw}kg bodyweight. Your average strength level is ${levelName}.`
+    : 'No lifts logged yet. Complete sessions to calculate your training level.';
+
+  if (!results.length) {
+    document.getElementById('taLiftList').innerHTML = '<div style="font-size:12px;color:var(--tf)">Log sessions with key lifts to see your training age.</div>';
+    document.getElementById('taAdvice').textContent = 'Complete sessions with bench press, squat, deadlift and OHP to get your training age assessment.';
+    return;
+  }
+
+  document.getElementById('taLiftList').innerHTML = results.map(r => {
+    const barColor = LEVEL_COLORS[r.level];
+    const nextTarget = r.nextRatio * bw;
+    return `<div class="ta-lift-row">
+      <div class="ta-lift-name">${r.label}</div>
+      <div class="ta-lift-bar-wrap">
+        <div class="ta-lift-bar" style="width:${r.pct}%;background:${barColor}"></div>
+        <div class="ta-lift-standard" style="left:${Math.round((r.standards[2]/r.standards[4])*100)}%"></div>
+      </div>
+      <div class="ta-lift-val">${r.best}kg</div>
+      <div class="ta-lift-level" style="color:${barColor}">${r.levelName}</div>
+    </div>
+    <div style="font-size:10px;color:var(--tf);padding:2px 0 6px 130px">Next: ${nextTarget.toFixed(1)}kg for ${LEVEL_NAMES[Math.min(r.level+1,4)]}</div>`;
+  }).join('');
+
+  const adviceMap = {
+    0: 'Beginner — Focus on learning movement patterns. Every session should produce PRs. Prioritise form over weight. 3x per week full body training is optimal right now.',
+    1: 'Novice — Still making rapid progress. Linear progression works well. Add weight every session where possible. Technique refinement is critical.',
+    2: 'Intermediate — Progress is weekly rather than session-to-session. Block periodisation (like your current programme) is ideal. Focus on weak points and accessory work.',
+    3: 'Advanced — Progress comes in months not weeks. Specialised programming, higher volume, and careful recovery management is essential. Your current approach is right.',
+    4: 'Elite — World-class strength relative to bodyweight. If you are here, you know what you are doing.',
+  };
+  document.getElementById('taAdvice').textContent = adviceMap[avgLevel] || adviceMap[2];
+}
+
+
+// ============================================================
+// S54 — MUSCLE FIBRE TYPE ESTIMATOR
+// ============================================================
+
+// Estimate fibre type from rep-to-failure data
+// High reps at high RPE = more slow twitch
+// Low reps at high RPE = more fast twitch
+// Uses best sets across sessions
+
+const FIBRE_MUSCLES = [
+  {muscle:'Chest', exercises:['Barbell Bench Press','DB Bench Press','Machine Chest Press']},
+  {muscle:'Back', exercises:['Lat Pulldown (bar)','Barbell Bent Over Row','Seated Cable Row']},
+  {muscle:'Shoulders', exercises:['Barbell OHP','DB OHP','Lateral Raise (DB)']},
+  {muscle:'Biceps', exercises:['Barbell Curl','Dumbbell Curl','Incline DB Curl']},
+  {muscle:'Triceps', exercises:['Tricep Pushdown','OH Tricep Ext (DB)','Skull Crushers']},
+  {muscle:'Quads', exercises:['Barbell Back Squat','Leg Press','Leg Extension']},
+  {muscle:'Hamstrings', exercises:['Romanian Deadlift','Leg Curl (seated)','Nordic Curl']},
+  {muscle:'Glutes', exercises:['Hip Thrust (barbell)','Bulgarian Split Squat']},
+];
+
+function estimateFibreType(exercises) {
+  // Collect rep data from sessions
+  const repData = [];
+  sessions.forEach(s => s.exercises.forEach(e => {
+    const name = e.usingSwap ? e.swap : e.name;
+    if (exercises.includes(name)) {
+      e.sets.filter(st=>st.completed&&parseInt(st.reps)>0&&parseFloat(st.rpe)>=7).forEach(st => {
+        const reps = parseInt(st.reps);
+        const rpe = parseFloat(st.rpe)||7;
+        if (reps > 0) repData.push({reps, rpe});
+      });
+    }
+  }));
+
+  if (!repData.length) return null;
+
+  // Average reps at high RPE — more reps = more slow twitch
+  const avgReps = repData.reduce((a,d)=>a+d.reps,0)/repData.length;
+  const avgRPE = repData.reduce((a,d)=>a+d.rpe,0)/repData.length;
+
+  // Scoring: 1-5 reps = fast twitch dominant, 12+ reps = slow twitch dominant
+  // Scale: avgReps 4 = 80% fast, avgReps 12 = 80% slow
+  let fastPct;
+  if (avgReps <= 4) fastPct = 80;
+  else if (avgReps <= 6) fastPct = 65;
+  else if (avgReps <= 8) fastPct = 55;
+  else if (avgReps <= 10) fastPct = 45;
+  else if (avgReps <= 12) fastPct = 35;
+  else fastPct = 25;
+
+  // Adjust slightly for RPE
+  if (avgRPE >= 9) fastPct = Math.min(85, fastPct + 5);
+
+  const slowPct = 100 - fastPct;
+  const dominant = fastPct > slowPct ? 'Fast Twitch' : 'Slow Twitch';
+  return {fastPct, slowPct, dominant, avgReps: avgReps.toFixed(1), dataPoints: repData.length};
+}
+
+function renderFibreType() {
+  const list = document.getElementById('mfMuscleList');
+  const recs = document.getElementById('mfRecommendations');
+  let hasData = false;
+  let globalFast = 0, globalCount = 0;
+
+  list.innerHTML = FIBRE_MUSCLES.map(m => {
+    const result = estimateFibreType(m.exercises);
+    if (!result) {
+      return `<div class="mf-muscle-card">
+        <div class="mf-muscle-hdr">
+          <div class="mf-muscle-name">${m.muscle}</div>
+          <div style="font-size:11px;color:var(--tf)">No data yet</div>
+        </div>
+        <div style="font-size:12px;color:var(--tf)">Log sessions with ${m.exercises[0]} to estimate</div>
+      </div>`;
+    }
+    hasData = true;
+    globalFast += result.fastPct;
+    globalCount++;
+
+    const fastColor = result.fastPct > 55 ? 'var(--a2)' : result.fastPct < 45 ? 'var(--a)' : 'var(--a3)';
+    return `<div class="mf-muscle-card">
+      <div class="mf-muscle-hdr">
+        <div class="mf-muscle-name">${m.muscle}</div>
+        <div style="font-size:11px;font-weight:700;color:${fastColor}">${result.dominant} Dominant</div>
+      </div>
+      <div class="mf-fibre-bar-wrap">
+        <div class="mf-fast" style="width:${result.fastPct}%"></div>
+        <div class="mf-slow" style="width:${result.slowPct}%"></div>
+      </div>
+      <div class="mf-fibre-labels">
+        <span>Fast Twitch ${result.fastPct}%</span>
+        <span>Avg ${result.avgReps} reps @RPE7+ (${result.dataPoints} sets)</span>
+        <span>Slow Twitch ${result.slowPct}%</span>
+      </div>
+      <div class="mf-rec-card">
+        <div class="mf-rec-title">${result.fastPct > 55 ? 'Responds best to:' : result.slowPct > 55 ? 'Responds best to:' : 'Balanced — use:'}</div>
+        <div class="mf-rec-text">${result.fastPct > 55
+          ? '4–8 rep ranges with heavy loads. Longer rest periods (2–3 min). Explosive tempos.'
+          : result.slowPct > 55
+          ? '10–15 rep ranges with moderate loads. Shorter rest (60–90s). Metabolic stress techniques.'
+          : '8–12 reps works well. Vary rep ranges across blocks for full development.'}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  if (!hasData) {
+    recs.innerHTML = '<div style="font-size:12px;color:var(--tf)">Complete sessions with RPE 7+ sets to estimate your muscle fibre type.</div>';
+    return;
+  }
+
+  const avgFast = Math.round(globalFast / globalCount);
+  const avgSlow = 100 - avgFast;
+  recs.innerHTML = `
+    <div class="smart-row">
+      <div><div class="smart-row-label">Overall Profile</div><div class="smart-row-sub">Averaged across all muscles</div></div>
+      <div style="font-size:13px;font-weight:700;color:${avgFast>55?'var(--a2)':avgFast<45?'var(--a)':'var(--a3)'}">${avgFast>55?'Fast Twitch':avgFast<45?'Slow Twitch':'Balanced'}</div>
+    </div>
+    <div style="margin-top:12px;font-size:12px;color:var(--td);line-height:1.7">
+      ${avgFast > 60
+        ? 'You lean fast twitch overall. You will respond very well to heavy compound lifting and lower rep ranges (4–8). Your muscles generate high peak force but may fatigue quicker. Block 2 and 3 of your programme plays to your strengths.'
+        : avgSlow > 60
+        ? 'You lean slow twitch overall. You will respond well to higher volume and moderate rep ranges (10–15). Your muscles are fatigue-resistant and built for endurance. Block 1 volume training is your sweet spot.'
+        : 'You have a balanced fibre type profile. You respond well to a variety of rep ranges. Your current block periodisation (varying reps each block) is ideal for your physiology.'}
+    </div>
+  `;
+}
+
+
+// ============================================================
+// S55 — WEAK POINT ANALYSIS
+// ============================================================
+
+function analyseWeakPoints() {
+  const bodyweight = getBodyweight();
+  const weakPoints = [];
+  const strengths = [];
+
+  // 1. Volume imbalances
+  const muscleVol = calcVolumeByMuscle(28);
+  const volTargets = VOL_TARGETS;
+  Object.entries(muscleVol).forEach(([muscle, sets]) => {
+    const target = volTargets[muscle];
+    if (!target) return;
+    const weeklyAvg = sets / 4;
+    if (weeklyAvg < target.min * 0.7) {
+      weakPoints.push({
+        name: muscle + ' Volume',
+        score: Math.round((weeklyAvg/target.optimal)*100),
+        reason: `Only ${sets} sets in 4 weeks (${weeklyAvg.toFixed(1)}/week). Target is ${target.min}–${target.optimal}/week.`,
+        fix: `Add 1–2 more ${muscle.toLowerCase()} exercises per session or add a dedicated ${muscle.toLowerCase()} day.`,
+        type: 'volume'
+      });
+    } else if (weeklyAvg >= target.optimal) {
+      strengths.push({name: muscle + ' Volume', score: Math.min(100,Math.round((weeklyAvg/target.optimal)*100)), reason: `${weeklyAvg.toFixed(1)} sets/week — on target.`});
+    }
+  });
+
+  // 2. Strength ratio imbalances
+  const benchBest = getLiftBest('Barbell Bench Press');
+  const rowBest = getLiftBest('Barbell Bent Over Row');
+  const ohpBest = getLiftBest('Barbell OHP');
+  const deadBest = getLiftBest('Conventional Deadlift');
+  const squatBest = getLiftBest('Barbell Back Squat');
+
+  if (benchBest > 0 && rowBest > 0) {
+    const ratio = rowBest / benchBest;
+    if (ratio < 0.8) {
+      weakPoints.push({
+        name: 'Push/Pull Ratio',
+        score: Math.round(ratio*100),
+        reason: `Row: ${rowBest}kg vs Bench: ${benchBest}kg — ratio is ${ratio.toFixed(2)}. Should be at least 0.8:1.`,
+        fix: 'Increase pulling volume. Add an extra back exercise each session. Prioritise rows and pulldowns.',
+        type: 'ratio'
+      });
+    } else {
+      strengths.push({name: 'Push/Pull Balance', score: Math.round(ratio*100), reason: `Row/Bench ratio: ${ratio.toFixed(2)} — balanced.`});
+    }
+  }
+
+  if (benchBest > 0 && ohpBest > 0) {
+    const ratio = ohpBest / benchBest;
+    if (ratio < 0.55) {
+      weakPoints.push({
+        name: 'OHP Relative Strength',
+        score: Math.round(ratio*100),
+        reason: `OHP ${ohpBest}kg is only ${Math.round(ratio*100)}% of bench. Should be 55–70%.`,
+        fix: 'Prioritise OHP. Add dumbbell side laterals and rear delt work. OHP is a key indicator of shoulder health.',
+        type: 'ratio'
+      });
+    } else {
+      strengths.push({name: 'Shoulder Strength', score: Math.round(ratio*100), reason: `OHP is ${Math.round(ratio*100)}% of bench — strong.`});
+    }
+  }
+
+  if (squatBest > 0 && deadBest > 0) {
+    const ratio = squatBest / deadBest;
+    if (ratio < 0.7) {
+      weakPoints.push({
+        name: 'Squat Relative to Deadlift',
+        score: Math.round(ratio*100),
+        reason: `Squat ${squatBest}kg vs Deadlift ${deadBest}kg — ratio ${ratio.toFixed(2)}. Quad strength may be lagging.`,
+        fix: 'Add more quad-dominant work. Leg press, Bulgarian split squats, leg extensions. Focus squat technique.',
+        type: 'ratio'
+      });
+    }
+  }
+
+  // 3. Progression stalling
+  const keyLifts2 = ['Barbell Bench Press','Barbell OHP','Conventional Deadlift','Barbell Back Squat'];
+  keyLifts2.forEach(lift => {
+    const history = [];
+    sessions.slice().reverse().forEach(s => s.exercises.forEach(e => {
+      if ((e.usingSwap?e.swap:e.name) === lift) {
+        e.sets.filter(st=>st.completed).forEach(st => { const w=parseFloat(st.weight); if(w>0) history.push(w); });
+      }
+    }));
+    if (history.length >= 8) {
+      const firstHalf = history.slice(0, Math.floor(history.length/2)).reduce((a,b)=>a+b,0)/Math.floor(history.length/2);
+      const secondHalf = history.slice(Math.floor(history.length/2)).reduce((a,b)=>a+b,0)/(history.length-Math.floor(history.length/2));
+      if (Math.abs(secondHalf-firstHalf) < 1.25) {
+        weakPoints.push({
+          name: lift.replace('Barbell ','') + ' Stalled',
+          score: 40,
+          reason: `No weight increase across ${history.length} logged sets. Progress has plateaued.`,
+          fix: 'Deload for one week, then reset weight 10% below current and rebuild. Review technique and ensure adequate protein.',
+          type: 'stall'
+        });
+      } else if (secondHalf > firstHalf) {
+        strengths.push({name: lift.replace('Barbell ','') + ' Progressing', score: 80, reason: `+${(secondHalf-firstHalf).toFixed(1)}kg average increase — great progression.`});
+      }
+    }
+  });
+
+  // Sort weak points by score (lowest first = most weak)
+  weakPoints.sort((a,b) => a.score - b.score);
+  strengths.sort((a,b) => b.score - a.score);
+
+  return {weakPoints: weakPoints.slice(0,6), strengths: strengths.slice(0,4)};
+}
+
+function renderWeakPoints() {
+  const {weakPoints, strengths} = analyseWeakPoints();
+  const muscleVol = calcVolumeByMuscle(28);
+  const totalSets = Object.values(muscleVol).reduce((a,b)=>a+b,0);
+  const progCount = strengths.filter(s=>s.name.includes('Progressing')).length;
+
+  // Score grid
+  document.getElementById('wpScoreGrid').innerHTML = `
+    <div class="wp-score-box">
+      <div class="wp-score-val" style="color:${weakPoints.length>3?'var(--a2)':weakPoints.length>1?'var(--a3)':'var(--a)'}">${weakPoints.length}</div>
+      <div class="wp-score-lbl">Weak Points</div>
+      <div class="wp-score-rank" style="color:var(--td)">${weakPoints.length===0?'All good!':weakPoints.length<=2?'Minor issues':'Needs attention'}</div>
+    </div>
+    <div class="wp-score-box">
+      <div class="wp-score-val" style="color:var(--a)">${strengths.length}</div>
+      <div class="wp-score-lbl">Strengths</div>
+      <div class="wp-score-rank" style="color:var(--td)">Areas excelling</div>
+    </div>
+    <div class="wp-score-box">
+      <div class="wp-score-val" style="color:var(--a3)">${totalSets}</div>
+      <div class="wp-score-lbl">Sets (4wks)</div>
+      <div class="wp-score-rank" style="color:var(--td)">Total volume</div>
+    </div>
+    <div class="wp-score-box">
+      <div class="wp-score-val" style="color:var(--a4)">${sessions.length}</div>
+      <div class="wp-score-lbl">Sessions</div>
+      <div class="wp-score-rank" style="color:var(--td)">Total logged</div>
+    </div>
+  `;
+
+  const rankColors = ['var(--a2)','var(--a3)','#ff9500','var(--a4)','var(--a)','var(--td)'];
+
+  if (!weakPoints.length) {
+    document.getElementById('wpPriorityList').innerHTML = `<div style="font-size:13px;color:var(--a);text-align:center;padding:16px">✅ No significant weak points detected.<br><span style="color:var(--td);font-size:12px">Log more sessions for deeper analysis.</span></div>`;
+  } else {
+    document.getElementById('wpPriorityList').innerHTML = weakPoints.map((wp, i) => `
+      <div class="wp-priority-item">
+        <div class="wp-priority-rank" style="background:${rankColors[i]}">${i+1}</div>
+        <div class="wp-priority-info">
+          <div class="wp-priority-name">${wp.name}</div>
+          <div class="wp-priority-reason">${wp.reason}</div>
+          <div class="wp-priority-fix">→ ${wp.fix}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  if (!strengths.length) {
+    document.getElementById('wpStrengthList').innerHTML = '<div style="font-size:12px;color:var(--tf)">Log more sessions to identify strengths.</div>';
+  } else {
+    document.getElementById('wpStrengthList').innerHTML = strengths.map(s => `
+      <div class="smart-row">
+        <div><div class="smart-row-label">${s.name}</div><div class="smart-row-sub">${s.reason}</div></div>
+        <span class="smart-badge green">Strong</span>
+      </div>
+    `).join('');
+  }
+}
+
+
+// ============================================================
+// S59 — POSTURE TRACKER
+// ============================================================
+let postureLog = [];
+let postureToday = {};
+
+const POSTURE_CHECKS = [
+  {id:'headForward', label:'Head Forward Posture', icon:'🔝', good:'Head aligned over shoulders', bad:'Head protruding forward'},
+  {id:'roundedShoulders', label:'Rounded Shoulders', icon:'🔄', good:'Shoulders back and down', bad:'Shoulders rolling forward'},
+  {id:'excessiveLordosis', label:'Lower Back Arch', icon:'🔻', good:'Neutral lower back curve', bad:'Excessive lumbar arch'},
+  {id:'hipTilt', label:'Anterior Hip Tilt', icon:'⬇️', good:'Hips neutral, core engaged', bad:'Hips tilted, belly forward'},
+  {id:'kyphosis', label:'Upper Back Rounding', icon:'🔄', good:'Thoracic spine neutral', bad:'Upper back hunched'},
+  {id:'kneeValgus', label:'Knee Alignment', icon:'🦵', good:'Knees tracking over toes', bad:'Knees caving inward'},
+];
+
+const POSTURE_CORRECTIVES = {
+  headForward: ['Face Pull (cable)', 'Band Pull-Apart', 'Chin Tucks (bodyweight)', 'Deep Neck Flexor work'],
+  roundedShoulders: ['Face Pull (cable)', 'Rear Delt Fly (DB)', 'Band Pull-Apart', 'Thoracic Extension'],
+  excessiveLordosis: ['Hanging Leg Raise', 'Cable Crunch', 'Glute Bridge (DB)', 'Dead Bug'],
+  hipTilt: ['Hip Thrust (barbell)', 'Hanging Leg Raise', 'Ab Wheel', 'Pigeon Stretch'],
+  kyphosis: ['Barbell Bent Over Row', 'Face Pull (cable)', 'Thoracic Foam Rolling', 'Cat-Cow'],
+  kneeValgus: ['Glute Bridge (DB)', 'Lateral Band Walk', 'Clamshells', 'Bulgarian Split Squat'],
+};
+
+function loadPostureData() {
+  try { postureLog = JSON.parse(localStorage.getItem('jt_posture')||'[]'); } catch(e) {}
+}
+function savePostureData() { localStorage.setItem('jt_posture', JSON.stringify(postureLog)); }
+
+function renderPosture() {
+  loadPostureData();
+  const today = new Date().toLocaleDateString('en-AU');
+  const todayEntry = postureLog.find(p => p.date === today);
+  if (todayEntry) postureToday = {...todayEntry.checks};
+
+  document.getElementById('postureCheckGrid').innerHTML = POSTURE_CHECKS.map(c => {
+    const state = postureToday[c.id]; // undefined=not checked, true=good, false=bad
+    return `<div class="posture-check ${state===true?'good':state===false?'bad':''}" onclick="cyclePostureCheck('${c.id}')">
+      <div class="posture-check-icon">${c.icon}</div>
+      <div style="flex:1">
+        <div class="posture-check-label">${c.label}</div>
+        <div style="font-size:11px;color:var(--td);margin-top:2px">${state===true?c.good:state===false?c.bad:'Tap to assess'}</div>
+      </div>
+      <button class="posture-check-btn" style="background:${state===true?'var(--a)':state===false?'var(--a2)':'var(--s3)'};color:${state===undefined?'var(--td)':'#000'}">${state===true?'✓ Good':state===false?'✗ Issue':'?'}</button>
+    </div>`;
+  }).join('');
+
+  // Score trend
+  const last7 = postureLog.slice(0,7).reverse();
+  if (last7.length) {
+    const bars = last7.map(e => {
+      const checks = Object.values(e.checks);
+      const goodCount = checks.filter(v=>v===true).length;
+      const total = checks.length || 1;
+      const pct = Math.round((goodCount/total)*100);
+      const col = pct>=80?'var(--a)':pct>=50?'var(--a3)':'var(--a2)';
+      return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+        <div style="font-size:9px;color:var(--td)">${pct}%</div>
+        <div style="flex:1;width:100%;background:var(--s3);border-radius:4px;min-height:4px;display:flex;align-items:flex-end">
+          <div style="width:100%;height:${Math.max(4,pct*0.6)}px;background:${col};border-radius:4px;transition:height .3s"></div>
+        </div>
+        <div style="font-size:9px;color:var(--tf)">${e.date.split('/').slice(0,2).join('/')}</div>
+      </div>`;
+    }).join('');
+    document.getElementById('postureScoreTrend').innerHTML = `<div style="display:flex;gap:4px;height:80px;align-items:flex-end">${bars}</div>`;
+  } else {
+    document.getElementById('postureScoreTrend').innerHTML = '<div style="font-size:12px;color:var(--tf)">Log posture check-ins to see your trend</div>';
+  }
+
+  // Corrective exercises for issues found
+  const issues = Object.entries(postureToday).filter(([,v])=>v===false).map(([k])=>k);
+  if (issues.length) {
+    const exs = [...new Set(issues.flatMap(i => POSTURE_CORRECTIVES[i]||[]))].slice(0,6);
+    document.getElementById('postureCorrectiveExs').innerHTML = exs.map(ex =>
+      `<div class="health-row"><div class="health-row-label">${ex}</div><span class="smart-badge yellow">Priority</span></div>`
+    ).join('');
+  } else {
+    document.getElementById('postureCorrectiveExs').innerHTML = '<div style="font-size:12px;color:var(--td)">Log a posture check-in to see recommended corrective exercises.</div>';
+  }
+}
+
+function cyclePostureCheck(id) {
+  const current = postureToday[id];
+  if (current === undefined) postureToday[id] = true;
+  else if (current === true) postureToday[id] = false;
+  else delete postureToday[id];
+  renderPosture();
+}
+
+function logPosture() {
+  loadPostureData();
+  const today = new Date().toLocaleDateString('en-AU');
+  const checks = Object.values(postureToday);
+  const goodCount = checks.filter(v=>v===true).length;
+  const score = checks.length ? Math.round((goodCount/checks.length)*100) : 0;
+  const entry = {date:today, checks:{...postureToday}, score};
+  const idx = postureLog.findIndex(p=>p.date===today);
+  if (idx>=0) postureLog[idx] = entry; else postureLog.unshift(entry);
+  if (postureLog.length > 60) postureLog = postureLog.slice(0,60);
+  savePostureData();
+  showToast('Posture logged! Score: '+score+'%');
+  renderPosture();
+}
+
+
+// ============================================================
+// S60 — JOINT HEALTH MONITOR
+// ============================================================
+let jointLog = [];
+let jointToday = {};
+
+const JOINTS = [
+  {id:'leftShoulder', label:'Left Shoulder', icon:'💪'},
+  {id:'rightShoulder', label:'Right Shoulder', icon:'💪'},
+  {id:'leftElbow', label:'Left Elbow', icon:'🦾'},
+  {id:'rightElbow', label:'Right Elbow', icon:'🦾'},
+  {id:'lowerBack', label:'Lower Back', icon:'🔻'},
+  {id:'leftKnee', label:'Left Knee', icon:'🦵'},
+  {id:'rightKnee', label:'Right Knee', icon:'🦵'},
+  {id:'leftHip', label:'Left Hip', icon:'⬛'},
+  {id:'rightHip', label:'Right Hip', icon:'⬛'},
+  {id:'neck', label:'Neck', icon:'🔝'},
+];
+
+// Exercises to avoid per joint issue
+const JOINT_AVOID = {
+  leftShoulder: ['Barbell Bench Press','Barbell OHP','Dips (tricep)'],
+  rightShoulder: ['Barbell Bench Press','Barbell OHP','Dips (tricep)'],
+  leftElbow: ['Skull Crushers','Close Grip Bench Press','Barbell Curl'],
+  rightElbow: ['Skull Crushers','Close Grip Bench Press','Barbell Curl'],
+  lowerBack: ['Conventional Deadlift','Romanian Deadlift','Barbell Bent Over Row'],
+  leftKnee: ['Barbell Back Squat','Leg Extension','Bulgarian Split Squat'],
+  rightKnee: ['Barbell Back Squat','Leg Extension','Bulgarian Split Squat'],
+  leftHip: ['Barbell Back Squat','Hip Thrust (barbell)','Bulgarian Split Squat'],
+  rightHip: ['Barbell Back Squat','Hip Thrust (barbell)','Bulgarian Split Squat'],
+  neck: ['Barbell Back Squat','Barbell OHP'],
+};
+
+function loadJointData() {
+  try { jointLog = JSON.parse(localStorage.getItem('jt_joints')||'[]'); } catch(e) {}
+}
+function saveJointData() { localStorage.setItem('jt_joints', JSON.stringify(jointLog)); }
+
+function renderJointHealth() {
+  loadJointData();
+  const today = new Date().toLocaleDateString('en-AU');
+  const todayEntry = jointLog.find(j=>j.date===today);
+  if (todayEntry) jointToday = {...todayEntry.joints};
+
+  document.getElementById('jointGrid').innerHTML = JOINTS.map(j => {
+    const state = jointToday[j.id]; // undefined=good, 'watch'=watch, 'pain'=pain
+    return `<div class="joint-btn ${state||'good'}" onclick="cycleJoint('${j.id}')">
+      <div class="joint-icon">${j.icon}</div>
+      <div class="joint-name">${j.label}</div>
+      <div class="joint-status">${state==='pain'?'⚠️ Pain':state==='watch'?'👀 Watch':'✓ Good'}</div>
+    </div>`;
+  }).join('');
+
+  // Recommendations
+  const painJoints = Object.entries(jointToday).filter(([,v])=>v==='pain').map(([k])=>k);
+  const watchJoints = Object.entries(jointToday).filter(([,v])=>v==='watch').map(([k])=>k);
+
+  if (painJoints.length || watchJoints.length) {
+    const avoidExs = [...new Set(painJoints.flatMap(j=>JOINT_AVOID[j]||[]))];
+    const watchExs = [...new Set(watchJoints.flatMap(j=>JOINT_AVOID[j]||[]))].filter(e=>!avoidExs.includes(e));
+    document.getElementById('jointRecommendations').innerHTML =
+      (avoidExs.length ? `<div class="joint-pain-card"><div class="joint-pain-name">⚠️ Avoid or Modify Today</div><div class="joint-pain-exs">${avoidExs.join(' • ')}</div></div>` : '') +
+      (watchExs.length ? `<div class="joint-pain-card" style="background:rgba(255,204,0,.06);border-color:rgba(255,204,0,.15)"><div class="joint-pain-name" style="color:var(--a3)">👀 Monitor These Exercises</div><div class="joint-pain-exs">${watchExs.join(' • ')}</div></div>` : '');
+  } else {
+    document.getElementById('jointRecommendations').innerHTML = '';
+  }
+
+  // History
+  const hist = jointLog.slice(0,5);
+  document.getElementById('jointHistory').innerHTML = hist.length
+    ? hist.map(e => {
+        const pain = Object.values(e.joints).filter(v=>v==='pain').length;
+        const watch = Object.values(e.joints).filter(v=>v==='watch').length;
+        return `<div class="health-history-row">
+          <div class="health-history-date">${e.date}</div>
+          <div style="font-size:12px;color:var(--td)">${pain>0?pain+' pain':''}${watch>0?(pain>0?' • ':'')+watch+' watch':''}</div>
+          <div class="health-history-val" style="color:${pain>0?'var(--a2)':watch>0?'var(--a3)':'var(--a)'}">${pain>0?'Issues':watch>0?'Monitor':'All Good'}</div>
+        </div>`;
+      }).join('')
+    : '<div style="font-size:12px;color:var(--tf)">No joint check-ins yet</div>';
+}
+
+function cycleJoint(id) {
+  const current = jointToday[id];
+  if (!current) jointToday[id] = 'watch';
+  else if (current === 'watch') jointToday[id] = 'pain';
+  else delete jointToday[id];
+  renderJointHealth();
+}
+
+function logJointHealth() {
+  loadJointData();
+  const today = new Date().toLocaleDateString('en-AU');
+  const notes = document.getElementById('jointNotes')?.value || '';
+  const entry = {date:today, joints:{...jointToday}, notes};
+  const idx = jointLog.findIndex(j=>j.date===today);
+  if (idx>=0) jointLog[idx]=entry; else jointLog.unshift(entry);
+  if (jointLog.length>60) jointLog=jointLog.slice(0,60);
+  saveJointData();
+  showToast('Joint check-in saved!');
+  renderJointHealth();
+}
+
+
+// ============================================================
+// S61 — VO2 MAX ESTIMATOR
+// ============================================================
+let vo2Log = [];
+
+function loadVO2Data() {
+  try { vo2Log = JSON.parse(localStorage.getItem('jt_vo2')||'[]'); } catch(e) {}
+}
+function saveVO2Data() { localStorage.setItem('jt_vo2', JSON.stringify(vo2Log)); }
+
+// Uth-Sørensen-Overgaard-Pedersen formula
+// VO2max = 15 × (HRmax/HRrest)
+// HRmax = 220 - age
+function estimateVO2(restingHR, age) {
+  const hrMax = 220 - age;
+  return Math.round(15 * (hrMax / restingHR) * 10) / 10;
+}
+
+function getVO2Category(vo2, age) {
+  // Male categories (simplified)
+  if (vo2 < 35) return {label:'Poor', color:'var(--a2)', cls:'red'};
+  if (vo2 < 42) return {label:'Fair', color:'var(--a3)', cls:'yellow'};
+  if (vo2 < 48) return {label:'Good', color:'#7fff7f', cls:'green'};
+  if (vo2 < 55) return {label:'Excellent', color:'var(--a)', cls:'green'};
+  return {label:'Superior', color:'var(--a4)', cls:'purple'};
+}
+
+function calcAndLogVO2() {
+  const hr = parseInt(document.getElementById('vo2RestingHR')?.value);
+  const age = parseInt(document.getElementById('vo2Age')?.value) || 28;
+  if (!hr || hr < 30 || hr > 120) { showToast('Enter a valid resting HR (30–120)', null, 'red'); return; }
+  const vo2 = estimateVO2(hr, age);
+  const today = new Date().toLocaleDateString('en-AU');
+  loadVO2Data();
+  vo2Log = vo2Log.filter(e=>e.date!==today);
+  vo2Log.unshift({date:today, restingHR:hr, age, vo2});
+  if (vo2Log.length>30) vo2Log=vo2Log.slice(0,30);
+  saveVO2Data();
+  showToast('VO2 Max estimated: '+vo2+' ml/kg/min');
+  renderVO2Max();
+}
+
+function renderVO2Max() {
+  loadVO2Data();
+  const latest = vo2Log[0];
+  const resultEl = document.getElementById('vo2Result');
+  const trendEl = document.getElementById('vo2Trend');
+  const adviceEl = document.getElementById('vo2Advice');
+
+  if (!latest) {
+    resultEl.innerHTML = '<div class="health-card"><div style="font-size:12px;color:var(--tf);text-align:center;padding:16px">Enter your resting heart rate above to estimate VO2 Max</div></div>';
+    trendEl.innerHTML = '<div style="font-size:12px;color:var(--tf)">No data yet</div>';
+    adviceEl.textContent = 'VO2 Max is a key indicator of cardiovascular fitness and overall health. Higher is better. Aim to improve it through consistent cardio alongside your strength training.';
+    return;
+  }
+
+  const cat = getVO2Category(latest.vo2, latest.age);
+  const prev = vo2Log[1];
+  const change = prev ? (latest.vo2 - prev.vo2).toFixed(1) : null;
+
+  resultEl.innerHTML = `<div class="health-card">
+    <div class="vo2-gauge-wrap">
+      <div class="vo2-gauge-val" style="color:${cat.color}">${latest.vo2}</div>
+      <div class="vo2-gauge-unit">ml/kg/min</div>
+      <span class="vo2-gauge-label smart-badge ${cat.cls}">${cat.label}</span>
+      ${change!==null?`<div style="font-size:12px;color:${parseFloat(change)>=0?'var(--a)':'var(--a2)'};margin-top:8px">${parseFloat(change)>=0?'↑':'↓'} ${Math.abs(change)} from last entry</div>`:''}
+    </div>
+    <div class="vo2-zones">
+      <div class="vo2-zone" style="background:var(--a2);opacity:${latest.vo2<35?1:.4}"></div>
+      <div class="vo2-zone" style="background:var(--a3);opacity:${latest.vo2>=35&&latest.vo2<42?1:.4}"></div>
+      <div class="vo2-zone" style="background:#7fff7f;opacity:${latest.vo2>=42&&latest.vo2<48?1:.4}"></div>
+      <div class="vo2-zone" style="background:var(--a);opacity:${latest.vo2>=48&&latest.vo2<55?1:.4}"></div>
+      <div class="vo2-zone" style="background:var(--a4);opacity:${latest.vo2>=55?1:.4}"></div>
+    </div>
+    <div class="vo2-zone-labels">
+      <div class="vo2-zone-label">Poor<br>&lt;35</div>
+      <div class="vo2-zone-label">Fair<br>35–42</div>
+      <div class="vo2-zone-label">Good<br>42–48</div>
+      <div class="vo2-zone-label">Excel<br>48–55</div>
+      <div class="vo2-zone-label">Super<br>55+</div>
+    </div>
+    <div class="health-row"><div class="health-row-label">Resting HR</div><div class="health-row-val">${latest.restingHR} bpm</div></div>
+    <div class="health-row"><div class="health-row-label">Max HR (est.)</div><div class="health-row-val">${220-latest.age} bpm</div></div>
+    <div class="health-row"><div class="health-row-label">Date</div><div class="health-row-val">${latest.date}</div></div>
+  </div>`;
+
+  // Trend
+  const last7 = vo2Log.slice(0,8).reverse();
+  if (last7.length >= 2) {
+    const vals = last7.map(e=>e.vo2);
+    const min = Math.min(...vals)-2, max=Math.max(...vals)+2, range=max-min||1;
+    trendEl.innerHTML = `<div style="display:flex;gap:4px;height:60px;align-items:flex-end">
+      ${last7.map(e=>`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px">
+        <div style="font-size:9px;color:var(--td)">${e.vo2}</div>
+        <div style="width:100%;height:${Math.max(4,((e.vo2-min)/range)*50)}px;background:var(--a4);border-radius:3px 3px 0 0"></div>
+        <div style="font-size:9px;color:var(--tf)">${e.date.split('/').slice(0,2).join('/')}</div>
+      </div>`).join('')}
+    </div>`;
+  } else {
+    trendEl.innerHTML = '<div style="font-size:12px;color:var(--tf)">Log more entries to see trend</div>';
+  }
+
+  const adviceByLevel = {
+    Poor: 'Your VO2 Max is below average. This is completely improvable. Add 2-3 cardio sessions per week — start with 20 min walks, then progress to brisk walking, then jogging. Even your weight training improves VO2 Max over time. Target: below 70 resting HR.',
+    Fair: 'Your VO2 Max is fair. Adding Zone 2 cardio (conversational pace, 30+ min) 2x per week will improve this significantly within 8-12 weeks. Your strength training is already helping.',
+    Good: 'Good aerobic fitness. Maintain with 2x cardio per week. High intensity interval training (HIIT) 1x per week will push you to Excellent. You are on the right track.',
+    Excellent: 'Excellent VO2 Max. You have strong cardiovascular fitness. Maintain with your current training. Sprint intervals or rowing will push you into Superior territory.',
+    Superior: 'Superior VO2 Max. Elite-level aerobic fitness. World class athlete territory. Maintain with high intensity training and progressive overload in your cardio.'
+  };
+  adviceEl.textContent = adviceByLevel[cat.label] || adviceByLevel['Fair'];
+}
+
+
+// ============================================================
+// S64 — INJURY PREVENTION ALERTS
+// ============================================================
+function renderInjuryPrev() {
+  const risks = [];
+  const clear = [];
+  const {score: fatigueScore} = calcFatigueScore();
+
+  // 1. High fatigue + heavy compounds
+  if (fatigueScore >= 60) {
+    risks.push({
+      icon:'🔥',
+      title:'High Fatigue + Heavy Compounds',
+      desc:'Fatigue score '+fatigueScore+'/100. Training heavy compounds (deadlift, squat, bench) under high fatigue significantly increases injury risk.',
+      action:'Use fatigue-adjusted weights (–15–25%) or switch to machines today. Consider a deload.'
+    });
+  } else {
+    clear.push({icon:'✅', text:'Fatigue score '+fatigueScore+'/100 — within safe training range'});
+  }
+
+  // 2. RPE consistently high
+  const recentRPEs = [];
+  sessions.slice(0,5).forEach(s => s.exercises.forEach(e =>
+    e.sets.filter(st=>st.completed&&st.rpe).forEach(st=>recentRPEs.push(parseFloat(st.rpe)||0))
+  ));
+  const avgRPE = recentRPEs.length ? recentRPEs.reduce((a,b)=>a+b,0)/recentRPEs.length : 0;
+  if (avgRPE >= 9) {
+    risks.push({
+      icon:'⚡',
+      title:'RPE Consistently at Max',
+      desc:'Average RPE '+avgRPE.toFixed(1)+' across last 5 sessions. Chronic near-maximal effort without deload leads to overuse injuries.',
+      action:'Drop RPE target to 7–8 for the next 2 weeks. Keep the weight, reduce the grind.'
+    });
+  } else if (avgRPE > 0) {
+    clear.push({icon:'✅', text:'Average RPE '+avgRPE.toFixed(1)+' — appropriate intensity'});
+  }
+
+  // 3. Joint pain flagged
+  loadJointData();
+  const latestJoint = jointLog[0];
+  if (latestJoint) {
+    const painJoints = Object.entries(latestJoint.joints).filter(([,v])=>v==='pain').map(([k])=>k);
+    if (painJoints.length) {
+      const jointNames = painJoints.map(j => JOINTS.find(jt=>jt.id===j)?.label||j).join(', ');
+      risks.push({
+        icon:'🦴',
+        title:'Joint Pain Logged',
+        desc:'Pain reported in: '+jointNames+'. Training through joint pain (not muscle soreness) increases injury risk significantly.',
+        action:'Avoid exercises flagged in Joint Health. Use DB/machine alternatives that reduce joint stress. See a physio if pain persists.'
+      });
+    } else {
+      clear.push({icon:'✅', text:'No joint pain logged in recent check-in'});
+    }
+  } else {
+    clear.push({icon:'✅', text:'No joint issues reported — log a joint check-in to track'});
+  }
+
+  // 4. Volume spike
+  const thisWeekVol = getSessionsInPeriod(7).reduce((a,s)=>a+s.exercises.reduce((b,e)=>b+e.sets.filter(st=>st.completed).length,0),0);
+  const lastWeekVol = getSessionsInPeriod(14).reduce((a,s)=>a+s.exercises.reduce((b,e)=>b+e.sets.filter(st=>st.completed).length,0),0) - thisWeekVol;
+  if (lastWeekVol > 0 && thisWeekVol > lastWeekVol * 1.3) {
+    risks.push({
+      icon:'📈',
+      title:'Volume Spike Detected',
+      desc:'This week: '+thisWeekVol+' sets vs last week: '+lastWeekVol+' sets (+'+Math.round(((thisWeekVol-lastWeekVol)/lastWeekVol)*100)+'%). Rapid volume increases cause overuse injuries.',
+      action:'Keep weekly volume increases under 10–15%. Reduce back to last week\'s level and progress more gradually.'
+    });
+  } else if (thisWeekVol > 0) {
+    clear.push({icon:'✅', text:'Volume progression is gradual — no spike detected'});
+  }
+
+  // 5. Recovery consistently low
+  const recentRec = recoveryLog.slice(0,5);
+  if (recentRec.length >= 3) {
+    const avgRec = recentRec.reduce((a,r)=>a+r.score,0)/recentRec.length;
+    if (avgRec < 5) {
+      risks.push({
+        icon:'😴',
+        title:'Chronic Low Recovery',
+        desc:'Average recovery score '+avgRec.toFixed(1)+'/10 over last '+recentRec.length+' entries. Consistently poor recovery is a primary injury risk factor.',
+        action:'Prioritise 7–9 hours sleep. Reduce training frequency by one session this week. Review nutrition — protein and calories.'
+      });
+    } else {
+      clear.push({icon:'✅', text:'Recovery average '+avgRec.toFixed(1)+'/10 — adequate for training'});
+    }
+  }
+
+  // Show main alert if risks
+  const mainAlert = document.getElementById('injuryMainAlert');
+  if (risks.length >= 3) {
+    mainAlert.classList.add('show');
+    document.getElementById('injuryAlertTitle').textContent = '🚨 Multiple Risk Factors Active';
+    document.getElementById('injuryAlertBody').textContent = risks.length+' injury risk factors detected. Review each one below. Consider modifying today\'s session or taking a rest day.';
+  } else if (risks.length >= 1) {
+    mainAlert.classList.add('show');
+    document.getElementById('injuryAlertTitle').textContent = '⚠️ '+risks.length+' Risk Factor'+(risks.length>1?'s':'')+' Detected';
+    document.getElementById('injuryAlertBody').textContent = 'Monitor these factors carefully. You can still train but review the recommendations below.';
+  } else {
+    mainAlert.classList.remove('show');
+  }
+
+  document.getElementById('injuryRiskList').innerHTML = risks.length
+    ? risks.map(r=>`<div class="injury-risk-item">
+        <div class="injury-risk-icon">${r.icon}</div>
+        <div>
+          <div class="injury-risk-title">${r.title}</div>
+          <div class="injury-risk-desc">${r.desc}</div>
+          <div class="injury-risk-action">→ ${r.action}</div>
+        </div>
+      </div>`).join('')
+    : '<div style="font-size:13px;color:var(--a);text-align:center;padding:16px">✅ No injury risk factors detected</div>';
+
+  document.getElementById('injuryOkList').innerHTML = clear.map(c=>
+    `<div class="injury-ok-item"><div class="injury-ok-icon">${c.icon}</div><div class="injury-ok-text">${c.text}</div></div>`
+  ).join('');
+}
+
+
+// ============================================================
+// S65 — BLOOD PRESSURE LOG
+// ============================================================
+let bpLog = [];
+
+function loadBPData() { try { bpLog = JSON.parse(localStorage.getItem('jt_bp')||'[]'); } catch(e) {} }
+function saveBPData() { localStorage.setItem('jt_bp', JSON.stringify(bpLog)); }
+
+function getBPStatus(sys, dia) {
+  if (sys < 120 && dia < 80)  return {label:'Normal',        cls:'normal',   color:'var(--a)'};
+  if (sys < 130 && dia < 80)  return {label:'Elevated',      cls:'elevated', color:'var(--a3)'};
+  if (sys < 140 || dia < 90)  return {label:'High Stage 1',  cls:'high1',    color:'#ff9500'};
+  if (sys < 180 || dia < 120) return {label:'High Stage 2',  cls:'high2',    color:'var(--a2)'};
+  return                              {label:'Crisis — See Doctor', cls:'crisis', color:'var(--a2)'};
+}
+
+function logBP() {
+  const sys = parseInt(document.getElementById('bpSystolic')?.value);
+  const dia = parseInt(document.getElementById('bpDiastolic')?.value);
+  const pulse = parseInt(document.getElementById('bpPulse')?.value) || null;
+  if (!sys||!dia||sys<60||sys>250||dia<40||dia>150) { showToast('Enter valid BP reading', null, 'red'); return; }
+  loadBPData();
+  const today = new Date().toLocaleDateString('en-AU');
+  const time = new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});
+  bpLog.unshift({date:today, time, sys, dia, pulse});
+  if (bpLog.length > 60) bpLog = bpLog.slice(0,60);
+  saveBPData();
+  document.getElementById('bpSystolic').value='';
+  document.getElementById('bpDiastolic').value='';
+  document.getElementById('bpPulse').value='';
+  showToast(`BP logged: ${sys}/${dia} mmHg`);
+  renderBP();
+}
+
+function renderBP() {
+  loadBPData();
+  const BP_RANGES = [
+    {name:'Normal',       val:'< 120/80',  cls:'normal'},
+    {name:'Elevated',     val:'120–129/<80',cls:'elevated'},
+    {name:'High Stage 1', val:'130–139/80–89',cls:'high1'},
+    {name:'High Stage 2', val:'≥ 140/≥ 90', cls:'high2'},
+  ];
+  document.getElementById('bpRangeGrid').innerHTML = BP_RANGES.map(r =>
+    `<div class="bp-range-item"><div class="bp-range-name" style="color:${r.cls==='normal'?'var(--a)':r.cls==='elevated'?'var(--a3)':r.cls==='high1'?'#ff9500':'var(--a2)'}">${r.name}</div><div class="bp-range-val">${r.val}</div></div>`
+  ).join('');
+
+  if (!bpLog.length) {
+    document.getElementById('bpLatestCard').style.display = 'none';
+    document.getElementById('bpChart').innerHTML = '<div style="font-size:12px;color:var(--tf)">No readings logged yet</div>';
+    return;
+  }
+
+  const latest = bpLog[0];
+  const status = getBPStatus(latest.sys, latest.dia);
+  document.getElementById('bpLatestCard').style.display = 'block';
+  document.getElementById('bpLatestDisplay').innerHTML = `
+    <div class="bp-reading">
+      <div class="bp-num" style="color:${status.color}">${latest.sys}</div>
+      <div class="bp-sep">/</div>
+      <div class="bp-num" style="color:${status.color}">${latest.dia}</div>
+      <div class="bp-unit">mmHg</div>
+    </div>
+    <div style="text-align:center;margin-bottom:10px"><span class="bp-status ${status.cls}">${status.label}</span></div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--td)">
+      <span>${latest.date} ${latest.time}</span>
+      ${latest.pulse?`<span>Pulse: ${latest.pulse} bpm</span>`:''}
+    </div>
+  `;
+
+  // Chart
+  const recent = bpLog.slice(0,14).reverse();
+  const maxSys = Math.max(...recent.map(r=>r.sys));
+  const minSys = Math.min(...recent.map(r=>r.sys)) - 10;
+  const range = maxSys - minSys || 1;
+  document.getElementById('bpChart').innerHTML = `
+    <div class="bp-chart">
+      ${recent.map(r => {
+        const sysH = Math.max(4, ((r.sys-minSys)/range)*60);
+        const diaH = Math.max(4, ((r.dia-minSys)/range)*60);
+        return `<div class="bp-bar-wrap">
+          <div class="bp-bar-sys" style="height:${sysH}px"></div>
+          <div class="bp-bar-dia" style="height:${diaH}px"></div>
+          <div class="bp-bar-label">${r.date.split('/').slice(0,2).join('/')}</div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--tf);margin-top:4px">
+      <span>Oldest</span><span>Latest</span>
+    </div>
+  `;
+}
+
+
+// ============================================================
+// S66 — HEART RATE ZONES
+// ============================================================
+let hrZoneLog = [];
+
+function loadHRZoneData() { try { hrZoneLog = JSON.parse(localStorage.getItem('jt_hrzones')||'[]'); } catch(e) {} }
+function saveHRZoneData() { localStorage.setItem('jt_hrzones', JSON.stringify(hrZoneLog)); }
+
+function getHRZones(age) {
+  const maxHR = 220 - (age||28);
+  return [
+    {zone:1, name:'Zone 1 — Recovery',    pct:[0.50,0.60], color:'#4fc3f7', desc:'Very light. Active recovery, warm-up. Fat burning dominant.'},
+    {zone:2, name:'Zone 2 — Aerobic',     pct:[0.60,0.70], color:'var(--a)',  desc:'Conversational pace. Builds aerobic base. Most important for VO2 Max.'},
+    {zone:3, name:'Zone 3 — Tempo',       pct:[0.70,0.80], color:'var(--a3)', desc:'Moderately hard. Improves lactate threshold and cardiovascular fitness.'},
+    {zone:4, name:'Zone 4 — Threshold',   pct:[0.80,0.90], color:'#ff9500', desc:'Hard and uncomfortable. Builds speed and power. Short intervals.'},
+    {zone:5, name:'Zone 5 — Max Effort',  pct:[0.90,1.00], color:'var(--a2)', desc:'All out. Very short bursts. Sprint intervals and HIIT.'},
+  ].map(z => ({...z, low:Math.round(maxHR*z.pct[0]), high:Math.round(maxHR*z.pct[1]), maxHR}));
+}
+
+function getZoneForHR(hr, zones) {
+  for (let i=zones.length-1; i>=0; i--) {
+    if (hr >= zones[i].low) return zones[i];
+  }
+  return zones[0];
+}
+
+function logHRZoneSession() {
+  const avg = parseInt(document.getElementById('hrzAvgHR')?.value);
+  const max = parseInt(document.getElementById('hrzMaxHR')?.value);
+  const dur = parseInt(document.getElementById('hrzDuration')?.value);
+  if (!avg||avg<40||avg>220) { showToast('Enter valid average HR', null, 'red'); return; }
+  loadHRZoneData();
+  const age = parseInt(document.getElementById('vo2Age')?.value)||28;
+  const zones = getHRZones(age);
+  const avgZone = getZoneForHR(avg, zones);
+  const maxZone = max ? getZoneForHR(max, zones) : null;
+  const today = new Date().toLocaleDateString('en-AU');
+  hrZoneLog.unshift({date:today, avgHR:avg, maxHR:max||null, duration:dur||null, avgZone:avgZone.zone, maxZone:maxZone?.zone||null});
+  if (hrZoneLog.length>30) hrZoneLog=hrZoneLog.slice(0,30);
+  saveHRZoneData();
+  document.getElementById('hrzAvgHR').value='';
+  document.getElementById('hrzMaxHR').value='';
+  document.getElementById('hrzDuration').value='';
+  showToast(`Session logged — Zone ${avgZone.zone} (${avgZone.name.split('—')[1].trim()})`);
+  renderHRZones();
+}
+
+function renderHRZones() {
+  loadHRZoneData();
+  const age = parseInt(document.getElementById('vo2Age')?.value)||28;
+  const zones = getHRZones(age);
+
+  document.getElementById('hrzZoneList').innerHTML = zones.map(z => `
+    <div class="hrz-zone" style="background:${z.color}18;border:1px solid ${z.color}30">
+      <div class="hrz-zone-num" style="background:${z.color}">${z.zone}</div>
+      <div class="hrz-zone-info">
+        <div class="hrz-zone-name">${z.name}</div>
+        <div class="hrz-zone-range">${z.low}–${z.high} bpm (${Math.round(z.pct[0]*100)}–${Math.round(z.pct[1]*100)}% max HR)</div>
+        <div class="hrz-zone-desc">${z.desc}</div>
+        <div class="hrz-zone-bar" style="width:${(z.pct[1]-z.pct[0])*100*3}%;background:${z.color}"></div>
+      </div>
+    </div>
+  `).join('');
+
+  if (!hrZoneLog.length) {
+    document.getElementById('hrzSessionHistory').innerHTML = '<div style="font-size:12px;color:var(--tf)">No sessions logged yet</div>';
+    return;
+  }
+
+  document.getElementById('hrzSessionHistory').innerHTML = hrZoneLog.slice(0,8).map(s => {
+    const z = zones.find(z=>z.zone===s.avgZone)||zones[1];
+    return `<div class="health-history-row">
+      <div>
+        <div class="health-history-date">${s.date}</div>
+        ${s.duration?`<div style="font-size:10px;color:var(--tf)">${s.duration} min</div>`:''}
+      </div>
+      <div style="font-size:12px;color:var(--td)">${s.avgHR} bpm avg${s.maxHR?' | '+s.maxHR+' peak':''}</div>
+      <div style="text-align:right">
+        <span style="font-size:11px;font-weight:700;padding:3px 8px;border-radius:10px;background:${z.color}18;color:${z.color}">Z${s.avgZone}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+
+// ============================================================
+// S67 — GUT HEALTH LOG
+// ============================================================
+let gutLog = [];
+let gutSymptoms = new Set();
+
+const GUT_SYMPTOMS = ['Nausea','Bloating','Constipation','Diarrhea','Heartburn','Low Appetite','Vomiting','Fatigue after eating','Brain fog'];
+
+function loadGutData() { try { gutLog = JSON.parse(localStorage.getItem('jt_gut')||'[]'); } catch(e) {} }
+function saveGutData() { localStorage.setItem('jt_gut', JSON.stringify(gutLog)); }
+
+function renderGutHealth() {
+  loadGutData();
+  document.getElementById('gutSymptomGrid').innerHTML = GUT_SYMPTOMS.map(s =>
+    `<button class="gut-symptom-btn ${gutSymptoms.has(s)?'active':''}" onclick="toggleGutSymptom('${s}')">${s}</button>`
+  ).join('');
+  renderGutHistory();
+  document.getElementById('gutMounjaroTips').innerHTML =
+    'On Mounjaro, it is common to experience nausea (especially when dose increases), reduced appetite, and slower digestion. ' +
+    'These side effects usually improve after 4–8 weeks at each dose level.<br><br>' +
+    '<strong style="color:var(--a3)">Tips to manage:</strong> Eat smaller, more frequent meals. Avoid high-fat foods which worsen nausea. ' +
+    'Stay well hydrated. Take your injection on the same day each week. ' +
+    'If nausea is severe, eat dry foods (crackers, toast) first. ' +
+    'The reduced appetite is the mechanism of action — use it to your advantage by prioritising protein and nutrient-dense foods over processed food.';
+}
+
+function toggleGutSymptom(s) {
+  if (gutSymptoms.has(s)) gutSymptoms.delete(s); else gutSymptoms.add(s);
+  renderGutHealth();
+}
+
+function logGutHealth() {
+  loadGutData();
+  const today = new Date().toLocaleDateString('en-AU');
+  const entry = {
+    date: today,
+    appetite: parseInt(document.getElementById('gutAppetite')?.value)||5,
+    digestion: parseInt(document.getElementById('gutDigestion')?.value)||5,
+    energy: parseInt(document.getElementById('gutEnergy')?.value)||5,
+    symptoms: [...gutSymptoms],
+    notes: document.getElementById('gutNotes')?.value||'',
+  };
+  const idx = gutLog.findIndex(g=>g.date===today);
+  if (idx>=0) gutLog[idx]=entry; else gutLog.unshift(entry);
+  if (gutLog.length>60) gutLog=gutLog.slice(0,60);
+  saveGutData();
+  gutSymptoms = new Set();
+  if (document.getElementById('gutNotes')) document.getElementById('gutNotes').value='';
+  showToast('Gut health logged!');
+  renderGutHealth();
+}
+
+function renderGutHistory() {
+  const el = document.getElementById('gutHistory');
+  if (!gutLog.length) { el.innerHTML='<div style="font-size:12px;color:var(--tf)">No gut logs yet</div>'; return; }
+  el.innerHTML = gutLog.slice(0,7).map(g => `
+    <div class="gut-history-entry">
+      <div class="gut-history-date">${g.date}</div>
+      <div class="gut-history-scores">
+        <span class="gut-history-pill">Appetite ${g.appetite}/10</span>
+        <span class="gut-history-pill">Digestion ${g.digestion}/10</span>
+        <span class="gut-history-pill">Energy ${g.energy}/10</span>
+        ${g.symptoms.length?g.symptoms.map(s=>`<span class="gut-history-pill" style="background:rgba(255,61,107,.1);color:var(--a2)">${s}</span>`).join(''):''}
+      </div>
+      ${g.notes?`<div style="font-size:11px;color:var(--tf);margin-top:6px;font-style:italic">${g.notes}</div>`:''}
+    </div>
+  `).join('');
+}
+
+
+// ============================================================
+// S68 — BIOLOGICAL AGE TRACKER
+// ============================================================
+let bioAgeLog = [];
+
+function loadBioAgeData() { try { bioAgeLog = JSON.parse(localStorage.getItem('jt_bioage')||'[]'); } catch(e) {} }
+function saveBioAgeData() { localStorage.setItem('jt_bioage', JSON.stringify(bioAgeLog)); }
+
+function calcBioAge() {
+  const actualAge = 28;
+  const components = [];
+  let totalScore = 0;
+  let count = 0;
+
+  // 1. Evolt bio age
+  const latestScan = scans.length ? scans[scans.length-1] : null;
+  const evoltBioAge = latestScan?.bioage || 28;
+  components.push({icon:'🧬', name:'Evolt Bio Age', val:`${evoltBioAge} years`, score:evoltBioAge, color:evoltBioAge<=actualAge?'var(--a)':evoltBioAge<=actualAge+3?'var(--a3)':'var(--a2)'});
+  totalScore += evoltBioAge;
+  count++;
+
+  // 2. VO2 Max proxy age
+  loadVO2Data();
+  if (vo2Log.length) {
+    const vo2 = vo2Log[0].vo2;
+    // VO2 Max declines ~1ml/kg/min per year after 25. Elite 28yo ~50, average ~40
+    let vo2Age;
+    if (vo2 >= 55) vo2Age = 22;
+    else if (vo2 >= 50) vo2Age = 24;
+    else if (vo2 >= 45) vo2Age = 27;
+    else if (vo2 >= 40) vo2Age = 30;
+    else if (vo2 >= 35) vo2Age = 35;
+    else vo2Age = 40;
+    components.push({icon:'❤️', name:'VO2 Max (aerobic)', val:`${vo2} ml/kg/min → age ${vo2Age}`, score:vo2Age, color:vo2Age<=actualAge?'var(--a)':vo2Age<=actualAge+3?'var(--a3)':'var(--a2)'});
+    totalScore += vo2Age;
+    count++;
+  }
+
+  // 3. Recovery score proxy age
+  if (recoveryLog.length >= 3) {
+    const avgRec = recoveryLog.slice(0,7).reduce((a,r)=>a+r.score,0)/Math.min(recoveryLog.length,7);
+    let recAge;
+    if (avgRec >= 8.5) recAge = 22;
+    else if (avgRec >= 7) recAge = 26;
+    else if (avgRec >= 5.5) recAge = 30;
+    else if (avgRec >= 4) recAge = 35;
+    else recAge = 40;
+    components.push({icon:'🔋', name:'Recovery Score', val:`${avgRec.toFixed(1)}/10 avg → age ${recAge}`, score:recAge, color:recAge<=actualAge?'var(--a)':recAge<=actualAge+3?'var(--a3)':'var(--a2)'});
+    totalScore += recAge;
+    count++;
+  }
+
+  // 4. Training age / strength standard
+  const bw = getBodyweight();
+  const bench = getLiftBest('Barbell Bench Press');
+  if (bench > 0) {
+    const ratio = bench / bw;
+    let strengthAge;
+    if (ratio >= 1.5) strengthAge = 22;
+    else if (ratio >= 1.25) strengthAge = 25;
+    else if (ratio >= 1.0) strengthAge = 28;
+    else if (ratio >= 0.75) strengthAge = 32;
+    else strengthAge = 36;
+    components.push({icon:'💪', name:'Strength (bench/BW)', val:`${ratio.toFixed(2)}x bodyweight → age ${strengthAge}`, score:strengthAge, color:strengthAge<=actualAge?'var(--a)':strengthAge<=actualAge+3?'var(--a3)':'var(--a2)'});
+    totalScore += strengthAge;
+    count++;
+  }
+
+  // 5. Body composition from Evolt
+  const bf = latestScan?.bf || 19.9;
+  let compAge;
+  if (bf < 12) compAge = 22;
+  else if (bf < 15) compAge = 24;
+  else if (bf < 18) compAge = 27;
+  else if (bf < 22) compAge = 30;
+  else if (bf < 27) compAge = 35;
+  else compAge = 40;
+  components.push({icon:'⚖️', name:'Body Composition (BF%)', val:`${bf}% body fat → age ${compAge}`, score:compAge, color:compAge<=actualAge?'var(--a)':compAge<=actualAge+3?'var(--a3)':'var(--a2)'});
+  totalScore += compAge;
+  count++;
+
+  const bioAge = count ? Math.round(totalScore/count) : actualAge;
+  return {bioAge, components, actualAge};
+}
+
+function renderBioAge() {
+  loadBioAgeData();
+  const {bioAge, components, actualAge} = calcBioAge();
+  const diff = bioAge - actualAge;
+  const color = diff <= -2 ? 'var(--a)' : diff <= 2 ? 'var(--a3)' : 'var(--a2)';
+  const label = diff <= -3 ? 'Younger Than Your Age 🔥' : diff <= 0 ? 'On Track ✅' : diff <= 3 ? 'Slightly Above' : 'Above Average';
+  const labelCls = diff <= 0 ? 'green' : diff <= 3 ? 'yellow' : 'red';
+
+  document.getElementById('bioageActual').textContent = `Actual age: ${actualAge}`;
+  document.getElementById('bioageNum').textContent = bioAge;
+  document.getElementById('bioageNum').style.color = color;
+  document.getElementById('bioageLabelBadge').innerHTML = `<span class="bioage-label smart-badge ${labelCls}">${label}</span><div style="font-size:12px;color:var(--td);margin-top:8px">${diff<0?Math.abs(diff)+' years younger than actual':diff===0?'Matches your actual age':diff+' years above actual age'}</div>`;
+
+  document.getElementById('bioageComponents').innerHTML = components.map(c => `
+    <div class="bioage-component">
+      <div class="bioage-comp-icon">${c.icon}</div>
+      <div class="bioage-comp-info">
+        <div class="bioage-comp-name">${c.name}</div>
+        <div class="bioage-comp-val">${c.val}</div>
+      </div>
+      <div class="bioage-comp-score" style="color:${c.color}">${c.score}y</div>
+    </div>
+  `).join('');
+
+  // Save to log
+  const today = new Date().toLocaleDateString('en-AU');
+  const existing = bioAgeLog.findIndex(e=>e.date===today);
+  if (existing>=0) bioAgeLog[existing]={date:today,bioAge};
+  else bioAgeLog.unshift({date:today,bioAge});
+  if (bioAgeLog.length>30) bioAgeLog=bioAgeLog.slice(0,30);
+  saveBioAgeData();
+
+  // Trend
+  const last8 = bioAgeLog.slice(0,8).reverse();
+  if (last8.length >= 2) {
+    const vals = last8.map(e=>e.bioAge);
+    const min = Math.min(...vals)-2, max=Math.max(...vals)+2, range=max-min||1;
+    document.getElementById('bioageTrend').innerHTML = `
+      <div class="bioage-trend-chart">
+        ${last8.map(e=>`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
+          <div style="font-size:9px;color:var(--td)">${e.bioAge}</div>
+          <div style="width:100%;height:${Math.max(4,((e.bioAge-min)/range)*50)}px;background:${e.bioAge<=actualAge?'var(--a)':e.bioAge<=actualAge+3?'var(--a3)':'var(--a2)'};border-radius:3px 3px 0 0"></div>
+          <div style="font-size:9px;color:var(--tf)">${e.date.split('/').slice(0,2).join('/')}</div>
+        </div>`).join('')}
+      </div>
+      <div style="font-size:11px;color:var(--tf);text-align:center;margin-top:8px">Reference: your actual age is ${actualAge}</div>
+    `;
+  } else {
+    document.getElementById('bioageTrend').innerHTML = '<div style="font-size:12px;color:var(--tf)">Check back after logging more data across recovery, VO2 Max and strength</div>';
+  }
+
+  document.getElementById('bioageAdvice').innerHTML =
+    diff > 3
+      ? 'Your biological age is above your actual age. The biggest levers to pull: <strong style="color:var(--a)">sleep quality</strong> (7–9hrs), <strong style="color:var(--a)">VO2 Max</strong> (add Zone 2 cardio 2x/week), and <strong style="color:var(--a)">body composition</strong> (build muscle, reduce fat). Your training programme is already moving all three.'
+      : diff >= 0
+      ? 'Your biological age matches your actual age — solid baseline. Consistent strength training, improving sleep quality and adding aerobic work will push you younger. You are on the right track.'
+      : `Your biological age is ${Math.abs(diff)} year${Math.abs(diff)>1?'s':''} younger than your actual age. Keep doing exactly what you are doing. Your training, nutrition and recovery habits are working.`;
+}
+
 function init() {
   loadCustomData();
   try{document.getElementById('topDate').textContent=new Date().toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'}).toUpperCase();}catch(e){}
@@ -5414,12 +7746,12 @@ function refreshAll() {
 // ============================================================
 const SECTION_MAP = {
   home:      {default:'today',     tabs:[]},
-  train:     {default:'programme', tabs:['programme','library','evolution','nextprog','tools'], labels:['Programme','Library','Evolution','Next Cycle','Tools']},
+  train:     {default:'programme', tabs:['programme','library','evolution','nextprog','tools','periodise','smartswap','fadjust','deloadbuild','trainage','fibretype','weakpoints'], labels:['Programme','Library','Evolution','Next Cycle','Tools','Planner','Smart Swap','Adj. Weights','Deload Build','Training Age','Fibre Type','Weak Points']},
   progress:  {default:'history',   tabs:['history','analytics','progress','checkin','orm','volume'], labels:['History','Analytics','Body','Check-In','1RM','Volume']},
 
 
   nutrition: {default:'nutrition', tabs:['nutrition','meals'], labels:['Food Log','Meal Plan']},
-  recover:   {default:'recovery',  tabs:['recovery','fatigue'], labels:['Recovery','Fatigue']},
+  recover:   {default:'recovery',  tabs:['recovery','fatigue','posture','jointhealth','vo2max','injuryprev','bloodpressure','hrzones','guthealth','bioage'], labels:['Recovery','Fatigue','Posture','Joints','VO2 Max','Injury Prev','Blood Pressure','HR Zones','Gut Health','Bio Age']},
 
   more:      {default:'settings',  tabs:['settings'], labels:['Settings']},
 };
@@ -5491,6 +7823,21 @@ function switchTab(tab) {
   if(tab==='nextprog') renderNextProg();
   if(tab==='orm') renderORM();
   if(tab==='volume') renderVolume();
+  if(tab==='posture') renderPosture();
+  if(tab==='jointhealth') renderJointHealth();
+  if(tab==='vo2max') renderVO2Max();
+  if(tab==='injuryprev') renderInjuryPrev();
+  if(tab==='bloodpressure') renderBP();
+  if(tab==='hrzones') renderHRZones();
+  if(tab==='guthealth') renderGutHealth();
+  if(tab==='bioage') renderBioAge();
+  if(tab==='trainage') renderTrainingAge();
+  if(tab==='fibretype') renderFibreType();
+  if(tab==='weakpoints') renderWeakPoints();
+  if(tab==='periodise') renderPeriodise();
+  if(tab==='smartswap') renderSmartSwap();
+  if(tab==='fadjust') renderFadjust();
+  if(tab==='deloadbuild') renderDeloadBuild();
   if(tab==='fatigue') renderFatigue();
 }
 
