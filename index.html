@@ -728,6 +728,64 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
 .rec-hrv-inp::-webkit-outer-spin-button,.rec-hrv-inp::-webkit-inner-spin-button{-webkit-appearance:none}
 .rec-hrv-inp:focus{outline:none;border-color:var(--a)}
 .rec-hrv-unit{font-size:12px;color:var(--td);font-weight:600}
+
+/* ===== STAGE 16 — MEAL PLANNING ===== */
+.mp-wrap{padding:16px;padding-bottom:80px}
+.mp-toggle{display:flex;gap:8px;margin-bottom:14px}
+.mp-toggle-btn{flex:1;padding:10px;background:var(--s2);border:1px solid var(--b);border-radius:8px;color:var(--td);font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-family:inherit;transition:all .2s}
+.mp-toggle-btn.active{background:rgba(0,229,160,.1);border-color:var(--a);color:var(--a)}
+.mp-macro-bar{background:var(--s1);border:1px solid var(--b);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.mp-macro-bar h3{font-size:11px;font-weight:700;color:var(--td);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.mp-macro-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
+.mp-macro{text-align:center;background:var(--s2);border-radius:8px;padding:8px 4px}
+.mp-macro-val{font-size:18px;font-weight:900}
+.mp-macro-tgt{font-size:9px;color:var(--td);margin-top:1px}
+.mp-macro-lbl{font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-top:3px}
+.mp-bar-row{margin-bottom:6px}
+.mp-bar-top{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;color:var(--td)}
+.mp-bar{height:5px;background:var(--s3);border-radius:3px;overflow:hidden}
+.mp-bar-fill{height:100%;border-radius:3px;transition:width .4s}
+.mp-day-card{background:var(--s1);border:1px solid var(--b);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
+.mp-day-hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;cursor:pointer;border-bottom:1px solid transparent}
+.mp-day-hdr.open{border-bottom-color:var(--b)}
+.mp-day-name{font-size:14px;font-weight:700;color:var(--t)}
+.mp-day-macros{font-size:11px;color:var(--td)}
+.mp-day-chev{color:var(--td);transition:transform .2s}
+.mp-day-hdr.open .mp-day-chev{transform:rotate(180deg)}
+.mp-day-body{display:none;padding:12px 14px}
+.mp-day-body.show{display:block}
+.mp-meal{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--b)}
+.mp-meal:last-child{border-bottom:none}
+.mp-meal-icon{font-size:20px;flex-shrink:0;margin-top:2px}
+.mp-meal-info{flex:1}
+.mp-meal-name{font-size:13px;font-weight:700;color:var(--t);margin-bottom:2px}
+.mp-meal-desc{font-size:11px;color:var(--td);line-height:1.4;margin-bottom:4px}
+.mp-meal-macros{display:flex;gap:8px}
+.mp-meal-macro{font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px}
+.mp-meal-macro.p{background:rgba(0,229,160,.12);color:var(--a)}
+.mp-meal-macro.c{background:rgba(255,204,0,.12);color:var(--a3)}
+.mp-meal-macro.f{background:rgba(255,150,0,.12);color:#ff9500}
+.mp-meal-macro.k{background:rgba(255,61,107,.12);color:var(--a2)}
+.mp-gen-btn{width:100%;background:var(--a);color:#000;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:800;letter-spacing:1px;cursor:pointer;font-family:inherit;margin-bottom:14px}
+.mp-section-hdr{font-size:11px;font-weight:700;color:var(--td);letter-spacing:1.5px;text-transform:uppercase;margin:16px 0 10px}
+.mp-grocery-card{background:var(--s1);border:1px solid var(--b);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.mp-grocery-card h3{font-size:11px;font-weight:700;color:var(--td);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;display:flex;justify-content:space-between}
+.mp-grocery-cat{margin-bottom:12px}
+.mp-grocery-cat-name{font-size:10px;font-weight:700;color:var(--a);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.mp-grocery-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--b);cursor:pointer}
+.mp-grocery-item:last-child{border-bottom:none}
+.mp-grocery-check{width:20px;height:20px;border:2px solid var(--b);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all .2s}
+.mp-grocery-item.checked .mp-grocery-check{background:var(--a);border-color:var(--a);color:#000}
+.mp-grocery-item.checked .mp-grocery-name{text-decoration:line-through;color:var(--tf)}
+.mp-grocery-name{font-size:13px;color:var(--t);flex:1}
+.mp-grocery-qty{font-size:11px;color:var(--td);font-weight:600}
+.mp-fifo-card{background:linear-gradient(135deg,var(--s1),#1a1a2e);border:1px solid rgba(0,229,160,.2);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.mp-fifo-card h3{font-size:11px;font-weight:700;color:var(--a);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.mp-fifo-tip{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,229,160,.1)}
+.mp-fifo-tip:last-child{border-bottom:none}
+.mp-fifo-icon{font-size:16px;flex-shrink:0}
+.mp-fifo-text{font-size:12px;color:var(--t);line-height:1.5}
+.mp-fifo-text b{color:var(--a);display:block;margin-bottom:2px}
 </style>
 </head>
 <body>
@@ -752,6 +810,7 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
   <button class="tab" onclick="switchTab('analytics')">Analytics</button>
   <button class="tab" onclick="switchTab('evolution')">Programme</button>
   <button class="tab" onclick="switchTab('recovery')">Recovery</button>
+  <button class="tab" onclick="switchTab('meals')">Meals</button>
 </div>
 
 <!-- TODAY -->
@@ -969,6 +1028,62 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
       <div class="rec-chart-labels" id="recChartLabels"></div>
       <div id="recHistory" style="margin-top:12px"></div>
     </div>
+  </div>
+</div>
+
+
+<!-- MEAL PLANNING (STAGE 16) -->
+<div class="view" id="view-meals">
+  <div class="mp-wrap">
+    <!-- ONSITE / OFFSITE TOGGLE -->
+    <div class="mp-toggle">
+      <button class="mp-toggle-btn active" id="mpOnBtn" onclick="switchMealMode('onsite')">On-Site (FIFO)</button>
+      <button class="mp-toggle-btn" id="mpOffBtn" onclick="switchMealMode('offsite')">Off-Site (Home)</button>
+    </div>
+
+    <!-- DAILY MACRO TARGET -->
+    <div class="mp-macro-bar">
+      <h3>Daily Macro Targets</h3>
+      <div class="mp-macro-grid">
+        <div class="mp-macro"><div class="mp-macro-val" style="color:var(--a)" id="mpProteinVal">0g</div><div class="mp-macro-tgt">/ 190g</div><div class="mp-macro-lbl" style="color:var(--a)">Protein</div></div>
+        <div class="mp-macro"><div class="mp-macro-val" style="color:var(--a3)" id="mpCarbsVal">0g</div><div class="mp-macro-tgt">/ 366g</div><div class="mp-macro-lbl" style="color:var(--a3)">Carbs</div></div>
+        <div class="mp-macro"><div class="mp-macro-val" style="color:#ff9500" id="mpFatVal">0g</div><div class="mp-macro-tgt">/ 90g</div><div class="mp-macro-lbl" style="color:#ff9500">Fat</div></div>
+        <div class="mp-macro"><div class="mp-macro-val" style="color:var(--a2)" id="mpCalVal">0</div><div class="mp-macro-tgt">/ 3200</div><div class="mp-macro-lbl" style="color:var(--a2)">Kcal</div></div>
+      </div>
+      <div class="mp-bar-row"><div class="mp-bar-top"><span>Protein</span><span id="mpProteinPct">0%</span></div><div class="mp-bar"><div class="mp-bar-fill" id="mpProteinBar" style="width:0%;background:var(--a)"></div></div></div>
+      <div class="mp-bar-row"><div class="mp-bar-top"><span>Carbs</span><span id="mpCarbsPct">0%</span></div><div class="mp-bar"><div class="mp-bar-fill" id="mpCarbsBar" style="width:0%;background:var(--a3)"></div></div></div>
+      <div class="mp-bar-row"><div class="mp-bar-top"><span>Fat</span><span id="mpFatPct">0%</span></div><div class="mp-bar"><div class="mp-bar-fill" id="mpFatBar" style="width:0%;background:#ff9500"></div></div></div>
+    </div>
+
+    <!-- GENERATE BUTTON -->
+    <button class="mp-gen-btn" onclick="generateMealPlan()">🍽️ Generate Weekly Meal Plan</button>
+
+    <!-- WEEKLY PLAN -->
+    <div id="mpWeeklyPlan"></div>
+
+    <!-- GROCERY LIST -->
+    <div id="mpGrocerySection" style="display:none">
+      <div class="mp-section-hdr">Shopping List</div>
+      <div class="mp-grocery-card" id="mpGroceryCard">
+        <h3>Grocery List <button onclick="clearGroceries()" style="font-size:10px;color:var(--td);background:none;border:none;cursor:pointer;font-family:inherit;font-weight:600">Clear all</button></h3>
+        <div id="mpGroceryList"></div>
+      </div>
+    </div>
+
+    <!-- FIFO TIPS -->
+    <div id="mpFifoSection">
+      <div class="mp-section-hdr">On-Site Meal Prep Guide</div>
+      <div class="mp-fifo-card">
+        <h3>FIFO Nutrition Tips</h3>
+        <div class="mp-fifo-tip"><div class="mp-fifo-icon">🥩</div><div class="mp-fifo-text"><b>Prioritise protein at every meal</b>Ask for double protein at the mess. Grilled chicken, beef, fish, eggs — always first on your plate.</div></div>
+        <div class="mp-fifo-tip"><div class="mp-fifo-icon">🥤</div><div class="mp-fifo-text"><b>Protein shake timing</b>Have one immediately after training and one before bed. Pack your own powder — sites often have limited options.</div></div>
+        <div class="mp-fifo-tip"><div class="mp-fifo-icon">📦</div><div class="mp-fifo-text"><b>Pack these in your bag</b>Protein powder, creatine, mixed nuts, beef jerky, protein bars. These fill gaps when the mess is limited.</div></div>
+        <div class="mp-fifo-tip"><div class="mp-fifo-icon">💧</div><div class="mp-fifo-text"><b>Hydration on site</b>Aim for 3-4L per day. Heat and physical work increase needs significantly. Electrolytes help.</div></div>
+        <div class="mp-fifo-tip"><div class="mp-fifo-icon">🍳</div><div class="mp-fifo-text"><b>Breakfast is your biggest win</b>Mess breakfast usually has eggs, meat, and good protein options. Load up — it sets your protein base for the day.</div></div>
+        <div class="mp-fifo-tip"><div class="mp-fifo-icon">🌙</div><div class="mp-fifo-text"><b>Evening snack</b>Cottage cheese or Greek yogurt before bed supports overnight muscle recovery. Check the mess fridge.</div></div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -1345,6 +1460,7 @@ let proteinToday={}, suppToday={};
 let checkinsRatings={energy:0,sleep:0,hunger:0,recovery:0};
 let current=null, selId=null, curProg='onsite', barWeight=20;
 let recoveryLog=[], recSoreness=new Set();
+let mealPlan=[], groceryChecked={}, mpMode='onsite';
 let timerSec=90, timerOrig=90, timerRunning=false, timerInt=null;
 
 // ============================================================
@@ -2713,6 +2829,284 @@ function renderRecoveryHistory() {
   }).join('');
 }
 
+
+// ============================================================
+// STAGE 16 — MEAL PLANNING (Australian)
+// ============================================================
+
+const MEALS_DB = {
+  onsite: {
+    breakfast: [
+      {name:'Mess Brekky Power Plate',icon:'🍳',desc:'4 scrambled eggs + 2 rashers bacon + baked beans + 2 slices multigrain toast',p:52,c:48,f:22,k:598},
+      {name:'Eggs & Grilled Meat',icon:'🥚',desc:'4 eggs any style + 150g grilled chicken or beef from the mess',p:55,c:5,f:18,k:398},
+      {name:'Protein Oats',icon:'🥣',desc:'1 cup rolled oats + 2 scoops WPI powder + full cream milk + banana',p:55,c:72,f:8,k:576},
+      {name:'Weetbix Protein Bowl',icon:'🌾',desc:'4 Weetbix + 300ml full cream milk + 1 scoop protein + handful mixed nuts',p:38,c:65,f:14,k:538},
+    ],
+    lunch: [
+      {name:'Mess Lunch Plate',icon:'🍽️',desc:'200g grilled chicken or beef + steamed rice + mixed veg from mess',p:48,c:55,f:10,k:498},
+      {name:'Chicken & Salad',icon:'🥗',desc:'200g chicken breast + cos lettuce + cherry tomatoes + cucumber + olive oil',p:46,c:12,f:14,k:354},
+      {name:'Beef & Roast Veg',icon:'🥩',desc:'200g roast beef + roasted pumpkin, sweet potato + broccolini',p:44,c:30,f:12,k:408},
+      {name:'Tuna Rice Bowl',icon:'🐟',desc:'2x 95g John West tuna in springwater + steamed rice + soy sauce + sesame',p:46,c:50,f:4,k:420},
+    ],
+    dinner: [
+      {name:'Mess Dinner Plate',icon:'🍖',desc:'200g protein (fish/chicken/beef) + carb side + veggies',p:45,c:40,f:12,k:452},
+      {name:'Chicken Stir-Fry Rice',icon:'🍚',desc:'200g chicken breast + jasmine rice + stir-fry veg + Ayam soy sauce',p:48,c:58,f:8,k:496},
+      {name:'Beef Mince & Rice',icon:'🥣',desc:'200g lean beef mince + steamed rice + frozen peas + Worcestershire',p:44,c:52,f:14,k:512},
+    ],
+    snacks: [
+      {name:'Protein Shake',icon:'🥤',desc:'2 scoops WPI (Optimum Nutrition Gold Standard or Musashi) + water or milk',p:48,c:6,f:2,k:234},
+      {name:'Greek Yoghurt & Nuts',icon:'🫙',desc:'200g Chobani plain Greek yoghurt + 30g mixed nuts',p:24,c:10,f:16,k:276},
+      {name:'Beef Jerky & Fruit',icon:'🥩',desc:'50g Jack Links beef jerky + 1 banana',p:22,c:30,f:2,k:226},
+      {name:'Cottage Cheese',icon:'🧀',desc:'250g Woolworths Select cottage cheese + cracked pepper (before bed)',p:28,c:8,f:4,k:180},
+    ]
+  },
+  offsite: {
+    breakfast: [
+      {name:'Chicken & Egg Scramble',icon:'🍳',desc:'3 eggs + 100g diced chicken breast + baby spinach + cherry tomatoes + sourdough toast',p:48,c:35,f:16,k:476},
+      {name:'Smashed Avo & Eggs',icon:'🥑',desc:'2 poached eggs + 1 avocado + 2 slices Bakers Delight sourdough + feta',p:28,c:38,f:22,k:458},
+      {name:'Protein Overnight Oats',icon:'🥣',desc:'1 cup Woolworths rolled oats + 2 scoops WPI + 300ml Pauls full cream milk + blueberries',p:55,c:70,f:9,k:577},
+      {name:'Big Brekky Bowl',icon:'🍳',desc:'4 eggs + 2 Coles chicken sausages + grilled tomato + mushrooms + baked beans + toast',p:58,c:52,f:24,k:664},
+    ],
+    lunch: [
+      {name:'Chicken Rice Bowl',icon:'🍚',desc:'200g Coles RSPCA chicken thigh + basmati rice + cucumber + carrot + sriracha mayo',p:46,c:60,f:12,k:532},
+      {name:'Beef & Sweet Potato',icon:'🥩',desc:'200g lean beef mince + roasted sweet potato + broccolini + Masterfoods BBQ sauce',p:44,c:45,f:10,k:450},
+      {name:'Tuna Pasta',icon:'🍝',desc:'2x 95g John West tuna + San Remo penne + cherry tomatoes + olive oil + parmesan',p:50,c:65,f:12,k:572},
+      {name:'Egg & Chicken Wrap',icon:'🌯',desc:'2 eggs + 100g chicken + Mission wholemeal wraps + Coles baby spinach + avocado',p:42,c:38,f:18,k:474},
+    ],
+    dinner: [
+      {name:'Barramundi & Veg',icon:'🐟',desc:'200g fresh barramundi fillet + roasted pumpkin + green beans + lemon butter',p:44,c:18,f:14,k:374},
+      {name:'Beef Stir-Fry',icon:'🥩',desc:'200g Coles beef strips + Changs noodles + capsicum + bok choy + Ayam oyster sauce',p:46,c:55,f:12,k:508},
+      {name:'Chicken Thigh Traybake',icon:'🍗',desc:'250g Coles chicken thigh + baby potatoes + cherry tomatoes + rosemary + olive oil',p:48,c:35,f:16,k:472},
+      {name:'Lamb & Roast Veg',icon:'🍖',desc:'200g Coles lamb backstrap + roasted sweet potato + broccolini + mint yoghurt',p:44,c:32,f:14,k:428},
+      {name:'Salmon & Quinoa',icon:'🐟',desc:'180g Atlantic salmon + Woolworths tri-colour quinoa + asparagus + lemon dressing',p:46,c:38,f:18,k:494},
+    ],
+    snacks: [
+      {name:'Protein Shake',icon:'🥤',desc:'2 scoops Optimum Nutrition Gold Standard WPI + 300ml Pauls full cream milk',p:54,c:14,f:5,k:317},
+      {name:'Greek Yoghurt & Berries',icon:'🫙',desc:'200g Chobani plain Greek yoghurt + frozen mixed berries (Woolworths) + honey drizzle',p:22,c:28,f:5,k:245},
+      {name:'Rice Cakes & Peanut Butter',icon:'🥜',desc:'4 Sakata rice cakes + 2 tbsp Mayver\'s peanut butter + banana',p:14,c:42,f:18,k:382},
+      {name:'Cottage Cheese & Crispbread',icon:'🧀',desc:'250g Woolworths cottage cheese + Vita-Weat crispbread + cracked pepper (before bed)',p:30,c:18,f:4,k:228},
+      {name:'Boiled Eggs & Veggies',icon:'🥚',desc:'3 hard boiled eggs + carrot sticks + celery + hummus (Coles dip range)',p:24,c:14,f:14,k:274},
+    ]
+  }
+};
+
+const GROCERY_DB = {
+  onsite: {
+    'Pack in your bag': [
+      {name:'WPI Protein Powder (Optimum Nutrition / Musashi)',qty:'1 x 2kg bag'},
+      {name:'Creatine Monohydrate',qty:'1 x 500g tub'},
+      {name:'Jack Links Beef Jerky',qty:'4-6 packs'},
+      {name:'Chobani Greek Yoghurt (individual cups)',qty:'7 cups'},
+      {name:'Mixed nuts (Woolworths or Coles)',qty:'1 x 500g bag'},
+      {name:'Protein bars (Quest or Aussie Bodies)',qty:'7 bars'},
+      {name:'Weetbix',qty:'1 x 750g box'},
+    ]
+  },
+  offsite: {
+    'Meat & Fish': [
+      {name:'Coles RSPCA chicken breast',qty:'1.5kg'},
+      {name:'Coles chicken thighs',qty:'1kg'},
+      {name:'Coles beef mince (lean)',qty:'500g'},
+      {name:'Coles lamb backstrap',qty:'400g'},
+      {name:'Coles beef strips',qty:'400g'},
+      {name:'Atlantic salmon fillets',qty:'4 x 180g'},
+      {name:'Barramundi fillets',qty:'2 x 200g'},
+      {name:'John West tuna in springwater',qty:'6 x 95g tins'},
+    ],
+    'Dairy & Eggs': [
+      {name:'Coles free range eggs',qty:'1 x dozen'},
+      {name:'Chobani plain Greek yoghurt',qty:'2 x 900g'},
+      {name:'Woolworths cottage cheese',qty:'2 x 500g'},
+      {name:'Pauls full cream milk',qty:'2L'},
+      {name:'Bega block cheese',qty:'250g'},
+      {name:'Feta cheese',qty:'200g'},
+    ],
+    'Carbs & Grains': [
+      {name:'Woolworths rolled oats',qty:'1 x 1kg'},
+      {name:'SunRice basmati rice',qty:'1 x 2kg'},
+      {name:'San Remo penne pasta',qty:'500g'},
+      {name:'Woolworths tri-colour quinoa',qty:'400g'},
+      {name:'Bakers Delight sourdough',qty:'1 loaf'},
+      {name:'Mission wholemeal wraps',qty:'1 pack'},
+      {name:'Baby potatoes',qty:'1kg bag'},
+      {name:'Sweet potato',qty:'1kg'},
+    ],
+    'Vegetables': [
+      {name:'Coles baby spinach',qty:'120g bag'},
+      {name:'Cherry tomatoes',qty:'2 x 250g punnets'},
+      {name:'Broccolini',qty:'2 bunches'},
+      {name:'Capsicum (red & yellow)',qty:'4 total'},
+      {name:'Bok choy',qty:'2 bunches'},
+      {name:'Cucumber',qty:'2'},
+      {name:'Asparagus',qty:'1 bunch'},
+      {name:'Mushrooms',qty:'400g'},
+      {name:'Avocados',qty:'3'},
+      {name:'Pumpkin',qty:'500g'},
+    ],
+    'Fridge & Sauces': [
+      {name:'Mayver\'s peanut butter',qty:'375g jar'},
+      {name:'Ayam oyster sauce',qty:'1 bottle'},
+      {name:'Masterfoods sriracha mayo',qty:'1 bottle'},
+      {name:'Olive oil',qty:'500ml'},
+      {name:'Sakata rice cakes',qty:'1 pack'},
+      {name:'Vita-Weat crispbread',qty:'1 pack'},
+      {name:'Woolworths hummus dip',qty:'200g'},
+    ],
+    'Supplements': [
+      {name:'Optimum Nutrition Gold Standard WPI',qty:'1 x 2kg bag'},
+      {name:'Creatine Monohydrate',qty:'500g tub'},
+    ]
+  }
+};
+
+const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+
+function switchMealMode(mode) {
+  mpMode = mode;
+  document.getElementById('mpOnBtn').classList.toggle('active', mode==='onsite');
+  document.getElementById('mpOffBtn').classList.toggle('active', mode==='offsite');
+  document.getElementById('mpFifoSection').style.display = mode==='onsite' ? 'block' : 'none';
+  if (mealPlan.length) generateMealPlan();
+  else renderGroceryList();
+}
+
+function initMeals() {
+  try { groceryChecked = JSON.parse(localStorage.getItem('jt_grocery')||'{}'); } catch(e) {}
+  const saved = localStorage.getItem('jt_mealplan');
+  if (saved) { try { const d = JSON.parse(saved); mealPlan = d.plan||[]; mpMode = d.mode||'onsite'; } catch(e){} }
+  document.getElementById('mpOnBtn').classList.toggle('active', mpMode==='onsite');
+  document.getElementById('mpOffBtn').classList.toggle('active', mpMode==='offsite');
+  document.getElementById('mpFifoSection').style.display = mpMode==='onsite' ? 'block' : 'none';
+  if (mealPlan.length) renderMealPlan();
+  else renderGroceryList();
+  updateMacroBar([]);
+}
+
+function getRandItem(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
+
+function generateMealPlan() {
+  const db = MEALS_DB[mpMode];
+  mealPlan = DAYS.map(day => ({
+    day,
+    meals: [
+      {slot:'Breakfast', ...getRandItem(db.breakfast)},
+      {slot:'Lunch',     ...getRandItem(db.lunch)},
+      {slot:'Dinner',    ...getRandItem(db.dinner)},
+      {slot:'Snack',     ...getRandItem(db.snacks)},
+    ]
+  }));
+  localStorage.setItem('jt_mealplan', JSON.stringify({plan:mealPlan, mode:mpMode}));
+  renderMealPlan();
+  renderGroceryList();
+  showToast('Meal plan generated! 🍽️');
+}
+
+function renderMealPlan() {
+  const el = document.getElementById('mpWeeklyPlan');
+  if (!mealPlan.length) { el.innerHTML=''; return; }
+  el.innerHTML = mealPlan.map((day, di) => {
+    const totP = day.meals.reduce((a,m)=>a+m.p,0);
+    const totC = day.meals.reduce((a,m)=>a+m.c,0);
+    const totF = day.meals.reduce((a,m)=>a+m.f,0);
+    const totK = day.meals.reduce((a,m)=>a+m.k,0);
+    return `<div class="mp-day-card">
+      <div class="mp-day-hdr" id="mpdh-${di}" onclick="toggleMealDay(${di})">
+        <div>
+          <div class="mp-day-name">${day.day}</div>
+          <div class="mp-day-macros">P:${totP}g • C:${totC}g • F:${totF}g • ${totK}kcal</div>
+        </div>
+        <span class="mp-day-chev">▾</span>
+      </div>
+      <div class="mp-day-body" id="mpdb-${di}">
+        ${day.meals.map(m => `
+          <div class="mp-meal">
+            <div class="mp-meal-icon">${m.icon}</div>
+            <div class="mp-meal-info">
+              <div style="font-size:10px;font-weight:700;color:var(--a);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">${m.slot}</div>
+              <div class="mp-meal-name">${m.name}</div>
+              <div class="mp-meal-desc">${m.desc}</div>
+              <div class="mp-meal-macros">
+                <span class="mp-meal-macro p">P ${m.p}g</span>
+                <span class="mp-meal-macro c">C ${m.c}g</span>
+                <span class="mp-meal-macro f">F ${m.f}g</span>
+                <span class="mp-meal-macro k">${m.k} kcal</span>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>`;
+  }).join('');
+
+  // Show totals for Monday in macro bar
+  if (mealPlan[0]) updateMacroBar(mealPlan[0].meals);
+}
+
+function toggleMealDay(di) {
+  const hdr = document.getElementById('mpdh-'+di);
+  const body = document.getElementById('mpdb-'+di);
+  hdr.classList.toggle('open');
+  body.classList.toggle('show');
+  if (body.classList.contains('show') && mealPlan[di]) {
+    updateMacroBar(mealPlan[di].meals);
+  }
+}
+
+function updateMacroBar(meals) {
+  const totP = meals.reduce((a,m)=>a+m.p,0);
+  const totC = meals.reduce((a,m)=>a+m.c,0);
+  const totF = meals.reduce((a,m)=>a+m.f,0);
+  const totK = meals.reduce((a,m)=>a+m.k,0);
+  document.getElementById('mpProteinVal').textContent = totP+'g';
+  document.getElementById('mpCarbsVal').textContent = totC+'g';
+  document.getElementById('mpFatVal').textContent = totF+'g';
+  document.getElementById('mpCalVal').textContent = totK;
+  const pPct = Math.min(100,Math.round((totP/190)*100));
+  const cPct = Math.min(100,Math.round((totC/366)*100));
+  const fPct = Math.min(100,Math.round((totF/90)*100));
+  document.getElementById('mpProteinBar').style.width = pPct+'%';
+  document.getElementById('mpCarbsBar').style.width = cPct+'%';
+  document.getElementById('mpFatBar').style.width = fPct+'%';
+  document.getElementById('mpProteinPct').textContent = pPct+'%';
+  document.getElementById('mpCarbsPct').textContent = cPct+'%';
+  document.getElementById('mpFatPct').textContent = fPct+'%';
+}
+
+function renderGroceryList() {
+  const sec = document.getElementById('mpGrocerySection');
+  const el = document.getElementById('mpGroceryList');
+  const db = GROCERY_DB[mpMode];
+  if (!db) { sec.style.display='none'; return; }
+  sec.style.display = 'block';
+  el.innerHTML = Object.entries(db).map(([cat, items]) => `
+    <div class="mp-grocery-cat">
+      <div class="mp-grocery-cat-name">${cat}</div>
+      ${items.map((item, i) => {
+        const key = mpMode+'_'+cat+'_'+i;
+        const checked = groceryChecked[key];
+        return `<div class="mp-grocery-item ${checked?'checked':''}" onclick="toggleGrocery('${key}', this)">
+          <div class="mp-grocery-check">${checked?'✓':''}</div>
+          <div class="mp-grocery-name">${item.name}</div>
+          <div class="mp-grocery-qty">${item.qty}</div>
+        </div>`;
+      }).join('')}
+    </div>
+  `).join('');
+}
+
+function toggleGrocery(key, el) {
+  groceryChecked[key] = !groceryChecked[key];
+  localStorage.setItem('jt_grocery', JSON.stringify(groceryChecked));
+  el.classList.toggle('checked', groceryChecked[key]);
+  el.querySelector('.mp-grocery-check').textContent = groceryChecked[key]?'✓':'';
+}
+
+function clearGroceries() {
+  groceryChecked = {};
+  localStorage.setItem('jt_grocery', '{}');
+  renderGroceryList();
+}
+
 function init() {
   loadCustomData();
   try{document.getElementById('topDate').textContent=new Date().toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'}).toUpperCase();}catch(e){}
@@ -2797,7 +3191,7 @@ function refreshAll() {
 // TABS
 // ============================================================
 function switchTab(tab) {
-  const tabs=['today','programme','history','progress','checkin','tools','settings','nutrition','analytics','evolution','recovery'];
+  const tabs=['today','programme','history','progress','checkin','tools','settings','nutrition','analytics','evolution','recovery','meals'];
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',tabs[i]===tab));
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+tab).classList.add('active');
@@ -2808,6 +3202,7 @@ function switchTab(tab) {
   if(tab==='analytics') renderAnalytics();
   if(tab==='evolution') renderEvolution();
   if(tab==='recovery') renderRecovery();
+  if(tab==='meals') initMeals();
 }
 
 // ============================================================
