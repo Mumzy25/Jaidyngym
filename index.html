@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>JAIDYN TRAIN v4.0</title>
+<title>JAIDYN TRAIN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
 <meta name="application-name" content="Jaidyn Train">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -15,14 +17,17 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
---bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#22222f;
---a:#00e5a0;--a2:#ff3d6b;--a3:#ffcc00;
---t:#f0f0f8;--td:#8888aa;--tf:#44445a;
---b:#2a2a3a;--swap:#0d2e1e;--swt:#00e5a0;--r:12px;
+  --bg:#080810;--s1:#0f0f1a;--s2:#161624;--s3:#1e1e30;
+  --a:#00e5a0;--a2:#ff3d6b;--a3:#ffcc00;--a4:#7c6aff;
+  --t:#f0f0f8;--td:#7070a0;--tf:#35354a;
+  --b:#1e1e30;--swap:#0a1e14;--swt:#00e5a0;--r:14px;
+  --font-display:'Bebas Neue',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+  --nav-h:64px;--top-h:56px;
 }
-body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-.topbar{position:sticky;top:0;z-index:100;background:rgba(10,10,15,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--b);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:20px;font-weight:900;letter-spacing:3px;color:var(--t)}
+body{background:var(--bg);color:var(--t);font-family:var(--font-body);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,8,16,.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.05);padding:0 20px;height:var(--top-h);display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:var(--font-display);font-size:26px;letter-spacing:4px;color:var(--t);line-height:1;cursor:pointer;user-select:none}
 .logo span{color:var(--a)}
 .logo-right{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
 .logo-date{font-size:11px;color:var(--td);font-weight:600;letter-spacing:1px;text-transform:uppercase}
@@ -31,18 +36,29 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
 .cloud-dot.err{background:var(--a2)}
 .cloud-dot.loading{background:var(--a3);animation:blink .8s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.tabs{display:flex;background:var(--s1);border-bottom:1px solid var(--b);overflow-x:auto;scrollbar-width:none;position:sticky;top:49px;z-index:99}
-.tabs::-webkit-scrollbar{display:none}
-.tab{flex:none;padding:11px 13px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--td);border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap}
-.tab.active{color:var(--a);border-bottom-color:var(--a)}
-.view{display:none;min-height:calc(100vh - 90px);padding-bottom:80px}
+.tabs{display:none}
+/* ---- BOTTOM NAV ---- */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:101;background:rgba(8,8,16,.99);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid rgba(255,255,255,.07);height:var(--nav-h);display:flex;align-items:stretch;padding:0 4px 2px;padding-bottom:calc(4px + env(safe-area-inset-bottom))}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:none;cursor:pointer;padding:6px 2px;position:relative;font-family:var(--font-body)}
+.nav-icon{font-size:22px;line-height:1;transition:transform .2s}
+.nav-label{font-size:10px;font-weight:600;color:var(--td);letter-spacing:.2px;transition:color .2s}
+.nav-btn.active .nav-label{color:var(--a)}
+.nav-btn.active .nav-icon{transform:translateY(-1px)}
+.nav-btn::after{content:'';position:absolute;bottom:2px;width:20px;height:2px;border-radius:2px;background:var(--a);opacity:0;transition:opacity .2s}
+.nav-btn.active::after{opacity:1}
+/* ---- SUBNAV ---- */
+.subnav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:8px 16px 0;position:sticky;top:var(--top-h);z-index:98;background:var(--bg)}
+.subnav::-webkit-scrollbar{display:none}
+.subnav-btn{flex:none;padding:7px 16px;background:var(--s1);border:1px solid rgba(255,255,255,.06);border-radius:20px;font-size:12px;font-weight:600;color:var(--td);cursor:pointer;font-family:var(--font-body);transition:all .2s;white-space:nowrap}
+.subnav-btn.active{background:rgba(0,229,160,.1);border-color:rgba(0,229,160,.3);color:var(--a)}
+.view{display:none;min-height:100vh;padding-top:calc(var(--top-h) + 48px);padding-bottom:calc(var(--nav-h) + 20px)}
 .view.active{display:block}
 
 /* SHARED COMPONENTS */
 .section-label{font-size:11px;font-weight:700;color:var(--tf);letter-spacing:2px;text-transform:uppercase;padding:16px 16px 10px}
 .card{background:var(--s1);border:1px solid var(--b);border-radius:var(--r);padding:14px;margin-bottom:12px}
 .card h3{font-size:11px;font-weight:700;color:var(--td);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
-.btn-primary{width:100%;background:var(--a);color:#000;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.5px}
+.btn-primary{width:100%;background:var(--a);color:#000;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font-body);letter-spacing:.3px;transition:all .2s;box-shadow:0 4px 16px rgba(0,229,160,.2)}
 .btn-secondary{width:100%;background:var(--s2);border:1px solid var(--b);border-radius:8px;padding:11px;font-size:13px;font-weight:700;color:var(--t);cursor:pointer;font-family:inherit;transition:all .2s}
 .btn-secondary:active{border-color:var(--a);color:var(--a)}
 .inp-field{width:100%;background:var(--s2);border:1px solid var(--b);border-radius:8px;padding:10px 12px;color:var(--t);font-size:13px;font-family:inherit;transition:border-color .2s}
@@ -67,8 +83,8 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
 .scard.offsite .stag{color:var(--a)}
 .scard .sname{font-size:14px;font-weight:700;color:var(--t);line-height:1.2}
 .scard .sdesc{font-size:11px;color:var(--td);margin-top:3px}
-.start-btn{display:block;width:calc(100% - 32px);margin:14px 16px 0;background:var(--a);color:#000;border:none;border-radius:10px;padding:15px;font-size:15px;font-weight:800;letter-spacing:2px;text-transform:uppercase;cursor:pointer}
-.start-btn:disabled{background:var(--s3);color:var(--tf);cursor:not-allowed}
+.start-btn{display:block;width:calc(100% - 32px);margin:14px 16px 0;background:var(--a);color:#000;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:800;letter-spacing:2px;text-transform:uppercase;cursor:pointer;box-shadow:0 6px 24px rgba(0,229,160,.25);transition:all .2s}
+.start-btn:disabled{background:var(--s3);color:var(--tf);cursor:not-allowed;box-shadow:none}
 
 /* BLOCK TRACKER */
 .block-tracker{margin:12px 16px 0;background:var(--s1);border:1px solid var(--b);border-radius:var(--r);padding:14px}
@@ -125,7 +141,7 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
 .sess-note{flex:1;background:var(--s2);border:1px solid var(--b);border-radius:8px;padding:10px 12px;color:var(--t);font-size:13px;font-family:inherit}
 .sess-note:focus{outline:none;border-color:var(--a)}
 .sess-note::placeholder{color:var(--tf)}
-.finish-btn{background:var(--a);color:#000;border:none;border-radius:8px;padding:11px 16px;font-size:14px;font-weight:800;letter-spacing:1px;cursor:pointer}
+.finish-btn{background:var(--a);color:#000;border:none;border-radius:10px;padding:12px 18px;font-size:14px;font-weight:800;letter-spacing:.5px;cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 16px rgba(0,229,160,.2)}
 
 /* HISTORY */
 .hist-wrap{padding:16px}
@@ -893,7 +909,7 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
 .lib-empty{text-align:center;padding:40px 20px;color:var(--tf);font-size:13px}
 
 /* ===== STAGE 20 — PWA ===== */
-.pwa-banner{position:fixed;bottom:0;left:0;right:0;background:var(--s1);border-top:1px solid rgba(0,229,160,.3);padding:14px 16px;display:flex;align-items:center;gap:12px;z-index:200;transform:translateY(100%);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.pwa-banner{position:fixed;bottom:calc(var(--nav-h) + 4px);left:8px;right:8px;background:var(--s1);border:1px solid rgba(0,229,160,.25);border-radius:var(--r);padding:12px 14px;display:flex;align-items:center;gap:10px;z-index:99;transform:translateY(200px);transition:transform .35s cubic-bezier(.34,1.56,.64,1);box-shadow:0 8px 32px rgba(0,0,0,.5)}
 .pwa-banner.show{transform:translateY(0)}
 .pwa-banner-icon{width:44px;height:44px;background:var(--a);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
 .pwa-banner-info{flex:1}
@@ -916,34 +932,104 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
 .install-steps{background:rgba(0,229,160,.06);border:1px solid rgba(0,229,160,.2);border-radius:8px;padding:12px;margin-top:10px}
 .install-step{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:12px;color:var(--t);line-height:1.4}
 .install-step-num{width:22px;height:22px;background:var(--a);color:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+
+/* ===== STAGE 21 — PREMIUM ===== */
+.card{background:var(--s1);border:1px solid rgba(255,255,255,.05);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.ex-card{background:var(--s1);border:1px solid rgba(255,255,255,.05);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
+.ex-card.done{border-color:rgba(0,229,160,.25)}
+.sess-hdr{background:linear-gradient(135deg,var(--s1),var(--s2));border-radius:var(--r);padding:16px;margin-bottom:14px;border-left:4px solid var(--a)}
+.log-card{background:var(--s1);border:1px solid rgba(255,255,255,.05);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
+.scard{background:var(--s1);border:1px solid rgba(255,255,255,.05);border-radius:var(--r);padding:16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.scard.selected{border-color:rgba(0,229,160,.4);background:rgba(0,229,160,.05);box-shadow:0 0 0 1px rgba(0,229,160,.3)}
+.block-tracker{margin:12px 16px 0;background:var(--s1);border:1px solid rgba(255,255,255,.05);border-radius:var(--r);padding:16px}
+.bt-val{font-size:24px;font-weight:900;color:var(--a);font-family:var(--font-display);letter-spacing:1px}
+.dash-hero{background:linear-gradient(135deg,#091510 0%,#0f0f1a 60%,#0a0818 100%);border:1px solid rgba(0,229,160,.12);border-radius:var(--r);padding:20px;margin-bottom:14px;position:relative;overflow:hidden}
+.dash-hero::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;background:radial-gradient(circle,rgba(0,229,160,.07) 0%,transparent 70%);pointer-events:none}
+.pill{font-size:11px;font-weight:600;color:var(--a);background:rgba(0,229,160,.1);padding:5px 12px;border-radius:20px;border:1px solid rgba(0,229,160,.15)}
+.inp{background:var(--s2);border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:8px 3px;font-size:14px;font-weight:600;color:var(--t);text-align:center;width:100%;font-family:var(--font-body);-moz-appearance:textfield}
+.inp:focus{outline:none;border-color:var(--a)}
+.section-label{font-size:11px;font-weight:600;color:var(--tf);letter-spacing:1.5px;text-transform:uppercase;padding:16px 16px 8px;font-family:var(--font-body)}
+/* Creator mode */
+.creator-btn{position:fixed;top:calc(var(--top-h) + 52px);right:12px;background:rgba(124,106,255,.15);border:1px solid rgba(124,106,255,.3);border-radius:16px;padding:5px 12px;font-size:11px;font-weight:700;color:rgba(124,106,255,.9);cursor:pointer;font-family:var(--font-body);z-index:90;letter-spacing:.5px;display:none;transition:all .2s}
+.creator-btn.show{display:block}
+.creator-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:500;overflow-y:auto}
+.creator-modal.show{display:block}
+.creator-box{background:var(--s1);min-height:100%;padding-top:var(--top-h);padding-bottom:var(--nav-h)}
+.creator-hdr{padding:20px;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between}
+.creator-hdr h2{font-family:var(--font-display);font-size:26px;letter-spacing:3px;color:var(--a)}
+.creator-section{padding:16px;border-bottom:1px solid var(--b)}
+.creator-section h3{font-size:10px;font-weight:700;color:var(--td);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.creator-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.creator-row:last-child{border-bottom:none}
+.creator-row-label{font-size:13px;font-weight:600;color:var(--t)}
+.creator-row-sub{font-size:11px;color:var(--td);margin-top:2px}
+.creator-toggle{width:44px;height:24px;background:var(--s3);border-radius:12px;cursor:pointer;position:relative;transition:background .2s;border:none;flex-shrink:0}
+.creator-toggle.on{background:var(--a)}
+.creator-toggle::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;background:#fff;border-radius:50%;transition:transform .2s}
+.creator-toggle.on::after{transform:translateX(20px)}
+.color-picker-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.color-swatch{width:38px;height:38px;border-radius:10px;cursor:pointer;border:2px solid transparent;transition:all .2s}
+.color-swatch.active{border-color:#fff;transform:scale(1.15);box-shadow:0 0 12px rgba(255,255,255,.2)}
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <div class="logo">JAIDYN <span>TRAIN</span></div>
-  <div class="logo-right">
-    <div class="logo-date" id="topDate"></div>
+  <div class="logo" id="appLogo" onmousedown="startLogoPress()" onmouseup="endLogoPress()" ontouchstart="startLogoPress()" ontouchend="endLogoPress()">JAIDYN <span style="color:var(--a)">TRAIN</span></div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div id="topDate" style="font-size:11px;color:var(--td);font-weight:500;letter-spacing:.3px"></div>
     <div class="cloud-dot loading" id="cloudDot"></div>
   </div>
 </div>
 
-<div class="tabs">
-  <button class="tab active" onclick="switchTab('today')">Today</button>
-  <button class="tab" onclick="switchTab('programme')">Programme</button>
-  <button class="tab" onclick="switchTab('history')">History</button>
-  <button class="tab" onclick="switchTab('progress')">Progress</button>
-  <button class="tab" onclick="switchTab('checkin')">Check-In</button>
-  <button class="tab" onclick="switchTab('tools')">Tools</button>
-  <button class="tab" onclick="switchTab('settings')">Settings</button>
-  <button class="tab" onclick="switchTab('nutrition')">Nutrition</button>
-  <button class="tab" onclick="switchTab('analytics')">Analytics</button>
-  <button class="tab" onclick="switchTab('evolution')">Programme</button>
-  <button class="tab" onclick="switchTab('recovery')">Recovery</button>
-  <button class="tab" onclick="switchTab('meals')">Meals</button>
-  <button class="tab" onclick="switchTab('library')">Library</button>
-  <button class="tab" onclick="switchTab('nextprog')">Next Prog</button>
+<!-- BOTTOM NAV — 6 sections -->
+<div class="bottom-nav">
+  <button class="nav-btn active" id="nav-home" onclick="switchSection('home')">
+    <div class="nav-icon">🏠</div>
+    <div class="nav-label">Home</div>
+  </button>
+  <button class="nav-btn" id="nav-train" onclick="switchSection('train')">
+    <div class="nav-icon">💪</div>
+    <div class="nav-label">Train</div>
+  </button>
+  <button class="nav-btn" id="nav-progress" onclick="switchSection('progress')">
+    <div class="nav-icon">📈</div>
+    <div class="nav-label">Progress</div>
+  </button>
+  <button class="nav-btn" id="nav-nutrition" onclick="switchSection('nutrition')">
+    <div class="nav-icon">🥗</div>
+    <div class="nav-label">Nutrition</div>
+  </button>
+  <button class="nav-btn" id="nav-recover" onclick="switchSection('recover')">
+    <div class="nav-icon">🔋</div>
+    <div class="nav-label">Recover</div>
+  </button>
+  <button class="nav-btn" id="nav-more" onclick="switchSection('more')">
+    <div class="nav-icon">⚙️</div>
+    <div class="nav-label">More</div>
+  </button>
 </div>
+
+<!-- Hidden tabs kept for JS compat -->
+<div class="tabs" style="display:none">
+  <button class="tab active">today</button>
+  <button class="tab">programme</button>
+  <button class="tab">history</button>
+  <button class="tab">progress</button>
+  <button class="tab">checkin</button>
+  <button class="tab">tools</button>
+  <button class="tab">settings</button>
+  <button class="tab">nutrition</button>
+  <button class="tab">analytics</button>
+  <button class="tab">evolution</button>
+  <button class="tab">recovery</button>
+  <button class="tab">meals</button>
+  <button class="tab">library</button>
+  <button class="tab">nextprog</button>
+</div>
+
+<!-- Creator mode button (unlocked by long press logo) -->
+<button class="creator-btn" id="creatorBtn" onclick="openCreator()">✦ Creator</button>
 
 <!-- TODAY -->
 <div class="view active" id="view-today">
@@ -1544,6 +1630,45 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
   <div class="timer-val" id="timerVal">1:30</div>
 </div>
 <div class="timer-fab" id="timerFab" onclick="toggleTimer()">⏱</div>
+
+<!-- CREATOR MODAL -->
+<div class="creator-modal" id="creatorModal">
+  <div class="creator-box">
+    <div class="creator-hdr">
+      <h2>CREATOR</h2>
+      <button onclick="closeCreator()" style="background:var(--s2);border:1px solid var(--b);color:var(--td);border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font-body)">Done</button>
+    </div>
+    <div class="creator-section">
+      <h3>Accent Colour</h3>
+      <div class="color-picker-row">
+        <div class="color-swatch active" style="background:#00e5a0" onclick="setAccent('#00e5a0',this)"></div>
+        <div class="color-swatch" style="background:#7c6aff" onclick="setAccent('#7c6aff',this)"></div>
+        <div class="color-swatch" style="background:#ff6b35" onclick="setAccent('#ff6b35',this)"></div>
+        <div class="color-swatch" style="background:#00b4d8" onclick="setAccent('#00b4d8',this)"></div>
+        <div class="color-swatch" style="background:#ff3d6b" onclick="setAccent('#ff3d6b',this)"></div>
+        <div class="color-swatch" style="background:#ffcc00" onclick="setAccent('#ffcc00',this)"></div>
+        <div class="color-swatch" style="background:#a8ff3e" onclick="setAccent('#a8ff3e',this)"></div>
+        <div class="color-swatch" style="background:#ff006e" onclick="setAccent('#ff006e',this)"></div>
+      </div>
+    </div>
+    <div class="creator-section">
+      <h3>App Name</h3>
+      <div style="display:flex;gap:8px;margin-top:6px">
+        <input id="creatorAppName" style="flex:1;background:var(--s2);border:1px solid var(--b);border-radius:8px;padding:10px 12px;color:var(--t);font-size:14px;font-family:var(--font-body)" placeholder="App name..." value="JAIDYN TRAIN">
+        <button onclick="saveAppName()" style="background:var(--a);color:#000;border:none;border-radius:8px;padding:10px 16px;font-weight:700;cursor:pointer;font-family:var(--font-body)">Save</button>
+      </div>
+    </div>
+    <div class="creator-section">
+      <h3>Dashboard Cards</h3>
+      <div id="creatorDashCards"></div>
+    </div>
+    <div class="creator-section">
+      <h3>Reset</h3>
+      <button onclick="resetCreator()" style="width:100%;background:var(--s2);border:1px solid var(--b);color:var(--td);border-radius:8px;padding:12px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font-body)">Reset to Defaults</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <!-- PWA INSTALL BANNER -->
@@ -3908,6 +4033,107 @@ function updateNotifStatus() {
   }
 }
 
+
+// ============================================================
+// STAGE 21 — CREATOR MODE
+// ============================================================
+let creatorSettings = {};
+
+function loadCreatorSettings() {
+  try {
+    creatorSettings = JSON.parse(localStorage.getItem('jt_creator')||'{}');
+    if (creatorSettings.accent) {
+      document.documentElement.style.setProperty('--a', creatorSettings.accent);
+    }
+    if (creatorSettings.appName) applyAppName(creatorSettings.appName);
+  } catch(e) {}
+}
+
+function applyAppName(name) {
+  const parts = name.trim().split(' ');
+  const logo = document.getElementById('appLogo');
+  if (!logo) return;
+  if (parts.length >= 2) {
+    logo.innerHTML = parts[0] + ' <span style="color:var(--a)">' + parts.slice(1).join(' ') + '</span>';
+  } else {
+    logo.innerHTML = name;
+  }
+}
+
+function setAccent(color, el) {
+  document.documentElement.style.setProperty('--a', color);
+  creatorSettings.accent = color;
+  localStorage.setItem('jt_creator', JSON.stringify(creatorSettings));
+  document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  showToast('Colour updated');
+}
+
+function saveAppName() {
+  const name = document.getElementById('creatorAppName')?.value.trim();
+  if (!name) return;
+  applyAppName(name);
+  creatorSettings.appName = name;
+  localStorage.setItem('jt_creator', JSON.stringify(creatorSettings));
+  showToast('Name updated');
+}
+
+function openCreator() {
+  document.getElementById('creatorModal').classList.add('show');
+  renderCreatorDashCards();
+  // Mark active colour swatch
+  const current = creatorSettings.accent || '#00e5a0';
+  document.querySelectorAll('.color-swatch').forEach(s => {
+    s.classList.toggle('active', s.style.background === current);
+  });
+}
+
+function closeCreator() {
+  document.getElementById('creatorModal').classList.remove('show');
+}
+
+function renderCreatorDashCards() {
+  const cards = [
+    {id:'nextSession',label:'Next Session',desc:'Recommended session card'},
+    {id:'weekTraining',label:'This Week',desc:'7-day training bar and volume'},
+    {id:'supplements',label:'Supplements',desc:'Daily creatine & protein tracker'},
+    {id:'bodyComp',label:'Body Composition',desc:'Evolt scan data'},
+    {id:'prs',label:'Personal Records',desc:'Top PRs'},
+    {id:'recovery',label:'Recovery Score',desc:'Latest check-in summary'},
+  ];
+  const hidden = JSON.parse(localStorage.getItem('jt_hidden_dash')||'[]');
+  const el = document.getElementById('creatorDashCards');
+  if (!el) return;
+  el.innerHTML = cards.map(c => `
+    <div class="creator-row">
+      <div>
+        <div class="creator-row-label">${c.label}</div>
+        <div class="creator-row-sub">${c.desc}</div>
+      </div>
+      <button class="creator-toggle ${hidden.includes(c.id)?'':'on'}" onclick="toggleDashCard('${c.id}',this)"></button>
+    </div>
+  `).join('');
+}
+
+function toggleDashCard(id, btn) {
+  let hidden = JSON.parse(localStorage.getItem('jt_hidden_dash')||'[]');
+  if (hidden.includes(id)) { hidden = hidden.filter(h=>h!==id); btn.classList.add('on'); }
+  else { hidden.push(id); btn.classList.remove('on'); }
+  localStorage.setItem('jt_hidden_dash', JSON.stringify(hidden));
+  renderDashboard();
+}
+
+function resetCreator() {
+  if (!confirm('Reset all creator settings?')) return;
+  localStorage.removeItem('jt_creator');
+  localStorage.removeItem('jt_hidden_dash');
+  creatorSettings = {};
+  document.documentElement.style.setProperty('--a', '#00e5a0');
+  applyAppName('JAIDYN TRAIN');
+  closeCreator();
+  showToast('Reset to defaults');
+}
+
 function init() {
   loadCustomData();
   try{document.getElementById('topDate').textContent=new Date().toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'}).toUpperCase();}catch(e){}
@@ -3943,6 +4169,8 @@ function init() {
   if(k.access) try{document.getElementById('settingsAccess').value=k.access;}catch(e){}
   // Sync cloud in background after 1 second — non-blocking
   setTimeout(syncCloud, 1000);
+  loadCreatorSettings();
+  switchSection('home');
   initPWA();
 }
 
@@ -3993,11 +4221,72 @@ function refreshAll() {
 // ============================================================
 // TABS
 // ============================================================
+// ============================================================
+// STAGE 21 — SECTION ROUTING
+// ============================================================
+const SECTION_MAP = {
+  home:      {default:'today',     tabs:[]},
+  train:     {default:'programme', tabs:['programme','library','evolution','nextprog','tools'], labels:['Programme','Library','Evolution','Next Cycle','Tools']},
+  progress:  {default:'history',   tabs:['history','analytics','progress','checkin'], labels:['History','Analytics','Body','Check-In']},
+  nutrition: {default:'nutrition', tabs:['nutrition','meals'], labels:['Food Log','Meal Plan']},
+  recover:   {default:'recovery',  tabs:['recovery'], labels:['Recovery']},
+  more:      {default:'settings',  tabs:['settings'], labels:['Settings']},
+};
+
+let currentSection = 'home';
+let currentTab = 'today';
+let logoLongPressTimer = null;
+
+function startLogoPress() {
+  logoLongPressTimer = setTimeout(() => {
+    document.getElementById('creatorBtn').classList.add('show');
+    showToast('✦ Creator mode unlocked');
+  }, 1500);
+}
+function endLogoPress() { clearTimeout(logoLongPressTimer); }
+
+function switchSection(section) {
+  currentSection = section;
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const nb = document.getElementById('nav-'+section);
+  if (nb) nb.classList.add('active');
+  const map = SECTION_MAP[section];
+  if (map) {
+    switchTab(map.default);
+    renderSubnav(section);
+  }
+}
+
+function renderSubnav(section) {
+  document.querySelectorAll('.subnav').forEach(el => el.remove());
+  const map = SECTION_MAP[section];
+  if (!map || map.tabs.length < 2) return;
+  const subnav = document.createElement('div');
+  subnav.className = 'subnav';
+  subnav.id = 'subnav-' + section;
+  subnav.innerHTML = map.tabs.map((t, i) =>
+    `<button class="subnav-btn ${t===currentTab?'active':''}" onclick="switchTab('${t}');updateSubnav('${t}')">${map.labels[i]}</button>`
+  ).join('');
+  // Insert after topbar at top of page
+  const body = document.querySelector('body');
+  const firstView = document.querySelector('.view.active');
+  if (firstView) body.insertBefore(subnav, firstView);
+}
+
+function updateSubnav(tab) {
+  document.querySelectorAll('.subnav-btn').forEach(b => {
+    const sec = SECTION_MAP[currentSection];
+    if (!sec) return;
+    const idx = sec.tabs.indexOf(tab);
+    b.classList.toggle('active', sec.labels && b.textContent === (sec.labels[idx]||tab));
+  });
+}
+
 function switchTab(tab) {
-  const tabs=['today','programme','history','progress','checkin','tools','settings','nutrition','analytics','evolution','recovery','meals','library','nextprog'];
-  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',tabs[i]===tab));
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.getElementById('view-'+tab).classList.add('active');
+  currentTab = tab;
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  const viewEl = document.getElementById('view-'+tab);
+  if (viewEl) viewEl.classList.add('active');
   if(tab==='today') { renderDashboard(); hidePicker(); }
   if(tab==='tools') renderTools();
   if(tab==='checkin') renderCheckin();
