@@ -614,6 +614,69 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
 .wd.future{background:var(--s3);color:var(--tf)}
 
 
+
+/* ===== STAGE 12 — ATHLETE DASHBOARD ===== */
+.dash-wrap{padding:12px 16px;padding-bottom:80px}
+.dash-hero{background:linear-gradient(135deg,#0d1f17 0%,#12121a 100%);border:1px solid rgba(0,229,160,.2);border-radius:var(--r);padding:16px;margin-bottom:12px;position:relative;overflow:hidden}
+.dash-hero::after{content:'';position:absolute;top:-30px;right:-30px;width:100px;height:100px;background:radial-gradient(circle,rgba(0,229,160,.12) 0%,transparent 70%);pointer-events:none}
+.dash-greeting{font-size:11px;font-weight:700;color:var(--a);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
+.dash-headline{font-size:22px;font-weight:900;color:var(--t);line-height:1.2;margin-bottom:4px}
+.dash-sub{font-size:12px;color:var(--td);line-height:1.5}
+.dash-goal-row{display:flex;align-items:center;gap:10px;margin-top:12px;background:rgba(0,0,0,.2);border-radius:8px;padding:10px}
+.dash-goal-days{font-size:28px;font-weight:900;color:var(--a);flex-shrink:0;line-height:1}
+.dash-goal-info{flex:1}
+.dash-goal-label{font-size:10px;font-weight:700;color:var(--td);letter-spacing:1px;text-transform:uppercase}
+.dash-goal-date{font-size:13px;font-weight:700;color:var(--t)}
+.dash-goal-bar{height:4px;background:var(--s3);border-radius:2px;margin-top:6px;overflow:hidden}
+.dash-goal-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--a),var(--a3));transition:width .5s}
+.dash-stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.dash-stat{background:var(--s1);border:1px solid var(--b);border-radius:var(--r);padding:12px;text-align:center}
+.dash-stat-val{font-size:22px;font-weight:900;color:var(--a)}
+.dash-stat-lbl{font-size:10px;color:var(--td);text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
+.dash-stat.warn .dash-stat-val{color:var(--a3)}
+.dash-stat.alert .dash-stat-val{color:var(--a2)}
+.dash-section{background:var(--s1);border:1px solid var(--b);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.dash-section-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.dash-section-title{font-size:11px;font-weight:700;color:var(--td);letter-spacing:1.5px;text-transform:uppercase}
+.dash-section-action{font-size:11px;color:var(--a);font-weight:600;cursor:pointer;background:none;border:none;font-family:inherit}
+.dash-next-session{background:rgba(0,229,160,.06);border:1px solid rgba(0,229,160,.2);border-radius:8px;padding:12px;margin-bottom:8px;cursor:pointer;transition:all .2s}
+.dash-next-session:active{background:rgba(0,229,160,.12)}
+.dash-next-tag{font-size:9px;font-weight:700;color:var(--a);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px}
+.dash-next-name{font-size:15px;font-weight:700;color:var(--t);margin-bottom:2px}
+.dash-next-meta{font-size:11px;color:var(--td)}
+.dash-start-btn{width:100%;background:var(--a);color:#000;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:800;letter-spacing:1px;cursor:pointer;font-family:inherit;margin-top:4px}
+.dash-body-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--b)}
+.dash-body-row:last-child{border-bottom:none}
+.dash-body-label{font-size:12px;color:var(--t);font-weight:500}
+.dash-body-val{font-size:13px;font-weight:700;color:var(--a3)}
+.dash-pr-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--b)}
+.dash-pr-row:last-child{border-bottom:none}
+.dash-pr-name{font-size:12px;color:var(--t);font-weight:500}
+.dash-pr-val{font-size:12px;font-weight:700;color:var(--a2)}
+.dash-supp-row{display:flex;gap:8px;flex-wrap:wrap}
+.dash-supp{display:flex;align-items:center;gap:6px;background:var(--s2);border:1px solid var(--b);border-radius:8px;padding:8px 10px;cursor:pointer;transition:all .2s;flex:1}
+.dash-supp.done{border-color:var(--a);background:rgba(0,229,160,.08)}
+.dash-supp-icon{font-size:16px}
+.dash-supp-info{flex:1}
+.dash-supp-name{font-size:12px;font-weight:700;color:var(--t)}
+.dash-supp-dose{font-size:10px;color:var(--td)}
+.dash-supp-check{font-size:14px;color:var(--a);display:none}
+.dash-supp.done .dash-supp-check{display:block}
+.dash-protein-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.dash-protein-num{font-size:28px;font-weight:900;color:var(--a);line-height:1}
+.dash-protein-info{flex:1}
+.dash-protein-target{font-size:11px;color:var(--td)}
+.dash-protein-bar{height:6px;background:var(--s3);border-radius:3px;overflow:hidden;margin-top:4px}
+.dash-protein-fill{height:100%;border-radius:3px;transition:width .4s}
+.dash-week-dots{display:flex;gap:4px;margin-bottom:4px}
+.dash-week-dot{flex:1;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;background:var(--s3);color:var(--tf)}
+.dash-week-dot.trained{background:var(--a);color:#000}
+.dash-week-dot.today{background:var(--a3);color:#000}
+.dash-week-dot.rest{background:var(--s2);color:var(--td)}
+.dash-recovery{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+.dash-rec-item{text-align:center;background:var(--s2);border-radius:8px;padding:8px 4px}
+.dash-rec-val{font-size:18px}
+.dash-rec-lbl{font-size:9px;color:var(--td);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
 </style>
 </head>
 <body>
@@ -642,14 +705,22 @@ body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSyste
 <!-- TODAY -->
 <div class="view active" id="view-today">
   <div id="pickerSection">
-    <div class="block-tracker" id="blockTracker"></div>
-  <div class="deload-banner" id="deloadBanner" style="display:none">
-    <div class="db-icon">😴</div>
-    <div class="db-text"><b>Deload Week</b><span>Week 12 — time to recover. Drop all weights by 40%, cut sets to 2. Let your body absorb the work.</span></div>
-  </div>
-    <div class="section-label" style="padding-top:14px">Select Today's Session</div>
-    <div class="picker-grid" id="pickerGrid"></div>
-    <button class="start-btn" id="startBtn" disabled onclick="startSession()">Start Session</button>
+    <!-- STAGE 12 DASHBOARD -->
+    <div class="dash-wrap" id="dashboardWrap"></div>
+    <!-- SESSION PICKER (hidden by default, shown when Train button tapped) -->
+    <div id="sessionPickerPanel" style="display:none;padding:0 16px 16px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <div class="section-label" style="padding:0">Select Session</div>
+        <button onclick="hidePicker()" style="background:none;border:none;color:var(--td);font-size:13px;cursor:pointer;font-family:inherit">✕ Cancel</button>
+      </div>
+      <div class="picker-grid" id="pickerGrid"></div>
+      <button class="start-btn" id="startBtn" disabled onclick="startSession()">Start Session</button>
+    </div>
+    <div class="block-tracker" id="blockTracker" style="display:none"></div>
+    <div class="deload-banner" id="deloadBanner" style="display:none">
+      <div class="db-icon">😴</div>
+      <div class="db-text"><b>Deload Week</b><span>Week 12 — time to recover. Drop all weights by 40%, cut sets to 2. Let your body absorb the work.</span></div>
+    </div>
   </div>
   <div id="activeSection" style="display:none">
     <div class="active-wrap" id="activeContent"></div>
@@ -2309,6 +2380,7 @@ function init() {
   // Render everything immediately from local data
   try{renderBlockTracker();}catch(e){}
   try{renderPicker();}catch(e){}
+  try{renderDashboard();}catch(e){}
   try{renderProg('onsite');}catch(e){}
   try{renderHistory();}catch(e){}
   try{renderProgress();}catch(e){}
@@ -2355,6 +2427,7 @@ function refreshAll() {
   renderDeloadBanner();
   renderWeightTrend();
   renderPicker();
+  renderDashboard();
   renderProg(curProg);
   renderHistory();
   renderProgress();
@@ -2370,6 +2443,7 @@ function switchTab(tab) {
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',tabs[i]===tab));
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+tab).classList.add('active');
+  if(tab==='today') { renderDashboard(); hidePicker(); }
   if(tab==='tools') renderTools();
   if(tab==='checkin') renderCheckin();
   if(tab==='nutrition') { loadWater(); renderNutrition(); }
@@ -2389,6 +2463,236 @@ function getBlockInfo() {
   else{block=4;phase='Deload';reps='10–12';rpe='RPE 5–6';}
   const daysLeft=Math.max(0,Math.ceil((new Date('2026-09-19')-new Date())/(1000*60*60*24)));
   return{w,block,phase,reps,rpe,daysLeft};
+}
+
+
+// ============================================================
+// STAGE 12 — ATHLETE DASHBOARD
+// ============================================================
+function hidePicker() {
+  document.getElementById('sessionPickerPanel').style.display='none';
+  document.getElementById('dashboardWrap').style.display='block';
+}
+
+function showPicker() {
+  renderPicker();
+  document.getElementById('sessionPickerPanel').style.display='block';
+  document.getElementById('dashboardWrap').style.display='none';
+}
+
+function getNextRecommendedSession() {
+  if(!sessions.length) return PROGRAMME.onsite[0];
+  const last=sessions[0];
+  const all=[...PROGRAMME.onsite,...PROGRAMME.offsite];
+  const lastIdx=all.findIndex(s=>s.id===last.id||(last.name&&last.name.includes(s.name.split('—')[1]?.trim())));
+  const nextIdx=(lastIdx+1)%all.length;
+  return all[nextIdx]||all[0];
+}
+
+function getDaysSinceLastSession() {
+  if(!sessions.length) return null;
+  try{
+    const p=sessions[0].date.split('/');
+    const last=new Date(p[2],p[1]-1,p[0]);
+    return Math.floor((Date.now()-last)/(1000*60*60*1000))/24;
+  }catch(e){return null;}
+}
+
+function getDashHeadline(daysSince) {
+  if(daysSince!==null&&daysSince<1) return 'Keep the momentum going 🔥';
+  if(daysSince!==null&&daysSince>=2) return 'Time to get back in 💪';
+  return "Let's get to work";
+}
+function renderDashboard() {
+  const el=document.getElementById('dashboardWrap');
+  if(!el)return;
+
+  const{w,block,phase,reps,rpe,daysLeft}=getBlockInfo();
+  const now=new Date();
+  const hour=now.getHours();
+  const greeting=hour<12?'Good Morning':hour<17?'Good Afternoon':'Good Evening';
+  const goalDate=new Date('2026-09-19');
+  const totalDays=Math.ceil((goalDate-new Date('2026-04-14'))/(1000*60*60*24));
+  const progressPct=Math.min(100,Math.round(((totalDays-daysLeft)/totalDays)*100));
+
+  // This week sessions
+  const thisWeek=sessions.filter(s=>{try{const d=new Date(s.date.split('/').reverse().join('-'));const ws=new Date();ws.setDate(ws.getDate()-ws.getDay());ws.setHours(0,0,0,0);return d>=ws;}catch(e){return false;}});
+
+  // Total volume this week
+  const weekVol=thisWeek.reduce((a,s)=>a+s.exercises.reduce((b,e)=>b+e.sets.filter(st=>st.completed).reduce((c,st)=>c+(parseFloat(st.weight)||0)*(parseInt(st.reps)||0),0),0),0);
+
+  // Days since last session
+  const daysSince=getDaysSinceLastSession();
+  const restMsg=daysSince===null?'No sessions yet':daysSince<1?'Trained today 🔥':daysSince<2?'Last trained yesterday':Math.floor(daysSince)+' days since last session';
+
+  // Next recommended session
+  const nextSess=getNextRecommendedSession();
+
+  // Latest scan
+  const base={weight:83.9,bf:19.9,smm:37.4,lbm:67.2};
+  const scan=scans.length?scans[scans.length-1]:base;
+
+  // Supplements today
+  const today=new Date().toLocaleDateString('en-AU');
+  
+  // Protein total
+  const proteinTotal=PROTEIN_HITS.reduce((a,h)=>a+(proteinToday[h.id]?h.g:0),0);
+
+  // Week bar
+  const days=['S','M','T','W','T','F','S'];
+  const trainedDays=new Set();
+  thisWeek.forEach(s=>{
+    try{const p=s.date.split('/');const d=new Date(p[2],p[1]-1,p[0]);const diff=d.getDay();trainedDays.add(diff);}catch(e){}
+  });
+  const weekBar=days.map((d,i)=>{
+    const isToday=i===now.getDay();
+    const isTrained=trainedDays.has(i);
+    const cls=isTrained?'trained':isToday?'today':'';
+    return`<div class="dash-week-dot ${cls}">${isToday&&!isTrained?'●':d}</div>`;
+  }).join('');
+
+  // Latest checkin
+  const ci=checkins.length?checkins[0]:null;
+  const ciRatings=ci?[
+    {l:'Energy',v:ci.ratings?.energy||0,e:['','😴','😐','🙂','⚡','🔥']},
+    {l:'Sleep',v:ci.ratings?.sleep||0,e:['','😴','😐','🙂','😊','🌟']},
+    {l:'Hunger',v:ci.ratings?.hunger||0,e:['','🍽️','😐','🙂','😌','✅']},
+    {l:'Recovery',v:ci.ratings?.recovery||0,e:['','💀','😣','😐','💪','🔥']},
+  ]:[];
+
+  // Top PRs
+  const topPRs=Object.entries(prs).slice(0,4);
+
+  el.innerHTML=`
+    <!-- HERO -->
+    <div class="dash-hero">
+      <div class="dash-greeting">${greeting}, Jaidyn</div>
+      <div class="dash-headline">${getDashHeadline(daysSince)}</div>
+      <div class="dash-sub">${restMsg} • Week ${w} of 12 • Block ${block} — ${phase}</div>
+      <div class="dash-goal-row">
+        <div class="dash-goal-days">${daysLeft}</div>
+        <div class="dash-goal-info">
+          <div class="dash-goal-label">Days to goal</div>
+          <div class="dash-goal-date">September 19, 2026</div>
+          <div class="dash-goal-bar"><div class="dash-goal-fill" style="width:${progressPct}%"></div></div>
+        </div>
+        <div style="font-size:11px;color:var(--a);font-weight:700">${progressPct}%</div>
+      </div>
+    </div>
+
+    <!-- STATS ROW -->
+    <div class="dash-stats-grid">
+      <div class="dash-stat">
+        <div class="dash-stat-val">${sessions.length}</div>
+        <div class="dash-stat-lbl">Sessions</div>
+      </div>
+      <div class="dash-stat ${thisWeek.length<3?'warn':''}">
+        <div class="dash-stat-val">${thisWeek.length}</div>
+        <div class="dash-stat-lbl">This Week</div>
+      </div>
+      <div class="dash-stat">
+        <div class="dash-stat-val">${weekVol>0?Math.round(weekVol/1000)+'t':'0'}</div>
+        <div class="dash-stat-lbl">Week Vol</div>
+      </div>
+    </div>
+
+    <!-- NEXT SESSION -->
+    <div class="dash-section">
+      <div class="dash-section-hdr">
+        <div class="dash-section-title">Next Session</div>
+        <div class="dash-section-action" style="font-size:10px;color:var(--td)">${reps} • ${rpe}</div>
+      </div>
+      <div class="dash-next-session" onclick="showPicker()">
+        <div class="dash-next-tag">${nextSess.tag} • ${nextSess.dur}</div>
+        <div class="dash-next-name">${nextSess.name}</div>
+        <div class="dash-next-meta">${nextSess.desc} • ${nextSess.exercises.length} exercises</div>
+      </div>
+      <button class="dash-start-btn" onclick="showPicker()">Choose & Start Session</button>
+    </div>
+
+    <!-- THIS WEEK -->
+    <div class="dash-section">
+      <div class="dash-section-hdr">
+        <div class="dash-section-title">This Week</div>
+        <button class="dash-section-action" onclick="switchTab('history')">See all</button>
+      </div>
+      <div class="dash-week-dots">${weekBar}</div>
+      <div style="font-size:11px;color:var(--td);text-align:center">${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].join(' · ')}</div>
+      ${thisWeek.length?'<div style="margin-top:10px">'+thisWeek.slice(0,3).map(s=>{
+        const vol=s.exercises.reduce((a,e)=>a+e.sets.filter(st=>st.completed).reduce((b,st)=>b+(parseFloat(st.weight)||0)*(parseInt(st.reps)||0),0),0);
+        return`<div class="dash-body-row"><div class="dash-body-label">${s.name}</div><div class="dash-body-val">${Math.round(vol).toLocaleString()} kg</div></div>`;
+      }).join('')+'</div>':'<div style="font-size:12px;color:var(--tf);text-align:center;padding:8px 0">No sessions logged this week</div>'}
+    </div>
+
+    <!-- SUPPLEMENTS & PROTEIN -->
+    <div class="dash-section">
+      <div class="dash-section-hdr">
+        <div class="dash-section-title">Today's Targets</div>
+        <button class="dash-section-action" onclick="switchTab('checkin')">Check-in</button>
+      </div>
+      <div class="dash-supp-row" style="margin-bottom:12px">
+        ${SUPPLEMENTS.map(s=>`
+          <div class="dash-supp ${suppToday[s.id]?'done':''}" onclick="toggleSuppDash('${s.id}')">
+            <div class="dash-supp-icon">${s.icon}</div>
+            <div class="dash-supp-info"><div class="dash-supp-name">${s.name}</div><div class="dash-supp-dose">${s.dose}</div></div>
+            <div class="dash-supp-check">✓</div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="dash-protein-row">
+        <div class="dash-protein-num">${proteinTotal}g</div>
+        <div class="dash-protein-info">
+          <div style="font-size:12px;font-weight:700;color:var(--t)">Protein Today</div>
+          <div class="dash-protein-target">Target: 180–200g</div>
+          <div class="dash-protein-bar"><div class="dash-protein-fill" style="width:${Math.min(100,Math.round((proteinTotal/190)*100))}%;background:${proteinTotal>=190?'var(--a)':proteinTotal>=130?'var(--a3)':'var(--a2)'}"></div></div>
+        </div>
+        <div style="font-size:13px;font-weight:700;color:${proteinTotal>=190?'var(--a)':proteinTotal>=130?'var(--a3)':'var(--a2)'}">${Math.min(100,Math.round((proteinTotal/190)*100))}%</div>
+      </div>
+    </div>
+
+    <!-- BODY COMPOSITION -->
+    <div class="dash-section">
+      <div class="dash-section-hdr">
+        <div class="dash-section-title">Body Composition</div>
+        <button class="dash-section-action" onclick="switchTab('checkin')">Update</button>
+      </div>
+      <div class="dash-body-row"><div class="dash-body-label">Body Weight</div><div class="dash-body-val">${scan.weight} kg</div></div>
+      <div class="dash-body-row"><div class="dash-body-label">Body Fat %</div><div class="dash-body-val">${scan.bf}%</div></div>
+      <div class="dash-body-row"><div class="dash-body-label">Skeletal Muscle</div><div class="dash-body-val">${scan.smm} kg</div></div>
+      <div class="dash-body-row"><div class="dash-body-label">Lean Body Mass</div><div class="dash-body-val">${scan.lbm} kg</div></div>
+      ${bwLog.length?`<div class="dash-body-row"><div class="dash-body-label">Latest Weigh-in</div><div class="dash-body-val">${bwLog[bwLog.length-1].weight} kg</div></div>`:''}
+    </div>
+
+    ${topPRs.length?`
+    <!-- PERSONAL RECORDS -->
+    <div class="dash-section">
+      <div class="dash-section-hdr">
+        <div class="dash-section-title">Personal Records</div>
+        <button class="dash-section-action" onclick="switchTab('tools')">All PRs</button>
+      </div>
+      ${topPRs.map(([n,pr])=>`<div class="dash-pr-row"><div class="dash-pr-name">${n}</div><div class="dash-pr-val">${pr.weight} × ${pr.reps} <span style="font-size:9px;background:rgba(255,61,107,.15);color:var(--a2);padding:2px 5px;border-radius:4px;font-weight:700">PR</span></div></div>`).join('')}
+    </div>`:''}
+
+    ${ci&&ciRatings.some(r=>r.v>0)?`
+    <!-- RECOVERY -->
+    <div class="dash-section">
+      <div class="dash-section-hdr">
+        <div class="dash-section-title">Last Check-in</div>
+        <button class="dash-section-action" onclick="switchTab('checkin')">New check-in</button>
+      </div>
+      <div class="dash-recovery">
+        ${ciRatings.map(r=>`<div class="dash-rec-item"><div class="dash-rec-val">${r.e[r.v]||'—'}</div><div class="dash-rec-lbl">${r.l}</div></div>`).join('')}
+      </div>
+      ${ci.notes?`<div style="font-size:11px;color:var(--td);margin-top:10px;font-style:italic">"${ci.notes}"</div>`:''}
+    </div>`:''}
+  `;
+}
+
+function toggleSuppDash(id) {
+  suppToday[id]=!suppToday[id];
+  const today=new Date().toLocaleDateString('en-AU');
+  localStorage.setItem('jt_supp_'+today,JSON.stringify(suppToday));
+  renderDashboard();
 }
 
 function renderBlockTracker() {
@@ -2587,7 +2891,7 @@ function finishSession() {
   document.getElementById('startBtn').disabled=true;
   document.getElementById('sessNoteInput').value='';
   showToast('Session saved! 💪');
-  renderHistory();renderProgress();renderTools();
+  renderHistory();renderProgress();renderTools();renderDashboard();
   switchTab('history');
 }
 
