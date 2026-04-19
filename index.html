@@ -2514,21 +2514,55 @@ body{
   <div id="nutWrap" style="padding:16px"></div>
 </div>
 <div id="scannerModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#000;z-index:600;flex-direction:column">
-  <div style="padding:16px;display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.85);position:absolute;top:0;left:0;right:0;z-index:10">
+
+  <!-- Topbar — always visible -->
+  <div style="padding:16px;display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.9);position:absolute;top:0;left:0;right:0;z-index:10">
     <div style="font-size:16px;font-weight:700;color:#fff">Scan Barcode</div>
     <button onclick="closeScanner()" style="background:none;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">Close</button>
   </div>
-  <video id="scannerVideo" style="width:100%;height:100%;object-fit:cover" autoplay playsinline muted></video>
-  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:240px;height:140px;border:3px solid var(--a);border-radius:12px;box-shadow:0 0 0 9999px rgba(0,0,0,.6)"></div>
-  <div style="position:absolute;bottom:40px;left:0;right:0;text-align:center;color:#fff;font-size:13px;font-weight:600">Point camera at barcode</div>
-        <div id="scannerManualWrap" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:12px">
-          <div style="font-size:15px;font-weight:700;color:var(--t);margin-bottom:4px">Enter Barcode Manually</div>
-          <input id="manualBarcodeInp" type="text" inputmode="numeric" placeholder="e.g. 9300617070428" style="background:var(--s2);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px 16px;color:var(--t);font-size:16px;font-family:var(--font-mono,monospace);width:100%;text-align:center;box-sizing:border-box" onkeydown="if(event.key==='Enter')submitManualBarcode()">
-          <button onclick="submitManualBarcode()" style="width:100%;background:var(--a);color:#000;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-body,sans-serif)">Look Up Barcode</button>
-          <button onclick="closeScanner()" style="background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:8px 20px;color:var(--td);font-size:13px;cursor:pointer;font-family:var(--font-body,sans-serif)">Cancel</button>
-        </div>
+
+  <!-- STATE A: Live camera scan -->
+  <div id="scannerStateA" style="display:none;position:absolute;inset:0">
+    <video id="scannerVideo" style="width:100%;height:100%;object-fit:cover" autoplay playsinline muted></video>
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:240px;height:140px;border:3px solid var(--a);border-radius:12px;box-shadow:0 0 0 9999px rgba(0,0,0,.6)"></div>
+    <div style="position:absolute;bottom:0;left:0;right:0;padding:16px 24px 40px;background:linear-gradient(transparent,rgba(0,0,0,.85))">
+      <div style="text-align:center;color:#fff;font-size:13px;font-weight:600;margin-bottom:12px">Point camera at barcode</div>
+      <div style="display:flex;gap:8px">
+        <input id="scannerInlineInput" type="text" inputmode="numeric" placeholder="Or type barcode here..."
+          style="flex:1;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:10px 12px;color:#fff;font-size:14px;font-family:var(--font-mono,monospace)"
+          onkeydown="if(event.key==='Enter')submitScannerInput('scannerInlineInput')">
+        <button onclick="submitScannerInput('scannerInlineInput')" style="background:var(--a);color:#000;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap">Look Up</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATE B: BarcodeDetector not supported -->
+  <div id="scannerStateB" style="display:none;position:absolute;inset:0;background:var(--bg,#050508);display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px;gap:12px">
+    <div style="font-size:32px;margin-bottom:4px">📷</div>
+    <div style="font-size:15px;font-weight:700;color:var(--t,#f4f4fc);text-align:center">Live scanning not supported</div>
+    <div style="font-size:12px;color:var(--td,#6868a0);text-align:center;line-height:1.5;margin-bottom:8px">Your browser does not support live barcode scanning. Enter the barcode number manually.</div>
+    <input id="scannerManualB" type="text" inputmode="numeric" placeholder="e.g. 9300617070428"
+      style="background:var(--s2,#131320);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:13px 16px;color:var(--t,#f4f4fc);font-size:16px;font-family:var(--font-mono,monospace);width:100%;text-align:center;box-sizing:border-box"
+      onkeydown="if(event.key==='Enter')submitScannerInput('scannerManualB')">
+    <button onclick="submitScannerInput('scannerManualB')" style="width:100%;background:var(--a,#00ff9d);color:#000;border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit">Look Up Barcode</button>
+    <button onclick="closeScanner()" style="background:transparent;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:8px 20px;color:var(--td,#6868a0);font-size:13px;cursor:pointer;font-family:inherit">Cancel</button>
+  </div>
+
+  <!-- STATE C: Camera unavailable / permission denied -->
+  <div id="scannerStateC" style="display:none;position:absolute;inset:0;background:var(--bg,#050508);flex-direction:column;align-items:center;justify-content:center;padding:32px;gap:12px">
+    <div style="font-size:32px;margin-bottom:4px">🚫</div>
+    <div style="font-size:15px;font-weight:700;color:var(--t,#f4f4fc);text-align:center">Camera unavailable</div>
+    <div style="font-size:12px;color:var(--td,#6868a0);text-align:center;line-height:1.5;margin-bottom:8px">Camera permission was denied or is unavailable. Enter the barcode number manually.</div>
+    <input id="scannerManualC" type="text" inputmode="numeric" placeholder="e.g. 9300617070428"
+      style="background:var(--s2,#131320);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:13px 16px;color:var(--t,#f4f4fc);font-size:16px;font-family:var(--font-mono,monospace);width:100%;text-align:center;box-sizing:border-box"
+      onkeydown="if(event.key==='Enter')submitScannerInput('scannerManualC')">
+    <button onclick="submitScannerInput('scannerManualC')" style="width:100%;background:var(--a,#00ff9d);color:#000;border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit">Look Up Barcode</button>
+    <button onclick="closeScanner()" style="background:transparent;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:8px 20px;color:var(--td,#6868a0);font-size:13px;cursor:pointer;font-family:inherit">Cancel</button>
+  </div>
+
 </div>
-<!-- ANALYTICS -->
+
+<!-- ANALYTICS --><!-- ANALYTICS -->
 <div class="view" id="view-analytics">
   <div id="analyticsWrap" style="padding:16px;padding-bottom:80px"></div>
 </div>
@@ -3285,25 +3319,61 @@ async function searchFood(query) {
   if (!query || query.length < 2) return;
   var ld = document.getElementById('n-loading'); if(ld) ld.classList.add('on');
   var rs = document.getElementById('n-result'); if(rs) rs.classList.remove('on');
-  var rc = document.getElementById('n-search-results'); if(rc) rc.innerHTML = '';
+  var rc = document.getElementById('n-search-results'); if(rc) rc.innerHTML='';
+
+  if (!navigator.onLine) {
+    showFoodError('You are offline. Connect to the internet to search for food.');
+    if(ld) ld.classList.remove('on');
+    return;
+  }
+
   try {
     var products = await searchFoodPrimary(query);
-    if (!products.length) products = await searchFoodFallback(query);
+    if (!products.length) {
+      console.log('[Nutrition] AU search returned 0 results — trying world fallback');
+      products = await searchFoodFallback(query);
+    }
     if (products.length > 0) showFoodResultList(products);
     else showNoFoodResult();
-  } catch(e) { showToast('Search failed — check connection'); }
+  } catch(e) {
+    console.error('[Nutrition] Search error:', e);
+    showFoodError('Food search unavailable right now. Try again shortly.');
+  }
   if(ld) ld.classList.remove('on');
 }
 
 async function lookupBarcode(code) {
   var ld = document.getElementById('n-loading'); if(ld) ld.classList.add('on');
+
+  if (!navigator.onLine) {
+    showToast('You are offline — barcode lookup requires internet');
+    if(ld) ld.classList.remove('on');
+    return;
+  }
+
   try {
     var product = await lookupBarcodePrimary(code);
-    if (!product) product = await lookupBarcodeFallback(code);
-    if (product) { showFoodResult(product); closeScanner(); }
-    else { showToast('Barcode not found — try manual search'); closeScanner(); }
-  } catch(e) { showToast('Lookup failed — try manual search'); closeScanner(); }
+    if (!product) {
+      console.log('[Nutrition] AU barcode not found — trying world fallback for:', code);
+      product = await lookupBarcodeFallback(code);
+    }
+    if (product) {
+      showFoodResult(product);
+      closeScanner();
+    } else {
+      showToast('Product not found — try searching by name instead');
+      // Do NOT close scanner — user can try manual entry
+    }
+  } catch(e) {
+    console.error('[Nutrition] Barcode lookup error:', e);
+    showToast('Barcode lookup unavailable right now');
+  }
   if(ld) ld.classList.remove('on');
+}
+
+function showFoodError(msg) {
+  var rc = document.getElementById('n-search-results');
+  if(rc) rc.innerHTML = '<div style="font-size:13px;color:var(--a2);text-align:center;padding:16px;background:rgba(255,61,107,.06);border:1px solid rgba(255,61,107,.15);border-radius:10px">' + msg + '</div>';
 }
 
 function showFoodResultList(products) {
@@ -3347,25 +3417,70 @@ function showNoFoodResult() {
 
 function submitManualBarcode(){var inp=document.getElementById("manualBarcodeInp");if(!inp||!inp.value.trim())return;lookupBarcode(inp.value.trim());inp.value="";}
 
+function showScannerState(state) {
+  // state: 'A' (live), 'B' (no BarcodeDetector), 'C' (no camera)
+  ['A','B','C'].forEach(function(s) {
+    var el = document.getElementById('scannerState'+s);
+    if (el) el.style.display = (s===state) ? 'flex' : 'none';
+  });
+}
+
+function submitScannerInput(inputId) {
+  var inp = document.getElementById(inputId);
+  if (!inp || !inp.value.trim()) return;
+  var code = inp.value.trim().replace(/[^0-9A-Za-z]/g,'');
+  inp.value = '';
+  if (code.length < 4) { showToast('Enter a valid barcode number'); return; }
+  lookupBarcode(code);
+}
+
 async function openScanner() {
-  var modal=document.getElementById('scannerModal'); if(modal) modal.style.display='flex';
+  var modal = document.getElementById('scannerModal');
+  if (modal) modal.style.display = 'flex';
+
+  // Check BarcodeDetector support first
+  if (!('BarcodeDetector' in window)) {
+    showScannerState('B');
+    return;
+  }
+
+  // Try to get camera
   try {
-    scannerStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});
-    var vid=document.getElementById('scannerVideo'); vid.srcObject=scannerStream; await vid.play();
-    if ('BarcodeDetector' in window) {
-      var det=new BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e','code_128']});
-      scannerInt=setInterval(async function(){
-        try { var codes=await det.detect(vid); if(codes.length>0){clearInterval(scannerInt);lookupBarcode(codes[0].rawValue);} }
-        catch(e){}
-      },500);
-    } else { var mw=document.getElementById('scannerManualWrap'); if(mw){mw.style.display='flex';var vd=document.getElementById('scannerVideo');if(vd)vd.style.display='none';} }
-  } catch(e) { closeScanner(); showToast('Camera not available - use search'); }
+    scannerStream = await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});
+    var vid = document.getElementById('scannerVideo');
+    vid.srcObject = scannerStream;
+    await vid.play();
+    showScannerState('A');
+
+    // Start scanning
+    var det = new BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e','code_128']});
+    scannerInt = setInterval(async function() {
+      try {
+        var codes = await det.detect(vid);
+        if (codes.length > 0) {
+          clearInterval(scannerInt);
+          lookupBarcode(codes[0].rawValue);
+        }
+      } catch(e) { /* detection error — keep trying */ }
+    }, 500);
+
+  } catch(e) {
+    // Camera denied or unavailable — stay in modal, show state C
+    console.warn('Scanner camera error:', e.message || e);
+    showScannerState('C');
+  }
 }
 
 function closeScanner() {
   clearInterval(scannerInt);
-  if(scannerStream){scannerStream.getTracks().forEach(function(t){t.stop();});scannerStream=null;}
-  var modal=document.getElementById('scannerModal'); if(modal) modal.style.display='none';
+  if (scannerStream) { scannerStream.getTracks().forEach(function(t){t.stop();}); scannerStream=null; }
+  var modal = document.getElementById('scannerModal');
+  if (modal) modal.style.display = 'none';
+  // Reset all states
+  ['A','B','C'].forEach(function(s) {
+    var el = document.getElementById('scannerState'+s);
+    if (el) el.style.display = 'none';
+  });
 }
 
 function renderNutrition() {
@@ -5189,6 +5304,430 @@ const EXERCISE_LIBRARY = [
 {name:'Foam Roll (Hamstrings)',muscle:'Mobility',primaryMuscle:'Hamstrings',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Soft Tissue',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:false,icon:'🪵',notes:'Roll back of thigh. Use foot position to increase pressure.'},
 {name:'Foam Roll (Upper Back)',muscle:'Mobility',primaryMuscle:'Thoracic Spine',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Soft Tissue',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:false,icon:'🪵',notes:'Roller perpendicular to spine. Hands behind head. Extend back.'},
 
+
+
+// ════════════ CHEST — ADDITIONAL ════════════
+{name:'Close Grip Push Up',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Triceps'],equipment:'Bodyweight',movementPattern:'Horizontal Push',difficulty:2,swapCategory:'Horizontal Press',fatigueClass:'low',unilateral:false,icon:'👊',notes:'Hands close together. Elbows track back not out. Tricep emphasis.'},
+{name:'Plyometric Push Up',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Triceps','Front Delt'],equipment:'Bodyweight',movementPattern:'Horizontal Push',difficulty:4,swapCategory:'Horizontal Press',fatigueClass:'med',unilateral:false,icon:'💥',notes:'Explosive push to leave the ground. Develops power and rate of force.'},
+{name:'Decline Push Up',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Front Delt'],equipment:'Bodyweight',movementPattern:'Decline Push',difficulty:2,swapCategory:'Horizontal Press',fatigueClass:'low',unilateral:false,icon:'⬇️',notes:'Feet elevated. Shifts load to upper chest and front delts.'},
+{name:'Cable Crossover',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:[],equipment:'Cable',movementPattern:'Fly',difficulty:2,swapCategory:'Chest Fly',fatigueClass:'low',unilateral:false,icon:'✖️',notes:'High to low or low to high. Best constant tension chest isolation.'},
+{name:'Svend Press',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:[],equipment:'Barbell',movementPattern:'Horizontal Push',difficulty:2,swapCategory:'Chest Fly',fatigueClass:'low',unilateral:false,icon:'🏋️',notes:'Press plates together in both hands. Constant adduction throughout.'},
+{name:'Floor Press',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Triceps'],equipment:'Barbell',movementPattern:'Horizontal Push',difficulty:3,swapCategory:'Horizontal Press',fatigueClass:'med',unilateral:false,icon:'🏋️',notes:'Lie on floor. Removes leg drive and limits ROM. Tricep and lockout focus.'},
+{name:'Dumbbell Floor Press',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Triceps'],equipment:'Dumbbells',movementPattern:'Horizontal Push',difficulty:2,swapCategory:'Horizontal Press',fatigueClass:'med',unilateral:false,icon:'💪',notes:'Same as barbell floor press. Good shoulder-friendly option.'},
+{name:'Low Cable Fly',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:[],equipment:'Cable',movementPattern:'Fly',difficulty:2,swapCategory:'Chest Fly',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Cable set low. Targets upper chest on the way up.'},
+{name:'High Cable Fly',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:[],equipment:'Cable',movementPattern:'Fly',difficulty:2,swapCategory:'Chest Fly',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Cable set high. Targets lower chest on the way down.'},
+{name:'Resistance Band Press',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Triceps'],equipment:'Band',movementPattern:'Horizontal Push',difficulty:1,swapCategory:'Horizontal Press',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Band across back. Press forward. Increasing resistance at lockout.'},
+
+// ════════════ SHOULDERS — ADDITIONAL ════════════
+{name:'Behind the Neck Press',muscle:'Shoulders',primaryMuscle:'Side Delt',secondaryMuscles:['Front Delt','Traps'],equipment:'Barbell',movementPattern:'Vertical Push',difficulty:4,swapCategory:'Overhead Press',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'High injury risk. Only with good mobility. Lower to ear level.'},
+{name:'Push Press',muscle:'Shoulders',primaryMuscle:'Front Delt',secondaryMuscles:['Triceps','Quads'],equipment:'Barbell',movementPattern:'Vertical Push',difficulty:4,swapCategory:'Overhead Press',fatigueClass:'high',unilateral:false,icon:'🚀',notes:'Use leg drive to initiate. Power move. Lock out overhead.'},
+{name:'Z Press',muscle:'Shoulders',primaryMuscle:'Front Delt',secondaryMuscles:['Core'],equipment:'Barbell',movementPattern:'Vertical Push',difficulty:4,swapCategory:'Overhead Press',fatigueClass:'med',unilateral:false,icon:'🏋️',notes:'Seated on floor with legs straight. No leg drive at all. True press strength.'},
+{name:'Dumbbell Front Raise',muscle:'Shoulders',primaryMuscle:'Front Delt',secondaryMuscles:[],equipment:'Dumbbells',movementPattern:'Front Raise',difficulty:1,swapCategory:'Front Raise',fatigueClass:'low',unilateral:false,icon:'⬆️',notes:'Raise to shoulder height. Avoid swinging. Thumbs up or pronated.'},
+{name:'Cable Front Raise',muscle:'Shoulders',primaryMuscle:'Front Delt',secondaryMuscles:[],equipment:'Cable',movementPattern:'Front Raise',difficulty:1,swapCategory:'Front Raise',fatigueClass:'low',unilateral:true,icon:'🔗',notes:'Constant tension version of front raise. Single arm for balance.'},
+{name:'Plate Front Raise',muscle:'Shoulders',primaryMuscle:'Front Delt',secondaryMuscles:[],equipment:'Barbell',movementPattern:'Front Raise',difficulty:1,swapCategory:'Front Raise',fatigueClass:'low',unilateral:false,icon:'🏅',notes:'Hold plate with both hands. Good for beginners.'},
+{name:'Cable Y Raise',muscle:'Shoulders',primaryMuscle:'Side Delt',secondaryMuscles:['Rear Delt','Lower Traps'],equipment:'Cable',movementPattern:'Lateral Raise',difficulty:2,swapCategory:'Lateral Raise',fatigueClass:'low',unilateral:true,icon:'🔗',notes:'Arms in Y shape overhead. Lower traps and side delt.'},
+{name:'Prone Y T W',muscle:'Shoulders',primaryMuscle:'Rear Delt',secondaryMuscles:['Lower Traps','Rhomboids'],equipment:'Dumbbells',movementPattern:'Horizontal Pull',difficulty:2,swapCategory:'Rear Delt',fatigueClass:'low',unilateral:false,icon:'🦅',notes:'Lie prone on bench. Form Y T W shapes. Essential shoulder prehab.'},
+{name:'Upright Row',muscle:'Shoulders',primaryMuscle:'Side Delt',secondaryMuscles:['Traps','Biceps'],equipment:'Barbell',movementPattern:'Vertical Pull',difficulty:3,swapCategory:'Lateral Raise',fatigueClass:'med',unilateral:false,icon:'🏋️',notes:'Pull bar up close to body. Elbows higher than wrists. Impingement risk with wide grip.'},
+{name:'Cable Upright Row',muscle:'Shoulders',primaryMuscle:'Side Delt',secondaryMuscles:['Traps'],equipment:'Cable',movementPattern:'Vertical Pull',difficulty:2,swapCategory:'Lateral Raise',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Rope or bar. Safer than barbell for shoulder impingement.'},
+
+// ════════════ BACK — ADDITIONAL ════════════
+{name:'Rack Chin',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps'],equipment:'Bodyweight',movementPattern:'Vertical Pull',difficulty:2,swapCategory:'Vertical Pull',fatigueClass:'med',unilateral:false,icon:'⬆️',notes:'Feet on rack. Counterbalance for easier loading. Great for beginners.'},
+{name:'Band Assisted Pull Up',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps'],equipment:'Band',movementPattern:'Vertical Pull',difficulty:1,swapCategory:'Vertical Pull',fatigueClass:'med',unilateral:false,icon:'🎯',notes:'Band around feet or knees. Reduces bodyweight for beginners.'},
+{name:'Cable Pullover',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Chest'],equipment:'Cable',movementPattern:'Vertical Pull',difficulty:2,swapCategory:'Vertical Pull',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Arms arc from overhead to hips. Lats pull through full ROM.'},
+{name:'Dumbbell Pullover',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Chest','Triceps'],equipment:'Dumbbells',movementPattern:'Vertical Pull',difficulty:2,swapCategory:'Vertical Pull',fatigueClass:'low',unilateral:false,icon:'💪',notes:'Lie perpendicular on bench. Arc dumbbell overhead and back.'},
+{name:'Barbell Row (Underhand)',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps'],equipment:'Barbell',movementPattern:'Horizontal Pull',difficulty:4,swapCategory:'Horizontal Row',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Supinated grip targets lower lats and biceps more than overhand.'},
+{name:'Cable Face Pull (High)',muscle:'Back',primaryMuscle:'Rear Delt',secondaryMuscles:['Traps','Rotator Cuff'],equipment:'Cable',movementPattern:'Horizontal Pull',difficulty:1,swapCategory:'Rear Delt',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Rope at face height. External rotate at the end. Shoulder health staple.'},
+{name:'Seated Machine Row (Narrow)',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps'],equipment:'Machine',movementPattern:'Horizontal Pull',difficulty:1,swapCategory:'Horizontal Row',fatigueClass:'med',unilateral:false,icon:'🤖',notes:'Neutral narrow grip. Elbow tracks alongside body for lat focus.'},
+{name:'Seated Machine Row (Wide)',muscle:'Back',primaryMuscle:'Traps',secondaryMuscles:['Rear Delt'],equipment:'Machine',movementPattern:'Horizontal Pull',difficulty:1,swapCategory:'Horizontal Row',fatigueClass:'med',unilateral:false,icon:'🤖',notes:'Wide grip flares elbows. Upper back and traps emphasis.'},
+{name:'Banded Row',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps'],equipment:'Band',movementPattern:'Horizontal Pull',difficulty:1,swapCategory:'Horizontal Row',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Resistance band anchored ahead. Good for warm-up and beginners.'},
+{name:'Renegade Row',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Core','Biceps'],equipment:'Dumbbells',movementPattern:'Horizontal Pull',difficulty:4,swapCategory:'Horizontal Row',fatigueClass:'high',unilateral:true,icon:'💪',notes:'Plank position. Row one arm while other braces. Core anti-rotation.'},
+{name:'Barbell Good Morning',muscle:'Back',primaryMuscle:'Lower Back',secondaryMuscles:['Hamstrings','Glutes'],equipment:'Barbell',movementPattern:'Hip Hinge',difficulty:4,swapCategory:'Deadlift',fatigueClass:'high',unilateral:false,icon:'☀️',notes:'Bar on upper back. Hinge forward with slight knee bend. Lower back strength.'},
+{name:'Superman Hold',muscle:'Back',primaryMuscle:'Lower Back',secondaryMuscles:['Glutes'],equipment:'Bodyweight',movementPattern:'Hip Extension',difficulty:1,swapCategory:'Lower Back',fatigueClass:'low',unilateral:false,icon:'🦸',notes:'Lie prone. Raise arms and legs simultaneously. Hold at top.'},
+{name:'Reverse Hyperextension',muscle:'Back',primaryMuscle:'Lower Back',secondaryMuscles:['Glutes','Hamstrings'],equipment:'Machine',movementPattern:'Hip Extension',difficulty:2,swapCategory:'Lower Back',fatigueClass:'low',unilateral:false,icon:'🔄',notes:'Lie face down on pad. Raise legs. Traction for lower back.'},
+{name:'Hyperextension',muscle:'Back',primaryMuscle:'Lower Back',secondaryMuscles:['Glutes','Hamstrings'],equipment:'Machine',movementPattern:'Hip Hinge',difficulty:2,swapCategory:'Lower Back',fatigueClass:'low',unilateral:false,icon:'🤖',notes:'GHD machine or 45-degree bench. Hinge up to neutral spine.'},
+
+// ════════════ ARMS — ADDITIONAL ════════════
+{name:'EZ Bar Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:['Brachialis'],equipment:'Barbell',movementPattern:'Elbow Flexion',difficulty:1,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:false,icon:'〰️',notes:'EZ bar easier on wrists than straight bar. Standard bicep builder.'},
+{name:'Wide Grip Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:[],equipment:'Barbell',movementPattern:'Elbow Flexion',difficulty:2,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:false,icon:'💪',notes:'Wide grip shifts stress to short head. Good for bicep width.'},
+{name:'Narrow Grip Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:[],equipment:'Barbell',movementPattern:'Elbow Flexion',difficulty:2,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:false,icon:'💪',notes:'Narrow grip shifts stress to long head. Good for bicep peak.'},
+{name:'Resistance Band Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:[],equipment:'Band',movementPattern:'Elbow Flexion',difficulty:1,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Step on band. Increasing resistance at top. Home-friendly.'},
+{name:'Cable Rope Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:[],equipment:'Cable',movementPattern:'Elbow Flexion',difficulty:1,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Rope at low pulley. Curl up. Supinate at top. Constant tension.'},
+{name:'Overhead Cable Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:[],equipment:'Cable',movementPattern:'Elbow Flexion',difficulty:2,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:true,icon:'🔗',notes:'Cable at head height. Curl toward face. Long head stretched position.'},
+{name:'Bayesian Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:[],equipment:'Cable',movementPattern:'Elbow Flexion',difficulty:2,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:true,icon:'🔗',notes:'Low cable behind body. Curl with elbow behind hip. Long head stretch.'},
+{name:'21s',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:[],equipment:'Barbell',movementPattern:'Elbow Flexion',difficulty:2,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:false,icon:'💪',notes:'7 bottom half, 7 top half, 7 full reps. Metabolic stress technique.'},
+{name:'Tricep Overhead DB Extension',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:[],equipment:'Dumbbells',movementPattern:'Elbow Extension',difficulty:2,swapCategory:'Tricep Extension',fatigueClass:'low',unilateral:true,icon:'💪',notes:'One arm overhead. Lower behind head. Long head stretch.'},
+{name:'Tate Press',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:[],equipment:'Dumbbells',movementPattern:'Elbow Extension',difficulty:2,swapCategory:'Tricep Extension',fatigueClass:'low',unilateral:false,icon:'🦾',notes:'Elbows flared, dumbbells meet at chest. Strong tricep contraction.'},
+{name:'JM Press',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:['Chest'],equipment:'Barbell',movementPattern:'Elbow Extension',difficulty:3,swapCategory:'Tricep Extension',fatigueClass:'med',unilateral:false,icon:'🏋️',notes:'Hybrid of skull crusher and close grip press. Powerlifting accessory.'},
+{name:'Board Press',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:['Chest'],equipment:'Barbell',movementPattern:'Horizontal Push',difficulty:3,swapCategory:'Tricep Compound',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Boards on chest limit ROM. Lockout focused pressing.'},
+{name:'Resistance Band Pushdown',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:[],equipment:'Band',movementPattern:'Elbow Extension',difficulty:1,swapCategory:'Tricep Pushdown',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Anchor band above. Press down. Easy to set up anywhere.'},
+
+// ════════════ FOREARMS / GRIP ════════════
+{name:'Wrist Curl',muscle:'Forearms',primaryMuscle:'Forearms',secondaryMuscles:[],equipment:'Barbell',movementPattern:'Wrist Flexion',difficulty:1,swapCategory:'Forearm',fatigueClass:'low',unilateral:false,icon:'💪',notes:'Sit with forearms on thighs. Curl wrists up. Forearm flexors.'},
+{name:'Reverse Wrist Curl',muscle:'Forearms',primaryMuscle:'Forearms',secondaryMuscles:[],equipment:'Barbell',movementPattern:'Wrist Extension',difficulty:1,swapCategory:'Forearm',fatigueClass:'low',unilateral:false,icon:'🔄',notes:'Pronated grip. Extend wrists up. Forearm extensors.'},
+{name:'Plate Pinch',muscle:'Forearms',primaryMuscle:'Forearms',secondaryMuscles:[],equipment:'Barbell',movementPattern:'Grip Strength',difficulty:2,swapCategory:'Forearm',fatigueClass:'low',unilateral:true,icon:'🏅',notes:'Pinch two plates smooth side out. Hold for time. Grip strength.'},
+{name:'Dead Hang',muscle:'Forearms',primaryMuscle:'Forearms',secondaryMuscles:['Lats','Shoulders'],equipment:'Bodyweight',movementPattern:'Grip Strength',difficulty:1,swapCategory:'Forearm',fatigueClass:'low',unilateral:false,icon:'⬇️',notes:'Hang from bar as long as possible. Grip and shoulder health.'},
+{name:'Fat Grip Curl',muscle:'Forearms',primaryMuscle:'Forearms',secondaryMuscles:['Biceps'],equipment:'Dumbbells',movementPattern:'Elbow Flexion',difficulty:2,swapCategory:'Forearm',fatigueClass:'low',unilateral:false,icon:'🏋️',notes:'Add fat grips to dumbbells. Dramatically increases forearm demand.'},
+{name:'Towel Pull Up',muscle:'Forearms',primaryMuscle:'Forearms',secondaryMuscles:['Lats','Biceps'],equipment:'Bodyweight',movementPattern:'Vertical Pull',difficulty:4,swapCategory:'Forearm',fatigueClass:'high',unilateral:false,icon:'🧻',notes:'Hang towels over bar. Pull up holding towels. Elite grip challenge.'},
+{name:'Finger Extension',muscle:'Forearms',primaryMuscle:'Forearms',secondaryMuscles:[],equipment:'Band',movementPattern:'Wrist Extension',difficulty:1,swapCategory:'Forearm',fatigueClass:'low',unilateral:true,icon:'🖐️',notes:'Band around fingers. Extend fingers open. Balances grip flexors.'},
+
+// ════════════ NECK ════════════
+{name:'Neck Flexion',muscle:'Neck',primaryMuscle:'Neck',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Neck Flexion',difficulty:1,swapCategory:'Neck',fatigueClass:'low',unilateral:false,icon:'🔼',notes:'Chin to chest. Resist with light weight or hand. Slow and controlled.'},
+{name:'Neck Extension',muscle:'Neck',primaryMuscle:'Neck',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Neck Extension',difficulty:1,swapCategory:'Neck',fatigueClass:'low',unilateral:false,icon:'🔽',notes:'Head back carefully. Resist with hand or light plate.'},
+{name:'Neck Lateral Flexion',muscle:'Neck',primaryMuscle:'Neck',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Neck Flexion',difficulty:1,swapCategory:'Neck',fatigueClass:'low',unilateral:true,icon:'↔️',notes:'Ear to shoulder each side. Use hand resistance.'},
+
+// ════════════ LEGS — ADDITIONAL ════════════
+{name:'Pistol Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes','Core'],equipment:'Bodyweight',movementPattern:'Knee Dominant',difficulty:5,swapCategory:'Squat',fatigueClass:'med',unilateral:true,icon:'🔫',notes:'Single leg full squat. Advanced mobility and strength required.'},
+{name:'Box Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes','Hamstrings'],equipment:'Barbell',movementPattern:'Knee Dominant',difficulty:3,swapCategory:'Squat',fatigueClass:'high',unilateral:false,icon:'📦',notes:'Squat to box. Pause. Stand. Teaches proper depth and form.'},
+{name:'Anderson Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Barbell',movementPattern:'Knee Dominant',difficulty:4,swapCategory:'Squat',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Start from the bottom in pins. No stretch reflex. Pure strength.'},
+{name:'Pause Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes','Core'],equipment:'Barbell',movementPattern:'Knee Dominant',difficulty:4,swapCategory:'Squat',fatigueClass:'high',unilateral:false,icon:'⏸️',notes:'Pause 2-3 seconds at the bottom. Removes bounce. Builds strength.'},
+{name:'Tempo Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Barbell',movementPattern:'Knee Dominant',difficulty:3,swapCategory:'Squat',fatigueClass:'med',unilateral:false,icon:'🎵',notes:'Slow eccentric (3-5 seconds down). Builds control and muscle.'},
+{name:'Pin Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Barbell',movementPattern:'Knee Dominant',difficulty:4,swapCategory:'Squat',fatigueClass:'high',unilateral:false,icon:'📌',notes:'Safety pins catch bar at bottom. Overload specific portion of squat.'},
+{name:'Reverse Lunge',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Dumbbells',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Split Squat',fatigueClass:'med',unilateral:true,icon:'🔄',notes:'Step back instead of forward. More stable, less knee stress.'},
+{name:'Lateral Lunge',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Adductors','Glutes'],equipment:'Bodyweight',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Split Squat',fatigueClass:'med',unilateral:true,icon:'↔️',notes:'Step to the side. Knee tracks over toes. Stretches adductors.'},
+{name:'Curtsy Lunge',muscle:'Quads',primaryMuscle:'Glutes',secondaryMuscles:['Quads','Adductors'],equipment:'Dumbbells',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Split Squat',fatigueClass:'med',unilateral:true,icon:'💃',notes:'Cross rear leg behind. Targets glute med and hip stability.'},
+{name:'Leg Press (Single Leg)',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Machine',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Squat',fatigueClass:'med',unilateral:true,icon:'🦵',notes:'One foot on plate. Fix left/right imbalances.'},
+{name:'Hack Squat (Barbell)',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Barbell',movementPattern:'Knee Dominant',difficulty:4,swapCategory:'Squat',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Barbell behind legs at arms length. Old school quad builder.'},
+{name:'Trap Bar Deadlift',muscle:'Hamstrings',primaryMuscle:'Quads',secondaryMuscles:['Hamstrings','Glutes','Traps'],equipment:'Barbell',movementPattern:'Hip Hinge',difficulty:3,swapCategory:'Deadlift',fatigueClass:'high',unilateral:false,icon:'⬡',notes:'Hex bar. More upright torso. Easier on lower back. Great for beginners.'},
+{name:'Deficit Deadlift',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Glutes','Lats'],equipment:'Barbell',movementPattern:'Hip Hinge',difficulty:4,swapCategory:'Deadlift',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Stand on small plate. Increases ROM. Builds off-floor strength.'},
+{name:'Block Pull',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Traps','Lats'],equipment:'Barbell',movementPattern:'Hip Hinge',difficulty:3,swapCategory:'Deadlift',fatigueClass:'high',unilateral:false,icon:'📦',notes:'Bar elevated on blocks. Partial deadlift. Heavy load training.'},
+{name:'Banded Hamstring Curl',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:[],equipment:'Band',movementPattern:'Knee Flexion',difficulty:1,swapCategory:'Leg Curl',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Lie prone with band around ankles. Curl heels to glutes.'},
+{name:'Stability Ball Leg Curl',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Glutes','Core'],equipment:'Bodyweight',movementPattern:'Knee Flexion',difficulty:3,swapCategory:'Leg Curl',fatigueClass:'med',unilateral:false,icon:'⚪',notes:'Heels on ball. Bridge up and curl ball toward hips.'},
+
+// ════════════ GLUTES — ADDITIONAL ════════════
+{name:'Romanian Split Squat',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:['Hamstrings'],equipment:'Dumbbells',movementPattern:'Hip Hinge',difficulty:3,swapCategory:'Split Squat',fatigueClass:'high',unilateral:true,icon:'🦵',notes:'Hinge at hip in split stance. Loads posterior chain with split squat.'},
+{name:'Hip Extension (Cable)',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:['Hamstrings'],equipment:'Cable',movementPattern:'Hip Extension',difficulty:1,swapCategory:'Glute Isolation',fatigueClass:'low',unilateral:true,icon:'🔗',notes:'Ankle attachment. Extend leg back. Squeeze glute at top.'},
+{name:'Seated Hip Abduction',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:['Hip Abductors'],equipment:'Machine',movementPattern:'Hip Abduction',difficulty:1,swapCategory:'Glute Isolation',fatigueClass:'low',unilateral:false,icon:'🪑',notes:'Push pads out to sides. Targets glute medius.'},
+{name:'Standing Hip Abduction',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:[],equipment:'Cable',movementPattern:'Hip Abduction',difficulty:1,swapCategory:'Glute Isolation',fatigueClass:'low',unilateral:true,icon:'🔗',notes:'Cable at ankle. Raise leg out to side. Stand tall.'},
+{name:'Banded Hip Thrust',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:['Hamstrings'],equipment:'Band',movementPattern:'Hip Extension',difficulty:2,swapCategory:'Hip Thrust',fatigueClass:'med',unilateral:false,icon:'🎯',notes:'Band across hips for added resistance at lockout.'},
+{name:'Wall Hip Thrust',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Hip Extension',difficulty:1,swapCategory:'Hip Thrust',fatigueClass:'low',unilateral:false,icon:'🧱',notes:'Feet on wall instead of bench. Beginner-friendly bodyweight thrust.'},
+{name:'Step Up (Weighted)',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:['Quads'],equipment:'Dumbbells',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Glute Isolation',fatigueClass:'med',unilateral:true,icon:'⬆️',notes:'Drive through the heel. Full hip extension at top.'},
+{name:'Cable Pull Through (Low)',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:['Hamstrings'],equipment:'Cable',movementPattern:'Hip Extension',difficulty:2,swapCategory:'Glute Isolation',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Hinge down between legs, extend to standing. Hip hinge pattern.'},
+
+// ════════════ CORE — ADDITIONAL ════════════
+{name:'Cable Woodchop (High to Low)',muscle:'Core',primaryMuscle:'Obliques',secondaryMuscles:['Core','Shoulders'],equipment:'Cable',movementPattern:'Rotation',difficulty:2,swapCategory:'Core Rotation',fatigueClass:'low',unilateral:true,icon:'🪓',notes:'High cable. Rotate and pull diagonally down. Oblique power.'},
+{name:'Cable Woodchop (Low to High)',muscle:'Core',primaryMuscle:'Obliques',secondaryMuscles:['Core','Shoulders'],equipment:'Cable',movementPattern:'Rotation',difficulty:2,swapCategory:'Core Rotation',fatigueClass:'low',unilateral:true,icon:'🪓',notes:'Low cable. Rotate and pull diagonally up. Anti-rotation with power.'},
+{name:'Medicine Ball Slam',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Shoulders','Lats'],equipment:'Machine',movementPattern:'Flexion',difficulty:2,swapCategory:'Core Flexion',fatigueClass:'med',unilateral:false,icon:'⚫',notes:'Raise ball overhead, slam to floor. Full body power and core.'},
+{name:'Medicine Ball Rotational Throw',muscle:'Core',primaryMuscle:'Obliques',secondaryMuscles:['Core'],equipment:'Machine',movementPattern:'Rotation',difficulty:2,swapCategory:'Core Rotation',fatigueClass:'med',unilateral:false,icon:'⚫',notes:'Rotate and throw ball into wall. Rotational power.'},
+{name:'Ab Rollout (Barbell)',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Lats'],equipment:'Barbell',movementPattern:'Anti-Extension',difficulty:4,swapCategory:'Core Extension',fatigueClass:'med',unilateral:false,icon:'🏋️',notes:'Same as ab wheel but with loaded barbell. Very effective.'},
+{name:'Stir the Pot',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Shoulders'],equipment:'Bodyweight',movementPattern:'Anti-Extension',difficulty:3,swapCategory:'Plank',fatigueClass:'low',unilateral:false,icon:'🥄',notes:'Plank with forearms on stability ball. Trace circles. High instability.'},
+{name:'Plank with Shoulder Tap',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Shoulders'],equipment:'Bodyweight',movementPattern:'Anti-Rotation',difficulty:2,swapCategory:'Plank',fatigueClass:'low',unilateral:true,icon:'🧱',notes:'High plank. Tap opposite shoulder. Anti-rotation challenge.'},
+{name:'Cable Crunch (Kneeling)',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:[],equipment:'Cable',movementPattern:'Flexion',difficulty:2,swapCategory:'Core Flexion',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Rope at high pulley. Crunch spine forward. Do not hip hinge.'},
+{name:'Hanging Knee Raise',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Hip Flexors'],equipment:'Bodyweight',movementPattern:'Flexion',difficulty:2,swapCategory:'Core Flexion',fatigueClass:'low',unilateral:false,icon:'🏋️',notes:'Easier than straight leg. Build up to hanging leg raise.'},
+{name:'Windshield Wiper',muscle:'Core',primaryMuscle:'Obliques',secondaryMuscles:['Core'],equipment:'Bodyweight',movementPattern:'Rotation',difficulty:4,swapCategory:'Core Rotation',fatigueClass:'low',unilateral:false,icon:'🚗',notes:'Hang from bar. Raise legs and rotate side to side like wipers.'},
+{name:'V-Up',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Hip Flexors'],equipment:'Bodyweight',movementPattern:'Flexion',difficulty:3,swapCategory:'Core Flexion',fatigueClass:'low',unilateral:false,icon:'✌️',notes:'Lie flat. Raise arms and legs simultaneously to form V shape.'},
+{name:'Toes to Bar',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Hip Flexors','Lats'],equipment:'Bodyweight',movementPattern:'Flexion',difficulty:4,swapCategory:'Core Flexion',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Hang from bar. Raise straight legs to touch the bar.'},
+
+// ════════════ CARDIO — ADDITIONAL ════════════
+{name:'Sprint Intervals',muscle:'Cardio',primaryMuscle:'Cardiovascular',secondaryMuscles:['Quads','Hamstrings'],equipment:'Bodyweight',movementPattern:'Cardio',difficulty:4,swapCategory:'Cardio',fatigueClass:'high',unilateral:false,icon:'⚡',notes:'Max effort sprints with rest periods. Best for VO2 max and conditioning.'},
+{name:'Box Jump',muscle:'Cardio',primaryMuscle:'Quads',secondaryMuscles:['Glutes','Cardiovascular'],equipment:'Bodyweight',movementPattern:'Power',difficulty:3,swapCategory:'Power',fatigueClass:'med',unilateral:false,icon:'📦',notes:'Explosive jump onto box. Land softly. Step down — do not jump down.'},
+{name:'Broad Jump',muscle:'Cardio',primaryMuscle:'Quads',secondaryMuscles:['Glutes','Hamstrings'],equipment:'Bodyweight',movementPattern:'Power',difficulty:3,swapCategory:'Power',fatigueClass:'med',unilateral:false,icon:'🦘',notes:'Horizontal explosive jump. Triple extension of ankle, knee, hip.'},
+{name:'Burpee',muscle:'Cardio',primaryMuscle:'Cardiovascular',secondaryMuscles:['Full Body'],equipment:'Bodyweight',movementPattern:'Cardio',difficulty:3,swapCategory:'Cardio',fatigueClass:'high',unilateral:false,icon:'🔥',notes:'Full body conditioning. Jump, drop to plank, push up, jump up. Repeat.'},
+{name:'Mountain Climber',muscle:'Cardio',primaryMuscle:'Core',secondaryMuscles:['Cardiovascular','Quads'],equipment:'Bodyweight',movementPattern:'Cardio',difficulty:2,swapCategory:'Cardio',fatigueClass:'med',unilateral:true,icon:'⛰️',notes:'Plank position. Drive knees alternately to chest. Fast pace.'},
+{name:'Battle Ropes',muscle:'Cardio',primaryMuscle:'Shoulders',secondaryMuscles:['Core','Cardiovascular'],equipment:'Machine',movementPattern:'Cardio',difficulty:3,swapCategory:'Cardio',fatigueClass:'high',unilateral:false,icon:'🌊',notes:'Slam, wave, or circle. Full body conditioning at high intensity.'},
+{name:'Jump Squat',muscle:'Cardio',primaryMuscle:'Quads',secondaryMuscles:['Glutes','Cardiovascular'],equipment:'Bodyweight',movementPattern:'Power',difficulty:3,swapCategory:'Power',fatigueClass:'high',unilateral:false,icon:'⬆️',notes:'Squat down then jump explosively. Land softly and repeat.'},
+{name:'Kettlebell Swing',muscle:'Cardio',primaryMuscle:'Glutes',secondaryMuscles:['Hamstrings','Core','Cardiovascular'],equipment:'Dumbbells',movementPattern:'Hip Hinge',difficulty:3,swapCategory:'Power',fatigueClass:'high',unilateral:false,icon:'🔔',notes:'Hip hinge to drive bell. Arms are just a guide. Power from hips.'},
+{name:'Skipping',muscle:'Cardio',primaryMuscle:'Cardiovascular',secondaryMuscles:['Calves'],equipment:'Bodyweight',movementPattern:'Cardio',difficulty:2,swapCategory:'Cardio',fatigueClass:'med',unilateral:false,icon:'🪢',notes:'Jump rope variations. Endurance or HIIT. Great calf and cardio work.'},
+{name:'Lateral Bound',muscle:'Cardio',primaryMuscle:'Glutes',secondaryMuscles:['Quads','Cardiovascular'],equipment:'Bodyweight',movementPattern:'Power',difficulty:3,swapCategory:'Power',fatigueClass:'med',unilateral:true,icon:'↔️',notes:'Single leg lateral jumps. Land on one foot, repeat. Lateral power.'},
+
+// ════════════ MOBILITY — ADDITIONAL ════════════
+{name:'90-90 Hip Stretch',muscle:'Mobility',primaryMuscle:'Hips',secondaryMuscles:['Glutes'],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:2,swapCategory:'Mobility',fatigueClass:'low',unilateral:true,icon:'🧘',notes:'Both legs at 90 degrees. Lean over front shin. Hip external rotation.'},
+{name:'Couch Stretch',muscle:'Mobility',primaryMuscle:'Hip Flexors',secondaryMuscles:['Quads'],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:2,swapCategory:'Mobility',fatigueClass:'low',unilateral:true,icon:'🛋️',notes:'Rear shin against wall. Lunge position. Intense quad and hip flexor stretch.'},
+{name:'Thoracic Extension on Foam Roller',muscle:'Mobility',primaryMuscle:'Thoracic Spine',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Soft Tissue',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:false,icon:'🪵',notes:'Roller perpendicular to spine at shoulder blades. Hands behind head. Extend back over roller.'},
+{name:'Shoulder Dislocates',muscle:'Mobility',primaryMuscle:'Shoulders',secondaryMuscles:['Thoracic'],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:2,swapCategory:'Mobility',fatigueClass:'low',unilateral:false,icon:'🔄',notes:'Stick or band. Wide grip. Arc overhead to behind back. Shoulder mobility.'},
+{name:'Doorway Chest Stretch',muscle:'Mobility',primaryMuscle:'Chest',secondaryMuscles:['Front Delt'],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:false,icon:'🚪',notes:'Forearm on doorframe. Lean through. Opens chest and anterior shoulder.'},
+{name:'Hamstring Stretch (Standing)',muscle:'Mobility',primaryMuscle:'Hamstrings',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:true,icon:'🧘',notes:'Foot on surface. Hinge forward. Keep back flat. Breathe and relax.'},
+{name:'Calf Stretch',muscle:'Mobility',primaryMuscle:'Calves',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:true,icon:'🦵',notes:'Hands on wall. Rear leg straight or bent for soleus. Hold 60 seconds.'},
+{name:'Inchworm',muscle:'Mobility',primaryMuscle:'Hamstrings',secondaryMuscles:['Core','Shoulders'],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:2,swapCategory:'Mobility',fatigueClass:'low',unilateral:false,icon:'🐛',notes:'Walk hands out to plank, push up, walk feet to hands. Dynamic stretch.'},
+{name:'Hip Circle',muscle:'Mobility',primaryMuscle:'Hips',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:false,icon:'⭕',notes:'Stand on one leg. Large circles with free hip. Lubricate hip joint.'},
+{name:'Arm Circle',muscle:'Mobility',primaryMuscle:'Shoulders',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:false,icon:'⭕',notes:'Forward and backward. Warm up shoulder joint before pressing.'},
+{name:'Leg Swing',muscle:'Mobility',primaryMuscle:'Hip Flexors',secondaryMuscles:['Hamstrings'],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:true,icon:'🦵',notes:'Hold wall. Swing leg forward and back. Dynamic hip mobility.'},
+{name:'Lateral Leg Swing',muscle:'Mobility',primaryMuscle:'Hips',secondaryMuscles:['Adductors'],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:true,icon:'↔️',notes:'Hold wall. Swing leg side to side. Hip abductor and adductor mobility.'},
+{name:'Spiderman Stretch',muscle:'Mobility',primaryMuscle:'Hip Flexors',secondaryMuscles:['Adductors','Thoracic'],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:2,swapCategory:'Mobility',fatigueClass:'low',unilateral:true,icon:'🕷️',notes:'Lunge forward, place hand beside front foot. Open chest. Dynamic and deep.'},
+{name:'Thoracic Bridge',muscle:'Mobility',primaryMuscle:'Thoracic Spine',secondaryMuscles:['Shoulders','Hips'],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:3,swapCategory:'Mobility',fatigueClass:'low',unilateral:false,icon:'🌉',notes:'From kneeling, extend back into bridge. Advanced thoracic extension.'},
+{name:'Pancake Stretch',muscle:'Mobility',primaryMuscle:'Adductors',secondaryMuscles:['Hamstrings'],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:3,swapCategory:'Mobility',fatigueClass:'low',unilateral:false,icon:'🥞',notes:'Legs wide apart seated. Lean forward. Adductor and hamstring flexibility.'},
+
+// ════════════ TRAPS / UPPER BACK — ADDITIONAL ════════════
+{name:'Cable Shrug (Behind)',muscle:'Traps',primaryMuscle:'Traps',secondaryMuscles:[],equipment:'Cable',movementPattern:'Shrug',difficulty:2,swapCategory:'Shrug',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Cable behind body. Shrug up. Different angle for trap development.'},
+{name:'DB Shrug (Walking)',muscle:'Traps',primaryMuscle:'Traps',secondaryMuscles:['Forearms'],equipment:'Dumbbells',movementPattern:'Loaded Carry',difficulty:2,swapCategory:'Shrug',fatigueClass:'med',unilateral:false,icon:'💪',notes:'Walk while shrugging dumbbells. Combines grip, traps and conditioning.'},
+{name:'Power Shrug',muscle:'Traps',primaryMuscle:'Traps',secondaryMuscles:['Quads'],equipment:'Barbell',movementPattern:'Shrug',difficulty:3,swapCategory:'Shrug',fatigueClass:'med',unilateral:false,icon:'⚡',notes:'Use leg drive to generate momentum. Heavy loads for trap thickness.'},
+{name:'Meadows Shrug',muscle:'Traps',primaryMuscle:'Traps',secondaryMuscles:['Rear Delt'],equipment:'Barbell',movementPattern:'Shrug',difficulty:2,swapCategory:'Shrug',fatigueClass:'med',unilateral:true,icon:'🏋️',notes:'Landmine setup. Single arm shrug. Unique angle for trap development.'},
+
+
+
+// ════════════ SMITH MACHINE ════════════
+{name:'Smith Machine Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Smith Machine',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Squat',fatigueClass:'high',unilateral:false,icon:'🤖',notes:'Guided bar path. Feet can be placed further forward. Good for beginners to learn squat depth.'},
+{name:'Smith Machine Bench Press',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Triceps','Front Delt'],equipment:'Smith Machine',movementPattern:'Horizontal Push',difficulty:2,swapCategory:'Horizontal Press',fatigueClass:'high',unilateral:false,icon:'🤖',notes:'Fixed bar path. Useful when training alone. Touch chest each rep.'},
+{name:'Smith Machine Incline Press',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Front Delt'],equipment:'Smith Machine',movementPattern:'Incline Push',difficulty:2,swapCategory:'Incline Press',fatigueClass:'med',unilateral:false,icon:'🤖',notes:'Angle bench 30-45 degrees in Smith. Upper chest focus.'},
+{name:'Smith Machine OHP',muscle:'Shoulders',primaryMuscle:'Front Delt',secondaryMuscles:['Side Delt','Triceps'],equipment:'Smith Machine',movementPattern:'Vertical Push',difficulty:2,swapCategory:'Overhead Press',fatigueClass:'med',unilateral:false,icon:'🤖',notes:'Seated or standing. Bar in front. Good for shoulder isolation.'},
+{name:'Smith Machine Hip Thrust',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:['Hamstrings'],equipment:'Smith Machine',movementPattern:'Hip Extension',difficulty:2,swapCategory:'Hip Thrust',fatigueClass:'high',unilateral:false,icon:'🤖',notes:'Easier setup than barbell. Same hip drive and glute squeeze.'},
+{name:'Smith Machine Row',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps','Rear Delt'],equipment:'Smith Machine',movementPattern:'Horizontal Pull',difficulty:2,swapCategory:'Horizontal Row',fatigueClass:'med',unilateral:false,icon:'🤖',notes:'Bent over or upright row on Smith. Fixed path helps beginners.'},
+{name:'Smith Machine Calf Raise',muscle:'Calves',primaryMuscle:'Gastrocnemius',secondaryMuscles:[],equipment:'Smith Machine',movementPattern:'Ankle Flexion',difficulty:1,swapCategory:'Calf Raise',fatigueClass:'low',unilateral:false,icon:'🤖',notes:'Stand on plates in Smith. Heavy load possible. Full ROM each rep.'},
+{name:'Smith Machine Lunge',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Smith Machine',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Split Squat',fatigueClass:'med',unilateral:true,icon:'🤖',notes:'Stationary lunge in Smith. Helps balance for beginners.'},
+{name:'Smith Machine Deadlift',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Glutes','Lower Back'],equipment:'Smith Machine',movementPattern:'Hip Hinge',difficulty:2,swapCategory:'Deadlift',fatigueClass:'high',unilateral:false,icon:'🤖',notes:'Fixed path removes balance demand. Good for injury rehab.'},
+{name:'Smith Machine Shrug',muscle:'Traps',primaryMuscle:'Traps',secondaryMuscles:[],equipment:'Smith Machine',movementPattern:'Shrug',difficulty:1,swapCategory:'Shrug',fatigueClass:'low',unilateral:false,icon:'🤖',notes:'Heavy load with no balance challenge. Straight up and down.'},
+
+// ════════════ KETTLEBELL ════════════
+{name:'Kettlebell Goblet Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes','Core'],equipment:'Dumbbells',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Squat',fatigueClass:'med',unilateral:false,icon:'🔔',notes:'Hold KB at chest. Elbows inside knees at bottom. Great squat trainer.'},
+{name:'Kettlebell Romanian Deadlift',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Glutes'],equipment:'Dumbbells',movementPattern:'Hip Hinge',difficulty:2,swapCategory:'Deadlift',fatigueClass:'med',unilateral:false,icon:'🔔',notes:'Same as dumbbell RDL. KB hangs in front. Hinge and feel hamstrings.'},
+{name:'Kettlebell Turkish Get Up',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Shoulders','Glutes'],equipment:'Dumbbells',movementPattern:'Anti-Extension',difficulty:5,swapCategory:'Core Extension',fatigueClass:'high',unilateral:true,icon:'🔔',notes:'Full body movement from lying to standing with KB overhead. Learn slowly.'},
+{name:'Kettlebell Halo',muscle:'Shoulders',primaryMuscle:'Side Delt',secondaryMuscles:['Core','Traps'],equipment:'Dumbbells',movementPattern:'Lateral Raise',difficulty:2,swapCategory:'Overhead Press',fatigueClass:'low',unilateral:false,icon:'🔔',notes:'Circle KB around head. Shoulder mobility and stability.'},
+{name:'Kettlebell Clean',muscle:'Back',primaryMuscle:'Traps',secondaryMuscles:['Hamstrings','Core'],equipment:'Dumbbells',movementPattern:'Hip Hinge',difficulty:3,swapCategory:'Power',fatigueClass:'high',unilateral:true,icon:'🔔',notes:'Swing and rack to shoulder. Hip power and upper body coordination.'},
+{name:'Kettlebell Press',muscle:'Shoulders',primaryMuscle:'Front Delt',secondaryMuscles:['Side Delt','Triceps'],equipment:'Dumbbells',movementPattern:'Vertical Push',difficulty:3,swapCategory:'Overhead Press',fatigueClass:'med',unilateral:true,icon:'🔔',notes:'Bottoms up for extra core and shoulder stability challenge.'},
+{name:'Kettlebell Windmill',muscle:'Core',primaryMuscle:'Obliques',secondaryMuscles:['Shoulders','Hamstrings'],equipment:'Dumbbells',movementPattern:'Anti-Lateral Flexion',difficulty:4,swapCategory:'Core Rotation',fatigueClass:'med',unilateral:true,icon:'🔔',notes:'KB overhead, hinge to side, reach other hand to floor. Hip and shoulder mobility.'},
+{name:'Kettlebell Snatch',muscle:'Cardio',primaryMuscle:'Cardiovascular',secondaryMuscles:['Shoulders','Hamstrings','Core'],equipment:'Dumbbells',movementPattern:'Power',difficulty:4,swapCategory:'Power',fatigueClass:'high',unilateral:true,icon:'🔔',notes:'Swing to overhead in one motion. Total body power and conditioning.'},
+{name:'Kettlebell Deadlift',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Glutes','Core'],equipment:'Dumbbells',movementPattern:'Hip Hinge',difficulty:2,swapCategory:'Deadlift',fatigueClass:'med',unilateral:false,icon:'🔔',notes:'KB between feet. Hip hinge to pick up. Good intro to deadlift pattern.'},
+{name:'Kettlebell Row',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps'],equipment:'Dumbbells',movementPattern:'Horizontal Pull',difficulty:2,swapCategory:'Horizontal Row',fatigueClass:'med',unilateral:true,icon:'🔔',notes:'Same as dumbbell row. KB handle allows different wrist position.'},
+{name:'Kettlebell Suitcase Carry',muscle:'Core',primaryMuscle:'Obliques',secondaryMuscles:['Forearms','Traps'],equipment:'Dumbbells',movementPattern:'Loaded Carry',difficulty:2,swapCategory:'Anti-Lateral Flexion',fatigueClass:'med',unilateral:true,icon:'🔔',notes:'One KB at side. Walk upright. Core fights lateral lean. Grip and core.'},
+{name:'Kettlebell Figure 8',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Shoulders','Hips'],equipment:'Dumbbells',movementPattern:'Rotation',difficulty:2,swapCategory:'Core Rotation',fatigueClass:'low',unilateral:false,icon:'🔔',notes:'Pass KB around and between legs in figure 8 pattern. Coordination and core.'},
+
+// ════════════ SLED ════════════
+{name:'Sled Pull',muscle:'Cardio',primaryMuscle:'Cardiovascular',secondaryMuscles:['Back','Hamstrings'],equipment:'Machine',movementPattern:'Loaded Carry',difficulty:3,swapCategory:'Cardio',fatigueClass:'high',unilateral:false,icon:'🛷',notes:'Walk backward pulling sled. Low impact high effort. Posterior chain.'},
+{name:'Sled Push (Low Handle)',muscle:'Cardio',primaryMuscle:'Quads',secondaryMuscles:['Glutes','Cardiovascular'],equipment:'Machine',movementPattern:'Cardio',difficulty:4,swapCategory:'Cardio',fatigueClass:'high',unilateral:false,icon:'🛷',notes:'Hands at waist level. More quad drive. Brutal leg and cardio workout.'},
+{name:'Sled Push (High Handle)',muscle:'Cardio',primaryMuscle:'Cardiovascular',secondaryMuscles:['Quads','Chest'],equipment:'Machine',movementPattern:'Cardio',difficulty:3,swapCategory:'Cardio',fatigueClass:'high',unilateral:false,icon:'🛷',notes:'Hands above head height. More upper body involvement. Chest and shoulders.'},
+{name:'Sled Row',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps','Cardiovascular'],equipment:'Machine',movementPattern:'Horizontal Pull',difficulty:3,swapCategory:'Horizontal Row',fatigueClass:'high',unilateral:false,icon:'🛷',notes:'Attach strap to sled. Row walk backward. Combines pulling and conditioning.'},
+
+// ════════════ CARDIO MACHINES ════════════
+{name:'Incline Treadmill Walk',muscle:'Cardio',primaryMuscle:'Cardiovascular',secondaryMuscles:['Glutes','Calves'],equipment:'Machine',movementPattern:'Cardio',difficulty:1,swapCategory:'Cardio',fatigueClass:'low',unilateral:false,icon:'🏔️',notes:'10-15% incline at 5-6km/h. Low impact steady state cardio. Excellent for fat loss.'},
+{name:'Ski Erg',muscle:'Cardio',primaryMuscle:'Cardiovascular',secondaryMuscles:['Lats','Core','Triceps'],equipment:'Machine',movementPattern:'Cardio',difficulty:3,swapCategory:'Cardio',fatigueClass:'high',unilateral:false,icon:'⛷️',notes:'Pull handles down and back. Double pole ski motion. Upper body conditioning.'},
+{name:'Air Bike (HIIT)',muscle:'Cardio',primaryMuscle:'Cardiovascular',secondaryMuscles:['Full Body'],equipment:'Machine',movementPattern:'Cardio',difficulty:4,swapCategory:'Cardio',fatigueClass:'high',unilateral:false,icon:'🚴',notes:'20s on 10s off or 30s on 30s off. Assault bike is brutally effective for HIIT.'},
+{name:'Rowing LISS',muscle:'Cardio',primaryMuscle:'Cardiovascular',secondaryMuscles:['Back','Core'],equipment:'Machine',movementPattern:'Cardio',difficulty:2,swapCategory:'Cardio',fatigueClass:'med',unilateral:false,icon:'🚣',notes:'30-60 min at conversational pace. Zone 2 training. Best for aerobic base.'},
+{name:'Elliptical HIIT',muscle:'Cardio',primaryMuscle:'Cardiovascular',secondaryMuscles:['Full Body'],equipment:'Machine',movementPattern:'Cardio',difficulty:2,swapCategory:'Cardio',fatigueClass:'med',unilateral:false,icon:'🔄',notes:'High resistance intervals. Lower impact than running. Joint-friendly conditioning.'},
+{name:'Stair Climb (Intervals)',muscle:'Cardio',primaryMuscle:'Cardiovascular',secondaryMuscles:['Glutes','Quads'],equipment:'Machine',movementPattern:'Cardio',difficulty:3,swapCategory:'Cardio',fatigueClass:'high',unilateral:false,icon:'🪜',notes:'Alternating fast and slow intervals on Stairmaster. Glutes and cardio.'},
+{name:'Treadmill Sprint',muscle:'Cardio',primaryMuscle:'Cardiovascular',secondaryMuscles:['Quads','Hamstrings'],equipment:'Machine',movementPattern:'Cardio',difficulty:4,swapCategory:'Cardio',fatigueClass:'high',unilateral:false,icon:'⚡',notes:'30-60s at max speed. Rest 90s. Repeat 6-10 times. VO2 max development.'},
+
+// ════════════ REHAB / PREHAB ════════════
+{name:'Clamshell (Banded)',muscle:'Mobility',primaryMuscle:'Glutes',secondaryMuscles:['Hip Abductors'],equipment:'Band',movementPattern:'Hip Abduction',difficulty:1,swapCategory:'Prehab',fatigueClass:'low',unilateral:true,icon:'🦪',notes:'Band around knees. Side lying. Open like a clamshell. Hip stabiliser activation.'},
+{name:'Monster Walk',muscle:'Mobility',primaryMuscle:'Glutes',secondaryMuscles:['Quads'],equipment:'Band',movementPattern:'Hip Abduction',difficulty:1,swapCategory:'Prehab',fatigueClass:'low',unilateral:false,icon:'👹',notes:'Band around ankles or knees. Walk sideways with tension. Glute med activation.'},
+{name:'Glute Activation Walk',muscle:'Mobility',primaryMuscle:'Glutes',secondaryMuscles:[],equipment:'Band',movementPattern:'Hip Extension',difficulty:1,swapCategory:'Prehab',fatigueClass:'low',unilateral:false,icon:'🚶',notes:'Band at ankles. Walk forward with deliberate hip extension each step.'},
+{name:'Hip Thrust (Bodyweight)',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:['Hamstrings'],equipment:'Bodyweight',movementPattern:'Hip Extension',difficulty:1,swapCategory:'Hip Thrust',fatigueClass:'low',unilateral:false,icon:'🍑',notes:'No weight. Shoulders on bench. Drive hips up. Good warm-up for posterior chain.'},
+{name:'Rotator Cuff External Rotation',muscle:'Mobility',primaryMuscle:'Shoulders',secondaryMuscles:['Rear Delt'],equipment:'Band',movementPattern:'Stretch',difficulty:1,swapCategory:'Prehab',fatigueClass:'low',unilateral:true,icon:'🔄',notes:'Band at elbow height. Keep elbow at 90 degrees. Rotate forearm outward. Shoulder health essential.'},
+{name:'Internal Rotation Stretch',muscle:'Mobility',primaryMuscle:'Shoulders',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:1,swapCategory:'Prehab',fatigueClass:'low',unilateral:true,icon:'🔄',notes:'Reach arm behind back and up. Balances external rotation. Shoulder flexibility.'},
+{name:'Scapular Wall Slide',muscle:'Mobility',primaryMuscle:'Traps',secondaryMuscles:['Shoulders'],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:1,swapCategory:'Prehab',fatigueClass:'low',unilateral:false,icon:'🧱',notes:'Back against wall. Arms in goalpost. Slide up and down. Scapular retraction.'},
+{name:'Shoulder Impingement Test',muscle:'Mobility',primaryMuscle:'Shoulders',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:1,swapCategory:'Prehab',fatigueClass:'low',unilateral:true,icon:'🔍',notes:'Self-assessment. Reach one arm across and raise with other hand at elbow. Feel pain level.'},
+{name:'Jefferson Curl',muscle:'Mobility',primaryMuscle:'Hamstrings',secondaryMuscles:['Lower Back','Glutes'],equipment:'Barbell',movementPattern:'Hip Hinge',difficulty:3,swapCategory:'Prehab',fatigueClass:'low',unilateral:false,icon:'〰️',notes:'Slowly curl spine down vertebra by vertebra. Spinal decompression. Start very light.'},
+{name:'Tibialis Raise',muscle:'Mobility',primaryMuscle:'Shins',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Ankle Flexion',difficulty:1,swapCategory:'Prehab',fatigueClass:'low',unilateral:false,icon:'🦵',notes:'Lean back against wall. Raise toes off floor. Strengthens tibialis. Prevents shin splints.'},
+{name:'Nordic Hamstring Eccentric',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Knee Flexion',difficulty:4,swapCategory:'Prehab',fatigueClass:'med',unilateral:false,icon:'🏋️',notes:'Eccentric-focused Nordic curl. Prevents hamstring tears. Used by elite football clubs.'},
+{name:'Wrist Flexor Stretch',muscle:'Mobility',primaryMuscle:'Forearms',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:1,swapCategory:'Prehab',fatigueClass:'low',unilateral:true,icon:'🖐️',notes:'Arm extended, palm up. Pull fingers back with other hand. Wrist health for pressing.'},
+{name:'Wrist Extensor Stretch',muscle:'Mobility',primaryMuscle:'Forearms',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:1,swapCategory:'Prehab',fatigueClass:'low',unilateral:true,icon:'🖐️',notes:'Arm extended, palm down. Pull hand toward you. Wrist health for curling and gripping.'},
+{name:'Neck Chin Tuck',muscle:'Mobility',primaryMuscle:'Neck',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Neck Flexion',difficulty:1,swapCategory:'Prehab',fatigueClass:'low',unilateral:false,icon:'🔼',notes:'Retract chin straight back. Creates double chin. Corrects forward head posture. Do 10x/day.'},
+{name:'Box Breathing',muscle:'Mobility',primaryMuscle:'Cardiovascular',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:1,swapCategory:'Prehab',fatigueClass:'low',unilateral:false,icon:'📦',notes:'4s inhale, 4s hold, 4s exhale, 4s hold. Nervous system regulation. Do before heavy sessions.'},
+{name:'Foam Roll (IT Band)',muscle:'Mobility',primaryMuscle:'Quads',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Soft Tissue',difficulty:2,swapCategory:'Mobility',fatigueClass:'low',unilateral:true,icon:'🪵',notes:'Side lying on roller. Outer thigh from hip to knee. Pause on tight spots.'},
+{name:'Foam Roll (Lats)',muscle:'Mobility',primaryMuscle:'Lats',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Soft Tissue',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:true,icon:'🪵',notes:'Side lying with arm overhead on roller. Roll upper lat area.'},
+{name:'Foam Roll (Calves)',muscle:'Mobility',primaryMuscle:'Calves',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Soft Tissue',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:false,icon:'🪵',notes:'Sit with roller under calf. Cross other leg on top to add pressure. Roll slowly.'},
+{name:'Foam Roll (Glutes)',muscle:'Mobility',primaryMuscle:'Glutes',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Soft Tissue',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:true,icon:'🪵',notes:'Sit on roller. Cross one leg. Shift weight to one glute. Roll from hip to tailbone.'},
+{name:'Foam Roll (Mid Back)',muscle:'Mobility',primaryMuscle:'Thoracic Spine',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Soft Tissue',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:false,icon:'🪵',notes:'Roller across mid-back. Arms crossed. Lean back over roller. Segment by segment.'},
+
+// ════════════ MORE BACK EXERCISES ════════════
+{name:'Reverse Grip Pulldown',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps'],equipment:'Cable',movementPattern:'Vertical Pull',difficulty:2,swapCategory:'Vertical Pull',fatigueClass:'med',unilateral:false,icon:'🔗',notes:'Underhand grip. Shorter ROM but strong bicep assistance. Great for strength.'},
+{name:'Wide Grip Pulldown',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Rear Delt'],equipment:'Cable',movementPattern:'Vertical Pull',difficulty:2,swapCategory:'Vertical Pull',fatigueClass:'med',unilateral:false,icon:'🔗',notes:'Grip wider than shoulder. Elbows flare out more. Outer lat width focus.'},
+{name:'Close Grip Pulldown',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps'],equipment:'Cable',movementPattern:'Vertical Pull',difficulty:2,swapCategory:'Vertical Pull',fatigueClass:'med',unilateral:false,icon:'🔗',notes:'Narrow neutral grip. Elbows travel down beside body. Thickness over width.'},
+{name:'Kneeling Pulldown',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:[],equipment:'Cable',movementPattern:'Vertical Pull',difficulty:2,swapCategory:'Vertical Pull',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Kneel in front of cable. Reduces lat substitution. Pure pull.'},
+{name:'One Arm Dumbbell Row (Hip)',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps'],equipment:'Dumbbells',movementPattern:'Horizontal Pull',difficulty:2,swapCategory:'Horizontal Row',fatigueClass:'med',unilateral:true,icon:'💪',notes:'Pull to hip crease rather than ribcage. More lat engagement less rhomboid.'},
+{name:'Barbell Meadows Row',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Rear Delt','Biceps'],equipment:'Barbell',movementPattern:'Horizontal Pull',difficulty:3,swapCategory:'Horizontal Row',fatigueClass:'med',unilateral:true,icon:'🏋️',notes:'Landmine plate in hand. Row to hip. Unique angle for mid-back and lat.'},
+{name:'Machine Lat Pullover',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Chest'],equipment:'Machine',movementPattern:'Vertical Pull',difficulty:1,swapCategory:'Vertical Pull',fatigueClass:'low',unilateral:false,icon:'🤖',notes:'Arms arc from overhead to hips. Machine version. Great lat isolation with no bicep.'},
+{name:'Band Pulldown',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:[],equipment:'Band',movementPattern:'Vertical Pull',difficulty:1,swapCategory:'Vertical Pull',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Band anchored overhead. Pull down with straight arms or bent. Lat activation warm-up.'},
+{name:'TRX Row',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps','Rear Delt'],equipment:'Bodyweight',movementPattern:'Horizontal Pull',difficulty:2,swapCategory:'Horizontal Row',fatigueClass:'med',unilateral:false,icon:'⬆️',notes:'Lean back on TRX handles. Row chest to hands. Feet further = harder.'},
+{name:'Ring Row',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps'],equipment:'Bodyweight',movementPattern:'Horizontal Pull',difficulty:2,swapCategory:'Horizontal Row',fatigueClass:'med',unilateral:false,icon:'⭕',notes:'Gymnastics rings version of TRX row. Instability increases core demand.'},
+
+// ════════════ MORE CHEST ════════════
+{name:'Banded Push Up',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Triceps'],equipment:'Band',movementPattern:'Horizontal Push',difficulty:2,swapCategory:'Horizontal Press',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Band across upper back. Increasing resistance at lockout. Adds accommodating resistance.'},
+{name:'Push Up to Renegade Row',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Lats','Core'],equipment:'Dumbbells',movementPattern:'Horizontal Push',difficulty:4,swapCategory:'Horizontal Press',fatigueClass:'high',unilateral:false,icon:'💪',notes:'Push up on dumbbells then row each arm. Compound full body movement.'},
+{name:'Spoto Press',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Triceps'],equipment:'Barbell',movementPattern:'Horizontal Push',difficulty:3,swapCategory:'Horizontal Press',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Pause 1 inch off chest without touching. Removes stretch reflex. Pure pressing strength.'},
+{name:'Wide Grip Bench Press',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Front Delt'],equipment:'Barbell',movementPattern:'Horizontal Push',difficulty:3,swapCategory:'Horizontal Press',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Grip wider than normal. More chest activation less tricep. Higher pec stretch.'},
+{name:'Reverse Grip Bench Press',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Biceps','Upper Chest'],equipment:'Barbell',movementPattern:'Horizontal Push',difficulty:4,swapCategory:'Horizontal Press',fatigueClass:'high',unilateral:false,icon:'🔄',notes:'Supinated grip. Unusual but effective for upper chest. Needs spotter.'},
+{name:'Machine Fly (High to Low)',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:[],equipment:'Machine',movementPattern:'Fly',difficulty:1,swapCategory:'Chest Fly',fatigueClass:'low',unilateral:false,icon:'🤖',notes:'Arms arc from high to low. Targets lower chest and inner pec.'},
+{name:'Cable Fly (Low to High)',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:[],equipment:'Cable',movementPattern:'Fly',difficulty:2,swapCategory:'Chest Fly',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Cable low, cross arms up and across. Targets upper chest.'},
+{name:'Single Arm Cable Press',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Core','Triceps'],equipment:'Cable',movementPattern:'Horizontal Push',difficulty:2,swapCategory:'Horizontal Press',fatigueClass:'med',unilateral:true,icon:'🔗',notes:'One arm cable press. Anti-rotation core challenge. Fix left/right imbalances.'},
+
+// ════════════ MORE QUADS ════════════
+{name:'Quad Extension Drop Set',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:[],equipment:'Machine',movementPattern:'Knee Extension',difficulty:2,swapCategory:'Quad Isolation',fatigueClass:'med',unilateral:false,icon:'🤖',notes:'Do a set, immediately reduce weight and repeat. Metabolic technique.'},
+{name:'Narrow Stance Leg Press',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:[],equipment:'Machine',movementPattern:'Knee Dominant',difficulty:1,swapCategory:'Squat',fatigueClass:'high',unilateral:false,icon:'🤖',notes:'Feet close together on low part of plate. Maximum quad activation.'},
+{name:'Wide Stance Leg Press',muscle:'Quads',primaryMuscle:'Glutes',secondaryMuscles:['Adductors','Hamstrings'],equipment:'Machine',movementPattern:'Knee Dominant',difficulty:1,swapCategory:'Squat',fatigueClass:'high',unilateral:false,icon:'🤖',notes:'Feet wide and high. Targets inner quad, adductors and glutes.'},
+{name:'Spanish Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:[],equipment:'Band',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Prehab',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Band around fixed post at knee height. Squat with shins vertical. Knee rehab.'},
+{name:'Knee Extension (Partial)',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:[],equipment:'Machine',movementPattern:'Knee Extension',difficulty:1,swapCategory:'Prehab',fatigueClass:'low',unilateral:true,icon:'🤖',notes:'Partial range. Used in knee rehab protocols. Minimises patella stress.'},
+
+// ════════════ MORE HAMSTRINGS ════════════
+{name:'Dumbbell Leg Curl',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:[],equipment:'Dumbbells',movementPattern:'Knee Flexion',difficulty:2,swapCategory:'Leg Curl',fatigueClass:'low',unilateral:false,icon:'💪',notes:'Lie prone. Grip dumbbell between feet. Curl up. Good when machine unavailable.'},
+{name:'Band Hamstring Curl (Standing)',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:[],equipment:'Band',movementPattern:'Knee Flexion',difficulty:1,swapCategory:'Leg Curl',fatigueClass:'low',unilateral:true,icon:'🎯',notes:'Band at ankle, anchored low. Stand and curl heel to glute. Single leg.'},
+{name:'Cable Hamstring Curl',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:[],equipment:'Cable',movementPattern:'Knee Flexion',difficulty:2,swapCategory:'Leg Curl',fatigueClass:'low',unilateral:true,icon:'🔗',notes:'Ankle attachment on cable. Stand facing machine. Curl heel up. Constant tension.'},
+{name:'Lying Leg Curl (Unilateral)',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:[],equipment:'Machine',movementPattern:'Knee Flexion',difficulty:1,swapCategory:'Leg Curl',fatigueClass:'low',unilateral:true,icon:'🤖',notes:'One leg at a time. Fix hamstring imbalances. Full ROM each rep.'},
+{name:'Deadlift (Snatch Grip)',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Traps','Lats'],equipment:'Barbell',movementPattern:'Hip Hinge',difficulty:5,swapCategory:'Deadlift',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Very wide grip. Greater hamstring demand. Upper back and lat engagement.'},
+
+// ════════════ MORE GLUTES ════════════
+{name:'Banded Glute Bridge',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:[],equipment:'Band',movementPattern:'Hip Extension',difficulty:1,swapCategory:'Hip Thrust',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Band across hips. Floor bridge. Push knees out against band. Glute and hip abductor.'},
+{name:'Prone Hip Extension',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:['Hamstrings'],equipment:'Bodyweight',movementPattern:'Hip Extension',difficulty:1,swapCategory:'Glute Isolation',fatigueClass:'low',unilateral:true,icon:'⬆️',notes:'Lie face down. Lift one leg with knee bent or straight. Squeeze glute at top.'},
+{name:'Step Up (Lateral)',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:['Hip Abductors'],equipment:'Bodyweight',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Glute Isolation',fatigueClass:'med',unilateral:true,icon:'↔️',notes:'Step up to the side rather than forward. Targets glute med.'},
+{name:'Hip Thrust (Pause)',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:['Hamstrings'],equipment:'Barbell',movementPattern:'Hip Extension',difficulty:3,swapCategory:'Hip Thrust',fatigueClass:'high',unilateral:false,icon:'🍑',notes:'Pause 2-3 seconds at the top. Eliminates momentum. Maximises glute time under tension.'},
+{name:'Quadruped Hip Circle',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:['Hip Abductors'],equipment:'Bodyweight',movementPattern:'Hip Abduction',difficulty:1,swapCategory:'Prehab',fatigueClass:'low',unilateral:true,icon:'⭕',notes:'On all fours. Draw large circles with the knee. Hip joint mobility and glute activation.'},
+
+// ════════════ MORE CORE ════════════
+{name:'Cable Oblique Crunch',muscle:'Core',primaryMuscle:'Obliques',secondaryMuscles:['Core'],equipment:'Cable',movementPattern:'Flexion',difficulty:2,swapCategory:'Core Flexion',fatigueClass:'low',unilateral:true,icon:'🔗',notes:'Cable to side. Crunch toward hip. Lateral flexion for obliques.'},
+{name:'Weighted Plank',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Shoulders'],equipment:'Barbell',movementPattern:'Anti-Extension',difficulty:3,swapCategory:'Plank',fatigueClass:'low',unilateral:false,icon:'🏋️',notes:'Weight plate on back during plank. Progresses the movement when time-based gets easy.'},
+{name:'Dragon Flag Negative',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Chest'],equipment:'Bodyweight',movementPattern:'Anti-Extension',difficulty:4,swapCategory:'Core Extension',fatigueClass:'med',unilateral:false,icon:'🐉',notes:'Start at top, lower slowly only. Build strength before the full movement.'},
+{name:'TRX Pike',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Shoulders'],equipment:'Bodyweight',movementPattern:'Anti-Extension',difficulty:4,swapCategory:'Core Extension',fatigueClass:'med',unilateral:false,icon:'🔺',notes:'Feet in TRX straps in plank. Pull hips up to pike position. Advanced core.'},
+{name:'Landmine Anti-Rotation',muscle:'Core',primaryMuscle:'Obliques',secondaryMuscles:['Core'],equipment:'Barbell',movementPattern:'Anti-Rotation',difficulty:3,swapCategory:'Anti-Rotation',fatigueClass:'low',unilateral:false,icon:'🌀',notes:'Hold barbell end with both hands. Resist rotation as it arcs side to side.'},
+{name:'Copenhagen Side Plank',muscle:'Core',primaryMuscle:'Obliques',secondaryMuscles:['Adductors'],equipment:'Bodyweight',movementPattern:'Anti-Lateral Flexion',difficulty:4,swapCategory:'Plank',fatigueClass:'low',unilateral:true,icon:'🧱',notes:'Top foot on bench, bottom foot hangs. Adductor and oblique demanding.'},
+{name:'Gym Ball Crunch',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Flexion',difficulty:2,swapCategory:'Core Flexion',fatigueClass:'low',unilateral:false,icon:'⚪',notes:'Back arched over ball. Greater ROM than floor crunch. Feel full stretch.'},
+{name:'Decline Sit Up',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Hip Flexors'],equipment:'Machine',movementPattern:'Flexion',difficulty:3,swapCategory:'Core Flexion',fatigueClass:'low',unilateral:false,icon:'📐',notes:'Feet locked at the top of decline bench. Full range sit up. Add weight for progression.'},
+{name:'Weighted Crunch',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:[],equipment:'Barbell',movementPattern:'Flexion',difficulty:2,swapCategory:'Core Flexion',fatigueClass:'low',unilateral:false,icon:'💪',notes:'Hold plate or dumbbell at chest or behind head. Adds progressive resistance to crunch.'},
+{name:'Reverse Crunch',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Flexion',difficulty:2,swapCategory:'Core Flexion',fatigueClass:'low',unilateral:false,icon:'🔄',notes:'Lift hips off floor by curling knees to chest. Lower back must peel off floor.'},
+{name:'Ab Wheel (Standing)',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Lats','Shoulders'],equipment:'Bodyweight',movementPattern:'Anti-Extension',difficulty:5,swapCategory:'Core Extension',fatigueClass:'high',unilateral:false,icon:'⭕',notes:'Standing ab wheel rollout. Elite level core strength. Only for advanced.'},
+
+// ════════════ MORE CALVES ════════════
+{name:'Tibial Torsion Calf Raise',muscle:'Calves',primaryMuscle:'Gastrocnemius',secondaryMuscles:[],equipment:'Machine',movementPattern:'Ankle Flexion',difficulty:1,swapCategory:'Calf Raise',fatigueClass:'low',unilateral:false,icon:'🔄',notes:'Toes pointed in or out changes which calf head is emphasised. Vary for full development.'},
+{name:'Smith Machine Calf Raise (Single)',muscle:'Calves',primaryMuscle:'Gastrocnemius',secondaryMuscles:[],equipment:'Smith Machine',movementPattern:'Ankle Flexion',difficulty:2,swapCategory:'Calf Raise',fatigueClass:'low',unilateral:true,icon:'🤖',notes:'One leg at a time on Smith. Heavier single leg work with balance support.'},
+{name:'Weighted Seated Calf Raise',muscle:'Calves',primaryMuscle:'Soleus',secondaryMuscles:[],equipment:'Barbell',movementPattern:'Ankle Flexion',difficulty:2,swapCategory:'Calf Raise',fatigueClass:'low',unilateral:false,icon:'🏋️',notes:'Plate or barbell across knees. Seated calf raise if no machine available.'},
+
+// ════════════ MORE TRAPS ════════════
+{name:'Face Pull with External Rotation',muscle:'Traps',primaryMuscle:'Rear Delt',secondaryMuscles:['Lower Traps','Rotator Cuff'],equipment:'Cable',movementPattern:'Horizontal Pull',difficulty:2,swapCategory:'Rear Delt',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Add deliberate external rotation at the end of face pull. Shoulder health and lower trap.'},
+{name:'Scapular Pull Up',muscle:'Traps',primaryMuscle:'Lower Traps',secondaryMuscles:['Lats'],equipment:'Bodyweight',movementPattern:'Vertical Pull',difficulty:3,swapCategory:'Prehab',fatigueClass:'low',unilateral:false,icon:'⬆️',notes:'Dead hang. Pull shoulder blades down without bending elbows. Scapular depression.'},
+{name:'Low Row to Shrug',muscle:'Traps',primaryMuscle:'Traps',secondaryMuscles:['Lats','Rear Delt'],equipment:'Cable',movementPattern:'Horizontal Pull',difficulty:2,swapCategory:'Shrug',fatigueClass:'med',unilateral:false,icon:'🔗',notes:'Row in, then shrug up at the end. Full upper back activation.'},
+
+// ════════════ FUNCTIONAL / COMPOUND ════════════
+{name:'Clean and Press',muscle:'Cardio',primaryMuscle:'Full Body',secondaryMuscles:['Shoulders','Hamstrings','Quads'],equipment:'Barbell',movementPattern:'Power',difficulty:5,swapCategory:'Power',fatigueClass:'high',unilateral:false,icon:'⚡',notes:'Power clean to front rack, then press overhead. Full body power movement.'},
+{name:'Thruster',muscle:'Cardio',primaryMuscle:'Quads',secondaryMuscles:['Shoulders','Core'],equipment:'Barbell',movementPattern:'Power',difficulty:4,swapCategory:'Power',fatigueClass:'high',unilateral:false,icon:'🚀',notes:'Front squat to overhead press in one fluid movement. Classic CrossFit movement.'},
+{name:'Power Clean',muscle:'Cardio',primaryMuscle:'Full Body',secondaryMuscles:['Hamstrings','Traps'],equipment:'Barbell',movementPattern:'Power',difficulty:5,swapCategory:'Power',fatigueClass:'high',unilateral:false,icon:'⚡',notes:'Bar from floor to front rack position. Triple extension of ankle knee hip. Olympic lift.'},
+{name:'Hang Power Clean',muscle:'Cardio',primaryMuscle:'Full Body',secondaryMuscles:['Hamstrings','Traps'],equipment:'Barbell',movementPattern:'Power',difficulty:4,swapCategory:'Power',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Start from hang position at hips. Easier entry point to Olympic lifting.'},
+{name:'Overhead Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Shoulders','Core','Glutes'],equipment:'Barbell',movementPattern:'Knee Dominant',difficulty:5,swapCategory:'Squat',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Bar overhead in snatch grip. Squat down. Extreme shoulder and ankle mobility required.'},
+{name:'Bear Complex',muscle:'Cardio',primaryMuscle:'Full Body',secondaryMuscles:['Full Body'],equipment:'Barbell',movementPattern:'Power',difficulty:5,swapCategory:'Power',fatigueClass:'high',unilateral:false,icon:'🐻',notes:'Power clean, front squat, push press, back squat, behind neck press. Repeat. Brutal conditioning.'},
+
+
+
+// ════════════ MORE SHOULDERS ════════════
+{name:'Bradford Press',muscle:'Shoulders',primaryMuscle:'Side Delt',secondaryMuscles:['Front Delt','Traps'],equipment:'Barbell',movementPattern:'Vertical Push',difficulty:3,swapCategory:'Overhead Press',fatigueClass:'med',unilateral:false,icon:'🏋️',notes:'Alternate pressing front and behind neck. Partial reps. Full delt development.'},
+{name:'Lu Raise',muscle:'Shoulders',primaryMuscle:'Side Delt',secondaryMuscles:['Front Delt'],equipment:'Dumbbells',movementPattern:'Lateral Raise',difficulty:2,swapCategory:'Lateral Raise',fatigueClass:'low',unilateral:false,icon:'💪',notes:'Lu Xiaojun technique. Side raise with slight forward lean and thumb down.'},
+{name:'Cross Body Lateral Raise',muscle:'Shoulders',primaryMuscle:'Side Delt',secondaryMuscles:[],equipment:'Dumbbells',movementPattern:'Lateral Raise',difficulty:2,swapCategory:'Lateral Raise',fatigueClass:'low',unilateral:true,icon:'✖️',notes:'Raise arm across body and up to opposite side. Different angle for side delt.'},
+{name:'Cable Lateral Raise (High)',muscle:'Shoulders',primaryMuscle:'Side Delt',secondaryMuscles:[],equipment:'Cable',movementPattern:'Lateral Raise',difficulty:2,swapCategory:'Lateral Raise',fatigueClass:'low',unilateral:true,icon:'🔗',notes:'Cable above head height. Pull down and to the side. Reverse of normal direction.'},
+{name:'Barbell Front Raise',muscle:'Shoulders',primaryMuscle:'Front Delt',secondaryMuscles:[],equipment:'Barbell',movementPattern:'Front Raise',difficulty:2,swapCategory:'Front Raise',fatigueClass:'low',unilateral:false,icon:'🏋️',notes:'Wide overhand grip. Raise to eye level. More front delt work per rep than dumbbells.'},
+{name:'Incline Front Raise',muscle:'Shoulders',primaryMuscle:'Front Delt',secondaryMuscles:[],equipment:'Dumbbells',movementPattern:'Front Raise',difficulty:2,swapCategory:'Front Raise',fatigueClass:'low',unilateral:false,icon:'📐',notes:'Lie prone on incline bench. Raise arms forward. Removes momentum completely.'},
+{name:'Prone Rear Delt Raise',muscle:'Shoulders',primaryMuscle:'Rear Delt',secondaryMuscles:['Lower Traps'],equipment:'Dumbbells',movementPattern:'Horizontal Pull',difficulty:2,swapCategory:'Rear Delt',fatigueClass:'low',unilateral:false,icon:'🦅',notes:'Lie face down on flat bench. Raise arms out to sides. Strict rear delt isolation.'},
+{name:'3-Way Shoulder Raise',muscle:'Shoulders',primaryMuscle:'Side Delt',secondaryMuscles:['Front Delt','Rear Delt'],equipment:'Dumbbells',movementPattern:'Lateral Raise',difficulty:2,swapCategory:'Lateral Raise',fatigueClass:'low',unilateral:false,icon:'3️⃣',notes:'Front raise, lateral raise, rear delt fly. Three movements in sequence per set.'},
+
+// ════════════ MORE BICEPS ════════════
+{name:'Banded Bicep Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:[],equipment:'Band',movementPattern:'Elbow Flexion',difficulty:1,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Band under feet. Curl up with supinated grip. Great for travel and home.'},
+{name:'Door Frame Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Elbow Flexion',difficulty:2,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:true,icon:'🚪',notes:'Hold door frame. Lean back. Curl bodyweight. No equipment needed.'},
+{name:'Drag Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:[],equipment:'Barbell',movementPattern:'Elbow Flexion',difficulty:2,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:false,icon:'💪',notes:'Drag bar up the body as you curl. Elbows go back not forward. Long head emphasis.'},
+{name:'Cheat Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:[],equipment:'Barbell',movementPattern:'Elbow Flexion',difficulty:3,swapCategory:'Bicep Curl',fatigueClass:'med',unilateral:false,icon:'🔥',notes:'Use slight body swing to overload the top. Control the descent. Heavy training tool.'},
+{name:'Cable Rope Curl (High)',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:[],equipment:'Cable',movementPattern:'Elbow Flexion',difficulty:2,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Rope at high pulley. Pull toward face. Bicep in peak contracted position.'},
+{name:'Machine Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:[],equipment:'Machine',movementPattern:'Elbow Flexion',difficulty:1,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:false,icon:'🤖',notes:'Seat machine curl. Fixed path. Great for isolation without balance challenge.'},
+{name:'Scott Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:[],equipment:'Barbell',movementPattern:'Elbow Flexion',difficulty:2,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:false,icon:'🙏',notes:'Preacher bench with straight bar. Classic bicep isolation. Full stretch at bottom.'},
+
+// ════════════ MORE TRICEPS ════════════
+{name:'Cable Overhead Rope Extension',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:[],equipment:'Cable',movementPattern:'Elbow Extension',difficulty:2,swapCategory:'Tricep Extension',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Rope at high pulley facing away. Extend arms overhead. Long head maximum stretch.'},
+{name:'Single Arm Tricep Pushdown',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:[],equipment:'Cable',movementPattern:'Elbow Extension',difficulty:1,swapCategory:'Tricep Pushdown',fatigueClass:'low',unilateral:true,icon:'🔗',notes:'One arm at a time. Fix imbalances. Full extension each rep.'},
+{name:'Machine Tricep Extension',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:[],equipment:'Machine',movementPattern:'Elbow Extension',difficulty:1,swapCategory:'Tricep Extension',fatigueClass:'low',unilateral:false,icon:'🤖',notes:'Machine version. Consistent resistance. Good for beginners.'},
+{name:'Banded Tricep Extension',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:[],equipment:'Band',movementPattern:'Elbow Extension',difficulty:1,swapCategory:'Tricep Extension',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Band over door. Pushdown or overhead. Home-friendly tricep work.'},
+{name:'Dips between Benches',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:['Chest'],equipment:'Bodyweight',movementPattern:'Vertical Push',difficulty:1,swapCategory:'Tricep Compound',fatigueClass:'low',unilateral:false,icon:'🪑',notes:'Hands on one bench, feet on another. Beginner-friendly dip. Add weight to lap.'},
+{name:'Parallel Bar Tricep Dip',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:['Chest'],equipment:'Bodyweight',movementPattern:'Vertical Push',difficulty:3,swapCategory:'Tricep Compound',fatigueClass:'high',unilateral:false,icon:'⬇️',notes:'Stay upright. Elbows back not out. Full depth and full lock out.'},
+
+// ════════════ MORE MOBILITY AND BALANCE ════════════
+{name:'Single Leg Balance',muscle:'Mobility',primaryMuscle:'Ankles',secondaryMuscles:['Core','Glutes'],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:1,swapCategory:'Prehab',fatigueClass:'low',unilateral:true,icon:'🦩',notes:'Stand on one leg. Eyes closed for harder challenge. Ankle and proprioception.'},
+{name:'BOSU Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Core','Ankles'],equipment:'Bodyweight',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Squat',fatigueClass:'med',unilateral:false,icon:'⚪',notes:'Squat on BOSU dome side up. Unstable surface increases core and ankle demand.'},
+{name:'Single Leg Deadlift (Bodyweight)',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Glutes','Core'],equipment:'Bodyweight',movementPattern:'Hip Hinge',difficulty:3,swapCategory:'Deadlift',fatigueClass:'low',unilateral:true,icon:'🦩',notes:'No weight. Hinge to horizontal. Good for learning the movement and balance.'},
+{name:'Yoga Flow',muscle:'Mobility',primaryMuscle:'Full Body',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:2,swapCategory:'Mobility',fatigueClass:'low',unilateral:false,icon:'🧘',notes:'Sun salutation or similar flow. Dynamic mobility for whole body. Great active recovery.'},
+{name:'Hip 90-90 Rotation',muscle:'Mobility',primaryMuscle:'Hips',secondaryMuscles:['Glutes'],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:2,swapCategory:'Mobility',fatigueClass:'low',unilateral:true,icon:'🔄',notes:'Sitting in 90-90. Rotate hips from external to internal rotation side to side.'},
+{name:'Thoracic Windmill',muscle:'Mobility',primaryMuscle:'Thoracic Spine',secondaryMuscles:['Shoulders'],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:2,swapCategory:'Mobility',fatigueClass:'low',unilateral:true,icon:'🌬️',notes:'Side lying. Arm sweeps from front to back overhead. Opens thoracic rotation.'},
+{name:'Overhead Squat (Bodyweight)',muscle:'Mobility',primaryMuscle:'Hips',secondaryMuscles:['Ankles','Shoulders','Core'],equipment:'Bodyweight',movementPattern:'Knee Dominant',difficulty:3,swapCategory:'Mobility',fatigueClass:'low',unilateral:false,icon:'🙌',notes:'Arms overhead. Squat as deep as possible. Reveals all mobility restrictions simultaneously.'},
+{name:'Ankle Circle',muscle:'Mobility',primaryMuscle:'Ankles',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:true,icon:'⭕',notes:'Seated or standing. Rotate ankle clockwise and counter. Joint health before squats.'},
+{name:'Glute Stretch (Supine)',muscle:'Mobility',primaryMuscle:'Glutes',secondaryMuscles:['Hip External Rotators'],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:true,icon:'🧘',notes:'Lie on back. Figure-four position. Pull knee toward chest. Hip external rotation.'},
+{name:'Hamstring Floss',muscle:'Mobility',primaryMuscle:'Hamstrings',secondaryMuscles:[],equipment:'Band',movementPattern:'Stretch',difficulty:2,swapCategory:'Mobility',fatigueClass:'low',unilateral:true,icon:'🦵',notes:'Band around thigh. Cycle knee extension and flexion while maintaining band compression.'},
+
+// ════════════ ISOLATION EXTRAS ════════════
+{name:'Concentration Curl (Cable)',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:[],equipment:'Cable',movementPattern:'Elbow Flexion',difficulty:2,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:true,icon:'🔗',notes:'Kneel beside cable. Elbow on thigh. Pure bicep isolation with constant tension.'},
+{name:'Rope Pushdown (Supinated)',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:[],equipment:'Cable',movementPattern:'Elbow Extension',difficulty:2,swapCategory:'Tricep Pushdown',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Rotate hands at bottom so palms face up. Targets all heads differently.'},
+{name:'Lateral Raise (Prone)',muscle:'Shoulders',primaryMuscle:'Side Delt',secondaryMuscles:[],equipment:'Dumbbells',movementPattern:'Lateral Raise',difficulty:2,swapCategory:'Lateral Raise',fatigueClass:'low',unilateral:false,icon:'🦅',notes:'Lie face down on incline bench. Raise arms to sides. Removes momentum completely.'},
+{name:'Incline Hammer Curl',muscle:'Biceps',primaryMuscle:'Brachialis',secondaryMuscles:['Biceps'],equipment:'Dumbbells',movementPattern:'Elbow Flexion',difficulty:2,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:true,icon:'💪',notes:'Incline bench, neutral grip. Greater long head and brachialis stretch.'},
+{name:'Seated Barbell Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:[],equipment:'Barbell',movementPattern:'Elbow Flexion',difficulty:2,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:false,icon:'🪑',notes:'Seated removes ability to cheat. Stricter than standing. Pure bicep work.'},
+{name:'Overhead Tricep Extension (Band)',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:[],equipment:'Band',movementPattern:'Elbow Extension',difficulty:1,swapCategory:'Tricep Extension',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Step on band. Raise arms overhead. Extend elbows. Long head stretch at home.'},
+{name:'Supinated Pull Up',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps'],equipment:'Bodyweight',movementPattern:'Vertical Pull',difficulty:3,swapCategory:'Vertical Pull',fatigueClass:'high',unilateral:false,icon:'☝️',notes:'Underhand chin-up width grip. Hybrid between chin and pull up. Strong bicep involvement.'},
+{name:'Mixed Grip Deadlift',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Glutes','Lats'],equipment:'Barbell',movementPattern:'Hip Hinge',difficulty:4,swapCategory:'Deadlift',fatigueClass:'high',unilateral:false,icon:'🔄',notes:'One hand over, one under. Used by powerlifters for max grip at heavy loads.'},
+{name:'Zercher Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Core','Biceps'],equipment:'Barbell',movementPattern:'Knee Dominant',difficulty:4,swapCategory:'Squat',fatigueClass:'high',unilateral:false,icon:'💪',notes:'Bar in the crook of elbows. Forces upright posture. Unique quad and core stimulus.'},
+{name:'Landmine Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes','Core'],equipment:'Barbell',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Squat',fatigueClass:'med',unilateral:false,icon:'🏋️',notes:'Hold end of landmine at chest. Squat. Guided path helps beginners stay upright.'},
+{name:'Cable Pull Apart',muscle:'Shoulders',primaryMuscle:'Rear Delt',secondaryMuscles:['Traps'],equipment:'Cable',movementPattern:'Horizontal Pull',difficulty:1,swapCategory:'Rear Delt',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Face cable at chest height. Pull handles apart to sides. Rear delt and rhomboid activation.'},
+
+
+// ════════════ BAND EXERCISES ════════════
+{name:'Banded Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Band',movementPattern:'Knee Dominant',difficulty:1,swapCategory:'Squat',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Band around knees or hips. Forces knee tracking and adds resistance.'},
+{name:'Banded Deadlift',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Glutes'],equipment:'Band',movementPattern:'Hip Hinge',difficulty:2,swapCategory:'Deadlift',fatigueClass:'med',unilateral:false,icon:'🎯',notes:'Band under feet, over hands. Accommodating resistance increases load at lockout.'},
+{name:'Banded Hip Hinge',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Glutes'],equipment:'Band',movementPattern:'Hip Hinge',difficulty:1,swapCategory:'Deadlift',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Learn hip hinge with band. Band around hips, anchored behind. Push hips back into band.'},
+{name:'Banded Press Up',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Triceps'],equipment:'Band',movementPattern:'Horizontal Push',difficulty:2,swapCategory:'Horizontal Press',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Band across back, hands on handles. More resistance at lockout. Explosive push.'},
+{name:'Banded Good Morning',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Lower Back'],equipment:'Band',movementPattern:'Hip Hinge',difficulty:2,swapCategory:'Deadlift',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Band under feet and over shoulders. Good morning hinge. Spinal erector and hamstring.'},
+{name:'Banded Lat Pulldown',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps'],equipment:'Band',movementPattern:'Vertical Pull',difficulty:1,swapCategory:'Vertical Pull',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Band overhead. Pull down to chest. Great home alternative to cable pulldown.'},
+{name:'Banded Face Pull',muscle:'Shoulders',primaryMuscle:'Rear Delt',secondaryMuscles:['Traps'],equipment:'Band',movementPattern:'Horizontal Pull',difficulty:1,swapCategory:'Rear Delt',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Band at face height. Same as cable face pull. Essential for shoulder health.'},
+{name:'Banded Pull Apart',muscle:'Shoulders',primaryMuscle:'Rear Delt',secondaryMuscles:['Traps'],equipment:'Band',movementPattern:'Horizontal Pull',difficulty:1,swapCategory:'Rear Delt',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Hold band at shoulder width. Pull apart to full extension. 100 per day for shoulder health.'},
+{name:'Banded Overhead Press',muscle:'Shoulders',primaryMuscle:'Front Delt',secondaryMuscles:['Triceps'],equipment:'Band',movementPattern:'Vertical Push',difficulty:1,swapCategory:'Overhead Press',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Step on band. Press overhead. Home-friendly shoulder press.'},
+{name:'Banded Lateral Raise',muscle:'Shoulders',primaryMuscle:'Side Delt',secondaryMuscles:[],equipment:'Band',movementPattern:'Lateral Raise',difficulty:1,swapCategory:'Lateral Raise',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Step on band. Raise to sides. Constant tension through full ROM.'},
+
+// ════════════ BODYWEIGHT PROGRESSIONS ════════════
+{name:'Eccentric Pull Up',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps'],equipment:'Bodyweight',movementPattern:'Vertical Pull',difficulty:3,swapCategory:'Vertical Pull',fatigueClass:'med',unilateral:false,icon:'⬇️',notes:'Jump or step to top position. Lower as slowly as possible. Build pull up strength.'},
+{name:'Typewriter Pull Up',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps'],equipment:'Bodyweight',movementPattern:'Vertical Pull',difficulty:4,swapCategory:'Vertical Pull',fatigueClass:'high',unilateral:false,icon:'⌨️',notes:'At top of pull up, slide side to side without coming down. Advanced lat training.'},
+{name:'Muscle Up',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Chest','Triceps'],equipment:'Bodyweight',movementPattern:'Vertical Pull',difficulty:5,swapCategory:'Vertical Pull',fatigueClass:'high',unilateral:false,icon:'🏆',notes:'Pull up that transitions to a dip above the bar. Elite gymnastic movement.'},
+{name:'Front Lever Tuck',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Core'],equipment:'Bodyweight',movementPattern:'Anti-Extension',difficulty:4,swapCategory:'Plank',fatigueClass:'high',unilateral:false,icon:'🎯',notes:'Hang from bar. Pull body horizontal with knees tucked. Progression to front lever.'},
+{name:'Ring Push Up',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Core','Triceps'],equipment:'Bodyweight',movementPattern:'Horizontal Push',difficulty:3,swapCategory:'Horizontal Press',fatigueClass:'med',unilateral:false,icon:'⭕',notes:'Push up with rings. Instability engages more stabilisers. More chest activation.'},
+{name:'Pseudo Planche Push Up',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Front Delt','Core'],equipment:'Bodyweight',movementPattern:'Horizontal Push',difficulty:4,swapCategory:'Horizontal Press',fatigueClass:'med',unilateral:false,icon:'🤸',notes:'Hands beside hips. Lean forward on push up. Front delt and chest strength.'},
+{name:'Tuck Planche',muscle:'Chest',primaryMuscle:'Front Delt',secondaryMuscles:['Core','Triceps'],equipment:'Bodyweight',movementPattern:'Vertical Push',difficulty:5,swapCategory:'Prehab',fatigueClass:'high',unilateral:false,icon:'🤸',notes:'Hold body parallel to floor on hands with knees tucked. Elite upper body strength.'},
+{name:'Bulgarian Split Squat (Bodyweight)',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Bodyweight',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Split Squat',fatigueClass:'med',unilateral:true,icon:'🦵',notes:'Bodyweight version. Learn the movement before adding load. High reps for conditioning.'},
+{name:'Glute Ham Raise (Bodyweight)',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Glutes'],equipment:'Bodyweight',movementPattern:'Knee Flexion',difficulty:4,swapCategory:'Leg Curl',fatigueClass:'med',unilateral:false,icon:'🏋️',notes:'Nordic curl style on GHD. Best hamstring exercise with no equipment needed.'},
+{name:'Single Leg Box Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Bodyweight',movementPattern:'Knee Dominant',difficulty:4,swapCategory:'Squat',fatigueClass:'med',unilateral:true,icon:'📦',notes:'Squat to box on one leg. Progressio to pistol squat. Control descent, drive up.'},
+{name:'Squat Jump (Banded)',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes','Cardiovascular'],equipment:'Band',movementPattern:'Power',difficulty:3,swapCategory:'Power',fatigueClass:'med',unilateral:false,icon:'⚡',notes:'Band under feet, over shoulders. Jump squat with band resistance. Explosive power.'},
+
+// ════════════ CORE EXTRAS ════════════
+{name:'Suitcase Deadlift',muscle:'Core',primaryMuscle:'Obliques',secondaryMuscles:['Hamstrings','Traps'],equipment:'Dumbbells',movementPattern:'Hip Hinge',difficulty:3,swapCategory:'Anti-Lateral Flexion',fatigueClass:'med',unilateral:true,icon:'💼',notes:'Dumbbell on one side only. Resist lateral lean. Core, oblique and lat.'},
+{name:'Single Arm Plank',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Shoulders'],equipment:'Bodyweight',movementPattern:'Anti-Rotation',difficulty:3,swapCategory:'Plank',fatigueClass:'low',unilateral:true,icon:'🧱',notes:'High plank on one arm. Other arm straight by side. Intense anti-rotation.'},
+{name:'Plank Hip Dip',muscle:'Core',primaryMuscle:'Obliques',secondaryMuscles:['Core'],equipment:'Bodyweight',movementPattern:'Anti-Lateral Flexion',difficulty:2,swapCategory:'Plank',fatigueClass:'low',unilateral:false,icon:'↔️',notes:'Forearm plank. Rotate hips to tap floor each side. Oblique endurance.'},
+{name:'Hollow Rock',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Anti-Extension',difficulty:3,swapCategory:'Plank',fatigueClass:'low',unilateral:false,icon:'🌊',notes:'Hollow position then rock forward and back. Maintains full tension throughout.'},
+{name:'Arch Rock',muscle:'Back',primaryMuscle:'Lower Back',secondaryMuscles:['Glutes'],equipment:'Bodyweight',movementPattern:'Hip Extension',difficulty:2,swapCategory:'Lower Back',fatigueClass:'low',unilateral:false,icon:'🌉',notes:'Superman arch position then rock forward and back. Counterpart to hollow rock.'},
+{name:'Turkish Get Up (Bodyweight)',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Shoulders','Hips'],equipment:'Bodyweight',movementPattern:'Anti-Extension',difficulty:3,swapCategory:'Core Extension',fatigueClass:'med',unilateral:true,icon:'🧘',notes:'Get up without weight first. Learn each phase carefully. Foundational movement.'},
+{name:'Bear Crawl',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Shoulders','Quads'],equipment:'Bodyweight',movementPattern:'Cardio',difficulty:2,swapCategory:'Cardio',fatigueClass:'med',unilateral:false,icon:'🐻',notes:'On hands and feet, knees hovering. Crawl forward and back. Full body stability.'},
+{name:'Crab Walk',muscle:'Core',primaryMuscle:'Glutes',secondaryMuscles:['Core','Triceps'],equipment:'Bodyweight',movementPattern:'Cardio',difficulty:2,swapCategory:'Cardio',fatigueClass:'med',unilateral:false,icon:'🦀',notes:'Hands and feet, hips up. Walk sideways. Glutes and triceps conditioning.'},
+{name:'Inchworm Push Up',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Chest','Hamstrings'],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:3,swapCategory:'Cardio',fatigueClass:'med',unilateral:false,icon:'🐛',notes:'Walk hands out to plank, do push up, walk feet to hands. Dynamic full body.'},
+{name:'Man Maker',muscle:'Cardio',primaryMuscle:'Full Body',secondaryMuscles:['Full Body'],equipment:'Dumbbells',movementPattern:'Power',difficulty:4,swapCategory:'Power',fatigueClass:'high',unilateral:false,icon:'💥',notes:'Push up, row each arm, squat clean, press. One of the most demanding exercises possible.'},
+
+// ════════════ POWER / PLYOMETRIC ════════════
+{name:'Depth Jump',muscle:'Cardio',primaryMuscle:'Quads',secondaryMuscles:['Glutes','Calves'],equipment:'Bodyweight',movementPattern:'Power',difficulty:4,swapCategory:'Power',fatigueClass:'high',unilateral:false,icon:'📦',notes:'Step off box, land and immediately jump as high as possible. Reactive strength.'},
+{name:'Broad Jump to Box Jump',muscle:'Cardio',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Bodyweight',movementPattern:'Power',difficulty:4,swapCategory:'Power',fatigueClass:'high',unilateral:false,icon:'📦',notes:'Broad jump followed immediately by box jump. Power and reactive ability.'},
+{name:'Medicine Ball Chest Pass',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Triceps'],equipment:'Machine',movementPattern:'Horizontal Push',difficulty:2,swapCategory:'Power',fatigueClass:'med',unilateral:false,icon:'⚽',notes:'Explosive throw against wall. Power and speed for chest and triceps.'},
+{name:'Medicine Ball Overhead Throw',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Shoulders','Lats'],equipment:'Machine',movementPattern:'Flexion',difficulty:2,swapCategory:'Power',fatigueClass:'med',unilateral:false,icon:'⚽',notes:'Slam ball overhead down to floor. Full core flexion with power.'},
+{name:'Single Leg Box Jump',muscle:'Cardio',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Bodyweight',movementPattern:'Power',difficulty:4,swapCategory:'Power',fatigueClass:'med',unilateral:true,icon:'📦',notes:'Jump from one leg onto box. Advanced single leg power.'},
+{name:'Tuck Jump',muscle:'Cardio',primaryMuscle:'Cardiovascular',secondaryMuscles:['Quads','Core'],equipment:'Bodyweight',movementPattern:'Power',difficulty:3,swapCategory:'Power',fatigueClass:'high',unilateral:false,icon:'🦘',notes:'Jump and pull knees to chest at apex. Hip flexor and quad power.'},
+{name:'Split Jump',muscle:'Cardio',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Bodyweight',movementPattern:'Power',difficulty:3,swapCategory:'Power',fatigueClass:'high',unilateral:true,icon:'⚡',notes:'Lunge position. Jump and switch legs in air. Land in opposite lunge. Plyometric lunge.'},
+
+
+
+// ════════════ ADDITIONAL PUSH TO 500+ ════════════
+{name:'Pin Bench Press',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Triceps'],equipment:'Barbell',movementPattern:'Horizontal Push',difficulty:3,swapCategory:'Horizontal Press',fatigueClass:'high',unilateral:false,icon:'📌',notes:'Bar starts resting on safety pins mid-ROM. No stretch reflex. Overload specific zone.'},
+{name:'Larsen Press',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Triceps'],equipment:'Barbell',movementPattern:'Horizontal Push',difficulty:3,swapCategory:'Horizontal Press',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Bench press with legs extended straight in front. Removes leg drive entirely.'},
+{name:'California Press',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:['Chest'],equipment:'Barbell',movementPattern:'Elbow Extension',difficulty:3,swapCategory:'Tricep Compound',fatigueClass:'med',unilateral:false,icon:'🌴',notes:'Skull crusher that ends in close grip bench. Best of both for tricep mass.'},
+{name:'Teres Major Pull',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Rear Delt'],equipment:'Cable',movementPattern:'Horizontal Pull',difficulty:2,swapCategory:'Horizontal Row',fatigueClass:'low',unilateral:true,icon:'🔗',notes:'Single arm horizontal pull with arm fully extended. Targets lower lat and teres.'},
+{name:'Staggered Stance Deadlift',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Glutes'],equipment:'Barbell',movementPattern:'Hip Hinge',difficulty:3,swapCategory:'Deadlift',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'One foot slightly back. Splits glute and hamstring load. Transition to single leg.'},
+{name:'Smith Machine Split Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Smith Machine',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Split Squat',fatigueClass:'high',unilateral:true,icon:'🤖',notes:'Split squat in Smith for balance support. Good for learning the pattern.'},
+{name:'Dumbbell Walking Lunge',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Dumbbells',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Split Squat',fatigueClass:'med',unilateral:true,icon:'🚶',notes:'Walk across floor lunging. Continuous movement with dumbbells at sides.'},
+{name:'Barbell Walking Lunge',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Barbell',movementPattern:'Knee Dominant',difficulty:3,swapCategory:'Split Squat',fatigueClass:'high',unilateral:true,icon:'🏋️',notes:'Barbell on back. Walk forward in lunges. Balance and strength combined.'},
+{name:'Adductor Machine',muscle:'Quads',primaryMuscle:'Adductors',secondaryMuscles:[],equipment:'Machine',movementPattern:'Hip Abduction',difficulty:1,swapCategory:'Glute Isolation',fatigueClass:'low',unilateral:false,icon:'🤖',notes:'Squeeze legs together. Inner thigh and adductor isolation.'},
+{name:'Abductor Machine',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:['Hip Abductors'],equipment:'Machine',movementPattern:'Hip Abduction',difficulty:1,swapCategory:'Glute Isolation',fatigueClass:'low',unilateral:false,icon:'🤖',notes:'Push legs apart. Hip abductor and glute med isolation.'},
+{name:'Cable Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Cable',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Squat',fatigueClass:'med',unilateral:false,icon:'🔗',notes:'Hold low cable at chest. Squat down. Counterbalance helps upright posture.'},
+{name:'Ring Dip',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Triceps'],equipment:'Bodyweight',movementPattern:'Vertical Push',difficulty:4,swapCategory:'Dip',fatigueClass:'high',unilateral:false,icon:'⭕',notes:'Dip on gymnastics rings. Extreme instability increases chest and stabiliser demand.'},
+{name:'Bodyweight Tricep Extension',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Elbow Extension',difficulty:3,swapCategory:'Tricep Extension',fatigueClass:'med',unilateral:false,icon:'💪',notes:'Hands on bar or bench behind. Lower head toward bar bending elbows. Skull crusher bodyweight.'},
+{name:'Cable Hip Flexion',muscle:'Core',primaryMuscle:'Hip Flexors',secondaryMuscles:['Core'],equipment:'Cable',movementPattern:'Flexion',difficulty:2,swapCategory:'Core Flexion',fatigueClass:'low',unilateral:true,icon:'🔗',notes:'Ankle attachment. Stand facing away from cable. Raise knee. Hip flexor strengthening.'},
+{name:'Cable Shoulder Extension',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:[],equipment:'Cable',movementPattern:'Vertical Pull',difficulty:2,swapCategory:'Vertical Pull',fatigueClass:'low',unilateral:true,icon:'🔗',notes:'Single arm overhead. Pull arm down in arc to side. Lat focus with no bicep.'},
+{name:'Single Arm Dumbbell Snatch',muscle:'Cardio',primaryMuscle:'Full Body',secondaryMuscles:['Shoulders','Hamstrings'],equipment:'Dumbbells',movementPattern:'Power',difficulty:4,swapCategory:'Power',fatigueClass:'high',unilateral:true,icon:'⚡',notes:'Dumbbell from floor to overhead in one explosive motion. Olympic lifting accessory.'},
+{name:'Seated Row (Single Arm)',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps'],equipment:'Cable',movementPattern:'Horizontal Pull',difficulty:2,swapCategory:'Horizontal Row',fatigueClass:'med',unilateral:true,icon:'🔗',notes:'One arm cable row. Anti-rotation challenge. Fix back imbalances.'},
+{name:'Incline Cable Fly',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:[],equipment:'Cable',movementPattern:'Fly',difficulty:2,swapCategory:'Chest Fly',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Adjust cables low. Lie on incline bench. Fly up. Constant tension for upper chest.'},
+{name:'Guillotine Press',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:[],equipment:'Barbell',movementPattern:'Horizontal Push',difficulty:4,swapCategory:'Horizontal Press',fatigueClass:'high',unilateral:false,icon:'⚔️',notes:'Bar lowers to neck not chest. More upper pec stretch. High shoulder risk. Use with caution.'},
+{name:'Barbell Hip Thrust',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:['Hamstrings'],equipment:'Barbell',movementPattern:'Hip Extension',difficulty:3,swapCategory:'Hip Thrust',fatigueClass:'high',unilateral:false,icon:'🍑',notes:'Classic barbell hip thrust. Upper back on bench, bar across hips, drive up and squeeze.'},
+{name:'Kneeling Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Barbell',movementPattern:'Knee Dominant',difficulty:3,swapCategory:'Squat',fatigueClass:'med',unilateral:false,icon:'🙏',notes:'Start kneeling. Stand up. Forces pure hip and quad strength from weak position.'},
+{name:'Hatfield Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Barbell',movementPattern:'Knee Dominant',difficulty:3,swapCategory:'Squat',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Hold uprights for balance while safety bar squatting. Allows more upright torso and heavier load.'},
+{name:'Pin Pull',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Traps'],equipment:'Barbell',movementPattern:'Hip Hinge',difficulty:4,swapCategory:'Deadlift',fatigueClass:'high',unilateral:false,icon:'📌',notes:'Deadlift starting above the knee on pins. Lockout specific strength. Very heavy.'},
+{name:'Breathing Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes','Cardiovascular'],equipment:'Barbell',movementPattern:'Knee Dominant',difficulty:4,swapCategory:'Squat',fatigueClass:'high',unilateral:false,icon:'💨',notes:'20 rep squat with 3 deep breaths between reps. Classic mass builder. Mentally brutal.'},
+{name:'Anderson Front Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Core'],equipment:'Barbell',movementPattern:'Knee Dominant',difficulty:5,swapCategory:'Squat',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Front squat starting from bottom in pins. No stretch reflex. Pure strength from depth.'},
+{name:'Cable Pull Through (High)',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:['Hamstrings'],equipment:'Cable',movementPattern:'Hip Extension',difficulty:2,swapCategory:'Glute Isolation',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'High cable pull through. Different vector loads posterior chain differently.'},
+{name:'Hollow Body Pull Up',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Core'],equipment:'Bodyweight',movementPattern:'Vertical Pull',difficulty:5,swapCategory:'Vertical Pull',fatigueClass:'high',unilateral:false,icon:'⬆️',notes:'Maintain hollow body position throughout pull up. No kipping. Gymnastic strength.'},
+{name:'Tempo Deadlift',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Glutes','Lower Back'],equipment:'Barbell',movementPattern:'Hip Hinge',difficulty:3,swapCategory:'Deadlift',fatigueClass:'high',unilateral:false,icon:'🎵',notes:'3-5 second lowering phase. Time under tension for posterior chain. Technique builder.'},
+{name:'Pause Deadlift',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Glutes'],equipment:'Barbell',movementPattern:'Hip Hinge',difficulty:4,swapCategory:'Deadlift',fatigueClass:'high',unilateral:false,icon:'⏸️',notes:'Pause at mid-shin on the way up. Remove momentum. Builds strength through the sticking point.'},
+{name:'Wide Stance Squat',muscle:'Quads',primaryMuscle:'Glutes',secondaryMuscles:['Adductors','Quads'],equipment:'Barbell',movementPattern:'Knee Dominant',difficulty:3,swapCategory:'Squat',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Sumo-style squat width. Targets inner quad, adductors and glutes differently to normal squat.'},
+
+{name:'Cable Tricep Overhead',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:[],equipment:'Cable',movementPattern:'Elbow Extension',difficulty:2,swapCategory:'Tricep Extension',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Face away from cable. Rope behind head. Extend arms overhead. Long head max stretch.'},
+{name:'Reverse Fly (Cable)',muscle:'Shoulders',primaryMuscle:'Rear Delt',secondaryMuscles:['Traps'],equipment:'Cable',movementPattern:'Horizontal Pull',difficulty:2,swapCategory:'Rear Delt',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Cross cables at chest height. Pull apart in reverse fly. Rear delt and upper back.'},
 ];
 
 // ── Swap system: find best swap for a given exercise ──────────
@@ -5233,52 +5772,130 @@ function renderLibrary() {
   }
   const query = (document.getElementById('libSearch')||{}).value||'';
   const results = EXERCISE_LIBRARY.filter(ex => {
-    const matchesSearch = !query || ex.name.toLowerCase().includes(query.toLowerCase()) || ex.muscle.toLowerCase().includes(query.toLowerCase());
-    const matchesFilter = libFilter==='All' || ex.muscle===libFilter || ex.equipment===libFilter;
+    const matchesSearch = !query ||
+      ex.name.toLowerCase().includes(query.toLowerCase()) ||
+      (ex.muscle||'').toLowerCase().includes(query.toLowerCase()) ||
+      (ex.movementPattern||'').toLowerCase().includes(query.toLowerCase()) ||
+      (ex.swapCategory||'').toLowerCase().includes(query.toLowerCase());
+    const matchesFilter = libFilter==='All' ||
+      ex.muscle===libFilter ||
+      ex.equipment===libFilter ||
+      (ex.primaryMuscle||'')=== libFilter;
     return matchesSearch && matchesFilter;
   });
-  document.getElementById('libCount').textContent = results.length + ' exercise' + (results.length!==1?'s':'') + (libFilter!=='All'?' — '+libFilter:'');
+  document.getElementById('libCount').textContent =
+    results.length + ' exercise' + (results.length!==1?'s':'') +
+    (libFilter!=='All'?' — '+libFilter:'');
   const list = document.getElementById('libList');
   if (!results.length) {
     list.innerHTML = '<div class="lib-empty">No exercises found. Try a different search or filter.</div>';
     return;
   }
   list.innerHTML = results.map((ex, i) => {
-    const cues = CUES[ex.name];
     const isOpen = libOpenIdx === ex.name;
+
+    // ── Safe cues — CUES object first, then notes field, then generic ──
+    const rawCues  = CUES[ex.name];
+    const fallback = getCueFallback(ex);
+    const cues     = rawCues || fallback;
+
+    // ── Safe video fields — never render undefined ──
+    const hasVideo      = ex.videoUrl && typeof ex.videoUrl === 'string' && ex.videoUrl.length > 10;
+    const safeTitle     = (ex.videoTitle && ex.videoTitle !== 'undefined') ? ex.videoTitle : (ex.name + ' — Form Guide');
+    const safeChannel   = (ex.videoChannel && ex.videoChannel !== 'undefined') ? ex.videoChannel : 'Video guide';
+
+    // ── Difficulty dots ──
+    const diff = ex.difficulty || 0;
+    const dots = diff ? Array.from({length:5},(_,d)=>
+      `<span style="font-size:8px;color:${d<diff?'var(--a3)':'var(--tf)'}">${d<diff?'●':'○'}</span>`
+    ).join('') : '';
+
     return `<div class="lib-ex-card ${isOpen?'open':''}" id="libcard-${i}">
-      <div class="lib-ex-hdr" onclick="toggleLibEx('${ex.name}',${i})">
-        <div class="lib-ex-icon">${ex.icon}</div>
+      <div class="lib-ex-hdr" onclick="toggleLibEx('${ex.name.replace(/'/g,"\\'")}',${i})">
+        <div class="lib-ex-icon">${ex.icon||'💪'}</div>
         <div class="lib-ex-info">
           <div class="lib-ex-name">${ex.name}</div>
           <div class="lib-ex-tags">
-            <span class="lib-ex-tag muscle">${ex.muscle}</span>
-            <span class="lib-ex-tag equip">${ex.equipment}</span>
+            <span class="lib-ex-tag muscle">${ex.primaryMuscle||ex.muscle||''}</span>
+            <span class="lib-ex-tag equip">${ex.equipment||''}</span>
+            ${ex.movementPattern?`<span class="lib-ex-tag" style="background:rgba(124,106,255,.08);color:var(--a4);border-color:rgba(124,106,255,.15)">${ex.movementPattern}</span>`:''}
           </div>
+          ${dots?`<div style="margin-top:4px;display:flex;gap:2px;align-items:center"><span style="font-size:9px;color:var(--tf);margin-right:3px">DIFFICULTY</span>${dots}</div>`:''}
         </div>
         <div class="lib-ex-chev">▾</div>
       </div>
       ${isOpen?`
       <div class="lib-ex-body">
+
+        ${hasVideo?`
         <a class="lib-video-btn" href="${ex.videoUrl}" target="_blank" rel="noopener">
           <div class="lib-video-icon"></div>
           <div class="lib-video-info">
-            <div class="lib-video-title">${ex.videoTitle}</div>
-            <div class="lib-video-sub">${ex.videoChannel} — tap to open in YouTube</div>
+            <div class="lib-video-title">${safeTitle}</div>
+            <div class="lib-video-sub">${safeChannel} — tap to open in YouTube</div>
           </div>
           <div class="lib-video-arrow">▶</div>
-        </a>
-        ${cues?`
+        </a>`:''}
+
         <div class="lib-cues">
-          <div class="lib-cue-section"><div class="lib-cue-label">Setup</div><div class="lib-cue-text">${cues.setup}</div></div>
-          <div class="lib-cue-section"><div class="lib-cue-label">The Movement</div><div class="lib-cue-text">${cues.movement}</div></div>
-          <div class="lib-cue-section"><div class="lib-cue-label">What to Feel</div><div class="lib-cue-text">${cues.feel}</div></div>
-          <div class="lib-cue-section"><div class="lib-cue-label">Common Mistakes</div><div class="lib-cue-text">${cues.mistakes}</div></div>
-        </div>`:''}
-      </div>`:''}
+          <div class="lib-cue-section">
+            <div class="lib-cue-label">Setup</div>
+            <div class="lib-cue-text">${cues.setup}</div>
+          </div>
+          <div class="lib-cue-section">
+            <div class="lib-cue-label">The Movement</div>
+            <div class="lib-cue-text">${cues.movement}</div>
+          </div>
+          <div class="lib-cue-section">
+            <div class="lib-cue-label">What to Feel</div>
+            <div class="lib-cue-text">${cues.feel}</div>
+          </div>
+          <div class="lib-cue-section">
+            <div class="lib-cue-label">Common Mistakes</div>
+            <div class="lib-cue-text">${cues.mistakes}</div>
+          </div>
+          ${ex.secondaryMuscles && ex.secondaryMuscles.length?`
+          <div class="lib-cue-section">
+            <div class="lib-cue-label">Also Works</div>
+            <div class="lib-cue-text">${ex.secondaryMuscles.join(', ')}</div>
+          </div>`:''}
+        </div>
+
+      </div>`:''
+      }
     </div>`;
   }).join('');
 }
+
+// ── Cue fallback: uses exercise notes + generates generic coaching text ──
+function getCueFallback(ex) {
+  const muscle   = ex.primaryMuscle || ex.muscle || 'target muscle';
+  const pattern  = ex.movementPattern || 'the movement';
+  const equip    = ex.equipment || 'equipment';
+  const noteText = ex.notes || '';
+
+  // Use the notes field as the movement description if it exists
+  const movementText = noteText.length > 10
+    ? noteText
+    : `Perform ${ex.name} with control through the full range of motion. Focus on ${muscle} engagement throughout.`;
+
+  const setupByEquip = {
+    'Barbell':    'Set up the barbell at the correct height. Check your grip width and stance before lifting. Brace your core and create full body tension.',
+    'Dumbbells':  'Select the appropriate weight. Set up with a stable base. Grip firmly and keep wrists neutral throughout.',
+    'Cable':      'Set the pulley to the correct height. Select your weight and attach the appropriate handle. Stand or sit in a stable position.',
+    'Machine':    'Adjust the seat and pads to match your body. Set the weight pin. Sit or position yourself with back supported.',
+    'Bodyweight': 'No equipment needed. Find a stable surface. Engage your core before starting and maintain body tension throughout.',
+    'Band':       'Anchor the band securely. Check tension is appropriate before starting. Keep constant tension — do not let band go slack.',
+  };
+
+  return {
+    setup:    setupByEquip[equip] || `Set up stable positioning for ${ex.name}. Ensure correct form before adding load.`,
+    movement: movementText,
+    feel:     `You should feel the ${muscle} working throughout. Maintain control on both the way up and the way down.`,
+    mistakes: `Avoid using momentum or cutting the range short. Do not let posture collapse under fatigue. Control the eccentric phase.`,
+  };
+}
+
 
 function setLibFilter(filter) {
   libFilter = filter;
