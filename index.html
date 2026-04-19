@@ -152,9 +152,9 @@ body{
 .ex-card.done .ex-num{background:var(--a);color:#000}
 .ex-info{flex:1;min-width:0}
 .ex-name{font-size:15px;font-weight:700;color:var(--t)}
-.ex-target{font-size:11px;color:var(--td);margin-top:2px}
-.ex-target b{color:var(--a3)}
-.ex-prev{font-size:10px;color:var(--a);margin-top:2px;font-style:italic}
+.ex-target{font-size:12px;color:var(--td);margin-top:3px;line-height:1.5}
+.ex-target b{color:var(--a3);font-size:14px;font-family:var(--font-mono,monospace)}
+.ex-prev{font-size:11px;color:var(--a3);margin-top:3px;font-weight:600;font-family:var(--font-mono,monospace)}
 .swap-btn{font-size:10px;font-weight:700;color:var(--swt);background:var(--swap);border:1px solid rgba(0,229,160,.3);padding:5px 8px;border-radius:6px;cursor:pointer;white-space:nowrap;flex-shrink:0}
 .swap-btn.on{background:var(--a);color:#000;border-color:var(--a)}
 .swap-banner{display:none;background:var(--swap);border-top:1px solid rgba(0,229,160,.2);border-bottom:1px solid rgba(0,229,160,.2);padding:8px 13px;font-size:11px;color:var(--swt)}
@@ -1559,6 +1559,65 @@ body{
 /* Week dots */
 .dash-week-dot.trained{background:var(--a);box-shadow:0 0 8px rgba(0,255,157,.4)}
 .dash-week-dot.today{background:var(--a3);box-shadow:0 0 8px rgba(255,204,0,.4)}
+
+/* Phase 2 — Evolt readability improvements */
+.metric-section-title{font-size:10px;font-weight:700;color:var(--a);letter-spacing:2px;text-transform:uppercase;margin:14px 0 8px;padding-left:2px;font-family:var(--font-mono,monospace)}
+.metric-card{transition:all .2s}
+.metric-card:active{transform:scale(.97)}
+/* Sync details element */
+#syncDetails summary::-webkit-details-marker{display:none}
+#syncDetails[open] summary span{opacity:.5}
+/* Recovery action text prominence */
+.rec-score-verdict{font-size:16px;font-weight:700;line-height:1.4}
+/* Settings card visual de-emphasis for sync */
+#syncDetails{padding:0}
+
+/* ════ FINAL POLISH ════ */
+/* Command layer takes all visual priority */
+#dashboardWrap > div:first-child {
+  /* Dominant — no changes needed, handled inline */
+}
+/* Secondary cards are visually quieter */
+#dashboardWrap > div:not(:first-child) {
+  opacity:.95;
+}
+/* Sync status label — subtle */
+#syncStatusLabel {
+  font-size:10px;
+  font-weight:600;
+  color:var(--a);
+  opacity:.7;
+}
+/* Labs section — clearly secondary */
+.labs-card {
+  opacity:.9;
+}
+.labs-card:hover {
+  opacity:1;
+}
+/* Recovery instruction in tab — match home screen prominence */
+.rec-score-verdict {
+  font-size:18px !important;
+  font-weight:800 !important;
+  line-height:1.3 !important;
+}
+/* Exercise target weight — larger */
+.ex-info .ex-target b {
+  font-size:15px;
+  font-family:var(--font-mono,monospace);
+  color:var(--t);
+}
+/* Progression directive badge */
+.prog-directive {
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:3px 9px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:700;
+  margin-top:5px;
+}
 </style>
 </head>
 <body>
@@ -2462,6 +2521,12 @@ body{
   <video id="scannerVideo" style="width:100%;height:100%;object-fit:cover" autoplay playsinline muted></video>
   <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:240px;height:140px;border:3px solid var(--a);border-radius:12px;box-shadow:0 0 0 9999px rgba(0,0,0,.6)"></div>
   <div style="position:absolute;bottom:40px;left:0;right:0;text-align:center;color:#fff;font-size:13px;font-weight:600">Point camera at barcode</div>
+        <div id="scannerManualWrap" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:12px">
+          <div style="font-size:15px;font-weight:700;color:var(--t);margin-bottom:4px">Enter Barcode Manually</div>
+          <input id="manualBarcodeInp" type="text" inputmode="numeric" placeholder="e.g. 9300617070428" style="background:var(--s2);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px 16px;color:var(--t);font-size:16px;font-family:var(--font-mono,monospace);width:100%;text-align:center;box-sizing:border-box" onkeydown="if(event.key==='Enter')submitManualBarcode()">
+          <button onclick="submitManualBarcode()" style="width:100%;background:var(--a);color:#000;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-body,sans-serif)">Look Up Barcode</button>
+          <button onclick="closeScanner()" style="background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:8px 20px;color:var(--td);font-size:13px;cursor:pointer;font-family:var(--font-body,sans-serif)">Cancel</button>
+        </div>
 </div>
 <!-- ANALYTICS -->
 <div class="view" id="view-analytics">
@@ -2504,21 +2569,28 @@ body{
 <div class="view" id="view-settings">
   <div class="settings-wrap">
     <div class="settings-card">
-      <h3>Cloud Sync</h3>
-      <div style="margin-bottom:10px">
-        <label class="inp-label">Bin ID</label>
-        <input class="settings-inp" id="settingsBinID" type="text" placeholder="Paste your JSONbin Bin ID...">
-      </div>
-      <div style="margin-bottom:10px">
-        <label class="inp-label">X-Master-Key</label>
-        <input class="settings-inp" id="settingsMaster" type="password" placeholder="Paste X-Master-Key...">
-      </div>
-      <div style="margin-bottom:10px">
-        <label class="inp-label">X-Access-Key (GYM)</label>
-        <input class="settings-inp" id="settingsAccess" type="password" placeholder="Paste GYM access key...">
-      </div>
-      <button class="save-settings-btn" onclick="saveCloudSettings()">Save & Sync</button>
-      <div style="font-size:11px;color:var(--tf);margin-top:8px;text-align:center">Enter keys on each new device to sync your data.</div>
+      <details id="syncDetails">
+        <summary style="cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center">
+          <h3 style="margin:0">Cloud Sync</h3>
+          <span style="font-size:11px;color:var(--a);font-weight:600" id="syncStatusLabel">Tap to configure</span>
+        </summary>
+        <div style="margin-top:14px">
+          <div style="margin-bottom:10px">
+            <label class="inp-label">Bin ID</label>
+            <input class="settings-inp" id="settingsBinID" type="text" placeholder="Paste your JSONbin Bin ID...">
+          </div>
+          <div style="margin-bottom:10px">
+            <label class="inp-label">X-Master-Key</label>
+            <input class="settings-inp" id="settingsMaster" type="password" placeholder="Paste X-Master-Key...">
+          </div>
+          <div style="margin-bottom:10px">
+            <label class="inp-label">X-Access-Key (GYM)</label>
+            <input class="settings-inp" id="settingsAccess" type="password" placeholder="Paste GYM access key...">
+          </div>
+          <button class="save-settings-btn" onclick="saveCloudSettings()">Save & Sync</button>
+          <div style="font-size:11px;color:var(--tf);margin-top:8px;text-align:center">Enter keys on each new device to sync your data.</div>
+        </div>
+      </details>
     </div>
     <div class="settings-card">
       <h3>Export for Claude</h3>
@@ -2740,6 +2812,7 @@ body{
   <div class="summary-card" id="summaryCard"></div>
 </div>
 
+<div class="view" id="view-labs"></div>
 <div class="toast" id="toast"></div>
 
 <!-- PWA INSTALL BANNER -->
@@ -3174,77 +3247,105 @@ function addMealSuggestion(idx) {
   saveFoodLog(); showToast(m.name+' added!'); renderNutrition();
 }
 
+
+// ============================================================
+// NUTRITION — AUSTRALIAN-FIRST FOOD SEARCH
+// Priority: 1. AU Open Food Facts  2. World OFF fallback
+// ============================================================
+
+async function searchFoodPrimary(query) {
+  var url = 'https://au.openfoodfacts.org/cgi/search.pl?search_terms='+encodeURIComponent(query)+'&search_simple=1&action=process&json=1&page_size=8&fields=product_name,brands,nutriments,serving_size,serving_quantity,countries_tags';
+  var r = await fetch(url);
+  var d = await r.json();
+  return (d.products||[]).filter(function(p){return p.product_name;});
+}
+
+async function searchFoodFallback(query) {
+  var url = 'https://world.openfoodfacts.org/cgi/search.pl?search_terms='+encodeURIComponent(query)+'&search_simple=1&action=process&json=1&page_size=8&fields=product_name,brands,nutriments,serving_size,countries_tags';
+  var r = await fetch(url);
+  var d = await r.json();
+  return (d.products||[]).filter(function(p){return p.product_name;});
+}
+
+async function lookupBarcodePrimary(code) {
+  var r = await fetch('https://au.openfoodfacts.org/api/v0/product/'+code+'.json');
+  var d = await r.json();
+  if (d.status===1 && d.product && d.product.product_name) return d.product;
+  return null;
+}
+
+async function lookupBarcodeFallback(code) {
+  var r = await fetch('https://world.openfoodfacts.org/api/v0/product/'+code+'.json');
+  var d = await r.json();
+  if (d.status===1 && d.product && d.product.product_name) return d.product;
+  return null;
+}
+
 async function searchFood(query) {
   if (!query || query.length < 2) return;
   var ld = document.getElementById('n-loading'); if(ld) ld.classList.add('on');
   var rs = document.getElementById('n-result'); if(rs) rs.classList.remove('on');
+  var rc = document.getElementById('n-search-results'); if(rc) rc.innerHTML = '';
   try {
-    var r = await fetch('https://world.openfoodfacts.org/cgi/search.pl?search_terms='+encodeURIComponent(query)+'&search_simple=1&action=process&json=1&page_size=1&fields=product_name,brands,nutriments,serving_size');
-    var d = await r.json();
-    if (d.products && d.products.length>0) { showFoodResult(d.products[0]); }
-    else { showToast('Product not found'); }
-  } catch(e) { showToast('Search failed - check connection'); }
+    var products = await searchFoodPrimary(query);
+    if (!products.length) products = await searchFoodFallback(query);
+    if (products.length > 0) showFoodResultList(products);
+    else showNoFoodResult();
+  } catch(e) { showToast('Search failed — check connection'); }
   if(ld) ld.classList.remove('on');
 }
 
 async function lookupBarcode(code) {
   var ld = document.getElementById('n-loading'); if(ld) ld.classList.add('on');
   try {
-    var r = await fetch('https://world.openfoodfacts.org/api/v0/product/'+code+'.json');
-    var d = await r.json();
-    if (d.status===1 && d.product) { showFoodResult(d.product); closeScanner(); }
-    else { showToast('Not in database'); closeScanner(); }
-  } catch(e) { showToast('Lookup failed'); closeScanner(); }
+    var product = await lookupBarcodePrimary(code);
+    if (!product) product = await lookupBarcodeFallback(code);
+    if (product) { showFoodResult(product); closeScanner(); }
+    else { showToast('Barcode not found — try manual search'); closeScanner(); }
+  } catch(e) { showToast('Lookup failed — try manual search'); closeScanner(); }
   if(ld) ld.classList.remove('on');
 }
 
-function showFoodResult(product) {
-  var n = product.nutriments || {};
-  currentFood = {
-    name: product.product_name || 'Unknown',
-    brand: product.brands || '',
-    per100: {
-      protein: parseFloat(n.proteins_100g || 0),
-      carbs: parseFloat(n.carbohydrates_100g || 0),
-      fat: parseFloat(n.fat_100g || 0),
-      cals: parseFloat(n['energy-kcal_100g'] || 0)
-    },
-    serving: parseFloat(product.serving_size) || 100
-  };
-  var nm=document.getElementById('n-food-name'), br=document.getElementById('n-food-brand');
-  if(nm) nm.textContent=currentFood.name;
-  if(br) br.textContent=currentFood.brand;
-  var si=document.getElementById('n-serving'); if(si) si.value=currentFood.serving;
-  updateFoodDisplay();
-  var rs=document.getElementById('n-result'); if(rs) rs.classList.add('on');
+function showFoodResultList(products) {
+  var container = document.getElementById('n-search-results');
+  if (!container) return;
+  window._foodSearchResults = products;
+  container.innerHTML = products.slice(0,8).map(function(p,i) {
+    var n  = p.nutriments||{};
+    var pr = parseFloat(n.proteins_100g||0).toFixed(1);
+    var cb = parseFloat(n.carbohydrates_100g||0).toFixed(1);
+    var ft = parseFloat(n.fat_100g||0).toFixed(1);
+    var kc = Math.round(parseFloat(n['energy-kcal_100g']||0));
+    var brand = p.brands ? p.brands.split(',')[0].trim() : '';
+    var isAU = (p.countries_tags||[]).some(function(t){return t.includes('australia');});
+    return '<div onclick="selectFoodResult('+i+')" style="background:var(--s2);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px;margin-bottom:8px;cursor:pointer">'+
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">'+
+        '<div style="font-size:13px;font-weight:700;color:var(--t);flex:1;padding-right:8px">'+(p.product_name||'Unknown')+'</div>'+
+        (isAU?'<span style="font-size:9px;font-weight:700;background:rgba(0,255,157,.1);color:var(--a);padding:2px 6px;border-radius:8px">🇦🇺 AU</span>':'')+
+      '</div>'+
+      (brand?'<div style="font-size:11px;color:var(--td);margin-bottom:6px">'+brand+'</div>':'')+
+      '<div style="display:flex;gap:10px;font-size:11px;font-family:var(--font-mono,monospace)">'+
+        '<span style="color:var(--a)">P '+pr+'g</span>'+
+        '<span style="color:var(--a3)">C '+cb+'g</span>'+
+        '<span style="color:#ff9500">F '+ft+'g</span>'+
+        '<span style="color:var(--td)">'+kc+'kcal /100g</span>'+
+      '</div>'+
+    '</div>';
+  }).join('');
 }
 
-function updateFoodDisplay() {
-  if (!currentFood) return;
-  var si=document.getElementById('n-serving');
-  var serving=si ? (parseFloat(si.value)||currentFood.serving) : currentFood.serving;
-  var mult=serving/100;
-  var p=(currentFood.per100.protein*mult).toFixed(1);
-  var c=(currentFood.per100.carbs*mult).toFixed(1);
-  var f=(currentFood.per100.fat*mult).toFixed(1);
-  var cal=Math.round(currentFood.per100.cals*mult);
-  var ep=document.getElementById('n-fm-p'), ec=document.getElementById('n-fm-c');
-  var ef=document.getElementById('n-fm-f'), ek=document.getElementById('n-fm-k');
-  if(ep) ep.textContent=p+'g'; if(ec) ec.textContent=c+'g';
-  if(ef) ef.textContent=f+'g'; if(ek) ek.textContent=cal;
-  currentFood._serving=serving;
-  currentFood._macros={protein:parseFloat(p),carbs:parseFloat(c),fat:parseFloat(f),cals:cal};
+function selectFoodResult(idx) {
+  var products = window._foodSearchResults||[];
+  if (products[idx]) showFoodResult(products[idx]);
+  var c = document.getElementById('n-search-results'); if(c) c.innerHTML='';
 }
 
-function addFoodToLog() {
-  if (!currentFood||!currentFood._macros) return;
-  var t=new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});
-  getTodayLog().push({name:currentFood.name,brand:currentFood.brand,serving:currentFood._serving,protein:currentFood._macros.protein,carbs:currentFood._macros.carbs,fat:currentFood._macros.fat,cals:currentFood._macros.cals,time:t});
-  saveFoodLog(); currentFood=null;
-  var rs=document.getElementById('n-result'); if(rs) rs.classList.remove('on');
-  var si=document.getElementById('n-search'); if(si) si.value='';
-  showToast('Added to log!'); renderNutrition();
+function showNoFoodResult() {
+  var c = document.getElementById('n-search-results');
+  if(c) c.innerHTML='<div style="font-size:13px;color:var(--td);text-align:center;padding:16px">No results found. Try a different search or use the barcode scanner.</div>';
 }
+
+function submitManualBarcode(){var inp=document.getElementById("manualBarcodeInp");if(!inp||!inp.value.trim())return;lookupBarcode(inp.value.trim());inp.value="";}
 
 async function openScanner() {
   var modal=document.getElementById('scannerModal'); if(modal) modal.style.display='flex';
@@ -3257,7 +3358,7 @@ async function openScanner() {
         try { var codes=await det.detect(vid); if(codes.length>0){clearInterval(scannerInt);lookupBarcode(codes[0].rawValue);} }
         catch(e){}
       },500);
-    } else { closeScanner(); var code=prompt('Enter barcode number:'); if(code) lookupBarcode(code.trim()); }
+    } else { var mw=document.getElementById('scannerManualWrap'); if(mw){mw.style.display='flex';var vd=document.getElementById('scannerVideo');if(vd)vd.style.display='none';} }
   } catch(e) { closeScanner(); showToast('Camera not available - use search'); }
 }
 
@@ -3268,6 +3369,8 @@ function closeScanner() {
 }
 
 function renderNutrition() {
+  // Protein is the #1 nutrition priority — show it first in the tab
+
   var el=document.getElementById('nutWrap'); if(!el) return;
   var totals=getDayTotals(), log=getTodayLog();
   var remain=Math.max(0,NUT_T.protein-totals.protein);
@@ -3317,6 +3420,7 @@ function renderNutrition() {
     '<div class="n-scan-row">'+
     '<input class="n-inp" id="n-search" type="text" placeholder="Search food or product name..." onkeydown="if(event.key===\'Enter\')searchFood(this.value)">'+
     '<button class="n-btn" onclick="searchFood(document.getElementById(\'n-search\').value)">Search</button>'+
+    '<div id="n-search-results" style="margin-top:8px"></div>'+
     '<button class="n-btn-sec" onclick="openScanner()">&#128247;</button>'+
     '</div>'+
     '<div class="n-loading" id="n-loading">Looking up product...</div>'+
@@ -4193,24 +4297,24 @@ function calcRecoveryScore() {
 
   let verdict, advice, intensity, intensityCls;
   if (score >= 8) {
-    verdict = 'Fully Recovered';
-    advice = 'Your body is ready. Push hard today — this is a day to set PRs.';
-    intensity = 'Train at Full Intensity';
+    verdict = 'Train as planned.';
+    advice = 'Full intensity. Push for progress — PRs are on the table today.';
+    intensity = 'Full Intensity';
     intensityCls = 'full';
   } else if (score >= 6) {
-    verdict = 'Good to Train';
-    advice = 'You are recovered enough. Train normally — stay within your RPE targets.';
-    intensity = 'Normal Session — Stay at Target RPE';
+    verdict = 'Keep weights the same. Remove 1 set per exercise.';
+    advice = 'Moderate fatigue. Maintain load, reduce volume by one set each.';
+    intensity = 'Maintain Weight · −1 Set';
     intensityCls = 'full';
   } else if (score >= 4) {
-    verdict = 'Train with Caution';
-    advice = 'Consider reducing weights by 10-15% and skipping max effort sets today.';
-    intensity = 'Moderate Session — Reduce RPE by 1-2';
+    verdict = 'Reduce volume by ~20%.';
+    advice = 'Elevated fatigue. Lower RPE targets. Focus on movement quality today.';
+    intensity = 'Volume −20% · RPE 7 Max';
     intensityCls = 'moderate';
   } else {
-    verdict = 'Rest Day Recommended';
-    advice = 'Your body needs recovery. Rest day — walk, stretch, mobility work only.';
-    intensity = 'Rest Day or Active Recovery Only';
+    verdict = 'Recovery day. No lifting today.';
+    advice = 'Body is not ready for productive training. Rest or light walk only.';
+    intensity = 'Rest Day Only';
     intensityCls = 'rest';
   }
 
@@ -4894,51 +4998,229 @@ function renderProgHistory() {
 // ============================================================
 
 const EXERCISE_LIBRARY = [
-  {name:'Barbell Bench Press',muscle:'Chest',equipment:'Barbell',icon:'🏋️',videoUrl:'https://www.youtube.com/watch?v=rT7DgCr-3pg',videoTitle:'Barbell Bench Press — Form Guide',videoChannel:'Jeff Nippard'},
-  {name:'DB Bench Press',muscle:'Chest',equipment:'Dumbbells',icon:'💪',videoUrl:'https://www.youtube.com/watch?v=QsYre__-aro',videoTitle:'Dumbbell Bench Press — Full Tutorial',videoChannel:'Athlean-X'},
-  {name:'Incline DB Press',muscle:'Chest',equipment:'Dumbbells',icon:'📐',videoUrl:'https://www.youtube.com/watch?v=8iPEnn-ltC8',videoTitle:'Incline Dumbbell Press — Perfect Form',videoChannel:'Jeff Nippard'},
-  {name:'Cable Fly',muscle:'Chest',equipment:'Cable',icon:'🔁',videoUrl:'https://www.youtube.com/watch?v=Iwe6AmxVf7o',videoTitle:'Cable Fly — Full Range of Motion',videoChannel:'Athlean-X'},
-  {name:'DB Fly (flat)',muscle:'Chest',equipment:'Dumbbells',icon:'🦅',videoUrl:'https://www.youtube.com/watch?v=eozdVDA78K0',videoTitle:'Dumbbell Fly — Technique Breakdown',videoChannel:'Renaissance Periodization'},
-  {name:'Machine Chest Press',muscle:'Chest',equipment:'Machine',icon:'⚙️',videoUrl:'https://www.youtube.com/watch?v=xUm0BiZCWlQ',videoTitle:'Chest Press Machine — How To',videoChannel:'Scott Herman Fitness'},
-  {name:'Barbell OHP',muscle:'Shoulders',equipment:'Barbell',icon:'🏋️',videoUrl:'https://www.youtube.com/watch?v=2yjwXTZQDDI',videoTitle:'Overhead Press — Complete Guide',videoChannel:'Jeff Nippard'},
-  {name:'DB OHP',muscle:'Shoulders',equipment:'Dumbbells',icon:'🔝',videoUrl:'https://www.youtube.com/watch?v=qEwKCR5JCog',videoTitle:'Dumbbell Shoulder Press — Form',videoChannel:'Athlean-X'},
-  {name:'Lateral Raise (DB)',muscle:'Shoulders',equipment:'Dumbbells',icon:'↔️',videoUrl:'https://www.youtube.com/watch?v=3VcKaXpzqRo',videoTitle:'Lateral Raises — Common Mistakes Fixed',videoChannel:'Jeff Nippard'},
-  {name:'Rear Delt Fly (DB)',muscle:'Shoulders',equipment:'Dumbbells',icon:'🔙',videoUrl:'https://www.youtube.com/watch?v=ttvfGg9d76c',videoTitle:'Rear Delt Fly — Full Tutorial',videoChannel:'Athlean-X'},
-  {name:'Face Pull (cable)',muscle:'Shoulders',equipment:'Cable',icon:'🎯',videoUrl:'https://www.youtube.com/watch?v=rep-qVOkqgk',videoTitle:'Face Pulls — Why & How',videoChannel:'Athlean-X'},
-  {name:'Seated Machine Press',muscle:'Shoulders',equipment:'Machine',icon:'⚙️',videoUrl:'https://www.youtube.com/watch?v=Wqq43dKW1TU',videoTitle:'Machine Shoulder Press — How To',videoChannel:'Scott Herman Fitness'},
-  {name:'Conventional Deadlift',muscle:'Back',equipment:'Barbell',icon:'🏋️',videoUrl:'https://www.youtube.com/watch?v=op9kVnSso6Q',videoTitle:'Deadlift — Master Class',videoChannel:'Jeff Nippard'},
-  {name:'Barbell Bent Over Row',muscle:'Back',equipment:'Barbell',icon:'🔄',videoUrl:'https://www.youtube.com/watch?v=G8l_8chR5BE',videoTitle:'Barbell Row — Complete Guide',videoChannel:'Jeff Nippard'},
-  {name:'Pull Up (bodyweight)',muscle:'Back',equipment:'Bodyweight',icon:'⬆️',videoUrl:'https://www.youtube.com/watch?v=eGo4IYlbE5g',videoTitle:'Pull-Up — From Zero to Strong',videoChannel:'Athlean-X'},
-  {name:'Lat Pulldown (bar)',muscle:'Back',equipment:'Cable',icon:'⬇️',videoUrl:'https://www.youtube.com/watch?v=CAwf7n6Luuc',videoTitle:'Lat Pulldown — Perfect Form',videoChannel:'Jeff Nippard'},
-  {name:'Seated Cable Row',muscle:'Back',equipment:'Cable',icon:'↩️',videoUrl:'https://www.youtube.com/watch?v=GZbfZ033f74',videoTitle:'Seated Cable Row — Full Tutorial',videoChannel:'Athlean-X'},
-  {name:'Machine Row',muscle:'Back',equipment:'Machine',icon:'⚙️',videoUrl:'https://www.youtube.com/watch?v=xQNrFHEMhI4',videoTitle:'Machine Row — How To',videoChannel:'Scott Herman Fitness'},
-  {name:'DB Row',muscle:'Back',equipment:'Dumbbells',icon:'💪',videoUrl:'https://www.youtube.com/watch?v=pYcpY20QaE8',videoTitle:'Dumbbell Row — Full Guide',videoChannel:'Jeff Nippard'},
-  {name:'Romanian Deadlift',muscle:'Back',equipment:'Barbell',icon:'📉',videoUrl:'https://www.youtube.com/watch?v=JCXUYuzwNrM',videoTitle:'Romanian Deadlift — Hamstring Focus',videoChannel:'Jeff Nippard'},
-  {name:'Barbell Curl',muscle:'Biceps',equipment:'Barbell',icon:'💪',videoUrl:'https://www.youtube.com/watch?v=ykJmrZ5v0Oo',videoTitle:'Barbell Curl — Perfect Form',videoChannel:'Jeff Nippard'},
-  {name:'Dumbbell Curl',muscle:'Biceps',equipment:'Dumbbells',icon:'🔄',videoUrl:'https://www.youtube.com/watch?v=sAq_ocpRh_I',videoTitle:'Dumbbell Curl — Common Mistakes',videoChannel:'Athlean-X'},
-  {name:'Incline DB Curl',muscle:'Biceps',equipment:'Dumbbells',icon:'📐',videoUrl:'https://www.youtube.com/watch?v=soxrZlIl35U',videoTitle:'Incline Curl — Long Head Focus',videoChannel:'Jeff Nippard'},
-  {name:'Cable Curl',muscle:'Biceps',equipment:'Cable',icon:'🔁',videoUrl:'https://www.youtube.com/watch?v=NFzTWp2qpiE',videoTitle:'Cable Curl — Constant Tension',videoChannel:'Athlean-X'},
-  {name:'Hammer Curl',muscle:'Biceps',equipment:'Dumbbells',icon:'🔨',videoUrl:'https://www.youtube.com/watch?v=zC3nLlEvin4',videoTitle:'Hammer Curl — Brachialis Builder',videoChannel:'Jeff Nippard'},
-  {name:'Tricep Pushdown',muscle:'Triceps',equipment:'Cable',icon:'⬇️',videoUrl:'https://www.youtube.com/watch?v=2-LAMcpzODU',videoTitle:'Tricep Pushdown — Full Tutorial',videoChannel:'Athlean-X'},
-  {name:'OH Tricep Ext (DB)',muscle:'Triceps',equipment:'Dumbbells',icon:'☝️',videoUrl:'https://www.youtube.com/watch?v=YbX7Wd8jQ-Q',videoTitle:'Overhead Tricep Extension — How To',videoChannel:'Jeff Nippard'},
-  {name:'Close Grip Bench Press',muscle:'Triceps',equipment:'Barbell',icon:'🏋️',videoUrl:'https://www.youtube.com/watch?v=nEF0bv2FW94',videoTitle:'Close Grip Bench Press — Tricep Focus',videoChannel:'Jeff Nippard'},
-  {name:'Skull Crushers',muscle:'Triceps',equipment:'Barbell',icon:'💀',videoUrl:'https://www.youtube.com/watch?v=d_KZxkY_0cM',videoTitle:'Skull Crushers — Safe & Effective',videoChannel:'Athlean-X'},
-  {name:'Barbell Back Squat',muscle:'Legs',equipment:'Barbell',icon:'🏋️',videoUrl:'https://www.youtube.com/watch?v=Dy28eq2PjcM',videoTitle:'Back Squat — Science-Based Guide',videoChannel:'Jeff Nippard'},
-  {name:'Leg Press',muscle:'Legs',equipment:'Machine',icon:'⚙️',videoUrl:'https://www.youtube.com/watch?v=IZxyjW7MPJQ',videoTitle:'Leg Press — Foot Placement & Form',videoChannel:'Athlean-X'},
-  {name:'Bulgarian Split Squat',muscle:'Legs',equipment:'Dumbbells',icon:'🦵',videoUrl:'https://www.youtube.com/watch?v=LL4TDRKS3-A',videoTitle:'Bulgarian Split Squat — Master It',videoChannel:'Jeff Nippard'},
-  {name:'Leg Extension',muscle:'Legs',equipment:'Machine',icon:'⚙️',videoUrl:'https://www.youtube.com/watch?v=YyvSfVjQeL0',videoTitle:'Leg Extension — Quad Isolation',videoChannel:'Athlean-X'},
-  {name:'Goblet Squat (DB)',muscle:'Legs',equipment:'Dumbbells',icon:'🥂',videoUrl:'https://www.youtube.com/watch?v=MxsFDhcyFyE',videoTitle:'Goblet Squat — Perfect for Beginners',videoChannel:'Jeff Nippard'},
-  {name:'Hip Thrust (barbell)',muscle:'Glutes',equipment:'Barbell',icon:'🍑',videoUrl:'https://www.youtube.com/watch?v=LM8XHLYJoYs',videoTitle:'Hip Thrust — Glute Builder',videoChannel:'Jeff Nippard'},
-  {name:'Glute Bridge (DB)',muscle:'Glutes',equipment:'Dumbbells',icon:'🌉',videoUrl:'https://www.youtube.com/watch?v=OUgsJ8-Vi0E',videoTitle:'Glute Bridge — Full Tutorial',videoChannel:'Athlean-X'},
-  {name:'Leg Curl (seated)',muscle:'Hamstrings',equipment:'Machine',icon:'⚙️',videoUrl:'https://www.youtube.com/watch?v=1Tq3QdYUuHs',videoTitle:'Leg Curl — Hamstring Isolation',videoChannel:'Jeff Nippard'},
-  {name:'Nordic Curl',muscle:'Hamstrings',equipment:'Bodyweight',icon:'🔥',videoUrl:'https://www.youtube.com/watch?v=d8AAPk3Dceo',videoTitle:'Nordic Curls — The Hardest Hamstring Exercise',videoChannel:'Athlean-X'},
-  {name:'Cable Crunch',muscle:'Core',equipment:'Cable',icon:'🎯',videoUrl:'https://www.youtube.com/watch?v=2fbujeH3F0E',videoTitle:'Cable Crunch — Abs Isolation',videoChannel:'Athlean-X'},
-  {name:'Hanging Leg Raise',muscle:'Core',equipment:'Bodyweight',icon:'⬆️',videoUrl:'https://www.youtube.com/watch?v=hdng3Nm1x_E',videoTitle:'Hanging Leg Raise — Perfect Form',videoChannel:'Jeff Nippard'},
-  {name:'Ab Wheel',muscle:'Core',equipment:'Bodyweight',icon:'🎡',videoUrl:'https://www.youtube.com/watch?v=p5oXyMvtIWs',videoTitle:'Ab Wheel Rollout — How To Progress',videoChannel:'Athlean-X'},
-  {name:'Standing Calf Raise',muscle:'Calves',equipment:'Bodyweight',icon:'🦵',videoUrl:'https://www.youtube.com/watch?v=gwLzBJYoWlI',videoTitle:'Calf Raises — Full Range Guide',videoChannel:'Jeff Nippard'},
+
+// ════════════ CHEST — HORIZONTAL PUSH ════════════
+{name:'Barbell Bench Press',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Front Delt','Triceps'],equipment:'Barbell',movementPattern:'Horizontal Push',difficulty:3,swapCategory:'Horizontal Press',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'King of chest exercises. Flat back, slight arch, drive feet into floor.'},
+{name:'Dumbbell Bench Press',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Front Delt','Triceps'],equipment:'Dumbbells',movementPattern:'Horizontal Push',difficulty:2,swapCategory:'Horizontal Press',fatigueClass:'high',unilateral:false,icon:'💪',notes:'Greater ROM than barbell. Allows each arm to move independently.'},
+{name:'Incline Barbell Press',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Front Delt','Triceps'],equipment:'Barbell',movementPattern:'Incline Push',difficulty:3,swapCategory:'Incline Press',fatigueClass:'high',unilateral:false,icon:'📐',notes:'30-45° angle. Targets upper chest and front delt more.'},
+{name:'Incline Dumbbell Press',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Front Delt','Triceps'],equipment:'Dumbbells',movementPattern:'Incline Push',difficulty:2,swapCategory:'Incline Press',fatigueClass:'med',unilateral:false,icon:'💪',notes:'Best ROM for upper chest development.'},
+{name:'Decline Barbell Press',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Triceps'],equipment:'Barbell',movementPattern:'Decline Push',difficulty:3,swapCategory:'Horizontal Press',fatigueClass:'high',unilateral:false,icon:'⬇️',notes:'Targets lower chest. Less shoulder stress than flat bench.'},
+{name:'Decline Dumbbell Press',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Triceps'],equipment:'Dumbbells',movementPattern:'Decline Push',difficulty:2,swapCategory:'Horizontal Press',fatigueClass:'med',unilateral:false,icon:'⬇️',notes:'Great lower chest isolation with full ROM.'},
+{name:'Machine Chest Press',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Triceps'],equipment:'Machine',movementPattern:'Horizontal Push',difficulty:1,swapCategory:'Horizontal Press',fatigueClass:'low',unilateral:false,icon:'🤖',notes:'Safe for high volume. No spotter needed. Great for pump work.'},
+{name:'Cable Chest Press',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Triceps'],equipment:'Cable',movementPattern:'Horizontal Push',difficulty:2,swapCategory:'Horizontal Press',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Constant tension throughout the movement.'},
+{name:'Cable Fly',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:[],equipment:'Cable',movementPattern:'Fly',difficulty:2,swapCategory:'Chest Fly',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Best for chest isolation. Keep slight bend in elbow.'},
+{name:'Dumbbell Fly',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:[],equipment:'Dumbbells',movementPattern:'Fly',difficulty:2,swapCategory:'Chest Fly',fatigueClass:'low',unilateral:false,icon:'🦅',notes:'Stretch-focused chest isolation. Light weight, full stretch.'},
+{name:'Pec Dec (Machine Fly)',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:[],equipment:'Machine',movementPattern:'Fly',difficulty:1,swapCategory:'Chest Fly',fatigueClass:'low',unilateral:false,icon:'🤖',notes:'Great finisher. Focus on peak contraction.'},
+{name:'Push Up',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Front Delt','Triceps','Core'],equipment:'Bodyweight',movementPattern:'Horizontal Push',difficulty:1,swapCategory:'Horizontal Press',fatigueClass:'low',unilateral:false,icon:'👊',notes:'Scales with elevation and variation. Never underestimate.'},
+{name:'Wide Push Up',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Front Delt'],equipment:'Bodyweight',movementPattern:'Horizontal Push',difficulty:1,swapCategory:'Horizontal Press',fatigueClass:'low',unilateral:false,icon:'👊',notes:'Wider grip increases chest recruitment.'},
+{name:'Archer Push Up',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Triceps'],equipment:'Bodyweight',movementPattern:'Horizontal Push',difficulty:3,swapCategory:'Horizontal Press',fatigueClass:'med',unilateral:true,icon:'🏹',notes:'Unilateral loading. Advanced push up variation.'},
+{name:'Incline Push Up',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Triceps'],equipment:'Bodyweight',movementPattern:'Incline Push',difficulty:1,swapCategory:'Incline Press',fatigueClass:'low',unilateral:false,icon:'👊',notes:'Easier variant. Good for beginners or high-rep finishers.'},
+{name:'Dip (Chest)',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Triceps','Front Delt'],equipment:'Bodyweight',movementPattern:'Vertical Push',difficulty:3,swapCategory:'Dip',fatigueClass:'high',unilateral:false,icon:'⬇️',notes:'Lean forward to bias chest over triceps.'},
+{name:'Weighted Dip',muscle:'Chest',primaryMuscle:'Chest',secondaryMuscles:['Triceps'],equipment:'Bodyweight',movementPattern:'Vertical Push',difficulty:4,swapCategory:'Dip',fatigueClass:'high',unilateral:false,icon:'⚡',notes:'Add a dip belt for progressive overload.'},
+
+// ════════════ SHOULDERS — VERTICAL PUSH ════════════
+{name:'Barbell OHP',muscle:'Shoulders',primaryMuscle:'Front Delt',secondaryMuscles:['Side Delt','Triceps','Upper Chest'],equipment:'Barbell',movementPattern:'Vertical Push',difficulty:4,swapCategory:'Overhead Press',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Brace core, squeeze glutes. Drive bar in a straight line.'},
+{name:'Dumbbell OHP',muscle:'Shoulders',primaryMuscle:'Front Delt',secondaryMuscles:['Side Delt','Triceps'],equipment:'Dumbbells',movementPattern:'Vertical Push',difficulty:3,swapCategory:'Overhead Press',fatigueClass:'med',unilateral:false,icon:'💪',notes:'Greater ROM and shoulder health than barbell OHP.'},
+{name:'Arnold Press',muscle:'Shoulders',primaryMuscle:'Front Delt',secondaryMuscles:['Side Delt'],equipment:'Dumbbells',movementPattern:'Vertical Push',difficulty:3,swapCategory:'Overhead Press',fatigueClass:'med',unilateral:false,icon:'💪',notes:'Rotational press for full delt recruitment.'},
+{name:'Seated Dumbbell OHP',muscle:'Shoulders',primaryMuscle:'Front Delt',secondaryMuscles:['Side Delt','Triceps'],equipment:'Dumbbells',movementPattern:'Vertical Push',difficulty:2,swapCategory:'Overhead Press',fatigueClass:'med',unilateral:false,icon:'🪑',notes:'Removes leg drive, isolates shoulders more.'},
+{name:'Seated Machine Press',muscle:'Shoulders',primaryMuscle:'Front Delt',secondaryMuscles:['Side Delt','Triceps'],equipment:'Machine',movementPattern:'Vertical Push',difficulty:1,swapCategory:'Overhead Press',fatigueClass:'low',unilateral:false,icon:'🤖',notes:'Great for high volume and beginners.'},
+{name:'Landmine Press',muscle:'Shoulders',primaryMuscle:'Front Delt',secondaryMuscles:['Upper Chest','Side Delt'],equipment:'Barbell',movementPattern:'Incline Push',difficulty:2,swapCategory:'Overhead Press',fatigueClass:'med',unilateral:true,icon:'🏋️',notes:'Joint-friendly OHP alternative. Great for shoulder issues.'},
+{name:'Pike Push Up',muscle:'Shoulders',primaryMuscle:'Front Delt',secondaryMuscles:['Triceps'],equipment:'Bodyweight',movementPattern:'Vertical Push',difficulty:2,swapCategory:'Overhead Press',fatigueClass:'med',unilateral:false,icon:'⬇️',notes:'Bodyweight OHP substitute. Progress toward handstand push ups.'},
+{name:'Handstand Push Up',muscle:'Shoulders',primaryMuscle:'Front Delt',secondaryMuscles:['Triceps','Traps'],equipment:'Bodyweight',movementPattern:'Vertical Push',difficulty:5,swapCategory:'Overhead Press',fatigueClass:'high',unilateral:false,icon:'🤸',notes:'Advanced. Full body tension required.'},
+
+// ════════════ LATERAL DELTS ════════════
+{name:'Dumbbell Lateral Raise',muscle:'Shoulders',primaryMuscle:'Side Delt',secondaryMuscles:[],equipment:'Dumbbells',movementPattern:'Lateral Raise',difficulty:2,swapCategory:'Lateral Raise',fatigueClass:'low',unilateral:false,icon:'💪',notes:'Slight forward lean. Lead with elbows, not hands.'},
+{name:'Cable Lateral Raise',muscle:'Shoulders',primaryMuscle:'Side Delt',secondaryMuscles:[],equipment:'Cable',movementPattern:'Lateral Raise',difficulty:2,swapCategory:'Lateral Raise',fatigueClass:'low',unilateral:true,icon:'🔗',notes:'Constant tension. Better for hypertrophy than dumbbells.'},
+{name:'Machine Lateral Raise',muscle:'Shoulders',primaryMuscle:'Side Delt',secondaryMuscles:[],equipment:'Machine',movementPattern:'Lateral Raise',difficulty:1,swapCategory:'Lateral Raise',fatigueClass:'low',unilateral:false,icon:'🤖',notes:'Consistent resistance curve. Great for high rep pump.'},
+{name:'Leaning Lateral Raise',muscle:'Shoulders',primaryMuscle:'Side Delt',secondaryMuscles:[],equipment:'Dumbbells',movementPattern:'Lateral Raise',difficulty:2,swapCategory:'Lateral Raise',fatigueClass:'low',unilateral:true,icon:'💪',notes:'Lean away for longer ROM and better stretch at bottom.'},
+{name:'Seated Lateral Raise',muscle:'Shoulders',primaryMuscle:'Side Delt',secondaryMuscles:[],equipment:'Dumbbells',movementPattern:'Lateral Raise',difficulty:1,swapCategory:'Lateral Raise',fatigueClass:'low',unilateral:false,icon:'🪑',notes:'Removes momentum. Strict isolation.'},
+
+// ════════════ REAR DELTS ════════════
+{name:'Rear Delt Dumbbell Fly',muscle:'Shoulders',primaryMuscle:'Rear Delt',secondaryMuscles:['Traps'],equipment:'Dumbbells',movementPattern:'Horizontal Pull',difficulty:2,swapCategory:'Rear Delt',fatigueClass:'low',unilateral:false,icon:'🦅',notes:'Prone or bent-over. Retract scapula at top.'},
+{name:'Rear Delt Machine Fly',muscle:'Shoulders',primaryMuscle:'Rear Delt',secondaryMuscles:['Traps'],equipment:'Machine',movementPattern:'Horizontal Pull',difficulty:1,swapCategory:'Rear Delt',fatigueClass:'low',unilateral:false,icon:'🤖',notes:'Great for beginners. Easy to feel the right muscles.'},
+{name:'Face Pull (Cable)',muscle:'Shoulders',primaryMuscle:'Rear Delt',secondaryMuscles:['Traps','Rotator Cuff'],equipment:'Cable',movementPattern:'Horizontal Pull',difficulty:2,swapCategory:'Rear Delt',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Pull to face with external rotation. Essential for shoulder health.'},
+{name:'Band Pull Apart',muscle:'Shoulders',primaryMuscle:'Rear Delt',secondaryMuscles:['Traps'],equipment:'Band',movementPattern:'Horizontal Pull',difficulty:1,swapCategory:'Rear Delt',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Great warm-up and prehab. Do 100/day.'},
+{name:'Cable Rear Delt Fly',muscle:'Shoulders',primaryMuscle:'Rear Delt',secondaryMuscles:[],equipment:'Cable',movementPattern:'Horizontal Pull',difficulty:2,swapCategory:'Rear Delt',fatigueClass:'low',unilateral:true,icon:'🔗',notes:'Cross-body cable for rear delt isolation.'},
+
+// ════════════ BACK — VERTICAL PULL ════════════
+{name:'Pull Up (Bodyweight)',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps','Rear Delt'],equipment:'Bodyweight',movementPattern:'Vertical Pull',difficulty:3,swapCategory:'Vertical Pull',fatigueClass:'high',unilateral:false,icon:'⬆️',notes:'King of back exercises. Dead hang to chin over bar.'},
+{name:'Weighted Pull Up',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps','Rear Delt'],equipment:'Bodyweight',movementPattern:'Vertical Pull',difficulty:4,swapCategory:'Vertical Pull',fatigueClass:'high',unilateral:false,icon:'⚡',notes:'Add weight belt. Same form as bodyweight.'},
+{name:'Chin Up',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps'],equipment:'Bodyweight',movementPattern:'Vertical Pull',difficulty:3,swapCategory:'Vertical Pull',fatigueClass:'high',unilateral:false,icon:'☝️',notes:'Supinated grip hits biceps more. Slightly easier than pull up.'},
+{name:'Lat Pulldown (Bar)',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps','Rear Delt'],equipment:'Cable',movementPattern:'Vertical Pull',difficulty:2,swapCategory:'Vertical Pull',fatigueClass:'med',unilateral:false,icon:'🔗',notes:'Slight lean back. Pull to upper chest, full stretch at top.'},
+{name:'Lat Pulldown (Neutral Grip)',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps'],equipment:'Cable',movementPattern:'Vertical Pull',difficulty:2,swapCategory:'Vertical Pull',fatigueClass:'med',unilateral:false,icon:'🔗',notes:'Neutral grip reduces elbow stress. Great for high volume.'},
+{name:'Single Arm Lat Pulldown',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps'],equipment:'Cable',movementPattern:'Vertical Pull',difficulty:2,swapCategory:'Vertical Pull',fatigueClass:'med',unilateral:true,icon:'🔗',notes:'Unilateral. Fixes left/right imbalances.'},
+{name:'Straight Arm Pulldown',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Triceps'],equipment:'Cable',movementPattern:'Vertical Pull',difficulty:2,swapCategory:'Vertical Pull',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Arms stay straight. Pure lat isolation.'},
+{name:'Machine Pulldown',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps'],equipment:'Machine',movementPattern:'Vertical Pull',difficulty:1,swapCategory:'Vertical Pull',fatigueClass:'med',unilateral:false,icon:'🤖',notes:'Good alternative when cables are taken.'},
+
+// ════════════ BACK — HORIZONTAL PULL ════════════
+{name:'Barbell Bent Over Row',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps','Traps','Rear Delt'],equipment:'Barbell',movementPattern:'Horizontal Pull',difficulty:4,swapCategory:'Horizontal Row',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Hinge at hips. Bar to lower chest. Retract scapula.'},
+{name:'Pendlay Row',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps','Traps'],equipment:'Barbell',movementPattern:'Horizontal Pull',difficulty:4,swapCategory:'Horizontal Row',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Bar starts on floor each rep. Strict, explosive pull.'},
+{name:'Dumbbell Row',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps'],equipment:'Dumbbells',movementPattern:'Horizontal Pull',difficulty:2,swapCategory:'Horizontal Row',fatigueClass:'med',unilateral:true,icon:'💪',notes:'Support on bench. Full ROM. Elbow past hip at top.'},
+{name:'Chest Supported Row',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Rear Delt','Biceps'],equipment:'Dumbbells',movementPattern:'Horizontal Pull',difficulty:2,swapCategory:'Horizontal Row',fatigueClass:'med',unilateral:false,icon:'🛏️',notes:'Removes lower back. Pure back isolation.'},
+{name:'Cable Row (Seated)',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps','Rear Delt'],equipment:'Cable',movementPattern:'Horizontal Pull',difficulty:2,swapCategory:'Horizontal Row',fatigueClass:'med',unilateral:false,icon:'🔗',notes:'Keep chest up. Full stretch at front, squeeze at back.'},
+{name:'Machine Row',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps'],equipment:'Machine',movementPattern:'Horizontal Pull',difficulty:1,swapCategory:'Horizontal Row',fatigueClass:'med',unilateral:false,icon:'🤖',notes:'Great for beginners and high volume.'},
+{name:'Meadows Row',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Rear Delt'],equipment:'Barbell',movementPattern:'Horizontal Pull',difficulty:3,swapCategory:'Horizontal Row',fatigueClass:'med',unilateral:true,icon:'🏋️',notes:'Landmine row variation. Great for lat thickness.'},
+{name:'Kroc Row',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps','Rear Delt'],equipment:'Dumbbells',movementPattern:'Horizontal Pull',difficulty:4,swapCategory:'Horizontal Row',fatigueClass:'high',unilateral:true,icon:'💪',notes:'Heavy, high rep one-arm rows. Powerlifting accessory.'},
+{name:'T-Bar Row',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Traps','Biceps'],equipment:'Barbell',movementPattern:'Horizontal Pull',difficulty:3,swapCategory:'Horizontal Row',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Narrow grip hits lats. Wide grip hits upper back.'},
+{name:'Inverted Row',muscle:'Back',primaryMuscle:'Lats',secondaryMuscles:['Biceps','Rear Delt'],equipment:'Bodyweight',movementPattern:'Horizontal Pull',difficulty:2,swapCategory:'Horizontal Row',fatigueClass:'low',unilateral:false,icon:'⬆️',notes:'Bodyweight row. Scale by adjusting body angle.'},
+
+// ════════════ UPPER BACK / TRAPS ════════════
+{name:'Barbell Shrug',muscle:'Traps',primaryMuscle:'Traps',secondaryMuscles:[],equipment:'Barbell',movementPattern:'Shrug',difficulty:2,swapCategory:'Shrug',fatigueClass:'med',unilateral:false,icon:'🏋️',notes:'Straight up. No rolling. Hold at top 1 second.'},
+{name:'Dumbbell Shrug',muscle:'Traps',primaryMuscle:'Traps',secondaryMuscles:[],equipment:'Dumbbells',movementPattern:'Shrug',difficulty:1,swapCategory:'Shrug',fatigueClass:'low',unilateral:false,icon:'💪',notes:'Easier to maintain neutral spine than barbell.'},
+{name:'Cable Shrug',muscle:'Traps',primaryMuscle:'Traps',secondaryMuscles:[],equipment:'Cable',movementPattern:'Shrug',difficulty:1,swapCategory:'Shrug',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Constant tension for trap development.'},
+{name:'Rack Pull',muscle:'Back',primaryMuscle:'Traps',secondaryMuscles:['Lats','Glutes'],equipment:'Barbell',movementPattern:'Hinge',difficulty:4,swapCategory:'Deadlift Variation',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Partial deadlift. Great for upper back and trap thickness.'},
+{name:'Snatch Grip Deadlift',muscle:'Back',primaryMuscle:'Traps',secondaryMuscles:['Lats','Glutes'],equipment:'Barbell',movementPattern:'Hinge',difficulty:5,swapCategory:'Deadlift Variation',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Wide grip increases lat engagement and upper back demand.'},
+
+// ════════════ BICEPS ════════════
+{name:'Barbell Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:['Brachialis'],equipment:'Barbell',movementPattern:'Elbow Flexion',difficulty:2,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:false,icon:'💪',notes:'Supinated grip. Elbows stay at sides. Full ROM.'},
+{name:'Dumbbell Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:['Brachialis'],equipment:'Dumbbells',movementPattern:'Elbow Flexion',difficulty:1,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:true,icon:'💪',notes:'Supinate at top for full contraction.'},
+{name:'Incline Dumbbell Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:[],equipment:'Dumbbells',movementPattern:'Elbow Flexion',difficulty:2,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:true,icon:'📐',notes:'Long head stretch. Best for bicep peak development.'},
+{name:'Cable Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:[],equipment:'Cable',movementPattern:'Elbow Flexion',difficulty:1,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Constant tension. Great for pump and finishing work.'},
+{name:'Hammer Curl',muscle:'Biceps',primaryMuscle:'Brachialis',secondaryMuscles:['Biceps','Brachioradialis'],equipment:'Dumbbells',movementPattern:'Elbow Flexion',difficulty:1,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:true,icon:'🔨',notes:'Neutral grip hits brachialis for overall arm thickness.'},
+{name:'Preacher Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:[],equipment:'Machine',movementPattern:'Elbow Flexion',difficulty:2,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:false,icon:'🙏',notes:'Removes cheat. Focus on short head. Full stretch at bottom.'},
+{name:'Concentration Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:[],equipment:'Dumbbells',movementPattern:'Elbow Flexion',difficulty:1,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:true,icon:'💪',notes:'Seated unilateral. Great for mind-muscle connection.'},
+{name:'Spider Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:[],equipment:'Dumbbells',movementPattern:'Elbow Flexion',difficulty:2,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:false,icon:'🕷️',notes:'Prone on incline bench. Eliminates all momentum.'},
+{name:'Cross Body Hammer Curl',muscle:'Biceps',primaryMuscle:'Brachialis',secondaryMuscles:['Biceps'],equipment:'Dumbbells',movementPattern:'Elbow Flexion',difficulty:1,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:true,icon:'✖️',notes:'Curl across body. Great for brachialis and forearm.'},
+{name:'Reverse Curl',muscle:'Biceps',primaryMuscle:'Brachioradialis',secondaryMuscles:['Biceps'],equipment:'Barbell',movementPattern:'Elbow Flexion',difficulty:2,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:false,icon:'🔄',notes:'Pronated grip. Hits forearms and brachioradialis.'},
+{name:'Zottman Curl',muscle:'Biceps',primaryMuscle:'Biceps',secondaryMuscles:['Brachioradialis'],equipment:'Dumbbells',movementPattern:'Elbow Flexion',difficulty:2,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:false,icon:'🔄',notes:'Supinate up, pronate on the way down. Full arm development.'},
+{name:'Cable Rope Hammer Curl',muscle:'Biceps',primaryMuscle:'Brachialis',secondaryMuscles:[],equipment:'Cable',movementPattern:'Elbow Flexion',difficulty:1,swapCategory:'Bicep Curl',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Rope attachment. Neutral grip with constant tension.'},
+
+// ════════════ TRICEPS ════════════
+{name:'Close Grip Bench Press',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:['Chest','Front Delt'],equipment:'Barbell',movementPattern:'Horizontal Push',difficulty:3,swapCategory:'Tricep Compound',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Shoulder width grip. Elbows tucked. Best compound tricep builder.'},
+{name:'Tricep Dip',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:['Chest','Front Delt'],equipment:'Bodyweight',movementPattern:'Vertical Push',difficulty:3,swapCategory:'Tricep Compound',fatigueClass:'high',unilateral:false,icon:'⬇️',notes:'Stay upright for tricep focus. Lean forward for chest.'},
+{name:'Skull Crusher',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:[],equipment:'Barbell',movementPattern:'Elbow Extension',difficulty:3,swapCategory:'Tricep Extension',fatigueClass:'med',unilateral:false,icon:'💀',notes:'Lower to forehead or just behind head. Stretch at bottom.'},
+{name:'EZ Bar Skull Crusher',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:[],equipment:'Barbell',movementPattern:'Elbow Extension',difficulty:2,swapCategory:'Tricep Extension',fatigueClass:'med',unilateral:false,icon:'〰️',notes:'Easier on wrists than straight bar. Same movement.'},
+{name:'Tricep Pushdown (Rope)',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:[],equipment:'Cable',movementPattern:'Elbow Extension',difficulty:1,swapCategory:'Tricep Pushdown',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Flare rope at bottom. Full tricep contraction.'},
+{name:'Tricep Pushdown (Bar)',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:[],equipment:'Cable',movementPattern:'Elbow Extension',difficulty:1,swapCategory:'Tricep Pushdown',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Straight bar for more weight. Keep elbows at sides.'},
+{name:'OH Tricep Ext (Cable)',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:[],equipment:'Cable',movementPattern:'Elbow Extension',difficulty:2,swapCategory:'Tricep Extension',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Long head stretch. Face away from cable. Arms behind head.'},
+{name:'OH Tricep Ext (Dumbbell)',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:[],equipment:'Dumbbells',movementPattern:'Elbow Extension',difficulty:2,swapCategory:'Tricep Extension',fatigueClass:'low',unilateral:false,icon:'💪',notes:'One or two hands. Long head stretch is the goal.'},
+{name:'Tricep Kickback',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:[],equipment:'Dumbbells',movementPattern:'Elbow Extension',difficulty:1,swapCategory:'Tricep Extension',fatigueClass:'low',unilateral:true,icon:'🦵',notes:'Upper arm parallel to floor. Full extension. Light weight.'},
+{name:'Diamond Push Up',muscle:'Triceps',primaryMuscle:'Triceps',secondaryMuscles:['Chest'],equipment:'Bodyweight',movementPattern:'Horizontal Push',difficulty:2,swapCategory:'Tricep Compound',fatigueClass:'low',unilateral:false,icon:'💎',notes:'Hands in diamond shape. Elbows track back, not out.'},
+
+// ════════════ QUADS ════════════
+{name:'Barbell Back Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes','Hamstrings','Core'],equipment:'Barbell',movementPattern:'Knee Dominant',difficulty:4,swapCategory:'Squat',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'King of leg exercises. Brace, break at hips and knees simultaneously.'},
+{name:'Barbell Front Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes','Core'],equipment:'Barbell',movementPattern:'Knee Dominant',difficulty:5,swapCategory:'Squat',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'More upright torso. Greater quad emphasis. Hard on wrists.'},
+{name:'Safety Bar Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes','Core'],equipment:'Barbell',movementPattern:'Knee Dominant',difficulty:3,swapCategory:'Squat',fatigueClass:'high',unilateral:false,icon:'🔒',notes:'Easier on shoulders. Great squat alternative.'},
+{name:'Goblet Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes','Core'],equipment:'Dumbbells',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Squat',fatigueClass:'med',unilateral:false,icon:'🏆',notes:'Counterbalance helps torso stay upright. Great for beginners.'},
+{name:'Hack Squat (Machine)',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Machine',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Squat',fatigueClass:'high',unilateral:false,icon:'🤖',notes:'Feet forward for more quad. Remove spinal load.'},
+{name:'Leg Press',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes','Hamstrings'],equipment:'Machine',movementPattern:'Knee Dominant',difficulty:1,swapCategory:'Squat',fatigueClass:'high',unilateral:false,icon:'🦵',notes:'Foot position changes emphasis. Low wide = glutes, high narrow = quads.'},
+{name:'Bulgarian Split Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes','Hamstrings'],equipment:'Dumbbells',movementPattern:'Knee Dominant',difficulty:3,swapCategory:'Split Squat',fatigueClass:'high',unilateral:true,icon:'🦵',notes:'Rear foot elevated. Brutal but effective. Best unilateral leg exercise.'},
+{name:'Lunge (Barbell)',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Barbell',movementPattern:'Knee Dominant',difficulty:3,swapCategory:'Split Squat',fatigueClass:'high',unilateral:true,icon:'🏋️',notes:'Step forward, knee tracks over toe. Alternate legs.'},
+{name:'Lunge (Dumbbell)',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Dumbbells',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Split Squat',fatigueClass:'med',unilateral:true,icon:'💪',notes:'Safer than barbell. Same mechanics.'},
+{name:'Walking Lunge',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Dumbbells',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Split Squat',fatigueClass:'med',unilateral:true,icon:'🚶',notes:'Continuous movement. Adds balance challenge.'},
+{name:'Step Up',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Dumbbells',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Split Squat',fatigueClass:'med',unilateral:true,icon:'⬆️',notes:'Drive through heel of working leg. Control descent.'},
+{name:'Leg Extension',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:[],equipment:'Machine',movementPattern:'Knee Extension',difficulty:1,swapCategory:'Quad Isolation',fatigueClass:'low',unilateral:false,icon:'🤖',notes:'Terminal knee extension. Squeeze at top. Avoid heavy weight.'},
+{name:'Sissy Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Knee Extension',difficulty:3,swapCategory:'Quad Isolation',fatigueClass:'med',unilateral:false,icon:'💪',notes:'Extreme knee flexion. Quad stretch focused.'},
+{name:'Cyclist Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:[],equipment:'Barbell',movementPattern:'Knee Dominant',difficulty:3,swapCategory:'Squat',fatigueClass:'med',unilateral:false,icon:'🚴',notes:'Heels elevated. Maximum quad stretch and emphasis.'},
+{name:'Split Squat',muscle:'Quads',primaryMuscle:'Quads',secondaryMuscles:['Glutes'],equipment:'Bodyweight',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Split Squat',fatigueClass:'med',unilateral:true,icon:'🦵',notes:'Stationary lunge. Good beginner unilateral option.'},
+
+// ════════════ HAMSTRINGS ════════════
+{name:'Conventional Deadlift',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Glutes','Lats','Traps','Core'],equipment:'Barbell',movementPattern:'Hip Hinge',difficulty:4,swapCategory:'Deadlift',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Full body. Brace, hinge, push floor away. Bar stays on legs.'},
+{name:'Sumo Deadlift',muscle:'Hamstrings',primaryMuscle:'Glutes',secondaryMuscles:['Hamstrings','Adductors','Quads'],equipment:'Barbell',movementPattern:'Hip Hinge',difficulty:4,swapCategory:'Deadlift',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Wide stance, toes out. Less lower back, more hips and adductors.'},
+{name:'Romanian Deadlift',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Glutes'],equipment:'Barbell',movementPattern:'Hip Hinge',difficulty:3,swapCategory:'Deadlift',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Hips back, slight knee bend. Feel hamstring stretch. Bar stays close.'},
+{name:'Dumbbell RDL',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Glutes'],equipment:'Dumbbells',movementPattern:'Hip Hinge',difficulty:2,swapCategory:'Deadlift',fatigueClass:'med',unilateral:false,icon:'💪',notes:'Same as barbell RDL. Easier setup, slightly less load.'},
+{name:'Single Leg RDL',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Glutes','Core'],equipment:'Dumbbells',movementPattern:'Hip Hinge',difficulty:3,swapCategory:'Deadlift',fatigueClass:'med',unilateral:true,icon:'🦵',notes:'Best for hamstring imbalances. Balance challenge.'},
+{name:'Stiff Leg Deadlift',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Glutes','Lower Back'],equipment:'Barbell',movementPattern:'Hip Hinge',difficulty:3,swapCategory:'Deadlift',fatigueClass:'high',unilateral:false,icon:'🏋️',notes:'Legs nearly straight. More lower back involvement than RDL.'},
+{name:'Good Morning',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Lower Back','Glutes'],equipment:'Barbell',movementPattern:'Hip Hinge',difficulty:4,swapCategory:'Deadlift',fatigueClass:'high',unilateral:false,icon:'☀️',notes:'Bar on upper back. Hinge forward. Brutal posterior chain.'},
+{name:'Leg Curl (Lying)',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:[],equipment:'Machine',movementPattern:'Knee Flexion',difficulty:1,swapCategory:'Leg Curl',fatigueClass:'low',unilateral:false,icon:'🤖',notes:'Curl heels to glutes. Pause at contraction.'},
+{name:'Leg Curl (Seated)',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:[],equipment:'Machine',movementPattern:'Knee Flexion',difficulty:1,swapCategory:'Leg Curl',fatigueClass:'low',unilateral:false,icon:'🪑',notes:'Seated position stretches hamstring more. Better ROM.'},
+{name:'Nordic Curl',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Knee Flexion',difficulty:5,swapCategory:'Leg Curl',fatigueClass:'med',unilateral:false,icon:'🔥',notes:'Lower body slowly. Use hands to push back up. Best eccentric.'},
+{name:'Glute Ham Raise',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Glutes'],equipment:'Machine',movementPattern:'Knee Flexion',difficulty:4,swapCategory:'Leg Curl',fatigueClass:'med',unilateral:false,icon:'🤖',notes:'Best hamstring developer. Used by elite powerlifters.'},
+{name:'Cable Pull Through',muscle:'Hamstrings',primaryMuscle:'Hamstrings',secondaryMuscles:['Glutes'],equipment:'Cable',movementPattern:'Hip Hinge',difficulty:2,swapCategory:'Deadlift',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Hip hinge with cable between legs. Great hip hinge teacher.'},
+
+// ════════════ GLUTES ════════════
+{name:'Hip Thrust (Barbell)',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:['Hamstrings'],equipment:'Barbell',movementPattern:'Hip Extension',difficulty:3,swapCategory:'Hip Thrust',fatigueClass:'high',unilateral:false,icon:'🍑',notes:'Shoulders on bench. Drive hips up. Squeeze at top.'},
+{name:'Hip Thrust (Machine)',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:['Hamstrings'],equipment:'Machine',movementPattern:'Hip Extension',difficulty:1,swapCategory:'Hip Thrust',fatigueClass:'med',unilateral:false,icon:'🤖',notes:'Easier setup than barbell. Same movement.'},
+{name:'Glute Bridge',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:['Hamstrings'],equipment:'Bodyweight',movementPattern:'Hip Extension',difficulty:1,swapCategory:'Hip Thrust',fatigueClass:'low',unilateral:false,icon:'🌉',notes:'On floor version. Great for beginners and warm-ups.'},
+{name:'Single Leg Hip Thrust',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Hip Extension',difficulty:3,swapCategory:'Hip Thrust',fatigueClass:'med',unilateral:true,icon:'🦵',notes:'Unilateral hip thrust. Fix glute imbalances.'},
+{name:'Cable Kickback',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:[],equipment:'Cable',movementPattern:'Hip Extension',difficulty:1,swapCategory:'Glute Isolation',fatigueClass:'low',unilateral:true,icon:'🔗',notes:'Standing or on all fours. Squeeze glutes at top.'},
+{name:'Donkey Kick',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Hip Extension',difficulty:1,swapCategory:'Glute Isolation',fatigueClass:'low',unilateral:true,icon:'🐎',notes:'On all fours. Keep 90° knee angle. Squeeze at top.'},
+{name:'Clamshell',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:['Hip Abductors'],equipment:'Band',movementPattern:'Hip Abduction',difficulty:1,swapCategory:'Glute Isolation',fatigueClass:'low',unilateral:true,icon:'🦪',notes:'Side lying. Open and close like a clamshell. Prehab classic.'},
+{name:'Hip Abduction (Machine)',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:['Hip Abductors'],equipment:'Machine',movementPattern:'Hip Abduction',difficulty:1,swapCategory:'Glute Isolation',fatigueClass:'low',unilateral:false,icon:'🤖',notes:'Seated abduction machine. Great glute med developer.'},
+{name:'Sumo Squat',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:['Adductors','Quads'],equipment:'Dumbbells',movementPattern:'Knee Dominant',difficulty:2,swapCategory:'Squat',fatigueClass:'med',unilateral:false,icon:'🏋️',notes:'Wide stance, toes out. Targets inner thigh and glutes.'},
+{name:'Frog Pump',muscle:'Glutes',primaryMuscle:'Glutes',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Hip Extension',difficulty:1,swapCategory:'Glute Isolation',fatigueClass:'low',unilateral:false,icon:'🐸',notes:'Feet together, knees out. High rep glute activation.'},
+
+// ════════════ CALVES ════════════
+{name:'Standing Calf Raise',muscle:'Calves',primaryMuscle:'Gastrocnemius',secondaryMuscles:['Soleus'],equipment:'Machine',movementPattern:'Ankle Flexion',difficulty:1,swapCategory:'Calf Raise',fatigueClass:'low',unilateral:false,icon:'🦵',notes:'Full ROM. Pause at bottom. Slow eccentric.'},
+{name:'Seated Calf Raise',muscle:'Calves',primaryMuscle:'Soleus',secondaryMuscles:[],equipment:'Machine',movementPattern:'Ankle Flexion',difficulty:1,swapCategory:'Calf Raise',fatigueClass:'low',unilateral:false,icon:'🪑',notes:'Knee bent isolates soleus. Pair with standing for full development.'},
+{name:'Leg Press Calf Raise',muscle:'Calves',primaryMuscle:'Gastrocnemius',secondaryMuscles:[],equipment:'Machine',movementPattern:'Ankle Flexion',difficulty:1,swapCategory:'Calf Raise',fatigueClass:'low',unilateral:false,icon:'🤖',notes:'Use toes at bottom of leg press. Easy loading.'},
+{name:'Single Leg Calf Raise',muscle:'Calves',primaryMuscle:'Gastrocnemius',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Ankle Flexion',difficulty:2,swapCategory:'Calf Raise',fatigueClass:'low',unilateral:true,icon:'🦵',notes:'Full bodyweight per leg. Use step for ROM. Hold weight to progress.'},
+{name:'Donkey Calf Raise',muscle:'Calves',primaryMuscle:'Gastrocnemius',secondaryMuscles:[],equipment:'Machine',movementPattern:'Ankle Flexion',difficulty:2,swapCategory:'Calf Raise',fatigueClass:'low',unilateral:false,icon:'🐎',notes:'Hip hinge position stretches calf more than standing.'},
+{name:'Jump Rope',muscle:'Calves',primaryMuscle:'Gastrocnemius',secondaryMuscles:['Quads'],equipment:'Bodyweight',movementPattern:'Cardio',difficulty:2,swapCategory:'Calf Raise',fatigueClass:'low',unilateral:false,icon:'🏃',notes:'Calf conditioning. Great warm-up and cardio.'},
+
+// ════════════ CORE — ANTI-EXTENSION ════════════
+{name:'Plank',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Glutes','Shoulders'],equipment:'Bodyweight',movementPattern:'Anti-Extension',difficulty:1,swapCategory:'Plank',fatigueClass:'low',unilateral:false,icon:'🧱',notes:'Neutral spine. No sagging hips or raised butt. Squeeze everything.'},
+{name:'Ab Wheel',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Lats','Shoulders'],equipment:'Bodyweight',movementPattern:'Anti-Extension',difficulty:4,swapCategory:'Core Extension',fatigueClass:'med',unilateral:false,icon:'⭕',notes:'Extend as far as you can maintain position. Pull back with lats.'},
+{name:'Cable Crunch',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:[],equipment:'Cable',movementPattern:'Flexion',difficulty:2,swapCategory:'Core Flexion',fatigueClass:'low',unilateral:false,icon:'🔗',notes:'Kneel, curl spine down. Do not hip hinge. Abs do all the work.'},
+{name:'Hanging Leg Raise',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Hip Flexors'],equipment:'Bodyweight',movementPattern:'Flexion',difficulty:3,swapCategory:'Core Flexion',fatigueClass:'low',unilateral:false,icon:'🏃',notes:'Hang from bar. Raise knees or straight legs to hip or above.'},
+{name:'Pallof Press',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:[],equipment:'Cable',movementPattern:'Anti-Rotation',difficulty:2,swapCategory:'Anti-Rotation',fatigueClass:'low',unilateral:false,icon:'🎯',notes:'Press cable out and resist rotation. Core stability classic.'},
+{name:'Landmine Rotation',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Shoulders'],equipment:'Barbell',movementPattern:'Anti-Rotation',difficulty:3,swapCategory:'Anti-Rotation',fatigueClass:'low',unilateral:false,icon:'🌀',notes:'Arc bar around body. Core fights rotation throughout.'},
+{name:'Dead Bug',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Hip Flexors'],equipment:'Bodyweight',movementPattern:'Anti-Extension',difficulty:2,swapCategory:'Plank',fatigueClass:'low',unilateral:true,icon:'🐛',notes:'Lower back pressed to floor. Opposite arm/leg extension.'},
+{name:'Bird Dog',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Glutes'],equipment:'Bodyweight',movementPattern:'Anti-Extension',difficulty:1,swapCategory:'Plank',fatigueClass:'low',unilateral:true,icon:'🐦',notes:'On all fours. Extend opposite arm and leg. Hold, squeeze.'},
+{name:'Dragon Flag',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Chest','Triceps'],equipment:'Bodyweight',movementPattern:'Anti-Extension',difficulty:5,swapCategory:'Core Extension',fatigueClass:'med',unilateral:false,icon:'🐉',notes:'Advanced. Bruce Lee favourite. Body straight. Slow eccentric.'},
+{name:'Hollow Body Hold',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Anti-Extension',difficulty:3,swapCategory:'Plank',fatigueClass:'low',unilateral:false,icon:'🍌',notes:'Gymnastics core builder. Lower back flat, limbs extended.'},
+{name:'L-Sit',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Triceps','Hip Flexors'],equipment:'Bodyweight',movementPattern:'Anti-Extension',difficulty:4,swapCategory:'Plank',fatigueClass:'low',unilateral:false,icon:'🅻',notes:'Hold legs horizontal. Rings or parallettes.'},
+{name:'Sit Up',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Hip Flexors'],equipment:'Bodyweight',movementPattern:'Flexion',difficulty:1,swapCategory:'Core Flexion',fatigueClass:'low',unilateral:false,icon:'🏋️',notes:'Full ROM. Hands behind head or crossed on chest.'},
+{name:'Crunch',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Flexion',difficulty:1,swapCategory:'Core Flexion',fatigueClass:'low',unilateral:false,icon:'🧮',notes:'Partial ROM. Focus on upper ab contraction.'},
+{name:'Bicycle Crunch',muscle:'Core',primaryMuscle:'Core',secondaryMuscles:['Obliques'],equipment:'Bodyweight',movementPattern:'Rotation',difficulty:2,swapCategory:'Core Rotation',fatigueClass:'low',unilateral:true,icon:'🚴',notes:'Rotation with alternating knee drive. Control the tempo.'},
+{name:'Russian Twist',muscle:'Core',primaryMuscle:'Obliques',secondaryMuscles:['Core'],equipment:'Bodyweight',movementPattern:'Rotation',difficulty:2,swapCategory:'Core Rotation',fatigueClass:'low',unilateral:false,icon:'🌀',notes:'V-sit position, rotate side to side. Add weight for challenge.'},
+{name:'Side Plank',muscle:'Core',primaryMuscle:'Obliques',secondaryMuscles:['Core','Glutes'],equipment:'Bodyweight',movementPattern:'Anti-Lateral Flexion',difficulty:2,swapCategory:'Plank',fatigueClass:'low',unilateral:true,icon:'🧱',notes:'Elbow or hand. Hip up. Hold or add dips.'},
+{name:'Copenhagen Plank',muscle:'Core',primaryMuscle:'Obliques',secondaryMuscles:['Adductors'],equipment:'Bodyweight',movementPattern:'Anti-Lateral Flexion',difficulty:4,swapCategory:'Plank',fatigueClass:'low',unilateral:true,icon:'🇩🇰',notes:'Top foot on bench. Adductor and oblique strength.'},
+
+// ════════════ CARDIO ════════════
+{name:'Assault Bike',muscle:'Cardio',primaryMuscle:'Cardiovascular',secondaryMuscles:['Full Body'],equipment:'Machine',movementPattern:'Cardio',difficulty:3,swapCategory:'Cardio',fatigueClass:'high',unilateral:false,icon:'🚴',notes:'Full body cardio. 10/10 brutal. Great for HIIT.'},
+{name:'Rowing Machine',muscle:'Cardio',primaryMuscle:'Cardiovascular',secondaryMuscles:['Back','Core'],equipment:'Machine',movementPattern:'Cardio',difficulty:2,swapCategory:'Cardio',fatigueClass:'med',unilateral:false,icon:'🚣',notes:'Push with legs first, then pull with arms. 60/40 legs/arms.'},
+{name:'Treadmill',muscle:'Cardio',primaryMuscle:'Cardiovascular',secondaryMuscles:['Quads','Calves'],equipment:'Machine',movementPattern:'Cardio',difficulty:1,swapCategory:'Cardio',fatigueClass:'med',unilateral:false,icon:'🏃',notes:'Walk, jog, or run. Incline for more glutes.'},
+{name:'Stairmaster',muscle:'Cardio',primaryMuscle:'Cardiovascular',secondaryMuscles:['Glutes','Quads'],equipment:'Machine',movementPattern:'Cardio',difficulty:2,swapCategory:'Cardio',fatigueClass:'med',unilateral:false,icon:'🪜',notes:'Step climbing. Excellent for glutes and cardio.'},
+{name:'Elliptical',muscle:'Cardio',primaryMuscle:'Cardiovascular',secondaryMuscles:['Full Body'],equipment:'Machine',movementPattern:'Cardio',difficulty:1,swapCategory:'Cardio',fatigueClass:'low',unilateral:false,icon:'🔄',notes:'Low impact. Good for recovery cardio.'},
+{name:'Sled Push',muscle:'Cardio',primaryMuscle:'Quads',secondaryMuscles:['Cardiovascular','Glutes'],equipment:'Machine',movementPattern:'Cardio',difficulty:3,swapCategory:'Cardio',fatigueClass:'high',unilateral:false,icon:'🛷',notes:'Full body conditioning. Minimal eccentric damage.'},
+{name:'Farmers Walk',muscle:'Cardio',primaryMuscle:'Traps',secondaryMuscles:['Forearms','Core','Cardiovascular'],equipment:'Dumbbells',movementPattern:'Loaded Carry',difficulty:2,swapCategory:'Cardio',fatigueClass:'med',unilateral:false,icon:'🌾',notes:'Walk with heavy weights. Grip, traps and conditioning.'},
+
+// ════════════ MOBILITY / PREHAB ════════════
+{name:'Hip Flexor Stretch',muscle:'Mobility',primaryMuscle:'Hip Flexors',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:true,icon:'🧘',notes:'Kneeling lunge position. Drive hip forward. 60s each side.'},
+{name:'Pigeon Pose',muscle:'Mobility',primaryMuscle:'Glutes',secondaryMuscles:['Hip External Rotators'],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:2,swapCategory:'Mobility',fatigueClass:'low',unilateral:true,icon:'🕊️',notes:'Front shin horizontal. Lean over for deeper stretch. 90s each.'},
+{name:'Worlds Greatest Stretch',muscle:'Mobility',primaryMuscle:'Hip Flexors',secondaryMuscles:['Thoracic','Hamstrings'],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:2,swapCategory:'Mobility',fatigueClass:'low',unilateral:true,icon:'🌍',notes:'Lunge and rotation and reach. Best single mobility exercise.'},
+{name:'Cat-Cow',muscle:'Mobility',primaryMuscle:'Spine',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:false,icon:'🐱',notes:'On all fours. Alternate flexion and extension of spine.'},
+{name:'Thoracic Rotation',muscle:'Mobility',primaryMuscle:'Thoracic Spine',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:true,icon:'🌀',notes:'Seated or thread-the-needle. Open thoracic spine.'},
+{name:'Wall Slide',muscle:'Mobility',primaryMuscle:'Shoulders',secondaryMuscles:['Traps'],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:false,icon:'🧱',notes:'Arms on wall, slide up and down. Scapula retraction.'},
+{name:'Ankle Mobility Drill',muscle:'Mobility',primaryMuscle:'Ankles',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:true,icon:'🦶',notes:'Knee over toe leans. Essential for squat depth.'},
+{name:'Deep Squat Hold',muscle:'Mobility',primaryMuscle:'Hips',secondaryMuscles:['Ankles','Spine'],equipment:'Bodyweight',movementPattern:'Stretch',difficulty:2,swapCategory:'Mobility',fatigueClass:'low',unilateral:false,icon:'⬇️',notes:'ATG squat position. Hold for 2+ minutes. Develops mobility over time.'},
+{name:'Foam Roll (Quads)',muscle:'Mobility',primaryMuscle:'Quads',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Soft Tissue',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:false,icon:'🪵',notes:'Roll front of thigh slowly. Pause on tender spots.'},
+{name:'Foam Roll (Hamstrings)',muscle:'Mobility',primaryMuscle:'Hamstrings',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Soft Tissue',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:false,icon:'🪵',notes:'Roll back of thigh. Use foot position to increase pressure.'},
+{name:'Foam Roll (Upper Back)',muscle:'Mobility',primaryMuscle:'Thoracic Spine',secondaryMuscles:[],equipment:'Bodyweight',movementPattern:'Soft Tissue',difficulty:1,swapCategory:'Mobility',fatigueClass:'low',unilateral:false,icon:'🪵',notes:'Roller perpendicular to spine. Hands behind head. Extend back.'},
+
 ];
 
-const LIB_FILTERS = ['All','Chest','Shoulders','Back','Biceps','Triceps','Legs','Glutes','Hamstrings','Core','Calves','Barbell','Dumbbells','Cable','Machine','Bodyweight'];
+// ── Swap system: find best swap for a given exercise ──────────
+// Priority: 1. same movement pattern + same primary muscle
+//           2. same swap category
+//           3. same primary muscle + different equipment
+function findSwaps(exName, count) {
+  count = count || 3;
+  var source = EXERCISE_LIBRARY.find(function(e){return e.name===exName;});
+  if (!source) return [];
+  return EXERCISE_LIBRARY.filter(function(e){
+    return e.name !== exName && e.primaryMuscle === source.primaryMuscle;
+  }).sort(function(a,b){
+    var scoreA=0, scoreB=0;
+    if(a.movementPattern===source.movementPattern) scoreA+=3;
+    if(b.movementPattern===source.movementPattern) scoreB+=3;
+    if(a.swapCategory===source.swapCategory) scoreA+=2;
+    if(b.swapCategory===source.swapCategory) scoreB+=2;
+    if(a.equipment!==source.equipment) scoreA+=1; // prefer different equipment
+    if(b.equipment!==source.equipment) scoreB+=1;
+    return scoreB-scoreA;
+  }).slice(0,count);
+}
+
+
+
+const LIB_FILTERS = [
+  'All',
+  'Chest','Back','Shoulders','Quads','Hamstrings','Glutes','Calves',
+  'Biceps','Triceps','Traps','Core','Cardio','Mobility',
+  'Barbell','Dumbbells','Cable','Machine','Bodyweight','Band',
+];
 let libFilter = 'All';
 let libOpenIdx = null;
 
@@ -7814,6 +8096,35 @@ function renderBioAge() {
       : `Your biological age is ${Math.abs(diff)} year${Math.abs(diff)>1?'s':''} younger than your actual age. Keep doing exactly what you are doing. Your training, nutrition and recovery habits are working.`;
 }
 
+
+// ============================================================
+// PHASE 1 — LABS (all hidden features, nothing deleted)
+// ============================================================
+function renderLabs() {
+  var el = document.getElementById('view-labs');
+  if (!el) return;
+  var sections = ['Train','Progress','Recover'];
+  var html = '<div style="padding:16px;padding-bottom:calc(var(--nav-h)+20px)">';
+  html += '<div style="font-size:12px;color:var(--td);margin-bottom:16px;line-height:1.6;padding:12px 14px;background:rgba(124,106,255,.06);border:1px solid rgba(124,106,255,.15);border-radius:10px">Labs contains advanced features. Tap any to open.</div>';
+  for (var si=0; si<sections.length; si++) {
+    var section = sections[si];
+    var features = LABS_FEATURES.filter(function(f){return f.section===section;});
+    if (!features.length) continue;
+    html += '<div style="font-size:10px;font-weight:700;color:var(--a4);letter-spacing:2px;text-transform:uppercase;margin:16px 0 8px">' + section + '</div>';
+    for (var fi=0; fi<features.length; fi++) {
+      var f = features[fi];
+      var onclick = 'switchTab(' + JSON.stringify(f.id) + ');showToast(' + JSON.stringify(f.name) + ')';
+      html += '<div onclick="' + onclick.replace(/"/g,'&quot;') + '" style="background:var(--s1);border:1px solid rgba(124,106,255,.12);border-radius:12px;padding:14px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:12px">';
+      html += '<div style="width:32px;height:32px;background:rgba(124,106,255,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">⚗</div>';
+      html += '<div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--t);margin-bottom:2px">' + f.name + '</div><div style="font-size:11px;color:var(--td);line-height:1.4">' + f.desc + '</div></div>';
+      html += '<div style="color:var(--td);font-size:18px">&#8250;</div>';
+      html += '</div>';
+    }
+  }
+  html += '</div>';
+  el.innerHTML = html;
+}
+
 function init() {
   loadCustomData();
   try{document.getElementById('topDate').textContent=new Date().toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'}).toUpperCase();}catch(e){}
@@ -7830,6 +8141,7 @@ function init() {
     recoveryLog=JSON.parse(localStorage.getItem('jt_recovery')||'[]');
     deloadLog=JSON.parse(localStorage.getItem('jt_deloads')||'[]');
     ormData=JSON.parse(localStorage.getItem('jt_orm')||'{}');
+    try{progressionLog=JSON.parse(localStorage.getItem('jt_progression')||'{}');}catch(e){progressionLog={};}
     progHistory=JSON.parse(localStorage.getItem('jt_proghistory')||'[]');
   }catch(e){}
   try{
@@ -7907,16 +8219,35 @@ function refreshAll() {
 // ============================================================
 // STAGE 21 — SECTION ROUTING
 // ============================================================
+
+// PHASE 1 — Labs feature registry (all moved features, nothing deleted)
+const LABS_FEATURES = [
+  {id:'evolution',   section:'Train',    name:'Programme Evolution',     desc:'Manual exercise swaps and weight editing per day'},
+  {id:'nextprog',    section:'Train',    name:'Next Cycle Builder',      desc:'Generate next 12-week programme from performance data'},
+  {id:'periodise',   section:'Train',    name:'Periodisation Planner',   desc:'Auto-plan next cycle with progressive weights'},
+  {id:'smartswap',   section:'Train',    name:'Smart Swap Engine',       desc:'Best exercise substitutions based on weak points'},
+  {id:'fadjust',     section:'Train',    name:'Fatigue-Adjusted Weights',desc:'Today\'s weights adjusted for recovery score'},
+  {id:'deloadbuild', section:'Train',    name:'Deload Builder',          desc:'Auto-generate a full deload week programme'},
+  {id:'trainage',    section:'Train',    name:'Training Age',            desc:'Strength level vs bodyweight standards'},
+  {id:'weakpoints',  section:'Train',    name:'Weak Point Analysis',     desc:'Cross-references volume, PRs and progression'},
+  {id:'fibretype',   section:'Train',    name:'Muscle Fibre Estimator',  desc:'Estimates fast vs slow twitch from rep patterns'},
+  {id:'analytics',   section:'Progress', name:'Analytics',               desc:'Heatmap, volume charts and overload tracker'},
+  {id:'volume',      section:'Progress', name:'Volume Balance',          desc:'Weekly sets per muscle with imbalance flags'},
+  {id:'posture',     section:'Recover',  name:'Posture Tracker',         desc:'Check-ins and corrective exercise recommendations'},
+  {id:'jointhealth', section:'Recover',  name:'Joint Health Monitor',    desc:'Joint pain tracking and exercise modifications'},
+  {id:'vo2max',      section:'Recover',  name:'VO2 Max Estimator',       desc:'Aerobic fitness from resting heart rate'},
+  {id:'injuryprev',  section:'Recover',  name:'Injury Prevention',       desc:'Risk flags from fatigue, RPE and joint data'},
+  {id:'guthealth',   section:'Recover',  name:'Gut Health Log',          desc:'Digestion, appetite and Mounjaro side effects'},
+  {id:'bioage',      section:'Recover',  name:'Biological Age',          desc:'Composite age from all health data'},
+];
+
 const SECTION_MAP = {
   home:      {default:'today',     tabs:[]},
-  train:     {default:'programme', tabs:['programme','library','evolution','nextprog','tools','periodise','smartswap','fadjust','deloadbuild','trainage','fibretype','weakpoints'], labels:['Programme','Library','Evolution','Next Cycle','Tools','Planner','Smart Swap','Adj. Weights','Deload Build','Training Age','Fibre Type','Weak Points']},
-  progress:  {default:'history',   tabs:['history','analytics','progress','checkin','orm','volume'], labels:['History','Analytics','Body','Check-In','1RM','Volume']},
-
-
+  train:     {default:'programme', tabs:['programme','library','tools'], labels:['Programme','Library','Tools']},
+  progress:  {default:'history',   tabs:['history','progress','checkin','orm'], labels:['History','Body','Check-In','1RM']},
   nutrition: {default:'nutrition', tabs:['nutrition','meals'], labels:['Food Log','Meal Plan']},
-  recover:   {default:'recovery',  tabs:['recovery','fatigue','posture','jointhealth','vo2max','injuryprev','bloodpressure','hrzones','guthealth','bioage'], labels:['Recovery','Fatigue','Posture','Joints','VO2 Max','Injury Prev','Blood Pressure','HR Zones','Gut Health','Bio Age']},
-
-  more:      {default:'settings',  tabs:['settings'], labels:['Settings']},
+  recover:   {default:'recovery',  tabs:['recovery','fatigue','bloodpressure','hrzones'], labels:['Recovery','Fatigue','Blood Pressure','HR Zones']},
+  more:      {default:'settings',  tabs:['settings','labs'], labels:['Settings','Labs']},
 };
 
 let currentSection = 'home';
@@ -8005,6 +8336,7 @@ function switchTab(tab) {
   if(tab==='hrzones') renderHRZones();
   if(tab==='guthealth') renderGutHealth();
   if(tab==='bioage') renderBioAge();
+  if(tab==='labs') renderLabs();
   if(tab==='trainage') renderTrainingAge();
   if(tab==='fibretype') renderFibreType();
   if(tab==='weakpoints') renderWeakPoints();
@@ -8067,216 +8399,289 @@ function getDashHeadline(daysSince) {
   if(daysSince!==null&&daysSince>=2) return 'Time to get back in 💪';
   return "Let's get to work";
 }
+
+// ============================================================
+// SYSTEM PRIORITY ENGINE
+// Priority: 1.Recovery → 2.Progression → 3.Programme → 4.Analytics
+// This is the single source of truth for daily training decisions.
+// Nothing else should compute training instructions independently.
+// ============================================================
+function getTodayDirective() {
+  const today = todayStr();
+
+  // ── 1. RECOVERY (highest priority) ──────────────────────
+  const todayRec  = recoveryLog.find(r => r.date === today);
+  const recScore  = todayRec ? todayRec.score : null;
+  let recLevel, recInstruction, recSub, recColor;
+
+  if (recScore === null) {
+    recLevel = 'unknown';
+    recInstruction = 'Log recovery first.';
+    recSub   = 'Tap Recovery to log sleep, soreness and stress.';
+    recColor = 'var(--td)';
+  } else if (recScore >= 8) {
+    recLevel = 'full';
+    recInstruction = 'Train as planned.';
+    recSub   = 'Full intensity. Push for progress today.';
+    recColor = 'var(--a)';
+  } else if (recScore >= 6) {
+    recLevel = 'maintain';
+    recInstruction = 'Keep weights the same. Remove 1 set per exercise.';
+    recSub   = 'Moderate fatigue. Maintain load, reduce volume.';
+    recColor = 'var(--a3)';
+  } else if (recScore >= 4) {
+    recLevel = 'reduce';
+    recInstruction = 'Reduce volume by ~20%.';
+    recSub   = 'Elevated fatigue. Cap RPE at 7. Focus on movement quality.';
+    recColor = '#ff9500';
+  } else {
+    recLevel = 'rest';
+    recInstruction = 'Recovery day. No lifting today.';
+    recSub   = 'Body not ready for productive training. Walk or rest only.';
+    recColor = 'var(--a2)';
+  }
+
+  // ── 2. PROGRESSION (overridden by recovery if rest) ─────
+  // Scan progressionLog for any lift failing repeatedly
+  const deloadLifts = [];
+  Object.entries(progressionLog || {}).forEach(([name, hist]) => {
+    if (hist.length >= 3 && hist.slice(-3).every(h => !h.allHit)) {
+      deloadLifts.push(name.replace('Barbell ','').replace(' (bar)',''));
+    }
+  });
+  const progressionAlert = deloadLifts.length > 0
+    ? { type:'deload', lifts: deloadLifts }
+    : null;
+
+  // ── 3. PROGRAMME ─────────────────────────────────────────
+  const nextSess = getNextRecommendedSession();
+  const modeLabel = nextSess.type === 'onsite' ? 'On-Site · 30 min' : 'Off-Site · Full Session';
+  const modeColor = nextSess.type === 'onsite' ? 'var(--a2)' : 'var(--a)';
+  const sessName  = nextSess.name.includes('—')
+    ? nextSess.name.split('—').slice(1).join('—').trim()
+    : nextSess.name;
+
+  // Combined one-line summary (used for display and debugging)
+  const summary = recScore !== null
+    ? `${sessName} (${nextSess.type==='onsite'?'On-Site':'Off-Site'}) · ${recInstruction}`
+    : `${sessName} (${nextSess.type==='onsite'?'On-Site':'Off-Site'}) · Log recovery first`;
+
+  return {
+    // Session (Priority 3)
+    sessName, modeLabel, modeColor, nextSess,
+    // Recovery (Priority 1 — overrides all)
+    recScore, recLevel, recInstruction, recSub, recColor,
+    // Progression (Priority 2 — within recovery limits)
+    progressionAlert,
+    // Combined output
+    summary,
+    // Meta
+    today,
+  };
+}
+
 function renderDashboard() {
   renderDeloadAlert();
-  const el=document.getElementById('dashboardWrap');
-  if(!el)return;
+  const el = document.getElementById('dashboardWrap');
+  if (!el) return;
 
-  const{w,block,phase,reps,rpe,daysLeft}=getBlockInfo();
-  const now=new Date();
-  const hour=now.getHours();
-  const greeting=hour<12?'Good Morning':hour<17?'Good Afternoon':'Good Evening';
-  const goalDate=new Date('2026-09-19');
-  const totalDays=Math.ceil((goalDate-new Date('2026-04-14'))/(1000*60*60*24));
-  const progressPct=Math.min(100,Math.round(((totalDays-daysLeft)/totalDays)*100));
+  // ── Single source of truth ────────────────────────────
+  const D   = getTodayDirective();
+  const {w, reps, rpe, daysLeft} = getBlockInfo();
+  const now = new Date();
+
+  // Protein
+  const protTotal = PROTEIN_HITS.reduce((a,h) => a+(proteinToday[h.id]?h.g:0), 0);
+  const protPct   = Math.min(100, Math.round((protTotal / 190) * 100));
 
   // This week sessions
-  const thisWeek=sessions.filter(s=>{try{const d=new Date(s.date.split('/').reverse().join('-'));const ws=new Date();ws.setDate(ws.getDate()-ws.getDay());ws.setHours(0,0,0,0);return d>=ws;}catch(e){return false;}});
-
-  // Total volume this week
-  const weekVol=thisWeek.reduce((a,s)=>a+s.exercises.reduce((b,e)=>b+e.sets.filter(st=>st.completed).reduce((c,st)=>c+(parseFloat(st.weight)||0)*(parseInt(st.reps)||0),0),0),0);
-
-  // Days since last session
-  const daysSince=getDaysSinceLastSession();
-  const restMsg=daysSince===null?'No sessions yet':daysSince<1?'Trained today 🔥':daysSince<2?'Last trained yesterday':Math.floor(daysSince)+' days since last session';
-
-  // Next recommended session
-  const nextSess=getNextRecommendedSession();
-
-  // Latest scan
-  const base={weight:83.9,bf:19.9,smm:37.4,lbm:67.2};
-  const scan=scans.length?scans[scans.length-1]:base;
-
-  // Supplements today
-  const today=new Date().toLocaleDateString('en-AU');
-  
-  // Protein total
-  const proteinTotal=PROTEIN_HITS.reduce((a,h)=>a+(proteinToday[h.id]?h.g:0),0);
-
-  // Week bar
-  const days=['S','M','T','W','T','F','S'];
-  const trainedDays=new Set();
-  thisWeek.forEach(s=>{
-    try{const p=s.date.split('/');const d=new Date(p[2],p[1]-1,p[0]);const diff=d.getDay();trainedDays.add(diff);}catch(e){}
+  const thisWeek = sessions.filter(s => {
+    try {
+      const d  = new Date(s.date.split('/').reverse().join('-'));
+      const ws = new Date(); ws.setDate(ws.getDate() - ws.getDay()); ws.setHours(0,0,0,0);
+      return d >= ws;
+    } catch(e) { return false; }
   });
-  const weekBar=days.map((d,i)=>{
-    const isToday=i===now.getDay();
-    const isTrained=trainedDays.has(i);
-    const cls=isTrained?'trained':isToday?'today':'';
-    return`<div class="dash-week-dot ${cls}">${isToday&&!isTrained?'●':d}</div>`;
+
+  // Week dot bar
+  const DAY_LABELS = ['S','M','T','W','T','F','S'];
+  const trainedDays = new Set();
+  thisWeek.forEach(s => {
+    try { const p = s.date.split('/'); trainedDays.add(new Date(p[2],p[1]-1,p[0]).getDay()); } catch(e) {}
+  });
+  const weekDots = DAY_LABELS.map((d, i) => {
+    const isTd = i === now.getDay(), isTr = trainedDays.has(i);
+    return `<div style="flex:1;text-align:center">
+      <div style="width:28px;height:28px;border-radius:50%;margin:0 auto;
+        background:${isTr?'rgba(0,255,157,.15)':isTd?'rgba(255,204,0,.1)':'transparent'};
+        border:1px solid ${isTr?'var(--a)':isTd?'var(--a3)':'rgba(255,255,255,.06)'};
+        display:flex;align-items:center;justify-content:center;
+        font-size:11px;font-weight:${isTr||isTd?700:400};
+        color:${isTr?'var(--a)':isTd?'var(--a3)':'var(--tf)'}">${isTr?'✓':d}</div>
+    </div>`;
   }).join('');
 
-  // Latest checkin
-  const ci=checkins.length?checkins[0]:null;
-  const ciRatings=ci?[
-    {l:'Energy',v:ci.ratings?.energy||0,e:['','😴','😐','🙂','⚡','🔥']},
-    {l:'Sleep',v:ci.ratings?.sleep||0,e:['','😴','😐','🙂','😊','🌟']},
-    {l:'Hunger',v:ci.ratings?.hunger||0,e:['','🍽️','😐','🙂','😌','✅']},
-    {l:'Recovery',v:ci.ratings?.recovery||0,e:['','💀','😣','😐','💪','🔥']},
-  ]:[];
+  // Evolt snapshot
+  const latestScan = scans.length ? scans[scans.length-1] : null;
+  const latestBW   = bwLog.length ? bwLog[bwLog.length-1] : null;
+  const evoltVals  = latestScan
+    ? [{l:'Weight',v:latestScan.weight+'kg'},{l:'BF%',v:latestScan.bf+'%'},{l:'Muscle',v:latestScan.smm+'kg'},{l:'Lean',v:latestScan.lbm+'kg'}]
+    : [{l:'Weight',v:'—'},{l:'BF%',v:'—'},{l:'Muscle',v:'—'},{l:'Lean',v:'—'}];
+  const scanLabel  = latestScan ? latestScan.date : 'No scan yet';
 
-  // Top PRs
-  const topPRs=Object.entries(prs).slice(0,4);
+  // Deload banner (only when progression fails AND recovery allows training)
+  const showDeload = D.progressionAlert && D.recLevel !== 'rest';
+  const deloadBanner = showDeload ? `
+    <div style="background:rgba(255,61,107,.07);border:1px solid rgba(255,61,107,.2);border-radius:10px;padding:10px 12px;margin-bottom:12px;display:flex;align-items:center;gap:10px">
+      <span>⚠️</span>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--a2)">Deload recommended</div>
+        <div style="font-size:11px;color:var(--td);margin-top:1px">${D.progressionAlert.lifts.join(', ')} — 3 consecutive failed sessions.</div>
+      </div>
+    </div>` : '';
 
-  el.innerHTML=`
-    <!-- HERO -->
-    <div class="dash-hero">
-      <div class="dash-greeting">${greeting}, Jaidyn</div>
-      <div class="dash-headline">${getDashHeadline(daysSince)}</div>
-      <div class="dash-sub">${restMsg} • Week ${w} of 12 • Block ${block} — ${phase}</div>
-      <div class="dash-goal-row">
-        <div class="dash-goal-days">${daysLeft}</div>
-        <div class="dash-goal-info">
-          <div class="dash-goal-label">Days to goal</div>
-          <div class="dash-goal-date">September 19, 2026</div>
-          <div class="dash-goal-bar"><div class="dash-goal-fill" style="width:${progressPct}%"></div></div>
+  // Sub-instruction (adds "Do not chase PRs" when not at full intensity)
+  const prNote = D.recLevel !== 'full' && D.recLevel !== 'unknown'
+    ? `<div style="font-size:11px;color:var(--tf);margin-top:4px;font-style:italic">Do not chase PRs today.</div>` : '';
+
+  el.innerHTML = `
+
+    ${deloadBanner}
+
+    <!-- ══════════════════════════════════════════════
+         COMMAND LAYER — the only dominant element
+         Answers: what, how hard, start now
+         ══════════════════════════════════════════════ -->
+    <div style="
+      background:linear-gradient(150deg,#081410 0%,#0c0c18 60%,#080810 100%);
+      border:1px solid rgba(0,255,157,.12);
+      border-radius:var(--r);
+      padding:20px;
+      margin-bottom:12px;
+      position:relative;overflow:hidden;
+      box-shadow:0 8px 40px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.04)">
+
+      <div style="position:absolute;top:-40px;right:-40px;width:150px;height:150px;
+        background:radial-gradient(circle,rgba(0,255,157,.07) 0%,transparent 70%);pointer-events:none"></div>
+
+      <!-- WHAT: mode + session name -->
+      <div style="font-size:10px;font-weight:700;color:${D.modeColor};
+        letter-spacing:2.5px;text-transform:uppercase;
+        font-family:var(--font-mono,monospace);margin-bottom:6px">${D.modeLabel}</div>
+
+      <div style="font-family:var(--font-display,'Bebas Neue'),sans-serif;
+        font-size:36px;letter-spacing:2px;color:var(--t);line-height:1;margin-bottom:4px">${D.sessName}</div>
+
+      <div style="font-size:11px;color:var(--tf);margin-bottom:16px;
+        font-family:var(--font-mono,monospace)">${D.nextSess.tag} · ${D.nextSess.exercises.length} ex · Wk ${w} · ${reps} · ${rpe}</div>
+
+      <!-- HOW HARD: recovery directive — left-border coloured -->
+      <div style="background:rgba(0,0,0,.4);border-left:3px solid ${D.recColor};
+        border-radius:0 8px 8px 0;padding:12px 14px;margin-bottom:16px">
+        ${D.recScore!==null?`<div style="font-size:9px;font-weight:700;color:var(--tf);
+          letter-spacing:2px;text-transform:uppercase;
+          font-family:var(--font-mono,monospace);margin-bottom:5px">RECOVERY · ${D.recScore}/10</div>`:''}
+        <div style="font-size:17px;font-weight:700;color:${D.recColor};line-height:1.3">${D.recInstruction}</div>
+        ${D.recSub?`<div style="font-size:11px;color:var(--td);margin-top:5px;line-height:1.45">${D.recSub}</div>`:''}
+        ${prNote}
+        ${D.recScore===null?`
+          <button onclick="switchSection('recover')"
+            style="margin-top:10px;background:transparent;border:1px solid rgba(255,255,255,.1);
+            border-radius:7px;padding:6px 14px;font-size:11px;font-weight:700;color:var(--td);
+            cursor:pointer;font-family:var(--font-body,sans-serif)">Log Recovery →</button>`:''}
+      </div>
+
+      <!-- START -->
+      <button onclick="showPicker()"
+        style="width:100%;background:var(--a);color:#000;border:none;border-radius:12px;
+        padding:16px;font-size:15px;font-weight:800;letter-spacing:2px;text-transform:uppercase;
+        cursor:pointer;font-family:var(--font-body,sans-serif);
+        box-shadow:0 4px 20px rgba(0,255,157,.25);transition:transform .15s,box-shadow .15s"
+        onmousedown="this.style.transform='scale(.98)';this.style.boxShadow='none'"
+        onmouseup="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,255,157,.25)'"
+        ontouchstart="this.style.transform='scale(.98)';this.style.boxShadow='none'"
+        ontouchend="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,255,157,.25)'">
+        Start Session
+      </button>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         SECONDARY — lower visual weight, supporting info
+         ══════════════════════════════════════════════ -->
+
+    <!-- Stats strip -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px">
+      ${[
+        {v:thisWeek.length, l:'This Week', warn:thisWeek.length<3},
+        {v:sessions.length, l:'All Sessions', warn:false},
+        {v:daysLeft+'d', l:'To Sep 19', warn:false},
+      ].map(s=>`<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);
+        border-radius:10px;padding:10px;text-align:center">
+        <div style="font-family:var(--font-display,'Bebas Neue'),sans-serif;font-size:24px;
+          color:${s.warn?'var(--a2)':'var(--t)'};line-height:1">${s.v}</div>
+        <div style="font-size:9px;color:var(--tf);margin-top:3px;text-transform:uppercase;
+          letter-spacing:.5px;font-weight:700">${s.l}</div>
+      </div>`).join('')}
+    </div>
+
+    <!-- Protein + supplements -->
+    <div style="background:var(--s1);border:1px solid rgba(255,255,255,.05);
+      border-radius:var(--r);padding:14px;margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="font-size:10px;font-weight:700;color:var(--tf);letter-spacing:2px;
+          text-transform:uppercase;font-family:var(--font-mono,monospace)">Protein</div>
+        <div style="font-size:20px;font-weight:800;line-height:1;
+          font-family:var(--font-display,'Bebas Neue'),sans-serif;
+          color:${protTotal>=190?'var(--a)':protTotal>=130?'var(--a3)':'var(--a2)'}">
+          ${protTotal}g <span style="font-size:11px;font-weight:400;color:var(--tf)">/ 190g</span>
         </div>
-        <div style="font-size:11px;color:var(--a);font-weight:700">${progressPct}%</div>
       </div>
-    </div>
-
-    <!-- STATS ROW -->
-    <div class="dash-stats-grid">
-      <div class="dash-stat">
-        <div class="dash-stat-val">${sessions.length}</div>
-        <div class="dash-stat-lbl">Sessions</div>
+      <div style="height:4px;background:var(--s3);border-radius:2px;overflow:hidden;margin-bottom:12px">
+        <div style="width:${protPct}%;height:100%;border-radius:2px;transition:width .4s;
+          background:${protTotal>=190?'var(--a)':protTotal>=130?'var(--a3)':'var(--a2)'}"></div>
       </div>
-      <div class="dash-stat ${thisWeek.length<3?'warn':''}">
-        <div class="dash-stat-val">${thisWeek.length}</div>
-        <div class="dash-stat-lbl">This Week</div>
-      </div>
-      <div class="dash-stat">
-        <div class="dash-stat-val">${weekVol>0?Math.round(weekVol/1000)+'t':'0'}</div>
-        <div class="dash-stat-lbl">Week Vol</div>
-      </div>
-    </div>
-
-    <!-- PROGRESS RINGS (STAGE 22) -->
-    ${renderProgressRingsHTML(scan, daysLeft)}
-
-    <!-- NEXT SESSION -->
-    <div class="dash-section">
-      <div class="dash-section-hdr">
-        <div class="dash-section-title">Next Session</div>
-        <div class="dash-section-action" style="font-size:10px;color:var(--td)">${reps} • ${rpe}</div>
-      </div>
-      <div class="dash-next-session" onclick="showPicker()">
-        <div class="dash-next-tag">${nextSess.tag} • ${nextSess.dur}</div>
-        <div class="dash-next-name">${nextSess.name}</div>
-        <div class="dash-next-meta">${nextSess.desc} • ${nextSess.exercises.length} exercises</div>
-      </div>
-      <button class="dash-start-btn" onclick="showPicker()">Choose & Start Session</button>
-    </div>
-
-    <!-- THIS WEEK -->
-    <div class="dash-section">
-      <div class="dash-section-hdr">
-        <div class="dash-section-title">This Week</div>
-        <button class="dash-section-action" onclick="switchTab('history')">See all</button>
-      </div>
-      <div class="dash-week-dots">${weekBar}</div>
-      <div style="font-size:11px;color:var(--td);text-align:center">${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].join(' · ')}</div>
-      ${thisWeek.length?'<div style="margin-top:10px">'+thisWeek.slice(0,3).map(s=>{
-        const vol=s.exercises.reduce((a,e)=>a+e.sets.filter(st=>st.completed).reduce((b,st)=>b+(parseFloat(st.weight)||0)*(parseInt(st.reps)||0),0),0);
-        return`<div class="dash-body-row"><div class="dash-body-label">${s.name}</div><div class="dash-body-val">${Math.round(vol).toLocaleString()} kg</div></div>`;
-      }).join('')+'</div>':'<div style="font-size:12px;color:var(--tf);text-align:center;padding:8px 0">No sessions logged this week</div>'}
-    </div>
-
-    <!-- SUPPLEMENTS & PROTEIN -->
-    <div class="dash-section">
-      <div class="dash-section-hdr">
-        <div class="dash-section-title">Today's Targets</div>
-        <button class="dash-section-action" onclick="switchTab('checkin')">Check-in</button>
-      </div>
-      <div class="dash-supp-row" style="margin-bottom:12px">
+      <div class="dash-supp-row">
         ${SUPPLEMENTS.map(s=>`
           <div class="dash-supp ${suppToday[s.id]?'done':''}" onclick="toggleSuppDash('${s.id}')">
             <div class="dash-supp-icon">${s.icon}</div>
-            <div class="dash-supp-info"><div class="dash-supp-name">${s.name}</div><div class="dash-supp-dose">${s.dose}</div></div>
+            <div class="dash-supp-info">
+              <div class="dash-supp-name">${s.name}</div>
+              <div class="dash-supp-dose">${s.dose}</div>
+            </div>
             <div class="dash-supp-check">✓</div>
-          </div>
-        `).join('')}
-      </div>
-      <div class="dash-protein-row">
-        <div class="dash-protein-num">${proteinTotal}g</div>
-        <div class="dash-protein-info">
-          <div style="font-size:12px;font-weight:700;color:var(--t)">Protein Today</div>
-          <div class="dash-protein-target">Target: 180–200g</div>
-          <div class="dash-protein-bar"><div class="dash-protein-fill" style="width:${Math.min(100,Math.round((proteinTotal/190)*100))}%;background:${proteinTotal>=190?'var(--a)':proteinTotal>=130?'var(--a3)':'var(--a2)'}"></div></div>
-        </div>
-        <div style="font-size:13px;font-weight:700;color:${proteinTotal>=190?'var(--a)':proteinTotal>=130?'var(--a3)':'var(--a2)'}">${Math.min(100,Math.round((proteinTotal/190)*100))}%</div>
+          </div>`).join('')}
       </div>
     </div>
 
-    <!-- BODY COMPOSITION -->
-    <div class="dash-section">
-      <div class="dash-section-hdr">
-        <div class="dash-section-title">Body Composition</div>
-        <button class="dash-section-action" onclick="switchTab('checkin')">Update</button>
-      </div>
-      <div class="dash-body-row"><div class="dash-body-label">Body Weight</div><div class="dash-body-val">${scan.weight} kg</div></div>
-      <div class="dash-body-row"><div class="dash-body-label">Body Fat %</div><div class="dash-body-val">${scan.bf}%</div></div>
-      <div class="dash-body-row"><div class="dash-body-label">Skeletal Muscle</div><div class="dash-body-val">${scan.smm} kg</div></div>
-      <div class="dash-body-row"><div class="dash-body-label">Lean Body Mass</div><div class="dash-body-val">${scan.lbm} kg</div></div>
-      ${bwLog.length?`<div class="dash-body-row"><div class="dash-body-label">Latest Weigh-in</div><div class="dash-body-val">${bwLog[bwLog.length-1].weight} kg</div></div>`:''}
+    <!-- Week dots -->
+    <div style="background:var(--s1);border:1px solid rgba(255,255,255,.05);
+      border-radius:var(--r);padding:14px;margin-bottom:10px">
+      <div style="font-size:10px;font-weight:700;color:var(--tf);letter-spacing:2px;
+        text-transform:uppercase;font-family:var(--font-mono,monospace);margin-bottom:10px">This Week</div>
+      <div style="display:flex;gap:4px">${weekDots}</div>
     </div>
 
-    ${topPRs.length?`
-    <!-- PERSONAL RECORDS -->
-    <div class="dash-section">
-      <div class="dash-section-hdr">
-        <div class="dash-section-title">Personal Records</div>
-        <button class="dash-section-action" onclick="switchTab('tools')">All PRs</button>
+    <!-- Evolt compact — tap to open full -->
+    <div style="background:var(--s1);border:1px solid rgba(255,255,255,.05);border-radius:var(--r);
+      padding:14px;cursor:pointer" onclick="switchSection('progress');switchTab('checkin')">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div style="font-size:10px;font-weight:700;color:var(--tf);letter-spacing:2px;
+          text-transform:uppercase;font-family:var(--font-mono,monospace)">Body Composition</div>
+        <div style="font-size:10px;font-weight:700;color:var(--a)">Evolt ${scanLabel} ›</div>
       </div>
-      ${topPRs.map(([n,pr])=>`<div class="dash-pr-row"><div class="dash-pr-name">${n}</div><div class="dash-pr-val">${pr.weight} × ${pr.reps} <span style="font-size:9px;background:rgba(255,61,107,.15);color:var(--a2);padding:2px 5px;border-radius:4px;font-weight:700">PR</span></div></div>`).join('')}
-    </div>`:''}
-
-    ${(()=>{const todayRec=recoveryLog.find(r=>r.date===new Date().toLocaleDateString('en-AU'));return todayRec?`
-    <div class="dash-section">
-      <div class="dash-section-hdr">
-        <div class="dash-section-title">Today's Recovery</div>
-        <button class="dash-section-action" onclick="switchTab('recovery')">Log</button>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+        ${evoltVals.map(m=>`<div style="text-align:center">
+          <div style="font-size:16px;font-weight:800;color:var(--t);line-height:1">${m.v}</div>
+          <div style="font-size:9px;color:var(--tf);margin-top:3px;text-transform:uppercase;letter-spacing:.5px">${m.l}</div>
+        </div>`).join('')}
       </div>
-      <div style="display:flex;align-items:center;gap:12px">
-        <div style="font-size:44px;font-weight:900;color:${todayRec.score>=8?'var(--a)':todayRec.score>=6?'var(--a3)':'var(--a2)'}">${todayRec.score}</div>
-        <div>
-          <div style="font-size:13px;font-weight:700;color:var(--t)">${todayRec.verdict}</div>
-          <div style="font-size:11px;color:var(--td);margin-top:2px">${todayRec.intensityAdvice}</div>
-          ${todayRec.soreness.length?`<div style="font-size:11px;color:var(--a2);margin-top:4px">Sore: ${todayRec.soreness.join(', ')}</div>`:''}
-        </div>
-      </div>
-    </div>`:''})()}
-    ${ci&&ciRatings.some(r=>r.v>0)?`
-    <!-- RECOVERY -->
-    <div class="dash-section">
-      <div class="dash-section-hdr">
-        <div class="dash-section-title">Last Check-in</div>
-        <button class="dash-section-action" onclick="switchTab('checkin')">New check-in</button>
-      </div>
-      <div class="dash-recovery">
-        ${ciRatings.map(r=>`<div class="dash-rec-item"><div class="dash-rec-val">${r.e[r.v]||'—'}</div><div class="dash-rec-lbl">${r.l}</div></div>`).join('')}
-      </div>
-      ${ci.notes?`<div style="font-size:11px;color:var(--td);margin-top:10px;font-style:italic">"${ci.notes}"</div>`:''}
-    </div>`:''}
+      ${latestBW?`<div style="font-size:10px;color:var(--tf);text-align:center;
+        margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.04)">
+        Latest weigh-in: ${latestBW.weight}kg · ${latestBW.date}</div>`:''}
+    </div>
   `;
 }
 
-function toggleSuppDash(id) {
-  suppToday[id]=!suppToday[id];
-  const today=new Date().toLocaleDateString('en-AU');
-  localStorage.setItem('jt_supp_'+today,JSON.stringify(suppToday));
-  renderDashboard();
-}
 
 function renderBlockTracker() {
   const{w,block,phase,reps,rpe,daysLeft}=getBlockInfo();
@@ -8384,29 +8789,100 @@ function renderActive() {
   `;
 }
 
-function renderExCard(ex,ei) {
-  const allDone=ex.sets.length>0&&ex.sets.every(s=>s.completed);
-  const dispName=ex.usingSwap?ex.swap:ex.name;
-  const dispW=ex.usingSwap?ex.swapW:ex.targetWeight;
-  const isPR=ex.sets.some(s=>s.completed&&parseFloat(s.weight)>(prs[dispName]?parseFloat(prs[dispName].weight):0));
-  const cues=CUES[dispName]||null;
-  const showHowTo=openHowTo===ei;
-  const warmups=getWarmupSets(dispName, dispW);
-  return`<div class="ex-card ${allDone?'done':''}" id="exc-${ei}">
+function renderExCard(ex, ei) {
+  const allDone  = ex.sets.length>0 && ex.sets.every(s=>s.completed);
+  const dispName = ex.usingSwap ? ex.swap : ex.name;
+  const dispW    = ex.usingSwap ? ex.swapW : ex.targetWeight;
+  const isPR     = ex.sets.some(s=>s.completed && parseFloat(s.weight)>(prs[dispName]?parseFloat(prs[dispName].weight):0));
+  const cues     = CUES[dispName]||null;
+  const showHowTo= openHowTo===ei;
+  const warmups  = getWarmupSets(dispName, dispW);
+
+  // ── Priority 1: Recovery override ──────────────────────
+  const D = getTodayDirective();
+  let recoveryOverride = '';
+  if (D.recLevel === 'maintain') {
+    recoveryOverride = `<div style="font-size:11px;font-weight:700;color:var(--a3);margin-top:4px">⚡ Recovery: same weight, −1 set</div>`;
+  } else if (D.recLevel === 'reduce') {
+    recoveryOverride = `<div style="font-size:11px;font-weight:700;color:#ff9500;margin-top:4px">⬇️ Recovery: reduce volume ~20%</div>`;
+  } else if (D.recLevel === 'rest') {
+    recoveryOverride = `<div style="font-size:11px;font-weight:700;color:var(--a2);margin-top:4px">🚫 Recovery: rest day — do not lift</div>`;
+  }
+
+  // ── Priority 2: Progression directive ──────────────────
+  const progHistory = (progressionLog||{})[dispName]||[];
+  let directive='', directiveCls='', directiveIcon='';
+  if (D.recLevel === 'rest') {
+    directive='Rest day — no load today'; directiveCls='reduce'; directiveIcon='🚫';
+  } else if (progHistory.length === 0) {
+    directive='First session — calibrate weight'; directiveCls='maintain'; directiveIcon='🎯';
+  } else {
+    const last = progHistory[progHistory.length-1];
+    const prev = progHistory.length>=2 ? progHistory[progHistory.length-2] : null;
+    if (progHistory.length>=3 && progHistory.slice(-3).every(h=>!h.allHit)) {
+      directive='Deload — reduce weight 10%'; directiveCls='reduce'; directiveIcon='🔄';
+    } else if (prev && !last.allHit && !prev.allHit) {
+      directive='Reduce weight −10%'; directiveCls='reduce'; directiveIcon='⬇️';
+    } else if (last.allHit) {
+      const isLower=['Squat','Deadlift','Hip Thrust','Leg Press'].some(k=>dispName.includes(k));
+      directive='Progress +'+(isLower?'5':'2.5')+'kg today'; directiveCls='progress'; directiveIcon='📈';
+    } else {
+      directive='Maintain weight'; directiveCls='maintain'; directiveIcon='⚡';
+    }
+  }
+
+  // ── Last session line ───────────────────────────────────
+  const lastEntry = progHistory.length ? progHistory[progHistory.length-1] : null;
+  const lastLine  = lastEntry
+    ? `Last: ${lastEntry.weight}kg × ${lastEntry.reps} reps ${lastEntry.allHit?'✓ hit':'✗ missed'}`
+    : ex.prevWeight
+      ? `Last: ${ex.prevWeight}`
+      : 'No history — log this session to start tracking';
+
+  const directiveColors = {
+    progress:['rgba(0,255,157,.1)','var(--a)'],
+    maintain:['rgba(255,204,0,.1)','var(--a3)'],
+    reduce:  ['rgba(255,61,107,.1)','var(--a2)'],
+  };
+  const [dirBg, dirCol] = directiveColors[directiveCls]||directiveColors.maintain;
+
+  return `<div class="ex-card ${allDone?'done':''}" id="exc-${ei}">
+
     <div class="ex-hdr">
-      <div class="ex-num">${allDone?'✓':ei+1}</div>
-      <div class="ex-info">
+      <div class="ex-num" style="font-family:var(--font-mono,monospace)">${allDone?'✓':ei+1}</div>
+      <div class="ex-info" style="flex:1;min-width:0">
+
+        <!-- Exercise name -->
         <div class="ex-name">${dispName}</div>
-        <div class="ex-target">${ex.targetSets}x${ex.targetReps} • <b>${dispW}</b> • <span class="rpe-chip" onclick="openRPE()">RPE ${ex.rpe}</span> • ${ex.rest}</div>
-        ${ex.prevWeight?`<div class="ex-prev">↩ Last: ${ex.prevWeight}</div>`:''}
+
+        <!-- Priority 2: Progression directive badge -->
+        <div style="display:inline-flex;align-items:center;gap:5px;margin-top:5px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;background:${dirBg};color:${dirCol}">
+          ${directiveIcon} ${directive}
+        </div>
+
+        <!-- Priority 1: Recovery override (only shown if not full) -->
+        ${recoveryOverride}
+
+        <!-- Last session -->
+        <div style="font-size:11px;color:var(--a3);margin-top:6px;font-family:var(--font-mono,monospace);font-weight:600">${lastLine}</div>
+
+        <!-- Target today -->
+        <div style="font-size:12px;color:var(--td);margin-top:3px">
+          Target: <b style="color:var(--t);font-size:14px;font-family:var(--font-mono,monospace)">${dispW}</b> kg
+          · <b style="color:var(--t)">${ex.targetSets}×${ex.targetReps}</b>
+          · RPE ${ex.rpe} · ${ex.rest}
+        </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:5px;align-items:flex-end">
+
+      <div style="display:flex;flex-direction:column;gap:5px;align-items:flex-end;flex-shrink:0">
         <button class="swap-btn ${ex.usingSwap?'on':''}" onclick="toggleSwap(${ei})">${ex.usingSwap?'✓ DB':'🔄 DB'}</button>
-        ${cues?`<button class="howto-btn ${showHowTo?'open':''}" onclick="toggleHowTo(${ei})">${showHowTo?'✕ Close':'? How To'}</button>`:''}
+        ${cues?`<button class="howto-btn ${showHowTo?'open':''}" onclick="toggleHowTo(${ei})">${showHowTo?'✕':'Tips'}</button>`:''}
       </div>
     </div>
+
     ${ex.usingSwap?`<div class="swap-banner show">${ex.swap} — ${ex.swapW}</div>`:''}
     ${isPR?'<div class="pr-banner show">🏆 NEW PR!</div>':''}
+
     ${cues&&showHowTo?`
     <div class="howto-panel show" id="howto-${ei}">
       <div class="howto-section"><div class="howto-lbl">Setup</div><div class="howto-txt">${cues.setup}</div></div>
@@ -8414,16 +8890,18 @@ function renderExCard(ex,ei) {
       <div class="howto-section"><div class="howto-lbl">What to Feel</div><div class="howto-txt">${cues.feel}</div></div>
       <div class="howto-section"><div class="howto-lbl">Common Mistakes</div><div class="howto-txt">${cues.mistakes}</div></div>
     </div>`:''}
+
     ${warmups.length&&!allDone?`
     <div class="warmup-panel">
-      <div class="warmup-title">Warm-Up Sets (before working sets)</div>
-      ${warmups.map((w,wi)=>`<div class="warmup-row"><div class="warmup-lbl">${w.label}</div><div class="warmup-detail">${w.reps} reps @ ${w.weight} kg — do not log these</div></div>`).join('')}
+      <div class="warmup-title">Warm-Up Sets</div>
+      ${warmups.map(w=>`<div class="warmup-row"><div class="warmup-lbl">${w.label}</div><div class="warmup-detail">${w.reps} reps @ ${w.weight}kg — do not log</div></div>`).join('')}
     </div>`:''}
+
     <div class="sets-wrap">
       <div class="sets-hdr"><div>SET</div><div>REPS</div><div>WEIGHT</div><div>RPE</div><div>✓</div></div>
       ${ex.sets.map((set,si)=>`
         <div class="set-row ${set.completed?'done':''}" id="sr-${ei}-${si}">
-          <div class="set-n">${si+1}</div>
+          <div class="set-n" style="font-family:var(--font-mono,monospace)">${si+1}</div>
           <input class="inp ${!set.completed?'tgt':''}" type="number" inputmode="numeric" value="${set.reps||ex.targetReps}" placeholder="${ex.targetReps}" onchange="updSet(${ei},${si},'reps',this.value)">
           <input class="inp" type="text" value="${set.weight||dispW}" placeholder="${dispW}" onchange="updSet(${ei},${si},'weight',this.value)">
           <input class="inp" type="number" inputmode="numeric" value="${set.rpe||''}" placeholder="${ex.rpe}" onchange="updSet(${ei},${si},'rpe',this.value)">
@@ -8435,6 +8913,7 @@ function renderExCard(ex,ei) {
     </div>
   </div>`;
 }
+
 
 function updSet(ei,si,f,v){current.exercises[ei].sets[si][f]=v;}
 function updExNote(ei,v){current.exercises[ei].notes=v;}
