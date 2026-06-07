@@ -154,9 +154,9 @@ body{
 .swap-banner.show{display:block}
 .pr-banner.show{display:block}
 .sets-wrap{padding:0 13px 13px}
-.sets-hdr{display:grid;grid-template-columns:28px 1fr 1.4fr 48px;gap:5px;margin-bottom:5px;font-size:10px;font-weight:700;color:var(--tf);letter-spacing:1px;text-transform:uppercase;padding:0 2px}
+.sets-hdr{display:grid;grid-template-columns:28px 1fr 1.4fr 48px;gap:6px;margin-bottom:5px;font-size:10px;font-weight:700;color:var(--tf);letter-spacing:1px;text-transform:uppercase;padding:0 2px}
 .set-row{display:grid;grid-template-columns:28px 1fr 1.4fr 48px;gap:6px;margin-bottom:6px;align-items:center}
-.set-n{font-size:12px;font-weight:700;color:var(--td);text-align:center}
+.set-n{font-size:12px;font-weight:700;color:var(--td);text-align:center;padding:9px 0;}
 .set-row.done .set-n{color:var(--a)}
 
 .inp::-webkit-outer-spin-button,.inp::-webkit-inner-spin-button{-webkit-appearance:none}
@@ -742,7 +742,7 @@ body{
 .orm-manual-card{background:var(--s1);border:1px solid rgba(255,255,255,.06);border-radius:var(--r);padding:14px;margin-bottom:14px}
 .orm-manual-card h3{font-size:11px;font-weight:700;color:var(--td);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
 .orm-manual-row{display:flex;gap:8px;margin-bottom:10px}
-.orm-manual-inp{flex:1;background:var(--s2);border:1px solid var(--b);border-radius:8px;padding:10px;color:var(--t);font-size:16px;font-weight:700;text-align:center;font-family:var(--font-body);-moz-appearance:textfield}
+.orm-manual-inp{flex:1;background:var(--s2);border:1px solid var(--b);border-radius:8px;padding:10px;color:var(--t);font-size:16px;font-weight:700;text-align:center;font-family:inherit;height:48px;box-sizing:border-box;}
 .orm-manual-inp::-webkit-outer-spin-button,.orm-manual-inp::-webkit-inner-spin-button{-webkit-appearance:none}
 .orm-manual-inp:focus{outline:none;border-color:var(--a)}
 .orm-empty{text-align:center;padding:40px 20px;color:var(--tf);font-size:13px}
@@ -9750,7 +9750,10 @@ function switchSection(section) {
 }
 
 function renderSubnav(section) {
+  // Remove ALL existing subnavs unconditionally
   document.querySelectorAll('.subnav').forEach(el => el.remove());
+  const existing = document.getElementById('subnav-' + section);
+  if (existing) existing.remove();
   const map = SECTION_MAP[section];
   if (!map || map.tabs.length < 2) return;
   const subnav = document.createElement('div');
@@ -9759,10 +9762,13 @@ function renderSubnav(section) {
   subnav.innerHTML = map.tabs.map((t, i) =>
     `<button class="subnav-btn ${t===currentTab?'active':''}" onclick="switchTab('${t}');updateSubnav('${t}')">${map.labels[i]}</button>`
   ).join('');
-  // Insert after topbar at top of page
-  const body = document.querySelector('body');
-  const firstView = document.querySelector('.view.active');
-  if (firstView) body.insertBefore(subnav, firstView);
+  // Always insert directly after topbar
+  const topbar = document.querySelector('.topbar');
+  if (topbar && topbar.parentNode) {
+    topbar.parentNode.insertBefore(subnav, topbar.nextSibling);
+  } else {
+    document.body.appendChild(subnav);
+  }
 }
 
 function updateSubnav(tab) {
@@ -10536,7 +10542,7 @@ function showToast(msg,_,type) {
   t.textContent=msg;
   t.className='toast'+(type==='red'?' red':'');
   t.classList.add('show');
-  toastTimeout=setTimeout(()=>t.classList.remove('show'),1200);
+  toastTimeout=setTimeout(()=>t.classList.remove('show'),2500);
 }
 
 
