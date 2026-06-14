@@ -1,0 +1,11 @@
+# Always revalidate the service worker and app shell so new deploys show up
+# (prevents stale PWA versions — especially on iOS).
+
+/service-worker.js
+  Cache-Control: no-cache
+
+/index.html
+  Cache-Control: no-cache
+
+/
+  Cache-Control: no-cache

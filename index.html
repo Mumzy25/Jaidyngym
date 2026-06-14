@@ -13,8 +13,8 @@
 <meta name="apple-mobile-web-app-title" content="Train">
 <meta name="theme-color" content="#0a0a0f">
 <meta name="description" content="Jaidyn Train — workout tracking, progression and recovery.">
-<link rel="manifest" href="/manifest.json">
-<link rel="apple-touch-icon" href="/icon-192.png">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
@@ -4323,11 +4323,38 @@ function toggleLibEx(name, i) {
 let deferredPrompt = null;
 
 function initPWA() {
-  // Register service worker
+  // Register service worker — update-aware so new deploys take over automatically
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then(reg => console.log('SW registered'))
-      .catch(err => console.log('SW failed:', err));
+    let _reloadedForUpdate = false;
+    navigator.serviceWorker.addEventListener('controllerchange', function() {
+      if (_reloadedForUpdate) return;     // guard against reload loops
+      _reloadedForUpdate = true;
+      window.location.reload();
+    });
+
+    navigator.serviceWorker.register('service-worker.js')
+      .then(function(reg) {
+        try { reg.update(); } catch(e) {}                    // check for a newer worker now
+        if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+        reg.addEventListener('updatefound', function() {
+          var nw = reg.installing;
+          if (!nw) return;
+          nw.addEventListener('statechange', function() {
+            if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+              nw.postMessage({ type: 'SKIP_WAITING' });      // activate the new version asap
+            }
+          });
+        });
+        console.log('SW registered');
+      })
+      .catch(function(err) { console.log('SW failed:', err); });
+
+    // Re-check for updates whenever the app returns to the foreground (iOS PWAs)
+    document.addEventListener('visibilitychange', function() {
+      if (document.visibilityState === 'visible') {
+        navigator.serviceWorker.getRegistration().then(function(r){ if (r) r.update(); });
+      }
+    });
   }
 
   // Android install prompt
@@ -10312,7 +10339,7 @@ function finishSession() {
   document.querySelectorAll('.scard').forEach(c=>c.classList.remove('selected'));
   document.getElementById('startBtn').disabled=true;
   document.getElementById('sessNoteInput').value='';
-  renderHistory();renderProgress();renderTools();renderDashboard();
+  renderHistory();renderTools();renderDashboard();
   // Adaptive engine: update recommendations after session
   try { runAdaptiveUpdate(); } catch(e) { console.warn('[ADAPTIVE fin]', e.message); }
   // Coach telemetry: record session completion
@@ -10548,7 +10575,7 @@ function downloadBackup() {
 }
 
 function resetHistory() {
-  if(confirm('Delete all session history? Weights, PRs and scans are kept.')){sessions=[];saveCloud();renderHistory();renderProgress();renderTools();showToast('History cleared');}
+  if(confirm('Delete all session history? Weights, PRs and scans are kept.')){sessions=[];saveCloud();renderHistory();renderTools();renderDashboard();showToast('History cleared');}
 }
 
 // ============================================================

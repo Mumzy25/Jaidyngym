@@ -1,83 +1,54 @@
-const CACHE_NAME = 'jaidyn-train-v1';
-const ASSETS = [
-  '/',
-  '/index.html',
-];
+/* JAIDYN TRAIN — service worker
+   - HTML / navigations  -> NETWORK FIRST (newest deploy always wins when online)
+   - other assets         -> CACHE FIRST  (fast; offline fallback)
+   Bump CACHE_VERSION whenever you want to force-clear old caches. */
 
-// Install — cache assets
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
-  );
-  self.skipWaiting();
+const CACHE_VERSION = 'jaidyn-train-v15';
+const APP_SHELL = './';
+
+self.addEventListener('install', function() { self.skipWaiting(); });
+
+self.addEventListener('activate', function(event) {
+  event.waitUntil((async function() {
+    const keys = await caches.keys();
+    await Promise.all(keys.map(function(k){ return k === CACHE_VERSION ? null : caches.delete(k); }));
+    await self.clients.claim();
+  })());
 });
 
-// Activate — clean old caches
-self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
-    )
-  );
-  self.clients.claim();
+self.addEventListener('message', function(event) {
+  if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
-// Fetch — serve from cache, fallback to network
-self.addEventListener('fetch', e => {
-  if (e.request.method !== 'GET') return;
-  e.respondWith(
-    caches.match(e.request).then(cached => {
-      if (cached) return cached;
-      return fetch(e.request).then(response => {
-        if (response && response.status === 200 && response.type === 'basic') {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
-        }
-        return response;
-      }).catch(() => caches.match('/index.html'));
-    })
-  );
-});
+self.addEventListener('fetch', function(event) {
+  const req = event.request;
+  if (req.method !== 'GET') return;
+  const accept = req.headers.get('accept') || '';
+  const isHTML = req.mode === 'navigate' || accept.indexOf('text/html') !== -1;
 
-// Training reminder notifications
-let reminderInterval = null;
-
-self.addEventListener('message', e => {
-  if (e.data?.type === 'SCHEDULE_REMINDER') {
-    const time = e.data.time || '07:00';
-    scheduleDaily(time);
+  if (isHTML) {
+    event.respondWith((async function() {
+      try {
+        const fresh = await fetch(req, { cache: 'no-store' });
+        const cache = await caches.open(CACHE_VERSION);
+        cache.put(req, fresh.clone());
+        return fresh;
+      } catch (err) {
+        const cached = await caches.match(req);
+        return cached || caches.match(APP_SHELL);
+      }
+    })());
+    return;
   }
-});
 
-function scheduleDaily(time) {
-  if (reminderInterval) clearInterval(reminderInterval);
-  // Check every minute if it's time
-  reminderInterval = setInterval(() => {
-    const now = new Date();
-    const [h, m] = time.split(':').map(Number);
-    if (now.getHours() === h && now.getMinutes() === m) {
-      sendReminder();
-    }
-  }, 60000);
-}
-
-function sendReminder() {
-  self.registration.showNotification('Time to Train 💪', {
-    body: 'Your session is waiting. Stay consistent — September 19 is the goal.',
-    icon: '/icon-192.png',
-    badge: '/icon-192.png',
-    tag: 'training-reminder',
-    renotify: true,
-    actions: [
-      { action: 'open', title: 'Open App' },
-      { action: 'dismiss', title: 'Dismiss' }
-    ]
-  });
-}
-
-self.addEventListener('notificationclick', e => {
-  e.notification.close();
-  if (e.action === 'open' || !e.action) {
-    e.waitUntil(clients.openWindow('/'));
-  }
+  event.respondWith((async function() {
+    const cached = await caches.match(req);
+    if (cached) return cached;
+    try {
+      const fresh = await fetch(req);
+      const cache = await caches.open(CACHE_VERSION);
+      cache.put(req, fresh.clone());
+      return fresh;
+    } catch (err) { return cached; }
+  })());
 });
