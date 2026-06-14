@@ -1150,7 +1150,6 @@ input[type=number] { -moz-appearance: textfield; }
 
 <div class="topbar">
   <div class="logo" id="appLogo" onmousedown="startLogoPress()" onmouseup="endLogoPress()" ontouchstart="startLogoPress()" ontouchend="endLogoPress()">JAIDYN <span style="color:var(--a);text-shadow:0 0 20px currentColor">TRAIN</span></div>
-    <div id="adaptiveCardWrap" style="padding:0 16px;display:none"></div>
 
   <div style="display:flex;align-items:center;gap:10px">
     <div id="topDate" style="font-size:11px;color:var(--td);font-weight:500;letter-spacing:.3px"></div>
@@ -1206,6 +1205,7 @@ input[type=number] { -moz-appearance: textfield; }
   <div id="pickerSection">
     <!-- STAGE 12 DASHBOARD -->
     <div class="dash-wrap" id="dashboardWrap"></div>
+    <div id="adaptiveCardWrap" style="padding:0 16px 16px;display:none"></div>
     <!-- SESSION PICKER (hidden by default, shown when Train button tapped) -->
     <!-- DELOAD ALERT -->
   <div class="deload-alert" id="deloadAlert">
@@ -2170,7 +2170,7 @@ function toggleHowTo(ei) {
     var prevBtn   = document.querySelector('[data-howto="' + wasOpen + '"]');
     if (prevPanel) prevPanel.classList.remove('show');
     if (prevBtn)   prevBtn.classList.remove('open');
-    prevBtn && (prevBtn.textContent = 'Tips');
+    prevBtn && (prevBtn.textContent = '?');
   }
   // Toggle requested panel
   var panel = document.getElementById('howto-' + ei);
@@ -2178,7 +2178,7 @@ function toggleHowTo(ei) {
   if (panel) panel.classList.toggle('show', openHowTo === ei);
   if (btn) {
     btn.classList.toggle('open', openHowTo === ei);
-    btn.textContent = (openHowTo === ei) ? '✕' : 'Tips';
+    btn.textContent = (openHowTo === ei) ? '✕' : '?';
   }
   if (openHowTo !== null) {
     setTimeout(() => {
@@ -7435,6 +7435,7 @@ function renderDashboard() {
   el.innerHTML =
     deloadBanner +
     coachCardHtml +
+    '<button onclick="showPicker()" style="width:100%;background:var(--s2);color:var(--t);border:1px solid var(--glass-border);border-radius:10px;padding:13px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:16px">Choose a Session</button>' +
 
     '<div style="font-size:10px;font-weight:700;color:var(--tf);letter-spacing:2px;text-transform:uppercase;font-family:monospace;margin-bottom:10px">This Week</div>' +
       '<div style="display:flex;gap:4px">' + weekDots + '</div>' +
@@ -9834,12 +9835,14 @@ function getBlockInfo() {
 function hidePicker() {
   document.getElementById('sessionPickerPanel').style.display='none';
   document.getElementById('dashboardWrap').style.display='block';
+  try { renderAdaptiveCard(); } catch(e) {}
 }
 
 function showPicker() {
   renderPicker();
   document.getElementById('sessionPickerPanel').style.display='block';
   document.getElementById('dashboardWrap').style.display='none';
+  var _ac=document.getElementById('adaptiveCardWrap'); if(_ac) _ac.style.display='none';
 }
 
 function getNextRecommendedSession() {
@@ -10158,8 +10161,8 @@ function renderExCard(ex, ei) {
     ${ex.usingSwap ? `<div class="swap-banner show">${ex.swap || '—'} — ${ex.swapW || '—'}</div>` : ''}
 
     <!-- ── Coach tips panel (toggled) ───────────────────────── -->
-    ${hasCues && showHowTo ? `
-    <div class="howto-panel show" id="howto-${ei}">
+    ${hasCues ? `
+    <div class="howto-panel ${showHowTo ? 'show' : ''}" id="howto-${ei}">
       ${vidUrl ? `<a class="lib-video-btn" href="${vidUrl}" target="_blank" rel="noopener" style="margin-bottom:10px"><div class="lib-video-icon"></div><div class="lib-video-info"><div class="lib-video-title">${vidTitle}</div><div class="lib-video-sub">▶ Watch Form Guide</div></div><div class="lib-video-arrow">▶</div></a>` : ''}
       ${setup    ? `<div class="howto-section"><div class="howto-lbl" style="color:var(--a)">📐 Setup</div><div class="howto-txt">${setup}</div></div>` : ''}
       ${cueText  ? `<div class="howto-section"><div class="howto-lbl">▶ Cue</div><div class="howto-txt">${cueText}</div></div>` : ''}
@@ -10421,7 +10424,10 @@ function renderHistory() {
     return`<div class="log-card">
       <div class="log-hdr" id="lh-${si}" onclick="toggleLog(${si})">
         <div class="log-hdr-left"><h3>${s.name}</h3><div class="ldate">${s.date} • ${s.duration||'—'} min • ${Math.round(vol).toLocaleString()} kg</div></div>
-        <span class="log-chev">▾</span>
+        <div style="display:flex;align-items:center;gap:12px">
+          <button onclick="event.stopPropagation();deleteSession(${si})" title="Delete session" style="background:none;border:none;color:var(--tf);font-size:15px;cursor:pointer;padding:4px;line-height:1">🗑</button>
+          <span class="log-chev">▾</span>
+        </div>
       </div>
       <div class="log-body" id="lb-${si}">
         <div class="log-summary"><div class="log-pill">${doneSets} sets</div><div class="log-pill">${s.exercises.length} exercises</div></div>
@@ -10438,6 +10444,19 @@ function renderHistory() {
   }).join('');
 }
 function toggleLog(si){document.getElementById('lh-'+si).classList.toggle('open');document.getElementById('lb-'+si).classList.toggle('show');}
+
+function deleteSession(si){
+  const s=sessions[si];
+  if(!s)return;
+  if(confirm('Delete this session?\n\n'+s.name+' — '+s.date+'\n\nThis can\'t be undone. Your working weights and PRs are kept.')){
+    sessions.splice(si,1);
+    saveCloud();
+    renderHistory();
+    try{renderTools();}catch(e){}
+    try{renderDashboard();}catch(e){}
+    showToast('Session deleted');
+  }
+}
 
 // ============================================================
 // PROGRESS
