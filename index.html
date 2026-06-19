@@ -7216,48 +7216,65 @@ function getProgressionDirective(exName, targetWeight, targetReps) {
   var isLower = ['Squat','Deadlift','Hip Thrust','Leg Press','Romanian'].some(function(k){ return exName.includes(k); });
   var inc = isLower ? 5 : 2.5;
 
+  // Double-progression rep range: programmed reps = TOP of the range.
+  // Higher-rep (hypertrophy) work gets a range; low-rep (strength) work stays linear.
+  var top    = parseInt(targetReps) || 8;
+  var bottom = top > 6 ? Math.max(5, top - 4) : top;
+  var rangeTxt = bottom === top ? (top + ' reps') : (bottom + '–' + top + ' reps');
+
   if (!hist.length) return {
-    directive:'first', label:'First session — calibrate weight', icon:'🎯',
-    weight: parseFloat(targetWeight)||0,
-    detail:'Log this session to start tracking progression.'
+    directive:'first', label:'First session — calibrate', icon:'🎯',
+    weight: parseFloat(targetWeight)||0, reps: top, range:[bottom,top],
+    detail:'Log this session to start tracking. Aim for ' + rangeTxt + '.'
   };
 
-  var last  = hist[hist.length-1];
-  var prev  = hist.length >= 2 ? hist[hist.length-2] : null;
-  var last3 = hist.slice(-3);
+  var last     = hist[hist.length-1];
+  var prev     = hist.length >= 2 ? hist[hist.length-2] : null;
+  var last3    = hist.slice(-3);
+  var lastW    = parseFloat(last.weight);
+  var lastReps = parseInt(last.reps) || 0;
+  var lastRpe  = parseFloat(last.rpe) || 0;     // 0 if never logged — guard stays inert
 
-  // Stall: same weight, all missed, 3 sessions
-  if (last3.length===3 && last3.every(function(h){ return !h.allHit && parseFloat(h.weight)===parseFloat(last3[0].weight); })) {
-    var deloadW = Math.round(parseFloat(last.weight)*0.875/2.5)*2.5;
-    return { directive:'deload', label:'Deload — stalled 3x', icon:'🔄', weight:deloadW,
-      detail:'Stalled 3 sessions at '+last.weight+'kg. Deload to '+deloadW+'kg.' };
+  // Stall: 3 sessions, same weight, never reached the top of the range
+  if (last3.length===3 && last3.every(function(h){
+        return parseInt(h.reps) < (parseInt(h.targetReps)||top) && parseFloat(h.weight)===parseFloat(last3[0].weight);
+      })) {
+    var deloadW = Math.round(lastW*0.875/2.5)*2.5;
+    return { directive:'deload', label:'Deload — stalled 3×', icon:'🔄', weight:deloadW, reps:bottom, range:[bottom,top],
+      detail:'Stuck 3 sessions at '+last.weight+'kg. Drop to '+deloadW+'kg and rebuild reps.' };
   }
 
-  // Fail 2x in a row
-  if (prev && !last.allHit && !prev.allHit) {
-    var reduced = Math.round(parseFloat(last.weight)*0.95/2.5)*2.5;
-    return { directive:'reduce', label:'Reduce 5% — failed 2x', icon:'⬇️', weight:reduced,
-      detail:'Failed reps twice. Reduce to '+reduced+'kg.' };
+  // Regressing: two sessions running below the bottom of the range at the same weight
+  if (prev && bottom < top && lastReps < bottom && parseInt(prev.reps) < bottom && parseFloat(prev.weight)===lastW) {
+    var reduced = Math.round(lastW*0.95/2.5)*2.5;
+    return { directive:'reduce', label:'Reduce 5%', icon:'⬇️', weight:reduced, reps:bottom, range:[bottom,top],
+      detail:'Reps slipping below '+bottom+'. Ease to '+reduced+'kg and build back up.' };
   }
 
-  // Hit all reps → increase
-  if (last.allHit) {
-    var newW = parseFloat(last.weight)+inc;
-    return { directive:'progress', label:'↑ '+newW+'kg', icon:'📈', weight:newW,
-      detail:'Hit all reps at '+last.weight+'kg. Progress to '+newW+'kg.' };
+  // Reached the top of the range → add load (unless the last set was a max-effort grind)
+  if (lastReps >= top) {
+    if (lastRpe >= 10) {
+      return { directive:'consolidate', label:'Repeat — top of range @ max effort', icon:'⚡', weight:lastW, reps:top, range:[bottom,top],
+        detail:'Hit '+top+' reps but at RPE 10. Repeat '+last.weight+'kg once more before adding load.' };
+    }
+    var newW = lastW + inc;
+    return { directive:'progress', label:'↑ '+newW+'kg · reset to '+bottom+' reps', icon:'📈', weight:newW, reps:bottom, range:[bottom,top],
+      detail:'Hit the top of the range ('+top+' reps) at '+last.weight+'kg. Add load, drop back to '+bottom+' reps, and climb again.' };
   }
 
-  // Missed → hold
-  return { directive:'maintain', label:'Hold at '+last.weight+'kg', icon:'⚡', weight:parseFloat(last.weight),
-    detail:'Missed reps. Hold weight and hit the target.' };
+  // Below the top → hold the weight and add a rep (the core of double progression)
+  var nextReps = Math.min(top, lastReps + 1);
+  return { directive:'addrep', label:'Same weight · aim '+nextReps+' reps', icon:'➕', weight:lastW, reps:nextReps, range:[bottom,top],
+    detail:'Stay at '+last.weight+'kg and push for '+nextReps+' reps. Once you hit '+top+' across your sets, the weight goes up.' };
 }
 
-function recordProgressionResult(exName, weight, repsAchieved, targetReps) {
+function recordProgressionResult(exName, weight, repsAchieved, targetReps, rpe) {
   if (!progressionLog) progressionLog = {};
   if (!progressionLog[exName]) progressionLog[exName] = [];
   progressionLog[exName].push({
     date:todayStr(), weight:String(weight), reps:String(repsAchieved),
-    targetReps:String(targetReps), allHit:parseInt(repsAchieved)>=parseInt(targetReps)
+    targetReps:String(targetReps), allHit:parseInt(repsAchieved)>=parseInt(targetReps),
+    rpe: (rpe!==undefined && rpe!==null && !isNaN(parseFloat(rpe))) ? String(parseFloat(rpe).toFixed(1)) : ''
   });
   if (progressionLog[exName].length > 12) progressionLog[exName]=progressionLog[exName].slice(-12);
   localStorage.setItem('jt_progression', JSON.stringify(progressionLog));
@@ -10322,7 +10339,9 @@ function finishSession() {
       if (!done.length) return;
       var avgReps = Math.round(done.reduce(function(a,s){ return a+parseInt(s.reps||0); },0)/done.length);
       var avgW    = done.reduce(function(a,s){ return a+parseFloat(s.weight||0); },0)/done.length;
-      if (avgW > 0) recordProgressionResult(name, avgW.toFixed(1), avgReps, ex.targetReps||ex.reps||8);
+      var rpeSets = done.filter(function(s){ return s.rpe!=='' && s.rpe!=null && !isNaN(parseFloat(s.rpe)); });
+      var avgRpe  = rpeSets.length ? rpeSets.reduce(function(a,s){ return a+parseFloat(s.rpe); },0)/rpeSets.length : null;
+      if (avgW > 0) recordProgressionResult(name, avgW.toFixed(1), avgReps, ex.targetReps||ex.reps||8, avgRpe);
     });
   } catch(e){ console.warn('[PROGRESSION]',e.message); }
   clearInterval(sessTimerInt);
