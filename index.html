@@ -10378,7 +10378,7 @@ function renderExCard(ex, ei) {
             onchange="updSet(${ei},${si},'weight',this.value)">
           <button class="tick-btn" onclick="tickSet(${ei},${si})">${set.completed ? '✓' : '○'}</button>
         </div>
-        ${set.completed ? `<button class="set-coach-btn" onclick="openCoach(${ei},${si})">Coach this set →</button>` : ''}`).join('')}
+        <button class="set-coach-btn" onclick="openCoach(${ei},${si})">Coach this set →</button>`).join('')}
 
       <!-- ── Row buttons ─────────────────────────────────────── -->
       <div style="display:flex;gap:8px;margin-top:10px">
