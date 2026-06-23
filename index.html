@@ -2276,13 +2276,21 @@ async function coachSend(){
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ messages: payload, context: context })
     });
-    var data = await r.json();
+    var data = null;
+    try { data = await r.json(); } catch(_) { data = null; }
     coachMsgs.pop(); // remove thinking bubble
-    if (data && data.reply) coachMsgs.push({role:'ai', text:data.reply});
-    else coachMsgs.push({role:'ai', text:'Coach error: ' + ((data && data.error) || 'no reply') + '. Check the function is deployed and the API key is set.'});
+    if (r.ok && data && data.reply) {
+      coachMsgs.push({role:'ai', text:data.reply});
+    } else {
+      var errTxt;
+      if (data && data.error) errTxt = (typeof data.error === 'string') ? data.error : JSON.stringify(data.error);
+      else if (!r.ok) errTxt = 'HTTP ' + r.status + (r.status === 404 ? ' (function not found — coach.js not deployed)' : '');
+      else errTxt = 'no reply';
+      coachMsgs.push({role:'ai', text:'Coach error: ' + errTxt + '\n\nFix: confirm coach.js is at netlify/functions/, the deploy succeeded, and ANTHROPIC_API_KEY is set in Netlify.'});
+    }
   } catch(e) {
     coachMsgs.pop();
-    coachMsgs.push({role:'ai', text:'Couldn\'t reach the coach. Check your connection and that the function is live, then try again.'});
+    coachMsgs.push({role:'ai', text:'Couldn\'t reach the coach (' + (e && e.message ? e.message : 'network error') + '). The function may not be deployed yet — check mumzy.netlify.app/.netlify/functions/coach shows "Method not allowed".'});
   } finally {
     if (btn) btn.disabled = false;
     renderCoachLog();
