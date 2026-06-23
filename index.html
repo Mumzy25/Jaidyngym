@@ -1845,7 +1845,7 @@ input[type=number] { -moz-appearance: textfield; }
       <h3>Reset</h3>
       <button onclick="resetCreator()" style="width:100%;background:var(--s2);border:1px solid var(--b);color:var(--td);border-radius:8px;padding:12px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font-body)">Reset to Defaults</button>
     </div>
-    <div style="text-align:center;color:var(--tf);font-size:11px;letter-spacing:1px;margin-top:22px;padding-bottom:16px;font-family:monospace">JAIDYN TRAIN · build 2026-06-23 · 1</div>
+    <div style="text-align:center;color:var(--tf);font-size:11px;letter-spacing:1px;margin-top:22px;padding-bottom:16px;font-family:monospace">JAIDYN TRAIN · build 2026-06-23 · 2</div>
   </div>
 </div>
 
@@ -2174,6 +2174,27 @@ var coachMsgs = [];
 var coachExIndex = null;
 var coachSetIndex = null;
 
+var COACH_PERSONA = `You are a personal trainer AI built specifically for Jaidyn. You are direct, knowledgeable, and evidence-based. No fluff — talk like a coach who actually trains.
+
+ATHLETE
+- Intermediate, ~2 years training.
+- Goals: hypertrophy, strength, fat loss and general fitness — mainly focused on upper body.
+- Schedule: 4–5 days/week at home; 3 days/week while working FIFO.
+- Equipment: commercial gym at home; limited FIFO gym on site. On site, always offer a dumbbell alternative in case a machine is taken.
+- Limitations: currently very weak with low VO2 max — progress conservatively, never ego-load.
+- On site: NO lower-body/leg work, keep sessions ~30 min. Lower body only when off site.
+
+PROGRAMMING RULES
+- RPE-based loading: RPE 7–8 for hypertrophy, 8–9 for strength. Never calculate from percentages.
+- Use the athlete's logged working weights (in CONTEXT) as the baseline — these are NOT 1RMs.
+- Double progression: reps climb to the top of the range first; add load only after hitting the top at target RPE for 2 sessions. Upper compounds +2.5kg, lower compounds +5kg, accessories add reps before weight.
+- Deload every 4–6 weeks or when stalling/fatigue shows. Week 1 of a new block is calibration.
+
+HOW TO RESPOND
+- Coaching happens live, set by set. The athlete says how a set went/felt; give 1–3 short, concrete pointers and a specific call for the next set (keep going / add a rep / drop the weight / etc).
+- Lead with the adjustment. Keep it to 2–4 sentences. No waffle, no emojis.
+- For full session programming, use the working weights/log in CONTEXT and give specific weights, sets, reps and RPE.`;
+
 function coachEsc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 function buildSetCoachContext(ex, si){
@@ -2270,24 +2291,29 @@ async function coachSend(){
   try {
     var ex = current.exercises[coachExIndex];
     var context = buildSetCoachContext(ex, coachSetIndex);
+    var system = COACH_PERSONA + '\n\nCONTEXT (live from the app):\n' + context;
     var payload = coachMsgs.filter(function(m){ return m.text !== '…'; })
       .map(function(m){ return { role: m.role==='user'?'user':'assistant', content: m.text }; });
+    // Send a full Claude request; the Netlify function just attaches the key and forwards it.
     var r = await fetch('/.netlify/functions/coach', {
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ messages: payload, context: context })
+      body: JSON.stringify({ model:'claude-sonnet-4-6', max_tokens:1024, system:system, messages:payload })
     });
     var data = null;
     try { data = await r.json(); } catch(_) { data = null; }
     coachMsgs.pop(); // remove thinking bubble
-    if (r.ok && data && data.reply) {
-      coachMsgs.push({role:'ai', text:data.reply});
+    var reply = (data && Array.isArray(data.content))
+      ? data.content.map(function(b){ return b.type==='text' ? b.text : ''; }).filter(Boolean).join('\n').trim()
+      : '';
+    if (reply) {
+      coachMsgs.push({role:'ai', text:reply});
     } else {
-      var errTxt;
-      if (data && data.error) errTxt = (typeof data.error === 'string') ? data.error : JSON.stringify(data.error);
-      else if (!r.ok) errTxt = 'HTTP ' + r.status + (r.status === 404 ? ' (function not found — coach.js not deployed)' : '');
-      else errTxt = 'no reply';
-      coachMsgs.push({role:'ai', text:'Coach error: ' + errTxt + '\n\nFix: confirm coach.js is at netlify/functions/, the deploy succeeded, and ANTHROPIC_API_KEY is set in Netlify.'});
+      var errTxt = 'no reply';
+      if (data && data.error && data.error.message) errTxt = data.error.message;
+      else if (data && data.error) errTxt = JSON.stringify(data.error);
+      else if (!r.ok) errTxt = 'HTTP ' + r.status;
+      coachMsgs.push({role:'ai', text:'Coach error: ' + errTxt});
     }
   } catch(e) {
     coachMsgs.pop();
