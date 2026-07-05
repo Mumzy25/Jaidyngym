@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Jaidyn Train v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0E0B1E;--s1:#161129;--s2:#1D1735;--s3:#251D42;
+  --t:#F3F1FA;--td:#8E88AC;--tf:#5F5A7E;
+  --a:#A855F7;--pink:#EC4899;--pos:#22D3EE;
+  --grad:linear-gradient(135deg,#7C3AED 0%,#A855F7 45%,#EC4899 100%);
+  --b:rgba(255,255,255,.075);--b2:rgba(255,255,255,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  background:
+    radial-gradient(900px 500px at 85% -140px, rgba(124,58,237,.16), transparent 60%),
+    radial-gradient(700px 460px at -10% 20%, rgba(236,72,153,.08), transparent 55%),
+    var(--bg);
+  color:var(--t);font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:480px;margin:0 auto;min-height:100%;display:flex;flex-direction:column}
+.page{flex:1;padding:20px 16px calc(96px + env(safe-area-inset-bottom))}
+.scr{display:none}.scr.on{display:block}
+
+/* greeting */
+.greet{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.greet-sub{font-size:13px;color:var(--td);font-weight:500}
+.greet-name{font-family:'Sora';font-size:23px;font-weight:800;letter-spacing:-.4px}
+.ava{width:42px;height:42px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#fff}
+
+/* hero */
+.hero{background:var(--grad);border-radius:26px;padding:20px;margin-bottom:14px;box-shadow:0 18px 44px rgba(124,58,237,.35)}
+.hero .k{font-size:10.5px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:7px}
+.hero .t{font-family:'Sora';font-size:26px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px;color:#fff}
+.hero .m{font-size:12.5px;color:rgba(255,255,255,.85);margin-bottom:16px}
+.hero .m b{color:#fff}
+.hero .go{display:block;width:100%;background:#fff;color:#7C3AED;border:none;border-radius:15px;padding:15px;font-family:'Sora';font-size:14px;font-weight:800;cursor:pointer;text-align:center;text-decoration:none}
+
+/* glass chips */
+.chips{display:flex;gap:10px;margin-bottom:14px}
+.chip{flex:1;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:13px 8px;text-align:center}
+.ring{position:relative;width:46px;height:46px;margin:0 auto 7px}
+.ring svg{transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.chip .v{font-size:12px;font-weight:700}
+.chip .k{font-size:9px;color:var(--td);font-weight:700;letter-spacing:.4px;text-transform:uppercase;margin-top:2px}
+
+/* week */
+.sec{font-size:10.5px;font-weight:800;color:var(--tf);letter-spacing:1.6px;text-transform:uppercase;margin:4px 2px 10px}
+.week{display:flex;gap:7px;margin-bottom:16px}
+.day{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:9px 0;text-align:center}
+.day span{display:block;font-size:10px;font-weight:700;color:var(--td);margin-bottom:5px}
+.day i{display:block;width:16px;height:16px;margin:0 auto;border-radius:50%;border:1.6px solid rgba(255,255,255,.16);font-style:normal;font-size:9.5px;font-weight:900;line-height:16px}
+.day.on i{background:linear-gradient(135deg,#22D3EE,#818CF8);border:none;color:#0E0B1E}
+.day.now{border-color:var(--pink)}
+.day.now span{color:var(--pink)}
+
+/* recent list (home) */
+.mini{background:var(--s1);border:1px solid var(--b);border-radius:18px;padding:4px 14px}
+.mini-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--b)}
+.mini-row:last-child{border-bottom:none}
+.mini-row .n{font-weight:600;font-size:13.5px}
+.mini-row .d{font-size:11px;color:var(--tf)}
+.mini-row .v{font-size:12px;color:var(--pos);font-weight:700}
+
+/* progress screen */
+.h1{font-family:'Sora';font-size:22px;font-weight:800;letter-spacing:-.4px;margin-bottom:14px}
+.bars{background:var(--s1);border:1px solid var(--b);border-radius:20px;padding:16px;margin-bottom:14px}
+.bars .lbl{font-size:10.5px;font-weight:800;color:var(--tf);letter-spacing:1.4px;text-transform:uppercase;margin-bottom:12px}
+.bar-row{display:flex;align-items:flex-end;gap:8px;height:110px}
+.bcol{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px;height:100%}
+.bcol .bar{width:100%;border-radius:8px 8px 4px 4px;background:linear-gradient(180deg,#A855F7,#7C3AED);min-height:4px}
+.bcol.peak .bar{background:linear-gradient(180deg,#EC4899,#A855F7)}
+.bcol span{font-size:9px;color:var(--tf);font-weight:700}
+.sess-card{background:var(--s1);border:1px solid var(--b);border-radius:20px;padding:14px;margin-bottom:10px;display:flex;gap:13px;align-items:center}
+.sess-badge{width:42px;height:42px;flex-shrink:0;border-radius:14px;background:var(--s3);color:#C084FC;font-family:'Sora';font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+.sess-main{flex:1;min-width:0}
+.sess-name{font-family:'Sora';font-size:15px;font-weight:700}
+.sess-meta{font-size:11px;color:var(--td);margin-top:2px}
+.sess-vol{text-align:right}
+.sess-vol b{display:block;font-size:14px;font-weight:800;color:var(--pos)}
+.sess-vol span{font-size:9.5px;color:var(--tf);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.empty{color:var(--tf);text-align:center;padding:40px 20px;font-size:13px;line-height:1.6}
+
+/* stub */
+.stub{border:1.5px dashed var(--b2);border-radius:20px;padding:36px 20px;text-align:center;color:var(--tf);font-size:13px;line-height:1.7}
+.stub b{color:var(--td)}
+.stub a{color:#C084FC;font-weight:700;text-decoration:none}
+
+/* dock */
+.dock{position:fixed;left:0;right:0;bottom:0;background:rgba(16,12,32,.92);backdrop-filter:blur(24px);border-top:1px solid var(--b);display:flex;padding:8px 8px calc(10px + env(safe-area-inset-bottom));z-index:50}
+.dock-in{max-width:480px;margin:0 auto;display:flex;flex:1}
+.tab{flex:1;border:none;background:none;color:var(--tf);display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:5px 0;font-family:'Inter'}
+.tab svg{width:22px;height:22px}
+.tab span{font-size:9.5px;font-weight:700}
+.tab.active{color:#C084FC}
+.vtag{text-align:center;color:var(--tf);font-size:10px;letter-spacing:1px;font-family:monospace;padding:18px 0 4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="page">
+
+  <!-- HOME -->
+  <div class="scr on" id="s-home">
+    <div class="greet">
+      <div><div class="greet-sub" id="greetSub">Good morning,</div><div class="greet-name">Jaidyn</div></div>
+      <div class="ava">JT</div>
+    </div>
+
+    <div class="hero">
+      <div class="k">Today's session</div>
+      <div class="t" id="heroTitle">Upper Push</div>
+      <div class="m" id="heroMeta"><b>Ready when you are.</b></div>
+      <a class="go" href="index.html">Start workout</a>
+    </div>
+
+    <div class="chips" id="chips"></div>
+
+    <div class="sec">This week</div>
+    <div class="week" id="week"></div>
+
+    <div class="sec">Recent sessions</div>
+    <div class="mini" id="recent"></div>
+  </div>
+
+  <!-- TRAIN (stub) -->
+  <div class="scr" id="s-train">
+    <div class="h1">Train</div>
+    <div class="stub"><b>Being ported to v2.</b><br>Programme, Library and Tools are next.<br>Until then: <a href="index.html">open them in the current app →</a></div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="scr" id="s-prog">
+    <div class="h1">Progress</div>
+    <div class="bars">
+      <div class="lbl">Weekly volume · last 6 weeks</div>
+      <div class="bar-row" id="volBars"></div>
+    </div>
+    <div class="sec">History</div>
+    <div id="histList"></div>
+  </div>
+
+  <!-- MORE (stub) -->
+  <div class="scr" id="s-more">
+    <div class="h1">More</div>
+    <div class="stub"><b>Settings are being ported.</b><br><a href="index.html">Open settings in the current app →</a></div>
+    <div class="vtag">JAIDYN TRAIN v2 · shell 1</div>
+  </div>
+
+</div>
+</div>
+
+<div class="dock"><div class="dock-in">
+  <button class="tab active" data-s="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/></svg><span>Home</span></button>
+  <button class="tab" data-s="train"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M6.5 6.5v11"/><path d="M17.5 6.5v11"/><path d="M3 9v6"/><path d="M21 9v6"/><path d="M6.5 12h11"/></svg><span>Train</span></button>
+  <button class="tab" data-s="prog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M4 16.5 9 11l3.5 3.5L19 7"/><path d="M15.5 7H19v3.5"/></svg><span>Progress</span></button>
+  <button class="tab" data-s="more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h10"/><path d="M18 7h2"/><circle cx="16" cy="7" r="2"/><path d="M4 17h2"/><path d="M10 17h10"/><circle cx="8" cy="17" r="2"/></svg><span>More</span></button>
+</div></div>
+
+<script>
+/* ── v2 shell: reads the SAME localStorage as the main app ── */
+var sessions = [];
+try { sessions = JSON.parse(localStorage.getItem('jt_sessions') || '[]'); } catch(e) {}
+
+function parseDate(d){ var p=(d||'').split('/'); return p.length===3 ? new Date(p[2],p[1]-1,p[0]) : null; }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function volOf(s){
+  var v=0;(s.exercises||[]).forEach(function(e){(e.sets||[]).forEach(function(st){if(st.completed)v+=(parseFloat(st.weight)||0)*(parseInt(st.reps)||0);});});return v;
+}
+
+/* greeting */
+var hr = new Date().getHours();
+document.getElementById('greetSub').textContent = hr<12?'Good morning,':(hr<18?'Good afternoon,':'Good evening,');
+
+/* hero: suggest the session done least recently among known names */
+(function(){
+  var names={};
+  sessions.forEach(function(s){ var t=parseDate(s.date); if(s.name&&t&&(!names[s.name]||t>names[s.name])) names[s.name]=t; });
+  var keys=Object.keys(names);
+  if(keys.length){
+    keys.sort(function(a,b){ return names[a]-names[b]; });
+    document.getElementById('heroTitle').textContent = keys[0];
+    document.getElementById('heroMeta').innerHTML = '<b>Longest since trained</b> — last done ' + names[keys[0]].toLocaleDateString('en-AU',{day:'numeric',month:'short'});
+  }
+})();
+
+/* chips: 7-day volume, sessions, streak-ish */
+(function(){
+  var now=Date.now(), vol=0, cnt=0;
+  sessions.forEach(function(s){ var t=parseDate(s.date); if(t && now-t.getTime()<7*864e5){ cnt++; vol+=volOf(s); } });
+  var circ=119.4;
+  function ring(color,frac,label){
+    var off=(circ*(1-Math.max(0,Math.min(1,frac)))).toFixed(1);
+    return '<div class="ring"><svg width="46" height="46"><circle cx="23" cy="23" r="19" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="4"/><circle cx="23" cy="23" r="19" fill="none" stroke="'+color+'" stroke-width="4" stroke-linecap="round" stroke-dasharray="'+circ+'" stroke-dashoffset="'+off+'"/></svg><b>'+label+'</b></div>';
+  }
+  var volLbl = vol>=1000 ? (Math.round(vol/100)/10)+'k' : Math.round(vol);
+  document.getElementById('chips').innerHTML =
+    '<div class="chip">'+ring('#22D3EE',cnt?1:0,cnt?'Go':'—')+'<div class="v">'+(cnt?'Active':'Rested')+'</div><div class="k">Status</div></div>'+
+    '<div class="chip">'+ring('#A855F7',Math.min(1,vol/6000),volLbl)+'<div class="v">kg lifted</div><div class="k">7 days</div></div>'+
+    '<div class="chip">'+ring('#EC4899',cnt/5,cnt+'/5')+'<div class="v">Sessions</div><div class="k">This week</div></div>';
+})();
+
+/* week strip (Mon-start) */
+(function(){
+  var days=['M','T','W','T','F','S','S'];
+  var todayIdx=(new Date().getDay()+6)%7, now=new Date();
+  var html=days.map(function(d,i){
+    var dt=new Date(now); dt.setDate(now.getDate()+(i-todayIdx));
+    var key=dt.toLocaleDateString('en-AU').split('/').map(function(x){return x.padStart(2,'0');}).join('/');
+    var on=sessions.some(function(s){return s.date===key;});
+    return '<div class="day'+(on?' on':'')+(i===todayIdx?' now':'')+'"><span>'+d+'</span><i>'+(on?'✓':'')+'</i></div>';
+  }).join('');
+  document.getElementById('week').innerHTML=html;
+})();
+
+/* recent sessions (home) */
+(function(){
+  var el=document.getElementById('recent');
+  if(!sessions.length){ el.innerHTML='<div class="empty">No sessions logged yet — data appears here from your main app automatically.</div>'; return; }
+  el.innerHTML=sessions.slice(0,4).map(function(s){
+    return '<div class="mini-row"><div><div class="n">'+esc(s.name||'Session')+'</div><div class="d">'+esc(s.date||'')+'</div></div><div class="v">'+Math.round(volOf(s)).toLocaleString()+' kg</div></div>';
+  }).join('');
+})();
+
+/* progress: weekly volume bars + history */
+(function(){
+  var weeks=[0,0,0,0,0,0], now=Date.now();
+  sessions.forEach(function(s){
+    var t=parseDate(s.date); if(!t)return;
+    var w=Math.floor((now-t.getTime())/(7*864e5));
+    if(w>=0&&w<6) weeks[5-w]+=volOf(s);
+  });
+  var max=Math.max.apply(null,weeks.concat([1]));
+  document.getElementById('volBars').innerHTML=weeks.map(function(v,i){
+    var pk=v===max&&v>0;
+    return '<div class="bcol'+(pk?' peak':'')+'"><div class="bar" style="height:'+Math.round(v/max*100)+'%"></div><span>'+(i===5?'now':(5-i)+'w')+'</span></div>';
+  }).join('');
+
+  var hl=document.getElementById('histList');
+  if(!sessions.length){ hl.innerHTML='<div class="empty">No history yet.</div>'; return; }
+  hl.innerHTML=sessions.slice(0,20).map(function(s){
+    var done=(s.exercises||[]).reduce(function(a,e){return a+(e.sets||[]).filter(function(st){return st.completed;}).length;},0);
+    var initial=(s.name||'S').replace(/^Day\s+/i,'').charAt(0).toUpperCase();
+    return '<div class="sess-card"><div class="sess-badge">'+initial+'</div><div class="sess-main"><div class="sess-name">'+esc(s.name||'Session')+'</div><div class="sess-meta">'+esc(s.date||'')+' · '+done+' sets · '+(s.duration||'—')+' min</div></div><div class="sess-vol"><b>'+Math.round(volOf(s)).toLocaleString()+'</b><span>kg</span></div></div>';
+  }).join('');
+})();
+
+/* tabs */
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
+    t.classList.add('active');
+    document.querySelectorAll('.scr').forEach(function(x){x.classList.remove('on');});
+    document.getElementById('s-'+t.dataset.s).classList.add('on');
+    window.scrollTo(0,0);
+  });
+});
+</script>
+</body>
+</html>
