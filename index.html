@@ -91,6 +91,181 @@ body{
 .stub b{color:var(--td)}
 .stub a{color:#C084FC;font-weight:700;text-decoration:none}
 
+
+/* train: segmented + programme cards */
+.seg{background:rgba(255,255,255,.05);border:1px solid var(--b);border-radius:16px;padding:4px;display:flex;gap:4px;margin-bottom:14px}
+.seg-btn{flex:1;border:none;background:transparent;color:var(--td);border-radius:12px;padding:11px;font-family:'Inter';font-size:12.5px;font-weight:700;cursor:pointer}
+.seg-btn.active{background:var(--grad);color:#fff}
+.pcard{background:var(--s1);border:1px solid var(--b);border-radius:20px;margin-bottom:10px;overflow:hidden}
+.pcard-hd{display:flex;align-items:center;gap:13px;padding:14px;cursor:pointer}
+.pbadge{width:42px;height:42px;flex-shrink:0;border-radius:14px;background:var(--grad);color:#fff;font-family:'Sora';font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center}
+.pmain{flex:1;min-width:0}
+.ptitle{font-family:'Sora';font-size:17px;font-weight:700;letter-spacing:-.2px}
+.psub{font-size:12px;color:var(--td);margin-top:1px}
+.pmeta{font-size:10.5px;color:var(--tf);margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pchev{color:var(--tf);flex-shrink:0;transition:transform .2s}
+.pcard.open .pchev{transform:rotate(180deg)}
+.pbody{display:none;border-top:1px solid var(--b);padding:6px 14px 12px}
+.pcard.open .pbody{display:block}
+.pex{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--b)}
+.pex:last-child{border-bottom:none}
+.pex .nm{font-weight:600;font-size:13.5px}
+.pex .dt{font-size:11px;color:var(--td);margin-top:1px}
+.pex .alt{font-size:10px;color:var(--tf);margin-top:3px}
+.pwt{background:rgba(168,85,247,.14);border:1px solid rgba(168,85,247,.35);color:#C084FC;border-radius:10px;padding:4px 10px;font-size:11.5px;font-weight:700;white-space:nowrap}
+
+
+/* workout */
+.wo-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.wo-title{font-family:'Sora';font-size:20px;font-weight:800;letter-spacing:-.3px}
+.wo-timer{background:rgba(255,255,255,.05);border:1px solid var(--b);color:var(--pos);font-size:12px;font-weight:700;border-radius:20px;padding:6px 12px;font-variant-numeric:tabular-nums}
+.wo-sub{font-size:12px;color:var(--td);margin-bottom:10px}
+.wo-bar{height:4px;background:var(--s2);border-radius:2px;margin-bottom:16px;overflow:hidden}
+.wo-bar i{display:block;height:100%;width:0%;background:var(--grad);border-radius:2px;transition:width .3s}
+.wcard{background:var(--s1);border:1px solid var(--b);border-radius:20px;padding:14px;margin-bottom:12px}
+.wcard .nm{font-family:'Sora';font-size:15.5px;font-weight:700}
+.wcard .tg{font-size:11.5px;color:var(--td);margin-top:2px}
+.wcard .dir{display:inline-block;margin-top:7px;font-size:10.5px;font-weight:700;color:#C084FC;background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.3);border-radius:9px;padding:3px 9px}
+.srow{display:grid;grid-template-columns:26px 1fr 1fr 54px 38px;gap:7px;align-items:center;margin-top:10px}
+.snum{width:24px;height:24px;border-radius:50%;background:var(--s2);border:1px solid var(--b2);color:var(--td);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.srow.done .snum{background:var(--pos);border-color:var(--pos);color:#0E0B1E}
+.sin{background:var(--s2);border:1px solid var(--b);border-radius:12px;color:var(--t);font-family:'Inter';font-weight:600;font-size:15px;text-align:center;padding:10px 2px;width:100%;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.sin::-webkit-outer-spin-button,.sin::-webkit-inner-spin-button{-webkit-appearance:none}
+.sin:focus{outline:none;border-color:var(--a)}
+.sin.rpe{font-size:13px}
+.stick{width:38px;height:38px;border-radius:50%;background:var(--s2);border:1px solid var(--b2);color:var(--td);font-size:14px;cursor:pointer}
+.srow.done .stick{background:var(--pos);border-color:var(--pos);color:#0E0B1E}
+.scoach{display:block;background:none;border:none;color:var(--pink);font-family:'Inter';font-size:11px;font-weight:700;padding:6px 0 0 33px;cursor:pointer;text-align:left}
+.addset{width:100%;margin-top:12px;background:transparent;border:1.5px dashed var(--b2);color:var(--tf);border-radius:12px;padding:10px;font-family:'Inter';font-size:12px;font-weight:700;cursor:pointer}
+.wo-notes{width:100%;background:var(--s2);border:1px solid var(--b);border-radius:14px;color:var(--t);font-family:'Inter';font-size:14px;padding:12px;margin:4px 0 12px}
+.wo-notes:focus{outline:none;border-color:var(--a)}
+.finish{width:100%;background:var(--grad);color:#fff;border:none;border-radius:15px;padding:16px;font-family:'Sora';font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 8px 24px rgba(168,85,247,.3)}
+.cancel{width:100%;background:none;border:none;color:var(--tf);font-family:'Inter';font-size:12px;font-weight:600;padding:12px;cursor:pointer}
+.rest{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(96px + env(safe-area-inset-bottom));background:rgba(22,17,41,.96);border:1px solid var(--b2);border-radius:18px;padding:10px 18px;font-variant-numeric:tabular-nums;font-weight:800;color:var(--pos);font-size:16px;z-index:60;display:none}
+.rest.on{display:block}
+.pstart{width:100%;margin-top:10px;background:var(--grad);color:#fff;border:none;border-radius:13px;padding:12px;font-family:'Sora';font-size:13px;font-weight:800;cursor:pointer}
+/* coach sheet */
+.cov{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;display:none;align-items:flex-end;justify-content:center}
+.cov.on{display:flex}
+.cmodal{width:100%;max-width:480px;max-height:80vh;background:var(--s1);border:1px solid var(--b2);border-radius:22px 22px 0 0;display:flex;flex-direction:column;overflow:hidden}
+.chd{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--b)}
+.chd .k{font-size:10px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--pink)}
+.chd .s{font-size:14px;font-weight:700;margin-top:2px}
+.cx{background:var(--s3);border:1px solid var(--b);color:var(--td);width:30px;height:30px;border-radius:9px;cursor:pointer}
+.clog{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:9px;min-height:150px}
+.cb{max-width:85%;padding:10px 13px;border-radius:14px;font-size:13.5px;line-height:1.5;white-space:pre-wrap}
+.cb.u{align-self:flex-end;background:var(--grad);color:#fff;border-bottom-right-radius:4px}
+.cb.a{align-self:flex-start;background:var(--s3);border-bottom-left-radius:4px}
+.cempty{color:var(--tf);font-size:12.5px;margin:auto;text-align:center;padding:0 16px;line-height:1.6}
+.cin{display:flex;gap:8px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--b)}
+.cin input{flex:1;background:var(--s2);border:1px solid var(--b);border-radius:12px;padding:11px 13px;color:var(--t);font-size:16px;font-family:'Inter'}
+.cin input:focus{outline:none;border-color:var(--a)}
+.csend{background:var(--grad);color:#fff;border:none;border-radius:12px;padding:0 17px;font-weight:800;font-size:13px;cursor:pointer;font-family:'Inter'}
+
+
+/* workout flow */
+.wo-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.wo-title{font-family:'Sora';font-size:20px;font-weight:800;letter-spacing:-.3px}
+.wo-timer{background:rgba(255,255,255,.06);border:1px solid var(--b);color:var(--pos);font-size:12px;font-weight:700;border-radius:20px;padding:6px 12px;font-variant-numeric:tabular-nums}
+.wo-sub{font-size:12px;color:var(--td);margin-bottom:10px}
+.wo-bar{height:4px;background:var(--s2);border-radius:2px;margin-bottom:16px;overflow:hidden}
+.wo-bar i{display:block;height:100%;width:0%;background:var(--grad);border-radius:2px;transition:width .3s}
+.wex{background:var(--s1);border:1px solid var(--b);border-radius:20px;padding:14px;margin-bottom:12px}
+.wex-nm{font-family:'Sora';font-size:15px;font-weight:700}
+.wex-dt{font-size:11.5px;color:var(--td);margin:2px 0 10px}
+.wrow{display:grid;grid-template-columns:26px 1fr 1.2fr .8fr 40px;gap:7px;align-items:center;padding:6px 0}
+.wn{width:24px;height:24px;border-radius:50%;background:var(--s2);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--td)}
+.wrow.done .wn{background:var(--pos);border-color:var(--pos);color:#0E0B1E}
+.winp{width:100%;background:var(--s2);border:1px solid var(--b);border-radius:12px;padding:10px 4px;font-size:15px;font-weight:600;color:var(--t);text-align:center;font-family:'Inter';font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.winp::-webkit-outer-spin-button,.winp::-webkit-inner-spin-button{-webkit-appearance:none}
+.winp:focus{outline:none;border-color:var(--a);box-shadow:0 0 0 3px rgba(168,85,247,.18)}
+.wtick{width:38px;height:38px;border-radius:50%;background:var(--s2);border:1px solid var(--b2);color:var(--td);font-size:15px;cursor:pointer}
+.wrow.done .wtick{background:var(--pos);border-color:var(--pos);color:#0E0B1E}
+.wcoach{background:none;border:none;color:var(--pink);font-family:'Inter';font-size:11px;font-weight:700;padding:2px 0 8px 33px;cursor:pointer;text-align:left;display:block}
+.whead-row{display:grid;grid-template-columns:26px 1fr 1.2fr .8fr 40px;gap:7px;font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--tf);padding-bottom:4px}
+.wo-foot{display:flex;gap:10px;margin-top:4px}
+.wnotes{flex:1;background:var(--s1);border:1px solid var(--b);border-radius:14px;padding:12px 14px;color:var(--t);font-family:'Inter';font-size:13px}
+.wnotes:focus{outline:none;border-color:var(--a)}
+.wfinish{background:var(--grad);color:#fff;border:none;border-radius:14px;padding:0 22px;font-family:'Sora';font-size:13.5px;font-weight:800;cursor:pointer;box-shadow:0 8px 24px rgba(168,85,247,.3)}
+.rest{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(96px + env(safe-area-inset-bottom));background:rgba(22,17,41,.95);border:1px solid var(--b2);border-radius:20px;padding:10px 18px;color:var(--pos);font-weight:800;font-size:15px;font-variant-numeric:tabular-nums;z-index:60;display:none;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.rest.on{display:block}
+/* coach sheet */
+.csheet{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:80;display:none;align-items:flex-end;justify-content:center}
+.csheet.on{display:flex}
+.cbox{width:100%;max-width:480px;max-height:82vh;background:var(--s1);border:1px solid var(--b2);border-radius:22px 22px 0 0;display:flex;flex-direction:column;overflow:hidden}
+.chd{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--b)}
+.chd .k{font-size:10px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--pink)}
+.chd .t{font-family:'Sora';font-size:15px;font-weight:700;margin-top:2px}
+.cx{background:var(--s3);border:1px solid var(--b);color:var(--td);width:30px;height:30px;border-radius:9px;cursor:pointer;font-size:13px}
+.clog{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px;min-height:150px}
+.cmsg{max-width:86%;padding:10px 13px;border-radius:14px;font-size:13.5px;line-height:1.5;white-space:pre-wrap}
+.cmsg.u{align-self:flex-end;background:var(--grad);color:#fff;border-bottom-right-radius:4px}
+.cmsg.a{align-self:flex-start;background:var(--s3);border-bottom-left-radius:4px}
+.cempty{color:var(--tf);font-size:12.5px;text-align:center;margin:auto;line-height:1.6;padding:0 16px}
+.cin{display:flex;gap:8px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--b)}
+.cin input{flex:1;background:var(--s2);border:1px solid var(--b);border-radius:13px;padding:12px 14px;color:var(--t);font-size:16px;font-family:'Inter'}
+.cin input:focus{outline:none;border-color:var(--a)}
+.cin button{background:var(--grad);color:#fff;border:none;border-radius:13px;padding:0 18px;font-weight:800;font-family:'Sora';font-size:13px;cursor:pointer}
+
+
+/* settings */
+.setcard{background:var(--s1);border:1px solid var(--b);border-radius:20px;padding:6px 16px 12px;margin-bottom:12px}
+.set-k{font-size:10.5px;font-weight:800;color:var(--tf);letter-spacing:1.6px;text-transform:uppercase;padding:12px 0 6px}
+.set-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;font-size:13.5px;font-weight:600}
+.tgl{width:46px;height:27px;border-radius:16px;background:var(--s3);border:1px solid var(--b2);position:relative;cursor:pointer;transition:background .2s}
+.tgl::after{content:"";position:absolute;top:2.5px;left:3px;width:20px;height:20px;border-radius:50%;background:#8E88AC;transition:all .2s}
+.tgl.on{background:var(--grad);border-color:transparent}
+.tgl.on::after{left:21px;background:#fff}
+.swatches{display:flex;gap:10px;padding:4px 0 12px}
+.sw{width:38px;height:38px;border-radius:13px;border:2px solid transparent;cursor:pointer}
+.sw.sel{border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.15)}
+.mini-btn{background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.4);color:#C084FC;border-radius:10px;padding:7px 13px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter'}
+body.compact .page{padding-left:12px;padding-right:12px}
+body.compact .hero{padding:15px;border-radius:20px;margin-bottom:10px}
+body.compact .chip{padding:9px 6px;border-radius:15px}
+body.compact .wex,body.compact .pcard,body.compact .setcard,body.compact .sess-card,body.compact .bars{border-radius:15px}
+body.compact .chips,body.compact .week{margin-bottom:10px}
+body.compact .mini-row{padding:9px 0}
+
+
+/* recover */
+.rec-row{padding:10px 0;border-bottom:1px solid var(--b)}
+.rec-row:last-child{border-bottom:none}
+.rec-top{display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:6px}
+.rec-top b{font-weight:800;font-variant-numeric:tabular-nums}
+.rec-bar{height:7px;background:var(--s3);border-radius:4px;overflow:hidden}
+.rec-bar i{display:block;height:100%;border-radius:4px;background:var(--grad)}
+.rec-row.full .rec-bar i{background:linear-gradient(90deg,#22D3EE,#4ADE80)}
+.rec-row.full .rec-top b{color:var(--pos)}
+/* library */
+.lib-card{background:var(--s1);border:1px solid var(--b);border-radius:18px;padding:13px 14px;margin-bottom:9px}
+.lib-nm{font-weight:700;font-size:14px}
+.lib-mu{font-size:11px;color:var(--td);margin-top:2px}
+.lib-wt{float:right;background:rgba(168,85,247,.14);border:1px solid rgba(168,85,247,.35);color:#C084FC;border-radius:10px;padding:3px 9px;font-size:11px;font-weight:700}
+/* warm-up rows in workout */
+.wu-strip{background:rgba(245,177,76,.07);border:1px solid rgba(245,177,76,.18);border-radius:12px;padding:8px 12px;margin-bottom:8px}
+.wu-strip .k{font-size:9px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:#F5B14C;margin-bottom:3px}
+.wu-strip .r{font-size:11.5px;color:var(--td);display:flex;justify-content:space-between;padding:2px 0}
+.wu-strip .r b{color:var(--t);font-weight:600}
+/* swap button */
+.wswap{float:right;background:var(--s2);border:1px solid var(--b);color:var(--td);border-radius:10px;padding:5px 9px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter'}
+.wswap.on{border-color:var(--a);color:var(--a)}
+
+
+.rec-row{padding:9px 0;border-bottom:1px solid var(--b)}
+.rec-row:last-child{border-bottom:none}
+.rec-top{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;margin-bottom:6px}
+.rec-top b{font-variant-numeric:tabular-nums;color:var(--td)}
+.rec-row.full .rec-top b{color:var(--pos)}
+.rec-bar{height:8px;background:var(--s3);border-radius:4px;overflow:hidden}
+.rec-bar i{display:block;height:100%;border-radius:4px;background:var(--grad)}
+.rec-row.full .rec-bar i{background:var(--pos)}
+.lib-bd{display:none;border-top:1px solid var(--b);margin-top:10px;padding-top:10px}
+.lib-card.open .lib-bd{display:block}
+.lib-k{font-size:9.5px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--a);margin:8px 0 3px}
+.lib-k:first-child{margin-top:0}
+.lib-t{font-size:12px;color:var(--td);line-height:1.55}
+
 /* dock */
 .dock{position:fixed;left:0;right:0;bottom:0;background:rgba(16,12,32,.92);backdrop-filter:blur(24px);border-top:1px solid var(--b);display:flex;padding:8px 8px calc(10px + env(safe-area-inset-bottom));z-index:50}
 .dock-in{max-width:480px;margin:0 auto;display:flex;flex:1}
@@ -116,22 +291,37 @@ body{
       <div class="k">Today's session</div>
       <div class="t" id="heroTitle">Upper Push</div>
       <div class="m" id="heroMeta"><b>Ready when you are.</b></div>
-      <a class="go" href="index.html">Start workout</a>
+      <a class="go" href="#" id="heroGo">Choose &amp; start &rarr;</a>
     </div>
 
     <div class="chips" id="chips"></div>
 
-    <div class="sec">This week</div>
+    <div class="sec" id="secWeek">This week</div>
     <div class="week" id="week"></div>
 
-    <div class="sec">Recent sessions</div>
+    <div class="sec" id="secRecent">Recent sessions</div>
     <div class="mini" id="recent"></div>
   </div>
 
-  <!-- TRAIN (stub) -->
+  <!-- TRAIN -->
   <div class="scr" id="s-train">
     <div class="h1">Train</div>
-    <div class="stub"><b>Being ported to v2.</b><br>Programme, Library and Tools are next.<br>Until then: <a href="index.html">open them in the current app →</a></div>
+    <div class="seg" id="progSeg">
+      <button class="seg-btn active" data-p="onsite">On-Site</button>
+      <button class="seg-btn" data-p="offsite">Off-Site</button>
+    </div>
+    <div id="progList"></div>
+    <div class="mini" style="margin-top:14px">
+      <a class="mini-row" style="text-decoration:none;cursor:pointer" onclick="openLib()"><div><div class="n">Exercise Library</div><div class="d">Every exercise in your programmes</div></div><div class="v">&rarr;</div></a>
+    </div>
+    <div class="setcard" style="margin-top:12px">
+      <div class="set-k">Plate calculator</div>
+      <div style="display:flex;gap:8px;padding:4px 0 8px">
+        <input class="winp" id="pcW" type="number" inputmode="decimal" placeholder="Target kg" style="flex:1.5;text-align:left;padding-left:12px" oninput="plateCalc()">
+        <select id="pcBar" class="winp" style="flex:1" onchange="plateCalc()"><option value="20">20kg bar</option><option value="15">15kg bar</option></select>
+      </div>
+      <div id="pcOut" style="font-size:12.5px;color:var(--td);padding-bottom:8px;line-height:1.5">Enter a target weight.</div>
+    </div>
   </div>
 
   <!-- PROGRESS -->
@@ -145,20 +335,98 @@ body{
     <div id="histList"></div>
   </div>
 
-  <!-- MORE (stub) -->
+  <!-- WORKOUT (active session) -->
+  <div class="scr" id="s-workout">
+    <div class="wo-hd"><div class="wo-title" id="woName">Session</div><div class="wo-timer" id="woClock">0:00</div></div>
+    <div class="wo-sub" id="woSub">0/0 sets</div>
+    <div class="wo-bar"><i id="woBar"></i></div>
+    <div id="woList"></div>
+    <div class="wo-foot">
+      <input class="wnotes" id="woNotes" placeholder="Notes — energy, sleep, how it felt">
+      <button class="wfinish" onclick="finishWorkout()">Finish</button>
+    </div>
+  </div>
+
+
+  <!-- RECOVER -->
+  <div class="scr" id="s-rec">
+    <div class="h1">Recover</div>
+    <div class="setcard" style="padding-bottom:16px">
+      <div class="set-k">Muscle recovery</div>
+      <div id="recList"></div>
+    </div>
+    <div style="font-size:11px;color:var(--tf);padding:2px 4px;line-height:1.6">Estimated from your logged sessions: each muscle recovers over ~72h after being trained (secondary work counts half).</div>
+  </div>
+
+  <!-- LIBRARY -->
+  <!-- RECOVER -->
+  <div class="scr" id="s-rec">
+    <div class="h1">Recover</div>
+    <div class="setcard" id="recList" style="padding-top:12px;padding-bottom:12px"></div>
+    <div style="font-size:10.5px;color:var(--tf);padding:10px 4px;line-height:1.5">Modelled from when each muscle was last trained &middot; 72h to full (secondary work counts half).</div>
+  </div>
+
+  <div class="scr" id="s-lib">
+    <div class="h1">Library</div>
+    <input class="wnotes" id="libSearch" placeholder="Search exercises" style="width:100%;margin-bottom:12px" oninput="renderLib()">
+    <div id="libList"></div>
+  </div>
+
+  <!-- MORE / SETTINGS -->
   <div class="scr" id="s-more">
-    <div class="h1">More</div>
-    <div class="stub"><b>Settings are being ported.</b><br><a href="index.html">Open settings in the current app →</a></div>
-    <div class="vtag">JAIDYN TRAIN v2 · shell 1</div>
+    <div class="h1">Settings</div>
+
+    <div class="setcard">
+      <div class="set-k">Appearance</div>
+      <div class="set-row"><span>Accent theme</span></div>
+      <div class="swatches" id="swatches"></div>
+      <div class="set-row"><span>Compact layout</span><button class="tgl" id="tglCompact" onclick="togglePref('compact')"></button></div>
+    </div>
+
+    <div class="setcard">
+      <div class="set-k">Home layout</div>
+      <div class="set-row"><span>Stat rings</span><button class="tgl" id="tglChips" onclick="togglePref('showChips')"></button></div>
+      <div class="set-row"><span>Week strip</span><button class="tgl" id="tglWeek" onclick="togglePref('showWeek')"></button></div>
+      <div class="set-row"><span>Recent sessions</span><button class="tgl" id="tglRecent" onclick="togglePref('showRecent')"></button></div>
+    </div>
+
+    <div class="setcard">
+      <div class="set-k">Training</div>
+      <div class="set-row"><span>Rest timer</span></div>
+      <div class="seg" style="margin:0">
+        <button class="seg-btn rest-btn" data-r="60" onclick="setRest(60)">60s</button>
+        <button class="seg-btn rest-btn" data-r="90" onclick="setRest(90)">90s</button>
+        <button class="seg-btn rest-btn" data-r="120" onclick="setRest(120)">120s</button>
+      </div>
+    </div>
+
+    <div class="setcard">
+      <div class="set-k">Data</div>
+      <div class="set-row" style="border-bottom:1px solid var(--b)"><span>Export backup</span><button class="mini-btn" onclick="exportBackup()">Download</button></div>
+      <a class="set-row" href="index.html" style="text-decoration:none;color:var(--t)"><span>Cloud sync &amp; more settings</span><span style="color:var(--tf)">current app &rarr;</span></a>
+      <div style="font-size:11px;color:var(--tf);padding:8px 0 4px;line-height:1.5">v2 shares its data with the current app automatically - sessions, weights and history stay in sync.</div>
+    </div>
+
+    <div class="vtag">JAIDYN TRAIN v2 · shell 6</div>
   </div>
 
 </div>
+</div>
+
+<div class="rest" id="restChip">Rest 1:30</div>
+<div class="csheet" id="csheet">
+  <div class="cbox">
+    <div class="chd"><div><div class="k">Coach</div><div class="t" id="cTitle">Set</div></div><button class="cx" onclick="closeCoach()">&#10005;</button></div>
+    <div class="clog" id="clog"></div>
+    <div class="cin"><input id="cinput" placeholder="How did that set feel?" onkeydown="if(event.key==='Enter'){event.preventDefault();coachSend();}"><button onclick="coachSend()">Send</button></div>
+  </div>
 </div>
 
 <div class="dock"><div class="dock-in">
   <button class="tab active" data-s="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/></svg><span>Home</span></button>
   <button class="tab" data-s="train"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M6.5 6.5v11"/><path d="M17.5 6.5v11"/><path d="M3 9v6"/><path d="M21 9v6"/><path d="M6.5 12h11"/></svg><span>Train</span></button>
   <button class="tab" data-s="prog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M4 16.5 9 11l3.5 3.5L19 7"/><path d="M15.5 7H19v3.5"/></svg><span>Progress</span></button>
+  <button class="tab" data-s="rec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8" width="17" height="8" rx="2"/><path d="M22 11v2"/><path d="M11.5 9.5 9.5 12h3l-2 2.5"/></svg><span>Recover</span></button>
   <button class="tab" data-s="more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h10"/><path d="M18 7h2"/><circle cx="16" cy="7" r="2"/><path d="M4 17h2"/><path d="M10 17h10"/><circle cx="8" cy="17" r="2"/></svg><span>More</span></button>
 </div></div>
 
@@ -250,6 +518,782 @@ document.getElementById('greetSub').textContent = hr<12?'Good morning,':(hr<18?'
   }).join('');
 })();
 
+const PROGRAMME = {
+  onsite:[
+    {id:'onA',name:'Day A — Push',tag:'ON-SITE',desc:'Chest & Shoulders',dur:'30 min',type:'onsite',b1:'3x12 @RPE7',b2:'4x8 @RPE8',b3:'4x5 @RPE9',exercises:[
+      {name:'Machine Chest Press',sets:3,reps:12,weight:'35 kg',rpe:7,rest:'60s',swap:'DB Bench Press',swapW:'14 kg DBs'},
+      {name:'Incline DB Press',sets:3,reps:12,weight:'12 kg DBs',rpe:7,rest:'60s',swap:'Incline DB Press',swapW:'12 kg DBs'},
+      {name:'Seated Machine Press',sets:3,reps:12,weight:'25 kg',rpe:7,rest:'60s',swap:'DB OHP (seated)',swapW:'10 kg DBs'},
+      {name:'Lateral Raise (DB)',sets:3,reps:15,weight:'6 kg DBs',rpe:7,rest:'45s',swap:'Lateral Raise (DB)',swapW:'6 kg DBs'},
+      {name:'Tricep Pushdown',sets:3,reps:15,weight:'17.5 kg',rpe:7,rest:'45s',swap:'OH Tricep Ext (DB)',swapW:'10 kg DB'},
+    ]},
+    {id:'onB',name:'Day B — Pull',tag:'ON-SITE',desc:'Back & Biceps',dur:'30 min',type:'onsite',b1:'3x12 @RPE7',b2:'4x8 @RPE8',b3:'4x5 @RPE9',exercises:[
+      {name:'Lat Pulldown (bar)',sets:3,reps:12,weight:'37.5 kg',rpe:7,rest:'60s',swap:'DB Row (chest supported)',swapW:'14 kg DBs'},
+      {name:'Seated Cable Row',sets:3,reps:12,weight:'35 kg',rpe:7,rest:'60s',swap:'DB Row (single arm)',swapW:'16 kg DB'},
+      {name:'Machine Row',sets:3,reps:12,weight:'30 kg',rpe:7,rest:'60s',swap:'Dumbbell Row',swapW:'16 kg DBs'},
+      {name:'Face Pull (cable)',sets:3,reps:15,weight:'12.5 kg',rpe:7,rest:'45s',swap:'Rear Delt Fly (DB)',swapW:'8 kg DBs'},
+      {name:'Dumbbell Curl',sets:3,reps:12,weight:'9 kg DBs',rpe:7,rest:'45s',swap:'Dumbbell Curl',swapW:'9 kg DBs'},
+    ]},
+    {id:'onC',name:'Day C — Power',tag:'ON-SITE',desc:'Compounds + Arms',dur:'30 min',type:'onsite',b1:'4x10 @RPE7-8',b2:'4x6 @RPE8',b3:'5x4 @RPE9',exercises:[
+      {name:'DB Bench Press',sets:4,reps:10,weight:'14 kg DBs',rpe:8,rest:'75s',swap:'DB Bench Press',swapW:'14 kg DBs'},
+      {name:'DB Row',sets:4,reps:10,weight:'16 kg DBs',rpe:8,rest:'75s',swap:'DB Row',swapW:'16 kg DBs'},
+      {name:'DB OHP',sets:3,reps:12,weight:'10 kg DBs',rpe:7,rest:'60s',swap:'DB OHP',swapW:'10 kg DBs'},
+      {name:'Hammer Curl',sets:3,reps:12,weight:'9 kg DBs',rpe:7,rest:'45s',swap:'Hammer Curl',swapW:'9 kg DBs'},
+      {name:'Tricep Pushdown',sets:3,reps:15,weight:'17.5 kg',rpe:7,rest:'45s',swap:'OH Tricep Ext (DB)',swapW:'10 kg DB'},
+    ]},
+  ],
+  offsite:[
+    {id:'off1',name:'Day 1 — Upper Push',tag:'OFF-SITE',desc:'Chest & Shoulders',dur:'60+ min',type:'offsite',b1:'4x10 @RPE7',b2:'4x8 @RPE8',b3:'4x5 @RPE9',exercises:[
+      {name:'Barbell Bench Press',sets:4,reps:10,weight:'30 kg',rpe:7,rest:'90s',swap:'DB Bench Press',swapW:'14 kg DBs'},
+      {name:'Incline DB Press',sets:3,reps:12,weight:'12 kg DBs',rpe:7,rest:'75s',swap:'Incline DB Press',swapW:'12 kg DBs'},
+      {name:'Cable Fly',sets:3,reps:15,weight:'7.5 kg',rpe:7,rest:'60s',swap:'DB Fly (flat)',swapW:'10 kg DBs'},
+      {name:'Barbell OHP',sets:3,reps:10,weight:'17.5 kg',rpe:7,rest:'90s',swap:'DB OHP (seated)',swapW:'10 kg DBs'},
+      {name:'Lateral Raise (DB)',sets:4,reps:15,weight:'6 kg DBs',rpe:7,rest:'45s',swap:'Lateral Raise (DB)',swapW:'6 kg DBs'},
+      {name:'Rear Delt Fly (DB)',sets:3,reps:15,weight:'8 kg DBs',rpe:7,rest:'45s',swap:'Rear Delt Fly (DB)',swapW:'8 kg DBs'},
+    ]},
+    {id:'off2',name:'Day 2 — Lower Quad',tag:'OFF-SITE',desc:'Quad Dominant',dur:'60+ min',type:'offsite',b1:'4x10 @RPE7',b2:'4x8 @RPE8',b3:'4x5 @RPE9',exercises:[
+      {name:'Barbell Back Squat',sets:4,reps:10,weight:'50 kg',rpe:7,rest:'120s',swap:'Goblet Squat (DB)',swapW:'20 kg DB'},
+      {name:'Leg Press',sets:3,reps:12,weight:'80 kg',rpe:7,rest:'90s',swap:'Bulgarian Split Squat',swapW:'12 kg DBs'},
+      {name:'Bulgarian Split Squat',sets:3,reps:10,weight:'10 kg DBs',rpe:7,rest:'90s',swap:'Lunges (DB)',swapW:'10 kg DBs'},
+      {name:'Leg Extension',sets:3,reps:15,weight:'30 kg',rpe:7,rest:'60s',swap:'Step Ups (DB)',swapW:'10 kg DBs'},
+      {name:'Standing Calf Raise',sets:4,reps:15,weight:'BW',rpe:7,rest:'45s',swap:'Seated Calf Raise (DB)',swapW:'20 kg DBs'},
+    ]},
+    {id:'off3',name:'Day 3 — Upper Pull',tag:'OFF-SITE',desc:'Back & Biceps',dur:'60+ min',type:'offsite',b1:'4x10 @RPE7',b2:'4x8 @RPE8',b3:'4x5 @RPE9',exercises:[
+      {name:'Pull Up (bodyweight)',sets:4,reps:6,weight:'BW',rpe:8,rest:'120s',swap:'DB Row (single arm)',swapW:'16 kg DB'},
+      {name:'Barbell Bent Over Row',sets:4,reps:10,weight:'40 kg',rpe:7,rest:'90s',swap:'DB Row (both arms)',swapW:'16 kg DBs'},
+      {name:'Lat Pulldown (bar)',sets:3,reps:12,weight:'37.5 kg',rpe:7,rest:'75s',swap:'DB Row (chest supported)',swapW:'14 kg DBs'},
+      {name:'Seated Cable Row',sets:3,reps:12,weight:'35 kg',rpe:7,rest:'75s',swap:'DB Row (single arm)',swapW:'16 kg DB'},
+      {name:'Incline DB Curl',sets:3,reps:12,weight:'9 kg DBs',rpe:7,rest:'60s',swap:'Incline DB Curl',swapW:'9 kg DBs'},
+      {name:'Face Pull (cable)',sets:3,reps:15,weight:'12.5 kg',rpe:7,rest:'45s',swap:'Rear Delt Fly (DB)',swapW:'8 kg DBs'},
+    ]},
+    {id:'off4',name:'Day 4 — Lower Post.',tag:'OFF-SITE',desc:'Posterior Chain',dur:'60+ min',type:'offsite',b1:'4x6 @RPE7-8',b2:'4x5 @RPE8',b3:'4x4 @RPE9',exercises:[
+      {name:'Conventional Deadlift',sets:4,reps:6,weight:'60 kg',rpe:8,rest:'120s',swap:'Romanian Deadlift (DB)',swapW:'20 kg DBs'},
+      {name:'Romanian Deadlift',sets:3,reps:10,weight:'50 kg',rpe:7,rest:'90s',swap:'Romanian Deadlift (DB)',swapW:'20 kg DBs'},
+      {name:'Hip Thrust (barbell)',sets:3,reps:12,weight:'50 kg',rpe:7,rest:'90s',swap:'Glute Bridge (DB)',swapW:'30 kg DB'},
+      {name:'Leg Curl (seated)',sets:3,reps:15,weight:'25 kg',rpe:7,rest:'60s',swap:'Romanian Deadlift (DB)',swapW:'15 kg DBs'},
+      {name:'Nordic Curl',sets:3,reps:8,weight:'BW',rpe:7,rest:'90s',swap:'Leg Curl (lying DB)',swapW:'Light DB'},
+    ]},
+    {id:'off5',name:'Day 5 — Arms + Core',tag:'OFF-SITE',desc:'Arms & Conditioning',dur:'60+ min',type:'offsite',b1:'3x10-12 @RPE7',b2:'4x8 @RPE8',b3:'4x6 @RPE8',exercises:[
+      {name:'Close Grip Bench Press',sets:3,reps:10,weight:'35 kg',rpe:7,rest:'90s',swap:'DB Floor Press (CG)',swapW:'14 kg DBs'},
+      {name:'Skull Crushers',sets:3,reps:12,weight:'20 kg',rpe:7,rest:'75s',swap:'OH Tricep Ext (DB)',swapW:'14 kg DB'},
+      {name:'Barbell Curl',sets:3,reps:10,weight:'25 kg',rpe:7,rest:'75s',swap:'DB Curl',swapW:'10 kg DBs'},
+      {name:'Cable Curl',sets:3,reps:12,weight:'12.5 kg',rpe:7,rest:'60s',swap:'Incline DB Curl',swapW:'9 kg DBs'},
+      {name:'Cable Crunch',sets:3,reps:15,weight:'20 kg',rpe:7,rest:'60s',swap:'Weighted Crunch',swapW:'10 kg plate'},
+      {name:'Hanging Leg Raise',sets:3,reps:12,weight:'BW',rpe:7,rest:'60s',swap:'Lying Leg Raise',swapW:'BW'},
+      {name:'Ab Wheel',sets:3,reps:10,weight:'BW',rpe:8,rest:'60s',swap:'Plank',swapW:'60 sec'},
+    ]},
+  ]
+};
+
+/* working weights come live from the main app's storage */
+var liveWeights = {};
+try { liveWeights = JSON.parse(localStorage.getItem('jt_weights') || '{}'); } catch(e) {}
+
+var curProg = 'onsite';
+function renderProgramme(){
+  var days = (typeof PROGRAMME !== 'undefined' && PROGRAMME[curProg]) ? PROGRAMME[curProg] : [];
+  document.getElementById('progList').innerHTML = days.map(function(day, di){
+    var letter = (day.name.match(/Day\s+(\S+)/i)||[])[1] || (di+1);
+    var title = day.name.replace(/^Day\s+\S+\s*[—–-]\s*/i,'');
+    var prev = day.exercises.slice(0,3).map(function(e){return e.name;}).join(' · ');
+    var more = day.exercises.length>3 ? ' +'+(day.exercises.length-3)+' more' : '';
+    return '<div class="pcard" id="pc-'+di+'">' +
+      '<div class="pcard-hd" onclick="document.getElementById(\'pc-'+di+'\').classList.toggle(\'open\')">' +
+        '<div class="pbadge">'+esc(letter)+'</div>' +
+        '<div class="pmain"><div class="ptitle">'+esc(title)+'</div><div class="psub">'+esc(day.desc||'')+'</div>' +
+        '<div class="pmeta">'+day.exercises.length+' exercises · '+esc(prev)+more+'</div></div>' +
+        '<span class="pchev">▾</span>' +
+      '</div>' +
+      '<div class="pbody">' + '<button class="go" style="background:var(--grad);color:#fff;margin:8px 0 10px;box-shadow:0 8px 24px rgba(168,85,247,.3)" onclick="startDay(\''+curProg+'\','+di+')">Start this session</button>' + day.exercises.map(function(ex){
+        var w = liveWeights[ex.name] || ex.weight || '—';
+        return '<div class="pex"><div><div class="nm">'+esc(ex.name)+'</div>' +
+          '<div class="dt">'+esc(ex.sets)+'×'+esc(ex.reps)+' · RPE '+esc(ex.rpe)+' · '+esc(ex.rest)+'</div>' +
+          (ex.swap ? '<div class="alt">Alt: '+esc(ex.swap)+'</div>' : '') +
+          '</div><div class="pwt">'+esc(w)+'</div></div>';
+      }).join('') + '<button class="pstart" onclick="startSessionFromProg(curProg,'+di+')">Start this session</button></div>' +
+    '</div>';
+  }).join('');
+}
+document.querySelectorAll('.seg-btn').forEach(function(b){
+  b.addEventListener('click', function(){
+    document.querySelectorAll('.seg-btn').forEach(function(x){x.classList.remove('active');});
+    b.classList.add('active');
+    curProg = b.dataset.p;
+    renderProgramme();
+  });
+});
+renderProgramme();
+
+/* === WORKOUT FLOW (writes the same storage as the main app) === */
+function todayStr(){ return new Date().toLocaleDateString('en-AU').split('/').map(function(x){return x.padStart(2,'0');}).join('/'); }
+var progressionLog = {};
+try { progressionLog = JSON.parse(localStorage.getItem('jt_progression')||'{}'); } catch(e) {}
+
+function getDirective(exName, targetReps){
+  var hist = progressionLog[exName] || [];
+  var isLower = ['Squat','Deadlift','Hip Thrust','Leg Press','Romanian'].some(function(k){return exName.indexOf(k)>-1;});
+  var inc = isLower ? 5 : 2.5;
+  var top = parseInt(targetReps)||8, bottom = top>6 ? Math.max(5,top-4) : top;
+  if(!hist.length) return {label:'Calibrate — log to start tracking', reps:top};
+  var last = hist[hist.length-1], lastW = parseFloat(last.weight), lastReps = parseInt(last.reps)||0, lastRpe = parseFloat(last.rpe)||0;
+  var last3 = hist.slice(-3);
+  if(last3.length===3 && last3.every(function(x){return parseInt(x.reps)<(parseInt(x.targetReps)||top) && parseFloat(x.weight)===parseFloat(last3[0].weight);}))
+    return {label:'Deload — stalled 3x. Drop to '+(Math.round(lastW*0.875/2.5)*2.5)+'kg', reps:bottom};
+  if(lastReps >= top){
+    if(lastRpe >= 10) return {label:'Repeat '+lastW+'kg — top of range at max effort', reps:top};
+    return {label:'Up to '+(lastW+inc)+'kg - reset to '+bottom+' reps', reps:bottom};
+  }
+  return {label:'Same weight - aim '+Math.min(top,lastReps+1)+' reps', reps:Math.min(top,lastReps+1)};
+}
+function recordProgression(exName, weight, reps, targetReps, rpe){
+  if(!progressionLog[exName]) progressionLog[exName]=[];
+  progressionLog[exName].push({date:todayStr(),weight:String(weight),reps:String(reps),targetReps:String(targetReps),allHit:parseInt(reps)>=parseInt(targetReps),rpe:(rpe!=null&&!isNaN(parseFloat(rpe)))?String(parseFloat(rpe).toFixed(1)):''});
+  if(progressionLog[exName].length>12) progressionLog[exName]=progressionLog[exName].slice(-12);
+  localStorage.setItem('jt_progression', JSON.stringify(progressionLog));
+}
+
+var WO = null, woTick = null, restTick = null;
+
+function startSessionFromProg(type, di){
+  var day = PROGRAMME[type][di];
+  WO = { name: day.name, started: Date.now(), exercises: day.exercises.map(function(ex){
+    var w = liveWeights[ex.name] || ex.weight || '';
+    var d = getDirective(ex.name, ex.reps);
+    var n = parseInt(ex.sets)||3, sets=[];
+    for(var i=0;i<n;i++) sets.push({reps:String(d.reps||ex.reps), weight:String(w).replace(/[^0-9.]/g,'')||'', rpe:'', completed:false});
+    return { name: ex.name, targetReps: ex.reps, directive: d.label, sets: sets };
+  })};
+  document.getElementById('woTitle').textContent = day.name;
+  document.getElementById('woNotes').value = '';
+  renderWO();
+  showScr('workout');
+  clearInterval(woTick);
+  woTick = setInterval(function(){
+    var s = Math.floor((Date.now()-WO.started)/1000);
+    document.getElementById('woTimer').textContent = Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+  }, 1000);
+}
+function showScr(id){
+  document.querySelectorAll('.scr').forEach(function(x){x.classList.remove('on');});
+  document.getElementById('s-'+id).classList.add('on');
+  window.scrollTo(0,0);
+}
+function renderWO(){
+  var total=0, done=0;
+  WO.exercises.forEach(function(e){ total+=e.sets.length; done+=e.sets.filter(function(s){return s.completed;}).length; });
+  document.getElementById('woSub').textContent = done+' / '+total+' sets · '+WO.exercises.length+' exercises';
+  document.getElementById('woBar').style.width = (total?Math.round(done/total*100):0)+'%';
+  document.getElementById('woList').innerHTML = WO.exercises.map(function(ex, ei){
+    return '<div class="wcard"><div class="nm">'+esc(ex.name)+'</div>' +
+      '<div class="tg">'+ex.sets.length+' sets x '+esc(ex.targetReps)+' target</div>' +
+      '<div class="dir">'+esc(ex.directive)+'</div>' +
+      ex.sets.map(function(s, si){
+        return '<div class="srow'+(s.completed?' done':'')+'">' +
+          '<div class="snum">'+(si+1)+'</div>' +
+          '<input class="sin" inputmode="decimal" value="'+esc(s.reps)+'" placeholder="reps" onchange="WO.exercises['+ei+'].sets['+si+'].reps=this.value">' +
+          '<input class="sin" inputmode="decimal" value="'+esc(s.weight)+'" placeholder="kg" onchange="WO.exercises['+ei+'].sets['+si+'].weight=this.value">' +
+          '<input class="sin rpe" inputmode="decimal" value="'+esc(s.rpe)+'" placeholder="RPE" onchange="WO.exercises['+ei+'].sets['+si+'].rpe=this.value">' +
+          '<button class="stick" onclick="tickWO('+ei+','+si+')">'+(s.completed?'\u2713':'\u25CB')+'</button>' +
+        '</div>' +
+        '<button class="scoach" onclick="openCoach('+ei+','+si+')">Coach this set \u2192</button>';
+      }).join('') +
+      '<button class="addset" onclick="addSetWO('+ei+')">+ Set</button>' +
+    '</div>';
+  }).join('');
+}
+function tickWO(ei,si){
+  var s = WO.exercises[ei].sets[si];
+  s.completed = !s.completed;
+  renderWO();
+  if(s.completed){
+    clearInterval(restTick);
+    var left = 90, chip = document.getElementById('restChip');
+    chip.classList.add('on');
+    chip.textContent = 'Rest 1:30';
+    restTick = setInterval(function(){
+      left--;
+      if(left<=0){ chip.classList.remove('on'); clearInterval(restTick); return; }
+      chip.textContent = 'Rest '+Math.floor(left/60)+':'+String(left%60).padStart(2,'0');
+    },1000);
+  }
+}
+function addSetWO(ei){
+  var sets = WO.exercises[ei].sets, last = sets[sets.length-1];
+  sets.push({reps:last?last.reps:'8', weight:last?last.weight:'', rpe:'', completed:false});
+  renderWO();
+}
+function cancelWO(){
+  if(confirm('Discard this session? Nothing will be saved.')){
+    clearInterval(woTick); clearInterval(restTick);
+    document.getElementById('restChip').classList.remove('on');
+    WO=null; showScr('train');
+    document.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('active', t.dataset.s==='train');});
+  }
+}
+function finishWO(){
+  if(!WO) return;
+  var mins = Math.max(1, Math.round((Date.now()-WO.started)/60000));
+  var entry = { date: todayStr(), name: WO.name, duration: mins,
+    notes: document.getElementById('woNotes').value || '',
+    exercises: WO.exercises.map(function(e){ return { name:e.name, targetReps:e.targetReps, sets:e.sets }; }) };
+  sessions.unshift(entry);
+  localStorage.setItem('jt_sessions', JSON.stringify(sessions));
+  WO.exercises.forEach(function(e){
+    var done = e.sets.filter(function(s){return s.completed;});
+    if(!done.length) return;
+    var avgR = Math.round(done.reduce(function(a,s){return a+(parseInt(s.reps)||0);},0)/done.length);
+    var avgW = done.reduce(function(a,s){return a+(parseFloat(s.weight)||0);},0)/done.length;
+    var rs = done.filter(function(s){return s.rpe!=='' && !isNaN(parseFloat(s.rpe));});
+    var avgRpe = rs.length ? rs.reduce(function(a,s){return a+parseFloat(s.rpe);},0)/rs.length : null;
+    if(avgW>0) recordProgression(e.name, avgW.toFixed(1), avgR, e.targetReps, avgRpe);
+  });
+  clearInterval(woTick); clearInterval(restTick);
+  document.getElementById('restChip').classList.remove('on');
+  WO=null;
+  location.reload();
+}
+
+/* === COACH (same Netlify function as the main app) === */
+var COACH_PERSONA = "You are a personal trainer AI built specifically for Jaidyn. Direct, knowledgeable, evidence-based. No fluff. ATHLETE: intermediate ~2 years; goals hypertrophy, strength, fat loss, general fitness (upper-body priority); 4-5 days/week at home (commercial gym), 3 days/week on site (FIFO, limited gym; on site = NO leg work, ~30 min sessions, offer dumbbell alternatives). Very deconditioned start, low VO2 max, dyspraxia: prefer machines and simple stable movements, form before load, never ego-load. LIVE DATA: working weights, this session's sets, and recent history arrive in CONTEXT with each message - source of truth; never ask for numbers already provided; weights are working weights NOT 1RMs; no percentage math. RULES: RPE 7-8 hypertrophy, 8-9 strength. Double progression: reps to top of range first; add load only after top at target RPE 2 consecutive sessions; upper +2.5kg, lower +5kg, accessories reps first. Deload every 4-6 weeks or on stall. Conditioning: 1-2 short zone-2 sessions weekly, never before lifting. SAFETY: sharp or joint pain = stop the movement, substitute, flag it, never train through pain; persistent pain = see a professional. RESPOND: in-set coaching is the primary mode - 2-4 sentences, lead with the call for the next set (add a rep / hold / drop X kg / rest longer), one cue max, no emojis.";
+var cMsgs = [], cEx = null, cSet = null;
+function openCoach(ei, si){
+  cEx = ei; cSet = si; cMsgs = [];
+  var ex = WO.exercises[ei];
+  document.getElementById('cSub').textContent = 'Set '+(si+1)+' \u00B7 '+ex.name;
+  renderCLog();
+  document.getElementById('cov').classList.add('on');
+  setTimeout(function(){ document.getElementById('cIn').focus(); }, 120);
+}
+function closeCoach(){ document.getElementById('cov').classList.remove('on'); }
+function renderCLog(){
+  var el = document.getElementById('cLog');
+  if(!cMsgs.length){ el.innerHTML = '<div class="cempty">Tell me how that set felt and I will tell you what to do next.</div>'; return; }
+  el.innerHTML = cMsgs.map(function(m){ return '<div class="cb '+(m.r==='u'?'u':'a')+'">'+esc(m.t)+'</div>'; }).join('');
+  el.scrollTop = el.scrollHeight;
+}
+function coachCtx(){
+  var ex = WO.exercises[cEx], s = ex.sets[cSet], lines = [];
+  lines.push('CURRENT EXERCISE: '+ex.name+' - target '+ex.targetReps+' reps');
+  lines.push('ASKING ABOUT SET '+(cSet+1)+': '+(s.reps||'?')+' reps x '+(s.weight||'?')+'kg'+(s.rpe?' @ RPE '+s.rpe:' (no RPE logged)'));
+  var done = ex.sets.filter(function(x){return x.completed;});
+  if(done.length) lines.push('Sets so far: '+done.map(function(x){return x.reps+'x'+x.weight+'kg'+(x.rpe?'@'+x.rpe:'');}).join(', '));
+  var hist = progressionLog[ex.name]||[];
+  if(hist.length){ var L=hist[hist.length-1]; lines.push('Last session on this exercise: '+L.reps+' reps @ '+L.weight+'kg'+(L.rpe?' RPE '+L.rpe:'')); }
+  return lines.join('\n');
+}
+async function coachSend(){
+  var inp = document.getElementById('cIn');
+  var t = (inp.value||'').trim(); if(!t) return;
+  inp.value='';
+  cMsgs.push({r:'u',t:t}); cMsgs.push({r:'a',t:'\u2026'}); renderCLog();
+  try{
+    var payload = cMsgs.filter(function(m){return m.t!=='\u2026';}).map(function(m){return {role:m.r==='u'?'user':'assistant',content:m.t};});
+    var r = await fetch('/.netlify/functions/coach',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1024,system:COACH_PERSONA+'\n\nCONTEXT (live):\n'+coachCtx(),messages:payload})});
+    var d = null; try{ d = await r.json(); }catch(_e){}
+    cMsgs.pop();
+    var rep = (d&&Array.isArray(d.content))?d.content.map(function(b){return b.type==='text'?b.text:'';}).filter(Boolean).join('\n').trim():'';
+    cMsgs.push({r:'a',t:rep||('Coach error: '+((d&&d.error&&(d.error.message||JSON.stringify(d.error)))||('HTTP '+r.status)))});
+  }catch(e){
+    cMsgs.pop(); cMsgs.push({r:'a',t:'Could not reach the coach - check connection.'});
+  }
+  renderCLog();
+}
+
+/* hero start routes into Train tab */
+document.getElementById('heroGo').addEventListener('click', function(ev){
+  ev.preventDefault();
+  document.querySelector('.tab[data-s="train"]').click();
+});
+
+
+/* ── WORKOUT ENGINE (writes the same storage as the main app) ── */
+var COACH_PERSONA = "You are a personal trainer AI built specifically for Jaidyn. Direct, knowledgeable, evidence-based. No fluff. Athlete: intermediate ~2yr; goals hypertrophy/strength/fat loss/fitness, upper-body priority; 4-5d/wk home, 3d/wk FIFO site (site = NO legs, ~30min, offer dumbbell alternates); very deconditioned, low VO2 max, dyspraxia: prefer machines and simple stable movements, form before load, never ego-load. LIVE DATA: working weights, current sets, last performance and recent sessions arrive in CONTEXT each message - source of truth; never ask for provided numbers; weights are working weights NOT 1RMs; no percentage math. RULES: RPE 7-8 hypertrophy, 8-9 strength. Double progression: reps to top of range first; add load only after top at target RPE 2 consecutive sessions; +2.5kg upper compounds, +5kg lower, accessories reps first, smallest jump on DBs/machines. Deload every 4-6wk or on stall/fatigue. 1-2 short zone-2 sessions weekly for VO2, never before lifting. SAFETY: sharp/joint pain = stop movement, substitute, flag; persistent pain = see a professional; never train through pain. RESPOND: in-set coaching = 2-4 sentences, lead with the call for the next set (add a rep / hold / drop X kg / rest longer), one cue max, no emojis. Programming = table with weights/sets/reps/RPE from CONTEXT.";
+
+var active = null, woTimer = null, restTimer = null;
+try { active = JSON.parse(localStorage.getItem('jt2_active') || 'null'); } catch(e) {}
+
+var progLog = {};
+try { progLog = JSON.parse(localStorage.getItem('jt_progression') || '{}'); } catch(e) {}
+
+function saveActive(){ localStorage.setItem('jt2_active', JSON.stringify(active)); }
+
+function startDay(type, di){
+  var day = PROGRAMME[type][di];
+  active = {
+    name: day.name, startTime: Date.now(),
+    exercises: day.exercises.map(function(ex){
+      var w = liveWeights[ex.name] || ex.weight || '';
+      var n = parseInt(ex.sets) || 3;
+      var sets = [];
+      for (var i=0;i<n;i++) sets.push({reps:String(ex.reps), weight:String(w), rpe:'', completed:false});
+      return { name: ex.name, swap: ex.swap||'', usingSwap:false, targetReps: ex.reps, targetSets: ex.sets, rpe: ex.rpe, sets: sets };
+    })
+  };
+  saveActive();
+  showWorkout();
+}
+
+function startFromHero(){
+  var want = document.getElementById('heroTitle').textContent.toLowerCase();
+  var hit = null;
+  ['onsite','offsite'].forEach(function(t){
+    (PROGRAMME[t]||[]).forEach(function(d,i){
+      if(!hit && (d.name.toLowerCase()===want || want.indexOf(d.name.toLowerCase())>-1 || d.name.toLowerCase().indexOf(want)>-1)) hit={t:t,i:i};
+    });
+  });
+  if (hit) startDay(hit.t, hit.i);
+  else document.querySelector('.tab[data-s="train"]').click();
+}
+
+function showWorkout(){
+  document.querySelectorAll('.scr').forEach(function(x){x.classList.remove('on');});
+  document.getElementById('s-workout').classList.add('on');
+  renderWorkout();
+  if (woTimer) clearInterval(woTimer);
+  woTimer = setInterval(tickClock, 1000);
+  tickClock();
+  window.scrollTo(0,0);
+}
+
+function tickClock(){
+  if(!active){ clearInterval(woTimer); return; }
+  var s = Math.floor((Date.now()-active.startTime)/1000);
+  document.getElementById('woClock').textContent = Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+}
+
+function renderWorkout(){
+  if(!active) return;
+  document.getElementById('woName').textContent = active.name;
+  var done=0, total=0;
+  var html = active.exercises.map(function(ex, ei){
+    total += ex.sets.length;
+    var rows = ex.sets.map(function(st, si){
+      if (st.completed) done++;
+      return '<div class="wrow'+(st.completed?' done':'')+'">' +
+        '<div class="wn">'+(si+1)+'</div>' +
+        '<input class="winp" type="number" inputmode="numeric" value="'+esc(st.reps)+'" onchange="upSet('+ei+','+si+',\'reps\',this.value)">' +
+        '<input class="winp" type="number" inputmode="decimal" step="0.5" value="'+esc(st.weight)+'" onchange="upSet('+ei+','+si+',\'weight\',this.value)">' +
+        '<input class="winp" type="number" inputmode="decimal" step="0.5" placeholder="RPE" value="'+esc(st.rpe)+'" onchange="upSet('+ei+','+si+',\'rpe\',this.value)">' +
+        '<button class="wtick" onclick="tickV2('+ei+','+si+')">'+(st.completed?'&#10003;':'&#9675;')+'</button>' +
+      '</div>' +
+      '<button class="wcoach" onclick="openCoach('+ei+','+si+')">Coach this set &rarr;</button>';
+    }).join('');
+    var dispName = ex.usingSwap && ex.swap ? ex.swap : ex.name;
+    var wus = warmupsFor(dispName, (ex.sets[0]&&ex.sets[0].weight)||0);
+    var wuHtml = wus.length ? '<div class="wu-strip"><div class="k">Warm-up · do not log</div>' + wus.map(function(u,ui){ return '<div class="r"><span>Set '+(ui+1)+'</span><b>'+u.reps+' &times; '+u.w+' kg</b></div>'; }).join('') + '</div>' : '';
+    var swapBtn = ex.swap ? '<button class="wswap'+(ex.usingSwap?' on':'')+'" onclick="swapEx('+ei+')">&#8644;</button>' : '';
+    return '<div class="wex">' + swapBtn + '<div class="wex-nm">'+esc(dispName)+'</div>' +
+      '<div class="wex-dt">'+esc(ex.targetSets)+' &times; '+esc(ex.targetReps)+(ex.rpe?' &middot; RPE '+esc(ex.rpe):'')+'</div>' +
+      wuHtml + '<div class="whead-row"><span></span><span>Reps</span><span>Weight</span><span>RPE</span><span></span></div>' + rows + '</div>';
+  }).join('');
+  document.getElementById('woList').innerHTML = html;
+  document.getElementById('woSub').textContent = done + '/' + total + ' sets';
+  document.getElementById('woBar').style.width = Math.round(done/Math.max(total,1)*100) + '%';
+}
+
+
+function swapEx(ei){
+  var ex = active.exercises[ei];
+  ex.usingSwap = !ex.usingSwap;
+  var nm = ex.usingSwap && ex.swap ? ex.swap : ex.name;
+  var w = liveWeights[nm];
+  if (w) ex.sets.forEach(function(s){ if(!s.completed) s.weight = String(w); });
+  saveActive(); renderWorkout();
+}
+
+function upSet(ei, si, k, v){ active.exercises[ei].sets[si][k] = v; saveActive(); }
+
+function tickV2(ei, si){
+  var st = active.exercises[ei].sets[si];
+  st.completed = !st.completed;
+  saveActive(); renderWorkout();
+  if (st.completed) startRest(prefs.rest || 90);
+}
+
+function startRest(sec){
+  var chip = document.getElementById('restChip');
+  var end = Date.now() + sec*1000;
+  chip.classList.add('on');
+  if (restTimer) clearInterval(restTimer);
+  restTimer = setInterval(function(){
+    var left = Math.ceil((end - Date.now())/1000);
+    if (left <= 0){ clearInterval(restTimer); chip.classList.remove('on'); return; }
+    chip.textContent = 'Rest ' + Math.floor(left/60) + ':' + String(left%60).padStart(2,'0');
+  }, 250);
+  chip.onclick = function(){ clearInterval(restTimer); chip.classList.remove('on'); };
+}
+
+function finishWorkout(){
+  if(!active) return;
+  active.notes = document.getElementById('woNotes').value || '';
+  active.endTime = Date.now();
+  active.duration = Math.round((active.endTime - active.startTime)/60000);
+  active.date = new Date().toLocaleDateString('en-AU');
+  sessions.unshift(active);
+  localStorage.setItem('jt_sessions', JSON.stringify(sessions));
+  /* record progression per exercise, same shape as the main app */
+  try {
+    active.exercises.forEach(function(ex){
+      var exName = ex.usingSwap && ex.swap ? ex.swap : ex.name;
+      var d = ex.sets.filter(function(s){return s.completed;});
+      if(!d.length) return;
+      var avgR = Math.round(d.reduce(function(a,s){return a+(parseInt(s.reps)||0);},0)/d.length);
+      var avgW = d.reduce(function(a,s){return a+(parseFloat(s.weight)||0);},0)/d.length;
+      var rp = d.filter(function(s){return s.rpe!=='' && !isNaN(parseFloat(s.rpe));});
+      var avgRpe = rp.length ? rp.reduce(function(a,s){return a+parseFloat(s.rpe);},0)/rp.length : null;
+      if (avgW <= 0) return;
+      if (!progLog[exName]) progLog[exName] = [];
+      progLog[exName].push({
+        date: active.date, weight: avgW.toFixed(1), reps: String(avgR),
+        targetReps: String(ex.targetReps||8),
+        allHit: avgR >= (parseInt(ex.targetReps)||8),
+        rpe: (avgRpe!=null) ? avgRpe.toFixed(1) : ''
+      });
+      if (progLog[exName].length > 12) progLog[exName] = progLog[exName].slice(-12);
+    });
+    localStorage.setItem('jt_progression', JSON.stringify(progLog));
+  } catch(e) {}
+  active = null;
+  localStorage.removeItem('jt2_active');
+  if (woTimer) clearInterval(woTimer);
+  location.reload();
+}
+
+/* ── COACH (per set) ── */
+var cMsgs = [], cEx = null, cSi = null;
+function openCoach(ei, si){
+  cEx = ei; cSi = si; cMsgs = [];
+  var ex = active.exercises[ei];
+  document.getElementById('cTitle').textContent = 'Set ' + (si+1) + ' · ' + (ex.usingSwap && ex.swap ? ex.swap : ex.name);
+  document.getElementById('csheet').classList.add('on');
+  renderClog();
+  setTimeout(function(){ var i=document.getElementById('cinput'); if(i) i.focus(); }, 150);
+}
+function closeCoach(){ document.getElementById('csheet').classList.remove('on'); }
+function renderClog(){
+  var el = document.getElementById('clog');
+  if (!cMsgs.length){ el.innerHTML = '<div class="cempty">Tell me how that set felt and I will call the next one.</div>'; return; }
+  el.innerHTML = cMsgs.map(function(m){ return '<div class="cmsg '+(m.r==='u'?'u':'a')+'">'+esc(m.t)+'</div>'; }).join('');
+  el.scrollTop = el.scrollHeight;
+}
+function coachContext(){
+  var ex = active.exercises[cEx], st = ex.sets[cSi], L = [];
+  var cNm = ex.usingSwap && ex.swap ? ex.swap : ex.name;
+  L.push('CURRENT EXERCISE: ' + cNm);
+  L.push('Target: ' + ex.targetSets + 'x' + ex.targetReps + (ex.rpe ? ' @ RPE ' + ex.rpe : ''));
+  L.push('ASKING ABOUT SET ' + (cSi+1) + ': ' + (st.reps||'?') + ' reps x ' + (st.weight||'?') + 'kg' + (st.rpe ? ' @ RPE ' + st.rpe : ' (no RPE logged)'));
+  var d = ex.sets.filter(function(s){return s.completed;});
+  if (d.length) L.push('Sets this session: ' + d.map(function(s){return s.reps+'x'+s.weight+'kg'+(s.rpe?' @'+s.rpe:'');}).join(', '));
+  var h = progLog[cNm] || [];
+  if (h.length){ var p = h[h.length-1]; L.push('Last time: ' + p.reps + ' reps @ ' + p.weight + 'kg' + (p.rpe ? ' RPE ' + p.rpe : '')); }
+  var mains = Object.keys(progLog).slice(0,14).map(function(k){ var hh=progLog[k]; return hh&&hh.length ? k+': '+hh[hh.length-1].weight+'kg' : null; }).filter(Boolean);
+  if (mains.length) L.push('Working weights - ' + mains.join('; '));
+  return L.join('\n');
+}
+async function coachSend(){
+  var inp = document.getElementById('cinput');
+  var t = (inp.value||'').trim();
+  if (!t) return;
+  inp.value = '';
+  cMsgs.push({r:'u', t:t});
+  cMsgs.push({r:'a', t:'…'});
+  renderClog();
+  try {
+    var payload = cMsgs.filter(function(m){return m.t!=='…';}).map(function(m){ return {role: m.r==='u'?'user':'assistant', content: m.t}; });
+    var r = await fetch('/.netlify/functions/coach', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ model:'claude-sonnet-4-6', max_tokens:1024, system: COACH_PERSONA + '\n\nCONTEXT (live):\n' + coachContext(), messages: payload })
+    });
+    var data = null; try { data = await r.json(); } catch(e){}
+    cMsgs.pop();
+    var reply = (data && Array.isArray(data.content)) ? data.content.map(function(b){return b.type==='text'?b.text:'';}).filter(Boolean).join('\n').trim() : '';
+    if (reply) cMsgs.push({r:'a', t:reply});
+    else cMsgs.push({r:'a', t:'Coach error: ' + ((data&&data.error&&(data.error.message||JSON.stringify(data.error)))||('HTTP '+r.status))});
+  } catch(e) {
+    cMsgs.pop();
+    cMsgs.push({r:'a', t:'Could not reach the coach - check connection.'});
+  }
+  renderClog();
+}
+
+const CUES = {
+  "Machine Chest Press": {"setup": "Sit with back flat against pad. Set seat so handles are at mid-chest height. Grip slightly wider than shoulder width.", "movement": "Push handles forward until arms are almost extended \u2014 do not lock out. Control the weight back slowly, feeling a stretch across the chest.", "feel": "You should feel your chest doing the work. If your shoulders are taking over, drop the weight.", "mistakes": "Flaring elbows too wide, bouncing the weight off the stack, not controlling the return.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "You should feel your chest doing the work. If your shoulders are taking over, drop the weight."},
+  "Incline DB Press": {"setup": "Set bench to 30\u201345 degrees. Lie back with DBs at shoulder level, elbows at about 45 degrees from your body.", "movement": "Press the DBs up and slightly inward so they almost touch at the top. Lower slowly to the starting position.", "feel": "Upper chest and front shoulder. If you only feel front shoulder, the bench angle is too steep.", "mistakes": "Bench too upright (turns it into a shoulder press), letting the DBs drift back behind you.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Upper chest and front shoulder. If you only feel front shoulder, the bench angle is too steep."},
+  "Seated Machine Press": {"setup": "Adjust seat so handles are at shoulder height. Grip handles with palms facing forward.", "movement": "Press overhead until arms are nearly extended. Lower slowly and under control.", "feel": "Shoulders and upper chest. Keep core braced throughout.", "mistakes": "Arching the lower back excessively, pressing with a forward head position.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Shoulders and upper chest. Keep core braced throughout."},
+  "Lateral Raise (DB)": {"setup": "Stand or sit, DBs at sides. Slight bend in elbow throughout.", "movement": "Raise DBs out to the sides until arms are parallel to the floor. Pause. Lower slowly over 3 seconds.", "feel": "The side of your shoulder (lateral deltoid). If you feel front shoulder, you are raising too far forward.", "mistakes": "Using momentum, shrugging the traps, raising above shoulder height, going too heavy.", "movementCues": ["Lead with elbows \u2014 not hands", "Pinky side slightly higher at top", "Raise to shoulder level only", "Slight forward lean from the hips", "3-second descent \u2014 the slow eccentric is the stimulus"], "mindMuscleCue": "Side deltoid works hardest at the top. If traps take over, reduce the weight immediately."},
+  "Tricep Pushdown": {"setup": "Stand facing cable machine. Rope or bar attachment at chest height. Elbows pinned to sides throughout.", "movement": "Push the attachment down until arms are fully extended. Squeeze triceps at the bottom. Return slowly.", "feel": "The back of your upper arm (triceps). Elbows must not move.", "mistakes": "Letting elbows flare out, leaning forward and using bodyweight, not getting full extension.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "The back of your upper arm (triceps). Elbows must not move."},
+  "OH Tricep Ext (DB)": {"setup": "Hold one DB with both hands overhead. Sit or stand with core braced.", "movement": "Lower the DB behind your head by bending elbows. Keep upper arms still and pointing up. Press back to start.", "feel": "Long head of triceps \u2014 the biggest part. You will feel a deep stretch at the bottom.", "mistakes": "Upper arms drifting forward, using too much weight and losing control.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Long head of triceps \u2014 the biggest part. You will feel a deep stretch at the bottom."},
+  "Lat Pulldown (bar)": {"setup": "Sit with thighs under the pad. Grip bar wider than shoulder width, overhand grip. Slight lean back from hips.", "movement": "Pull bar to upper chest while driving elbows down and back. Squeeze lats at the bottom. Control the return.", "feel": "Your lats \u2014 the large muscles under your armpits. Imagine driving your elbows into your back pockets.", "mistakes": "Using too much momentum, pulling behind the neck, not getting full stretch at the top.", "movementCues": ["Grip wider than shoulder width", "Lean back 15-20 degrees only", "Pull bar to upper chest \u2014 never behind neck", "Drive elbows down toward your hips", "Full dead hang at the top \u2014 every rep"], "mindMuscleCue": "Think about putting your shoulder blades in your back pockets. Arms are just hooks. Lats do all the work."},
+  "Seated Cable Row": {"setup": "Sit upright with feet on platform, slight knee bend. Grip handle, back neutral.", "movement": "Pull handle to lower ribcage while squeezing shoulder blades together. Hold briefly. Return with control.", "feel": "Mid-back and lats. Keep chest up throughout. Do not round forward on the return.", "mistakes": "Rounding the back on the return, using hips to swing, pulling to the belly instead of ribs.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Mid-back and lats. Keep chest up throughout. Do not round forward on the return."},
+  "Machine Row": {"setup": "Sit facing the machine, chest against the pad. Grip handles.", "movement": "Pull handles back until elbows are behind your torso. Squeeze shoulder blades. Return with control.", "feel": "Mid-back. The chest pad helps isolate the back and remove lower back fatigue.", "mistakes": "Shrugging the traps, not getting full range of motion, rushing the return.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Mid-back. The chest pad helps isolate the back and remove lower back fatigue."},
+  "Face Pull (cable)": {"setup": "Cable at face height with rope attachment. Step back so cable is taut. Grip rope with thumbs pointing back.", "movement": "Pull rope to your face, separating the ends so your hands go to either side of your head. Elbows stay high.", "feel": "Rear deltoids and external rotators. Critical for shoulder health. Go light and feel the muscle.", "mistakes": "Pulling too heavy, not separating the rope at the end, elbows dropping below shoulder height.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Rear deltoids and external rotators. Critical for shoulder health. Go light and feel the muscle."},
+  "Dumbbell Curl": {"setup": "Stand with DBs at sides, palms facing forward. Keep elbows pinned to your sides throughout.", "movement": "Curl the DBs up by bending at the elbow. Squeeze at the top. Lower slowly over 3 seconds.", "feel": "Biceps. Do not let your elbows swing forward \u2014 keep them still.", "mistakes": "Swinging the body, letting elbows drift forward, not controlling the descent.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Biceps. Do not let your elbows swing forward \u2014 keep them still."},
+  "DB Bench Press": {"setup": "Lie flat. DBs start at chest level with elbows at 45 degrees from your body, not flared straight out.", "movement": "Press DBs up and slightly inward. Do not lock out. Lower slowly, feeling a stretch in the chest.", "feel": "Chest and front shoulder. Use a full range \u2014 get a proper stretch at the bottom.", "mistakes": "Elbows too wide or too narrow, bouncing off the chest, not controlling the descent.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Chest and front shoulder. Use a full range \u2014 get a proper stretch at the bottom."},
+  "DB Row": {"setup": "Plant one hand and knee on bench. Back parallel to floor. DB hanging straight down.", "movement": "Row the DB to your hip, driving elbow up and back. Shoulder blade retracts at the top. Lower with control.", "feel": "Lat on that side. Think about driving your elbow to the ceiling, not lifting your hand.", "mistakes": "Rotating the torso too much, pulling toward the chest instead of the hip, rushing.", "movementCues": ["Start with a full stretch \u2014 dumbbell hanging", "Drive elbow back toward your hip", "No torso rotation", "Pause at the top", "Lower to full stretch every rep"], "mindMuscleCue": "Full lat stretch at the bottom. Strong contraction at the top. If you feel bicep more than back, your grip is too tight."},
+  "DB OHP": {"setup": "Sit or stand. DBs at shoulder height, elbows at 90 degrees and slightly in front of your ears.", "movement": "Press DBs overhead until arms are nearly extended. Bring them slightly together at the top. Lower with control.", "feel": "Shoulders. Keep core braced and avoid excessive arching of the lower back.", "mistakes": "Arching the back, letting the DBs drift forward, not reaching full extension.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Shoulders. Keep core braced and avoid excessive arching of the lower back."},
+  "Hammer Curl": {"setup": "Stand with DBs at sides, palms facing each other (neutral grip) throughout.", "movement": "Curl the DBs up keeping palms neutral. Squeeze at the top. Lower slowly.", "feel": "Brachialis (deep under biceps) and brachioradialis (forearm). Gives thickness to the upper arm.", "mistakes": "Same as regular curl \u2014 no swinging, no elbow drift, control the descent.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Brachialis (deep under biceps) and brachioradialis (forearm). Gives thickness to the upper arm."},
+  "Barbell Bench Press": {"setup": "Lie flat. Bar over mid-chest. Grip slightly wider than shoulder width. Retract shoulder blades and plant feet.", "movement": "Lower bar to lower chest with elbows at 45 degrees from torso. Touch chest lightly. Press back up explosively.", "feel": "Chest, shoulders, triceps. The bar path should be slightly diagonal \u2014 not straight up and down.", "mistakes": "Flaring elbows 90 degrees, bouncing the bar, losing shoulder blade retraction, feet off the floor.", "movementCues": ["Shoulder blades pinched back and down", "Grip just outside shoulder width", "Feet drive into floor throughout", "Touch lower chest, pause, drive", "Bar travels back toward rack at top"], "mindMuscleCue": "Feel the pec fibres shortening as you press. Imagine pushing yourself away from the bar rather than pushing the bar away from you."},
+  "Cable Fly": {"setup": "Cable pulleys at chest height. Stand in the middle, slight forward lean, elbows slightly bent.", "movement": "Bring hands together in a hugging arc, meeting in front of your chest. Squeeze. Return with control.", "feel": "Chest stretch and contraction. This is an isolation move \u2014 go light enough to feel every rep.", "mistakes": "Bending the arms too much (turns it into a press), using too much weight, no squeeze at the top.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Chest stretch and contraction. This is an isolation move \u2014 go light enough to feel every rep."},
+  "Barbell OHP": {"setup": "Bar racked at shoulder height. Grip just outside shoulder width. Unrack and step back. Core braced, glutes squeezed.", "movement": "Press bar straight overhead. At the top the bar should be over your ears, not in front. Lower with control.", "feel": "All three heads of the shoulder. Keep wrists straight above elbows throughout.", "mistakes": "Pressing forward instead of up, excessive lower back arch, letting the bar drift forward at the top.", "movementCues": ["Bar at upper chest, elbows slightly in front", "Brace hard before unracking", "Bar clears head \u2014 push your head through", "Lock out fully \u2014 ears between arms", "Control the descent to the chest"], "mindMuscleCue": "Upper back lights up at lockout. Feel the whole shoulder girdle stabilising the overhead position."},
+  "Rear Delt Fly (DB)": {"setup": "Hinge forward at hips until torso is parallel to floor. DBs hanging down, slight bend in elbows.", "movement": "Raise DBs out to the sides in a reverse fly motion. Squeeze rear delts at the top. Lower with control.", "feel": "Back of the shoulder (rear deltoid). Go light \u2014 most people are very weak here.", "mistakes": "Using momentum, shrugging, raising too high, going too heavy.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Back of the shoulder (rear deltoid). Go light \u2014 most people are very weak here."},
+  "Barbell Back Squat": {"setup": "Bar on upper traps, not your neck. Feet shoulder width, toes slightly out. Brace core and take a big breath.", "movement": "Push hips back and down simultaneously. Hit parallel or below. Drive up through heels, keeping chest tall.", "feel": "Quads, glutes, and hamstrings all working together. Knees should track over toes throughout.", "mistakes": "Knees caving in, heels rising, chest falling forward, not reaching depth.", "movementCues": ["Sit BETWEEN your feet \u2014 not behind them", "Knees push out in line with toes", "Hit parallel \u2014 thighs at least horizontal", "Drive the floor away from you on the ascent", "Bar stays over mid-foot throughout"], "mindMuscleCue": "Quad loading on the descent. Glutes engage at the bottom and drive the ascent. Core bracing protects the spine."},
+  "Leg Press": {"setup": "Sit in machine, feet shoulder width on the platform. Low foot placement hits quads, high hits glutes and hamstrings.", "movement": "Release the safety, lower the platform until knees are at 90 degrees. Press back to near full extension.", "feel": "Quads. Do not lock knees out at the top. Keep feet flat on the platform throughout.", "mistakes": "Letting knees cave, going too low and losing lower back contact, locking knees at the top.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Quads. Do not lock knees out at the top. Keep feet flat on the platform throughout."},
+  "Bulgarian Split Squat": {"setup": "Rear foot elevated on a bench. Front foot far enough forward that your shin stays vertical. DBs at sides.", "movement": "Lower your rear knee toward the floor. Front thigh approaches parallel. Drive up through front heel.", "feel": "Front leg quad and glute. This is brutally hard \u2014 start light and nail the movement first.", "mistakes": "Front foot too close (causes forward knee drift), leaning too far forward, rushing.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Front leg quad and glute. This is brutally hard \u2014 start light and nail the movement first."},
+  "Leg Extension": {"setup": "Adjust machine so the pad sits just above the ankle. Knees at the edge of the seat.", "movement": "Extend legs to near full extension. Pause briefly and squeeze quads. Lower slowly over 3 seconds.", "feel": "Pure quad isolation. This should burn. Go through the full range.", "mistakes": "Using momentum to swing the weight up, not controlling the descent, sitting too far back.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Pure quad isolation. This should burn. Go through the full range."},
+  "Pull Up (bodyweight)": {"setup": "Dead hang from the bar, slightly wider than shoulder width, overhand grip. Depress shoulder blades to start.", "movement": "Pull chest to bar by driving elbows down toward your hips. Top position has chin over bar. Lower fully.", "feel": "Lats and biceps. Initiate by pulling your shoulder blades down, not by pulling with your arms.", "mistakes": "Half reps (not reaching dead hang), kipping, crossing feet and swinging.", "movementCues": ["Full dead hang \u2014 elbows completely straight", "Depress scapula before pulling", "Drive elbows down toward ribcage", "Chin clears the bar", "Full dead hang at the bottom of every rep"], "mindMuscleCue": "Your arms are hooks. Think about pulling your elbows to your ribcage. If biceps burn more than your back, widen the grip."},
+  "Barbell Bent Over Row": {"setup": "Hip hinge until torso is about 45 degrees. Grip just outside shoulder width, overhand. Back neutral.", "movement": "Pull bar to lower ribcage. Drive elbows back. Lower with control. Stay hinged throughout the set.", "feel": "Mid-back, lats and rear delts. The bar should touch your body on every rep.", "mistakes": "Standing too upright, using momentum, pulling to the belly button instead of ribcage.", "movementCues": ["Hinge until torso is 45-60 degrees from horizontal", "Drive elbows back and UP to the lower ribcage", "Initiate with the shoulder blade \u2014 not the arm", "Hold at the top \u2014 feel the squeeze", "Lower slowly \u2014 do not let bar crash"], "mindMuscleCue": "Mid-back compressed at the top. Upper back feels like it is being squeezed from both sides at peak contraction."},
+  "Incline DB Curl": {"setup": "Set bench to 45\u201360 degrees. Lie back with arms hanging straight down. This gives a greater stretch.", "movement": "Curl both DBs up. Keep upper arms still \u2014 only the forearms move. Squeeze at top. Lower fully.", "feel": "Long head of biceps \u2014 the peak. The stretch at the bottom is the point of this exercise.", "mistakes": "Upper arms swinging forward, not reaching full extension at the bottom, going too heavy.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Long head of biceps \u2014 the peak. The stretch at the bottom is the point of this exercise."},
+  "Conventional Deadlift": {"setup": "Bar over mid-foot. Hinge down, grip just outside legs. Chest up, back flat, hips above knees. Big breath and brace.", "movement": "Push the floor away \u2014 do not think about pulling up. Bar stays dragged up your shins and thighs. Lock out hips at top.", "feel": "Everything. Hamstrings, glutes, back, traps. This is the king of lifts \u2014 respect the weight.", "mistakes": "Bar drifting away from the body, rounding the lower back, jerking the weight, not bracing.", "movementCues": ["Bar over mid-foot \u2014 not touching the shin", "Lats tight before you pull \u2014 protect your armpits", "Push the floor away \u2014 this is a leg press", "Bar stays in contact with legs throughout", "Stand tall at lockout \u2014 do not hyperextend"], "mindMuscleCue": "Lats keep the bar close. Legs push the floor. Feel everything \u2014 glutes, hamstrings, lats, and upper back all working simultaneously."},
+  "Romanian Deadlift": {"setup": "Stand with bar at hip height. Hinge at hips pushing them back, bar drags down your thighs.", "movement": "Lower bar until you feel a strong hamstring stretch \u2014 usually mid-shin for most people. Drive hips forward to stand.", "feel": "Hamstrings above all else. This is a hip hinge, not a squat. Keep legs relatively straight.", "mistakes": "Squatting the weight down, rounding the lower back, going too fast, not feeling the hamstring stretch.", "movementCues": ["Soft knee bend \u2014 fixed throughout", "Push the hips back \u2014 this is a hip hinge", "Bar slides down the front of the legs", "Lower to mid-shin or strong hamstring stretch", "Drive hips through to lockout"], "mindMuscleCue": "Hamstring stretch building on the descent. Glutes firing at the top. This is not a squat \u2014 knees barely bend."},
+  "Hip Thrust (barbell)": {"setup": "Upper back on bench, bar across hips with a pad. Feet flat, hip width apart, knees at 90 degrees at the top.", "movement": "Drive hips up by squeezing glutes hard. Top position: body from shoulders to knees is a straight line. Lower with control.", "feel": "Pure glutes. Squeeze hard at the top and hold for a second on every rep.", "mistakes": "Hyperextending the lower back at the top, not getting full hip extension, feet too close or far.", "movementCues": ["Bar at hip crease \u2014 use a pad", "Drive through heels \u2014 not toes", "Full hip extension \u2014 body level knee to shoulder", "Hold 1 second at the top and SQUEEZE hard", "Chin tucked \u2014 neutral neck"], "mindMuscleCue": "Only glutes at the top. If you feel lower back, your hips are not fully extended. Squeeze harder."},
+  "Leg Curl (seated)": {"setup": "Adjust so knees are at the pivot point of the machine. Pad sits just above the ankles.", "movement": "Curl heels toward glutes as far as possible. Squeeze hamstrings at the bottom. Control the return fully.", "feel": "Hamstrings. Go through the full range \u2014 most people stop short at the bottom.", "mistakes": "Hips lifting off the seat, using momentum, not controlling the eccentric.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Hamstrings. Go through the full range \u2014 most people stop short at the bottom."},
+  "Nordic Curl": {"setup": "Kneel on a pad with feet anchored under something heavy or held by a partner. Hands ready to catch yourself.", "movement": "Lower your body toward the floor as slowly as possible using hamstring strength. Use hands to push up and repeat.", "feel": "This is savage on the hamstrings. Start with just 3\u20135 reps and use assistance if needed.", "mistakes": "Going too fast, not starting the movement under control, skipping this because it is hard.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "This is savage on the hamstrings. Start with just 3\u20135 reps and use assistance if needed."},
+  "Close Grip Bench Press": {"setup": "Lie flat on bench. Grip the bar with hands shoulder width or slightly closer. Do not go too narrow.", "movement": "Lower bar to lower chest with elbows tucked close to the body. Press back up. Triceps do most of the work.", "feel": "Triceps and inner chest. Keep elbows close throughout \u2014 if they flare, it becomes a regular bench.", "mistakes": "Grip too narrow (causes wrist pain), flaring elbows, bouncing off the chest.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Triceps and inner chest. Keep elbows close throughout \u2014 if they flare, it becomes a regular bench."},
+  "Skull Crushers": {"setup": "Lie flat with EZ bar or DBs held above chest, arms extended. Elbows point toward the ceiling.", "movement": "Lower the weight toward your forehead by bending at the elbows. Upper arms stay still. Press back up.", "feel": "Triceps, specifically the long head. Keep upper arms vertical throughout.", "mistakes": "Elbows flaring out, upper arms drifting back, going too heavy and losing control.", "movementCues": ["Upper arms vertical and fixed", "Lower toward forehead or slightly behind head", "Only forearms move", "Extend explosively at the top", "Control the descent \u2014 this is the long head stretch"], "mindMuscleCue": "Long head of the tricep under a heavy stretch. More loading than a pushdown because the arm is overhead."},
+  "Barbell Curl": {"setup": "Stand with bar at hip height, underhand grip shoulder width. Elbows pinned to sides.", "movement": "Curl bar up to shoulder height. Squeeze biceps at the top. Lower slowly over 3 seconds.", "feel": "Full bicep contraction. Go heavy enough to challenge but not so heavy you have to swing.", "mistakes": "Body swinging, elbows drifting forward, not lowering fully, wrist curling at the top.", "movementCues": ["Elbows pinned at sides \u2014 fixed throughout", "Supinate at the top \u2014 pinkies up", "Full extension at the bottom", "2-second up, 3-second down", "No body swing"], "mindMuscleCue": "Feel the bicep peak contract at the top. Full stretch at the bottom \u2014 do not cut range short."},
+  "Cable Curl": {"setup": "Cable at the lowest setting. Stand back so cable is taut. Grip rope or bar, elbows at sides.", "movement": "Curl up, squeezing hard at the top. Lower with control against the cable tension.", "feel": "Cables keep tension through the whole range, unlike dumbbells. Feel it even at the bottom.", "mistakes": "Pulling with shoulders, not controlling the descent, standing too close to the machine.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Cables keep tension through the whole range, unlike dumbbells. Feel it even at the bottom."},
+  "Cable Crunch": {"setup": "Kneel in front of cable with rope at high position. Hold rope at forehead level.", "movement": "Crunch down by rounding your spine \u2014 think about pulling your ribs toward your hips. Return with control.", "feel": "This should burn in your abs, not your neck. Do not pull with your arms.", "mistakes": "Using arms and shoulders to pull, not rounding the spine (just bowing forward), going too heavy.", "movementCues": ["Kneel \u2014 do not sit back", "Crunch DOWN and FORWARD \u2014 rib cage to hips", "Hips stay still \u2014 only spine flexes", "Rope held beside the head \u2014 arms do not pull", "Slow return \u2014 feel the abs stretched"], "mindMuscleCue": "This is spinal flexion, not hip flexion. If hip flexors dominate, you are hinging at the hip \u2014 stop and reset."},
+  "Hanging Leg Raise": {"setup": "Dead hang from a bar with a shoulder width grip. Control any swing before starting.", "movement": "Raise legs to parallel or higher with legs straight, or bent knees if needed. Lower with full control \u2014 no dropping.", "feel": "Lower abs. The lowering phase is as important as the raising. Do not rush it.", "mistakes": "Swinging, using momentum, dropping legs fast, not reaching full hang at the bottom.", "movementCues": ["Full hang \u2014 no swinging", "Raise legs AND curl hips forward at the top", "The hip curl is what makes this an ab exercise", "Lower slowly \u2014 do not drop", "If swinging, brace harder before each rep"], "mindMuscleCue": "The posterior pelvic tilt at the top is everything. Without it, this is just hip flexors. Curl your hips toward your ribs."},
+  "Ab Wheel": {"setup": "Kneel on a pad. Both hands on wheel, directly under shoulders.", "movement": "Roll forward as far as you can while keeping your back flat. Pull back using abs \u2014 do not collapse.", "feel": "Entire core, especially the deep abs. This is very advanced. Start on knees and only go as far as you can control.", "mistakes": "Letting the lower back sag, going too far before you have the strength, hips dropping.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Entire core, especially the deep abs. This is very advanced. Start on knees and only go as far as you can control."},
+  "Standing Calf Raise": {"setup": "Stand on the edge of a step with heels off the edge. Hold something for balance.", "movement": "Rise up onto toes as high as possible. Pause at the top. Lower heels below the step for a full stretch.", "feel": "Calves. Use a full range \u2014 the stretch at the bottom is where growth happens.", "mistakes": "Partial reps, going too fast, not reaching full plantar flexion at the top.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Calves. Use a full range \u2014 the stretch at the bottom is where growth happens."},
+  "Glute Bridge (DB)": {"setup": "Lie on back, feet flat on the floor, knees bent. DB resting on hips.", "movement": "Drive hips up by squeezing glutes. Top position \u2014 body is a straight line from knees to shoulders. Squeeze and hold.", "feel": "Glutes. Squeeze hard at the top for 1\u20132 seconds on every rep.", "mistakes": "Hyperextending the lower back, feet too far from your body, not squeezing at the top.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Glutes. Squeeze hard at the top for 1\u20132 seconds on every rep."},
+  "DB Fly (flat)": {"setup": "Lie flat with DBs above chest, palms facing each other, slight bend in elbows.", "movement": "Lower DBs in a wide arc until you feel a chest stretch. Return in the same arc \u2014 like hugging a barrel.", "feel": "Chest stretch and contraction. Do not go too heavy \u2014 this is about feeling the muscle.", "mistakes": "Bending arms too much (turns into a press), lowering too fast, losing the arc pattern.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Chest stretch and contraction. Do not go too heavy \u2014 this is about feeling the muscle."},
+  "Goblet Squat (DB)": {"setup": "Hold one DB vertically at chest height, elbows pointing down. Feet shoulder width, toes out slightly.", "movement": "Push knees out and squat down keeping the DB at chest and elbows inside knees. Drive up through heels.", "feel": "Quads and glutes. Good for learning squat mechanics before going to barbell.", "mistakes": "Knees caving in, heels rising, torso falling forward.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Quads and glutes. Good for learning squat mechanics before going to barbell."},
+  "Dumbbell Bench Press": {"setup": "Sit on the bench with dumbbells on your thighs. Kick them up as you lie back. Position wrists over elbows. Shoulders retracted and depressed into the bench.", "movement": "Lower with a slight arc outward until upper arms are parallel to the floor or slightly below. Drive dumbbells back up, allowing them to converge slightly at the top. Do not clang together.", "feel": "Greater chest stretch at the bottom than barbell. Each side works independently \u2014 notice if one is compensating for the other.", "mistakes": "Letting the dumbbells drift too far apart at the top. Allowing wrists to buckle under heavy load. Not matching the path on both arms.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Greater chest stretch at the bottom than barbell. Each side works independently \u2014 notice if one is compensating for the other."},
+  "Incline Barbell Press": {"setup": "Set bench to 30\u201345 degrees. Higher incline = more shoulder, lower = more upper chest. Grip slightly wider than shoulder width. Shoulder blades pinched back.", "movement": "Lower to your upper chest \u2014 not your chin. Drive straight up. Elbows stay at 45\u201360 degrees throughout.", "feel": "Strong stretch in the upper chest. Clavicular head of the pec should feel the load more than flat pressing.", "mistakes": "Setting incline too high \u2014 becomes a shoulder press. Bar drifting toward the neck on the way down. Losing back tightness as the set gets hard.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Strong stretch in the upper chest. Clavicular head of the pec should feel the load more than flat pressing."},
+  "Lateral Raise (cable)": {"setup": "Cable at ankle height, stand side-on to the machine. Reach across your body to grip the handle.", "movement": "Raise arm across and up to shoulder level. Constant cable tension through the full range. Pause at the top.", "feel": "Constant tension unlike dumbbells \u2014 especially at the bottom of the range where dumbbells provide zero stimulus.", "mistakes": "Standing too close to the machine. Letting the cable pull your arm too far across the body at the bottom.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Constant tension unlike dumbbells \u2014 especially at the bottom of the range where dumbbells provide zero stimulus."},
+  "Tricep Pushdown (cable)": {"setup": "High pulley. Rope or bar attachment. Elbows pinned at your sides, bent at 90 degrees to start.", "movement": "Extend elbows down until fully straight. On rope: spread the rope apart at the bottom. Squeeze. Return to 90 degrees.", "feel": "Lateral and medial tricep head. Full extension and squeeze at the bottom.", "mistakes": "Elbows drifting forward or back. Not reaching full extension. Leaning forward to use body weight.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Lateral and medial tricep head. Full extension and squeeze at the bottom."},
+  "Hip Thrust (machine)": {"setup": "Adjust pad height so it sits at the hip crease. Sit in the seat, feet on the floor.", "movement": "Drive hips forward through full extension. Squeeze hard at the top. Return slowly.", "feel": "Glute isolation. Same as barbell but with easier setup and consistent resistance.", "mistakes": "Using back extension to compensate. Not squeezing at lockout.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Glute isolation. Same as barbell but with easier setup and consistent resistance."},
+  "Pendlay Row": {"setup": "Bar on the floor. Hip width stance, horizontal torso. Overhand grip. Each rep starts from a dead stop on the floor.", "movement": "Explode the bar from the floor to your lower chest in one movement. Lower back to the floor completely. Reset.", "feel": "More explosive than a regular row. Upper back and lats. Every rep from a dead stop forces you to generate force from scratch.", "mistakes": "Using momentum or turning it into a regular row. Not returning to the floor between reps.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "More explosive than a regular row. Upper back and lats. Every rep from a dead stop forces you to generate force from scratch."},
+  "Meadows Row": {"setup": "Landmine attachment or bar in the corner. Stand perpendicular to the bar, hinge forward. Grip the end of the bar with the far hand.", "movement": "Pull the end of the bar toward your hip in a rowing motion. Elbow travels back and slightly out.", "feel": "Mid-back and lat. Unique angle that targets the teres major and lat differently than standard rows.", "mistakes": "Standing too upright. Pulling to the shoulder instead of the hip.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Mid-back and lat. Unique angle that targets the teres major and lat differently than standard rows."},
+  "Arnold Press": {"setup": "Seated with dumbbells at shoulder height, palms facing you. Start position is like the top of a curl.", "movement": "As you press up, rotate the wrists so palms face forward by the top. Reverse on the way down.", "feel": "Full deltoid development \u2014 front, side and rear all engaged through the rotation.", "mistakes": "Rushing the rotation. Not completing the full rotation. Going too heavy and losing the movement pattern.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Full deltoid development \u2014 front, side and rear all engaged through the rotation."},
+  "Leg Curl (lying)": {"setup": "Lie face down on the machine. Adjust pad to sit just above the heel. Hip bones on the pad.", "movement": "Curl heels toward your glutes as far as possible. Squeeze at the top. Lower slowly.", "feel": "Hamstring isolation. Squeeze hard at the full contraction.", "mistakes": "Hips rising off the pad. Not achieving full contraction. Rushing the return.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Hamstring isolation. Squeeze hard at the full contraction."},
+  "Chin Up": {"setup": "Hang from bar with underhand grip, shoulder width. Shoulders depressed down and away from ears.", "movement": "Pull chin over the bar. Lower to full dead hang. Do not kip.", "feel": "Biceps assist more than pull-ups. Lats still primary. Good stepping stone to strict pull-ups.", "mistakes": "Using momentum. Not achieving full hang at the bottom. Kipping.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Biceps assist more than pull-ups. Lats still primary. Good stepping stone to strict pull-ups."},
+  "Good Morning": {"setup": "Barbell on upper back, same as squat. Feet shoulder width, soft knee bend.", "movement": "Hinge at the hip, pushing it back. Torso drops forward \u2014 maintain neutral spine throughout. Return by driving hips forward.", "feel": "Hamstring stretch and spinal erector load. This is a posterior chain stretch under load.", "mistakes": "Rounding the lower back. Going too heavy. Turning it into a squat.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Hamstring stretch and spinal erector load. This is a posterior chain stretch under load."},
+  "Pec Dec (machine)": {"setup": "Adjust seat so handles are at shoulder height. Sit upright with back against the pad. Forearms or hands on the pads.", "movement": "Bring arms together in front of you, squeezing the chest hard at the end. Open slowly with control.", "feel": "Inner chest squeeze. Greater contraction than cable flies at the peak.", "mistakes": "Letting elbows go too far back (shoulder joint stress). Using momentum. Not achieving the peak squeeze.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Inner chest squeeze. Greater contraction than cable flies at the peak."},
+  "Decline Press": {"setup": "Secure feet at the top of the decline bench. Lie back. Grip the bar slightly wider than shoulder width.", "movement": "Lower bar to your lower chest. Drive up and slightly back. Full lockout at the top.", "feel": "Lower chest activation. Triceps heavily involved. Less shoulder stress than flat bench.", "mistakes": "Letting the bar drift toward the face. Not using a spotter. Going too heavy without securing feet properly.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Lower chest activation. Triceps heavily involved. Less shoulder stress than flat bench."},
+  "Barbell Front Squat": {"setup": "Bar rests on front delts, either crossed-arm or clean grip. Elbows HIGH \u2014 this is critical. Upright torso. Feet shoulder width.", "movement": "Squat down between your legs. Stay upright \u2014 the front loading demands it. Drive up through the whole foot.", "feel": "More quad dominant than back squat. Core works overtime to keep you from folding forward.", "mistakes": "Elbows dropping (bar rolls forward). Forward lean. Not having the wrist flexibility for clean grip.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "More quad dominant than back squat. Core works overtime to keep you from folding forward."},
+  "Hack Squat (machine)": {"setup": "Back against the pad, feet on the platform shoulder width or wider. Unhook the safety bars before starting.", "movement": "Lower until thighs are parallel to the platform or below. Drive through the whole foot back up.", "feel": "Quad dominant. More like a squat than the leg press. Lower back off-loaded by the machine.", "mistakes": "Not locking the safeties before unloading. Feet too low (excessive knee stress). Short ranging.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Quad dominant. More like a squat than the leg press. Lower back off-loaded by the machine."},
+  "Step Ups": {"setup": "Use a box or bench at knee height. Hold dumbbells or use a barbell. Stand facing the box.", "movement": "Step up with one foot, drive through that heel to stand on the box. Step down. Alternate legs.", "feel": "The working leg should do all the work \u2014 don't push off the back foot. Glute and quad of the front leg.", "mistakes": "Pushing off the back foot (defeats the purpose). Box too low. Leaning excessively forward.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "The working leg should do all the work \u2014 don't push off the back foot. Glute and quad of the front leg."},
+  "Lunges (barbell/DB)": {"setup": "Stand tall with dumbbells or barbell. Core braced. Take a controlled step forward.", "movement": "Step forward, lower back knee toward the floor. Front shin stays vertical. Drive back to standing with front leg.", "feel": "Quads and glutes of the front leg. Balance and stability challenged throughout.", "mistakes": "Front knee caving in. Leaning forward. Taking too short or too long a step.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Quads and glutes of the front leg. Balance and stability challenged throughout."},
+  "Sumo Deadlift": {"setup": "Wide stance \u2014 feet 1.5\u20132x shoulder width, toes out significantly. Hands inside the legs, shoulder width on the bar. Bar over mid-foot. Hips low to start.", "movement": "Push the floor apart with your feet as you drive up. Bar stays close to the body. Stand tall at the top.", "feel": "More inner thigh and glute than conventional. Less lower back stress due to more upright torso.", "mistakes": "Hips shooting up before the bar (turns into a conventional). Feet too wide losing hip drive. Not pushing the floor apart.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "More inner thigh and glute than conventional. Less lower back stress due to more upright torso."},
+  "Stiff Leg Deadlift": {"setup": "Similar to RDL but legs stay straighter \u2014 minimal knee bend throughout. Focus is on the hamstring stretch.", "movement": "Hinge at the hip, lowering the bar along the legs. Go as deep as your hamstring flexibility allows. Return by driving hips forward.", "feel": "More hamstring stretch than RDL. Spinal erectors under significant load. Requires good hamstring flexibility.", "mistakes": "Rounding the lower back. Confusing this with a regular deadlift. Going too heavy before having the flexibility.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "More hamstring stretch than RDL. Spinal erectors under significant load. Requires good hamstring flexibility."},
+  "Cable Pull Through": {"setup": "Low pulley, rope attachment. Stand facing away from the machine, rope between your legs. Step forward until there is tension on the cable.", "movement": "Hinge at the hip, letting the rope pull your hands back between your legs. Drive hips forward to stand. Squeeze glutes at the top.", "feel": "Glutes and hamstrings. Hip hinge pattern with constant cable tension \u2014 great for learning the hinge.", "mistakes": "Squatting instead of hinging. Not getting full hip extension. Stepping too far from the machine.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Glutes and hamstrings. Hip hinge pattern with constant cable tension \u2014 great for learning the hinge."},
+  "Seated Calf Raise": {"setup": "Sit in the machine, pads across the thighs just above the knees. Feet on the footrest. Full range \u2014 start at the bottom of the stretch.", "movement": "Rise up as high as possible. Pause at the top. Lower slowly all the way down.", "feel": "Soleus primarily \u2014 the flat muscle beneath the gastrocnemius. More targeted when the knee is bent.", "mistakes": "Partial range. Not pausing at the top. Rushing the eccentric.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Soleus primarily \u2014 the flat muscle beneath the gastrocnemius. More targeted when the knee is bent."},
+  "Leg Press Calf Raise": {"setup": "On the leg press machine. Position only the balls of the feet on the bottom of the platform, heels hanging off.", "movement": "Extend the ankle to press the platform away. Full extension. Lower all the way back down.", "feel": "Gastrocnemius. Heavy load possible. Full range still critical.", "mistakes": "Not getting full range. Letting the platform slam down between reps.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Gastrocnemius. Heavy load possible. Full range still critical."},
+  "Weighted Pull Up": {"setup": "Use a dip belt or hold a dumbbell between the feet. Same setup as bodyweight pull-up. Extra weight demands stricter form.", "movement": "Same as bodyweight pull-up \u2014 chin over the bar, full dead hang at the bottom. The added weight demands even more lat engagement.", "feel": "Significantly harder lat load. If form breaks down, remove the weight.", "mistakes": "Adding weight before mastering bodyweight. Kipping under load. Partial reps.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Significantly harder lat load. If form breaks down, remove the weight."},
+  "Lat Pulldown (neutral)": {"setup": "Neutral grip (parallel) handle. Hands shoulder width or close. Lean back slightly. Eyes forward.", "movement": "Drive elbows down and back. Pull handle to upper chest. Full stretch at the top.", "feel": "Neutral grip targets the lats differently and involves more bicep. Good for lat thickness.", "mistakes": "Not leaning back enough. Pulling too high. Not getting a full stretch at the top.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Neutral grip targets the lats differently and involves more bicep. Good for lat thickness."},
+  "Straight Arm Pulldown": {"setup": "High pulley, straight bar or rope. Stand back, arms extended, slight elbow bend. Lean forward slightly.", "movement": "Pull bar down in an arc, keeping arms straight. Drive to your hips. Return slowly to the start.", "feel": "Pure lat isolation \u2014 no bicep involvement. Targets the lat with arms in a fully extended position.", "mistakes": "Bending the elbows (becomes a pulldown). Standing too close. Not getting full extension at the top.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Pure lat isolation \u2014 no bicep involvement. Targets the lat with arms in a fully extended position."},
+  "Single Arm Pulldown": {"setup": "Single handle on high pulley. Sit or stand. Reach up with one hand. Slight lean away from the machine.", "movement": "Pull handle down to shoulder level, elbow driving down toward hip. Return with a stretch.", "feel": "Great for identifying and fixing lat imbalances. Full range on each side.", "mistakes": "Using the torso to assist. Not getting a full stretch at the top.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Great for identifying and fixing lat imbalances. Full range on each side."},
+  "Chest Supported Row": {"setup": "Set an incline bench. Lie prone on the bench with chest against the pad. Arms hanging down, dumbbells or barbell.", "movement": "Row the weight up, driving elbows back. Squeeze at the top. Lower fully. The bench removes ALL lower back and momentum involvement.", "feel": "Pure upper back and lat isolation. One of the best mass-building back exercises.", "mistakes": "Chest leaving the pad. Shrugging at the top. Not getting a full stretch at the bottom.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Pure upper back and lat isolation. One of the best mass-building back exercises."},
+  "Preacher Curl (machine)": {"setup": "Adjust seat so upper arms rest flat on the pad. Pad should be at armpit height. Grip the handles.", "movement": "Curl from full extension to full contraction. The pad prevents any cheating. Lower all the way down.", "feel": "Short head of the bicep isolated. The pad locks you in \u2014 no momentum possible.", "mistakes": "Not getting full extension at the bottom. Slamming the weight. Seat too low.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Short head of the bicep isolated. The pad locks you in \u2014 no momentum possible."},
+  "Dips (tricep)": {"setup": "Use parallel bars. Grip firmly, push yourself up. Keep torso more vertical than chest dips \u2014 this emphasises triceps over chest.", "movement": "Lower until elbows are at 90 degrees, keeping torso upright. Drive back up to lockout.", "feel": "Triceps doing the majority of work. Less chest involvement than a forward-leaning dip.", "mistakes": "Leaning forward (converts to chest dip). Going too deep (shoulder strain). Not locking out at the top.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Triceps doing the majority of work. Less chest involvement than a forward-leaning dip."},
+  "Plank": {"setup": "Forearms on the floor, elbows under shoulders. Body in a straight line from head to heel. Squeeze everything.", "movement": "Hold the position. Breathe normally. Push elbows into the floor, push heels back, pull belly button up slightly.", "feel": "Full core engagement. Glutes, quads, and shoulders all working to maintain position. If only abs are burning, you are not engaging everything.", "mistakes": "Hips sagging. Hips too high. Head drooping. Breathing not under control. Just doing time without engaging properly.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Full core engagement. Glutes, quads, and shoulders all working to maintain position. If only abs are burning, you are not engaging everything."},
+  "Pallof Press": {"setup": "Cable at chest height. Stand side-on to the machine. Grip the handle with both hands at chest level. Step away to create tension.", "movement": "Press handle straight out in front of you. Hold for 1\u20132 seconds. Return to chest. The cable is trying to rotate you \u2014 resist it.", "feel": "Anti-rotation core strength. The obliques and transverse abdominis fighting rotation. Should feel very different from a crunch.", "mistakes": "Standing too close to the machine (not enough tension). Rotating instead of resisting. Using arms instead of core.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Anti-rotation core strength. The obliques and transverse abdominis fighting rotation. Should feel very different from a crunch."},
+  "Landmine Rotation": {"setup": "Bar anchored in a corner or landmine attachment. Stand perpendicular, hold the end of the bar with both hands.", "movement": "Rotate the bar from one side to the other in a controlled arc. Core drives the rotation. Arms are just connectors.", "feel": "Rotational core power. Obliques and transverse abs working together. This is a power movement \u2014 it should feel athletic.", "mistakes": "Using arms instead of the core to rotate. Standing too far from the bar. Going too heavy and losing control.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Rotational core power. Obliques and transverse abs working together. This is a power movement \u2014 it should feel athletic."},
+  "Landmine Press": {"setup": "Bar anchored in landmine attachment. Stand facing it, hold the end of the bar at shoulder height with one hand.", "movement": "Press the bar upward and slightly forward in an arc. Full extension. Lower under control.", "feel": "Shoulder-friendly pressing angle. Anterior deltoid and upper chest. Great for injured shoulders.", "mistakes": "Standing too far back. Rotating the torso (use it as a unilateral exercise, not a bilateral one with bad form).", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Shoulder-friendly pressing angle. Anterior deltoid and upper chest. Great for injured shoulders."},
+  "Smith Machine Squat": {"setup": "Bar on upper back. Position feet slightly forward of where you'd stand in a free squat. The fixed bar path allows this. Feet shoulder width.", "movement": "Squat down to at least parallel. Drive straight back up along the bar path. Knees track over toes.", "feel": "More quad dominant than free squat due to forward foot placement. Good for learning squat depth safely.", "mistakes": "Feet too far forward (excessive knee stress). Not achieving full depth. Locking out with too much forward lean at the top.", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "More quad dominant than free squat due to forward foot placement. Good for learning squat depth safely."},
+  "Band Pull Apart": {"setup": "Hold a resistance band with both hands, arms extended at shoulder height. Palms down. Tension from the start.", "movement": "Pull the band apart until fully extended \u2014 hands out to the sides. Squeeze the shoulder blades. Return slowly.", "feel": "Rear deltoid and upper back. One of the best shoulder health exercises. Do it before and after pressing.", "mistakes": "Not maintaining tension at the return. Shrugging instead of squeezing the back. Band too light (no stimulus).", "movementCues": ["Full range of motion every rep", "Controlled tempo throughout", "Focus on the target muscle", "Breathe steadily"], "mindMuscleCue": "Rear deltoid and upper back. One of the best shoulder health exercises. Do it before and after pressing."}
+};
+
+function plateCalc(){
+  var t = parseFloat(document.getElementById('pcW').value) || 0;
+  var bar = parseFloat(document.getElementById('pcBar').value) || 20;
+  var out = document.getElementById('pcOut');
+  if (t <= bar){ out.textContent = t ? 'Target must be above the bar weight.' : 'Enter a target weight.'; return; }
+  var side = (t - bar) / 2, plates = [25,20,15,10,5,2.5,1.25], picked = [], rem = side;
+  plates.forEach(function(p){ while (rem >= p - 0.001){ picked.push(p); rem -= p; } });
+  var loaded = t - rem*2;
+  out.innerHTML = '<b style="color:var(--t)">Per side:</b> ' + (picked.length ? picked.join(' + ') + ' kg' : 'nothing') +
+    (rem > 0.01 ? ' &middot; closest loadable: <b style="color:var(--t)">' + loaded + ' kg</b>' : '');
+}
+
+function toggleLibCard(i){ var el = document.getElementById('lc-'+i); if (el) el.classList.toggle('open'); }
+
+/* resume an active session on load */
+if (active && active.exercises) showWorkout();
+
+
+/* ── PREFS: themes + layout customisation ── */
+var THEMES = {
+  pulse:{a:'#A855F7',pink:'#EC4899',pos:'#22D3EE',grad:'linear-gradient(135deg,#7C3AED 0%,#A855F7 45%,#EC4899 100%)'},
+  cyan:{a:'#22D3EE',pink:'#38BDF8',pos:'#4ADE80',grad:'linear-gradient(135deg,#0891B2 0%,#22D3EE 55%,#818CF8 100%)'},
+  green:{a:'#34D399',pink:'#A3E635',pos:'#22D3EE',grad:'linear-gradient(135deg,#059669 0%,#34D399 55%,#A3E635 100%)'},
+  amber:{a:'#F59E0B',pink:'#F97316',pos:'#FBBF24',grad:'linear-gradient(135deg,#D97706 0%,#F59E0B 50%,#F97316 100%)'},
+  mono:{a:'#C7CBD9',pink:'#8E93A8',pos:'#E5E8F0',grad:'linear-gradient(135deg,#3A3F52 0%,#5A6078 55%,#8E93A8 100%)'}
+};
+var prefs = {accent:'pulse', compact:false, showChips:true, showWeek:true, showRecent:true, rest:90};
+try { Object.assign(prefs, JSON.parse(localStorage.getItem('jt2_prefs')||'{}')); } catch(e){}
+
+function savePrefs(){ localStorage.setItem('jt2_prefs', JSON.stringify(prefs)); }
+
+function applyPrefs(){
+  var t = THEMES[prefs.accent] || THEMES.pulse;
+  var r = document.documentElement.style;
+  r.setProperty('--a', t.a); r.setProperty('--pink', t.pink);
+  r.setProperty('--pos', t.pos); r.setProperty('--grad', t.grad);
+  document.body.classList.toggle('compact', !!prefs.compact);
+  function show(id, on){ var el=document.getElementById(id); if(el) el.style.display = on ? '' : 'none'; }
+  show('chips', prefs.showChips);
+  show('week', prefs.showWeek); show('secWeek', prefs.showWeek);
+  show('recent', prefs.showRecent); show('secRecent', prefs.showRecent);
+  /* settings UI state */
+  var m = {tglCompact:'compact', tglChips:'showChips', tglWeek:'showWeek', tglRecent:'showRecent'};
+  Object.keys(m).forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.toggle('on', !!prefs[m[id]]); });
+  document.querySelectorAll('.rest-btn').forEach(function(b){ b.classList.toggle('active', parseInt(b.dataset.r)===prefs.rest); });
+  var sw = document.getElementById('swatches');
+  if (sw) sw.innerHTML = Object.keys(THEMES).map(function(k){
+    return '<button class="sw'+(prefs.accent===k?' sel':'')+'" title="'+k+'" style="background:'+THEMES[k].grad+'" onclick="setAccent(\''+k+'\')"></button>';
+  }).join('');
+}
+function togglePref(k){ prefs[k] = !prefs[k]; savePrefs(); applyPrefs(); }
+function setAccent(k){ prefs.accent = k; savePrefs(); applyPrefs(); }
+function setRest(s){ prefs.rest = s; savePrefs(); applyPrefs(); }
+function exportBackup(){
+  var data = {exported:new Date().toISOString(), sessions:sessions, progression:progLog, weights:liveWeights, prefs:prefs};
+  var blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'jaidyn_train_backup_' + new Date().toISOString().split('T')[0] + '.json';
+  a.click();
+}
+applyPrefs();
+
+const MUSCLE_MAP = {
+  // CHEST
+  'Barbell Bench Press':    {primary:'Chest', secondary:['Shoulders','Triceps']},
+  'DB Bench Press':         {primary:'Chest', secondary:['Shoulders','Triceps']},
+  'Incline DB Press':       {primary:'Chest', secondary:['Shoulders','Triceps']},
+  'Incline Barbell Press':  {primary:'Chest', secondary:['Shoulders','Triceps']},
+  'Cable Fly':              {primary:'Chest', secondary:[]},
+  'DB Fly (flat)':          {primary:'Chest', secondary:[]},
+  'Machine Chest Press':    {primary:'Chest', secondary:['Triceps']},
+  'Close Grip Bench Press': {primary:'Triceps', secondary:['Chest']},
+  // BACK
+  'Lat Pulldown (bar)':     {primary:'Back', secondary:['Biceps']},
+  'Seated Cable Row':       {primary:'Back', secondary:['Biceps']},
+  'Machine Row':            {primary:'Back', secondary:['Biceps']},
+  'DB Row':                 {primary:'Back', secondary:['Biceps']},
+  'Barbell Bent Over Row':  {primary:'Back', secondary:['Biceps']},
+  'Pull Up (bodyweight)':   {primary:'Back', secondary:['Biceps']},
+  'Conventional Deadlift':  {primary:'Back', secondary:['Hamstrings','Glutes']},
+  'Romanian Deadlift':      {primary:'Hamstrings', secondary:['Back','Glutes']},
+  'Face Pull (cable)':      {primary:'Shoulders', secondary:['Back']},
+  // SHOULDERS
+  'Barbell OHP':            {primary:'Shoulders', secondary:['Triceps']},
+  'DB OHP':                 {primary:'Shoulders', secondary:['Triceps']},
+  'Seated Machine Press':   {primary:'Shoulders', secondary:['Triceps']},
+  'Lateral Raise (DB)':     {primary:'Shoulders', secondary:[]},
+  'Rear Delt Fly (DB)':     {primary:'Shoulders', secondary:[]},
+  // BICEPS
+  'Dumbbell Curl':          {primary:'Biceps', secondary:[]},
+  'Barbell Curl':           {primary:'Biceps', secondary:[]},
+  'Incline DB Curl':        {primary:'Biceps', secondary:[]},
+  'Cable Curl':             {primary:'Biceps', secondary:[]},
+  'Hammer Curl':            {primary:'Biceps', secondary:[]},
+  // TRICEPS
+  'Tricep Pushdown':        {primary:'Triceps', secondary:[]},
+  'OH Tricep Ext (DB)':     {primary:'Triceps', secondary:[]},
+  'Skull Crushers':         {primary:'Triceps', secondary:[]},
+  // LEGS
+  'Barbell Back Squat':     {primary:'Quads', secondary:['Glutes','Hamstrings']},
+  'Leg Press':              {primary:'Quads', secondary:['Glutes']},
+  'Bulgarian Split Squat':  {primary:'Quads', secondary:['Glutes']},
+  'Leg Extension':          {primary:'Quads', secondary:[]},
+  'Goblet Squat (DB)':      {primary:'Quads', secondary:['Glutes']},
+  'Hip Thrust (barbell)':   {primary:'Glutes', secondary:['Hamstrings']},
+  'Glute Bridge (DB)':      {primary:'Glutes', secondary:['Hamstrings']},
+  'Leg Curl (seated)':      {primary:'Hamstrings', secondary:[]},
+  'Nordic Curl':            {primary:'Hamstrings', secondary:[]},
+  'Standing Calf Raise':    {primary:'Calves', secondary:[]},
+  // CORE
+  'Cable Crunch':           {primary:'Core', secondary:[]},
+  'Hanging Leg Raise':      {primary:'Core', secondary:[]},
+  'Ab Wheel':               {primary:'Core', secondary:[]},
+};
+var WARMUP_EXERCISES = [
+  'Barbell Back Squat','Barbell Front Squat','Conventional Deadlift','Sumo Deadlift',
+  'Romanian Deadlift','Barbell Bench Press','Incline Barbell Press','Barbell OHP',
+  'Close Grip Bench Press','Barbell Bent Over Row','Pendlay Row','Good Morning',
+  'Hip Thrust (barbell)','Bulgarian Split Squat','Nordic Curl',
+];
+
+/* ── RECOVER: hours-since-trained model (72h full recovery) ── */
+function renderRecover(){
+  var now = Date.now(), lastHit = {};
+  sessions.forEach(function(s){
+    var t = parseDate(s.date); if(!t) return;
+    (s.exercises||[]).forEach(function(e){
+      if(!(e.sets||[]).some(function(st){return st.completed;})) return;
+      var m = MUSCLE_MAP[e.name]; if(!m) return;
+      var stamp = t.getTime();
+      if(!lastHit[m.primary] || stamp > lastHit[m.primary].t) lastHit[m.primary] = {t:stamp, w:1};
+      (m.secondary||[]).forEach(function(sec){
+        if(!lastHit[sec] || stamp > lastHit[sec].t) lastHit[sec] = lastHit[sec] && lastHit[sec].t===stamp ? lastHit[sec] : {t:stamp, w:0.5};
+      });
+    });
+  });
+  var groups = ['Chest','Back','Shoulders','Biceps','Triceps','Quads','Hamstrings','Glutes','Core','Calves'];
+  document.getElementById('recList').innerHTML = groups.map(function(g){
+    var h = lastHit[g];
+    var pct = 100;
+    if (h){
+      var hrs = (now - h.t)/36e5;
+      var need = 72 * (h.w||1);
+      pct = Math.min(100, Math.round(hrs/need*100));
+    }
+    return '<div class="rec-row'+(pct>=100?' full':'')+'"><div class="rec-top"><span>'+g+'</span><b>'+pct+'%</b></div><div class="rec-bar"><i style="width:'+pct+'%"></i></div></div>';
+  }).join('');
+}
+
+/* ── LIBRARY: every programme exercise + logged exercises ── */
+function libEntries(){
+  var seen = {}, out = [];
+  ['onsite','offsite'].forEach(function(t){
+    (PROGRAMME[t]||[]).forEach(function(d){
+      d.exercises.forEach(function(ex){
+        if(seen[ex.name]) return; seen[ex.name]=1;
+        out.push({name:ex.name, swap:ex.swap||''});
+        if(ex.swap && !seen[ex.swap]){ seen[ex.swap]=1; out.push({name:ex.swap, swap:''}); }
+      });
+    });
+  });
+  Object.keys(progLog).forEach(function(k){ if(!seen[k]){ seen[k]=1; out.push({name:k, swap:''}); } });
+  return out.sort(function(a,b){ return a.name.localeCompare(b.name); });
+}
+function renderLib(){
+  var q = (document.getElementById('libSearch').value||'').toLowerCase();
+  var el = document.getElementById('libList');
+  el.innerHTML = libEntries().filter(function(e){ return !q || e.name.toLowerCase().indexOf(q)>-1; }).map(function(e, i){
+    var m = MUSCLE_MAP[e.name];
+    var w = liveWeights[e.name] || (progLog[e.name] && progLog[e.name].length ? progLog[e.name][progLog[e.name].length-1].weight+' kg' : '');
+    var cue = (typeof CUES !== 'undefined') ? CUES[e.name] : null;
+    var body = cue ? '<div class="lib-bd">' +
+      '<div class="lib-k">Setup</div><div class="lib-t">'+esc(cue.setup||'')+'</div>' +
+      '<div class="lib-k">Movement</div><div class="lib-t">'+esc(cue.movement||'')+'</div>' +
+      (cue.feel?'<div class="lib-k">What to feel</div><div class="lib-t">'+esc(cue.feel)+'</div>':'') +
+      (cue.mistakes?'<div class="lib-k">Common mistakes</div><div class="lib-t">'+esc(cue.mistakes)+'</div>':'') +
+      '</div>' : '';
+    return '<div class="lib-card'+(cue?'':' nocue')+'" id="lc-'+i+'" onclick="toggleLibCard('+i+')">'+(w?'<span class="lib-wt">'+esc(w)+'</span>':'')+'<div class="lib-nm">'+esc(e.name)+(cue?' <span style="color:var(--tf);font-size:10px">&#9662;</span>':'')+'</div>'+
+      '<div class="lib-mu">'+(m ? esc(m.primary)+(m.secondary&&m.secondary.length?' · '+esc(m.secondary.join(', ')):'') : 'Accessory')+
+      (e.swap?' &nbsp;·&nbsp; Alt: '+esc(e.swap):'')+'</div>' + body + '</div>';
+  }).join('') || '<div class="empty">No matches.</div>';
+}
+function openLib(){
+  document.querySelectorAll('.scr').forEach(function(x){x.classList.remove('on');});
+  document.getElementById('s-lib').classList.add('on');
+  renderLib(); window.scrollTo(0,0);
+}
+
+/* ── WARM-UPS for compound lifts ── */
+function warmupsFor(name, w){
+  var wt = parseFloat(w);
+  if (WARMUP_EXERCISES.indexOf(name) === -1 || !wt || wt < 25) return [];
+  function rnd(x){ return Math.max(20, Math.round(x/2.5)*2.5); }
+  return [ {reps:10, w:rnd(wt*0.5)}, {reps:5, w:rnd(wt*0.72)} ];
+}
+
 /* tabs */
 document.querySelectorAll('.tab').forEach(function(t){
   t.addEventListener('click',function(){
@@ -257,6 +1301,7 @@ document.querySelectorAll('.tab').forEach(function(t){
     t.classList.add('active');
     document.querySelectorAll('.scr').forEach(function(x){x.classList.remove('on');});
     document.getElementById('s-'+t.dataset.s).classList.add('on');
+    if(t.dataset.s==='rec') renderRecover();
     window.scrollTo(0,0);
   });
 });
