@@ -266,6 +266,26 @@ body.compact .mini-row{padding:9px 0}
 .lib-k:first-child{margin-top:0}
 .lib-t{font-size:12px;color:var(--td);line-height:1.55}
 
+
+/* tightened home + picker */
+.hero{padding:17px 18px !important;border-radius:22px !important;margin-bottom:12px !important}
+.hero .t{font-size:24px !important}
+.hero .k{margin-bottom:5px !important}
+.hero .m{margin-bottom:13px !important}
+.hero .go{padding:14px !important}
+.chip{padding:11px 6px}
+.ring{width:42px;height:42px;margin-bottom:6px}
+.chip .v{font-size:11.5px}
+.chip .k{font-size:8.5px}
+.day{padding:8px 0}
+.pk-group{font-size:10px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--tf);padding:10px 4px 6px}
+.pk-row{display:flex;align-items:center;gap:12px;width:100%;background:var(--s2);border:1px solid var(--b);border-radius:15px;padding:12px;margin-bottom:8px;cursor:pointer;text-align:left;font-family:'Inter'}
+.pk-badge{width:38px;height:38px;flex-shrink:0;border-radius:12px;background:var(--grad);color:#fff;font-family:'Sora';font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center}
+.pk-main{flex:1;min-width:0}
+.pk-main b{display:block;font-size:14px;font-weight:700;color:var(--t)}
+.pk-main em{font-style:normal;font-size:11px;color:var(--td)}
+.pk-arrow{color:var(--tf);flex-shrink:0}
+
 /* dock */
 .dock{position:fixed;left:0;right:0;bottom:0;background:rgba(16,12,32,.92);backdrop-filter:blur(24px);border-top:1px solid var(--b);display:flex;padding:8px 8px calc(10px + env(safe-area-inset-bottom));z-index:50}
 .dock-in{max-width:480px;margin:0 auto;display:flex;flex:1}
@@ -407,12 +427,18 @@ body.compact .mini-row{padding:9px 0}
       <div style="font-size:11px;color:var(--tf);padding:8px 0 4px;line-height:1.5">v2 shares its data with the current app automatically - sessions, weights and history stay in sync.</div>
     </div>
 
-    <div class="vtag">JAIDYN TRAIN v2 · shell 6</div>
+    <div class="vtag">JAIDYN TRAIN v2 · shell 7</div>
   </div>
 
 </div>
 </div>
 
+<div class="csheet" id="picker">
+  <div class="cbox">
+    <div class="chd"><div><div class="k">Start session</div><div class="t">Pick your workout</div></div><button class="cx" onclick="closePicker()">&#10005;</button></div>
+    <div class="clog" id="pkList" style="padding:12px"></div>
+  </div>
+</div>
 <div class="rest" id="restChip">Rest 1:30</div>
 <div class="csheet" id="csheet">
   <div class="cbox">
@@ -834,17 +860,27 @@ function startDay(type, di){
   showWorkout();
 }
 
-function startFromHero(){
-  var want = document.getElementById('heroTitle').textContent.toLowerCase();
-  var hit = null;
+function startFromHero(){ openPicker(); }
+
+function openPicker(){
+  var html = '';
   ['onsite','offsite'].forEach(function(t){
-    (PROGRAMME[t]||[]).forEach(function(d,i){
-      if(!hit && (d.name.toLowerCase()===want || want.indexOf(d.name.toLowerCase())>-1 || d.name.toLowerCase().indexOf(want)>-1)) hit={t:t,i:i};
+    var days = PROGRAMME[t] || [];
+    if(!days.length) return;
+    html += '<div class="pk-group">' + (t==='onsite'?'On-Site':'Off-Site') + '</div>';
+    days.forEach(function(d,i){
+      var letter = (d.name.match(/Day\s+(\S+)/i)||[])[1] || (i+1);
+      html += '<button class="pk-row" onclick="pickStart(\''+t+'\','+i+')">' +
+        '<span class="pk-badge">'+esc(letter)+'</span>' +
+        '<span class="pk-main"><b>'+esc(d.name.replace(/^Day\s+\S+\s*[—–-]\s*/i,''))+'</b><em>'+esc(d.desc||'')+' · '+d.exercises.length+' exercises</em></span>' +
+        '<span class="pk-arrow">&rarr;</span></button>';
     });
   });
-  if (hit) startDay(hit.t, hit.i);
-  else document.querySelector('.tab[data-s="train"]').click();
+  document.getElementById('pkList').innerHTML = html;
+  document.getElementById('picker').classList.add('on');
 }
+function closePicker(){ document.getElementById('picker').classList.remove('on'); }
+function pickStart(t,i){ closePicker(); startDay(t,i); }
 
 function showWorkout(){
   document.querySelectorAll('.scr').forEach(function(x){x.classList.remove('on');});
