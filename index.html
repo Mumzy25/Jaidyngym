@@ -379,13 +379,6 @@ body.compact .mini-row{padding:9px 0}
   </div>
 
   <!-- LIBRARY -->
-  <!-- RECOVER -->
-  <div class="scr" id="s-rec">
-    <div class="h1">Recover</div>
-    <div class="setcard" id="recList" style="padding-top:12px;padding-bottom:12px"></div>
-    <div style="font-size:10.5px;color:var(--tf);padding:10px 4px;line-height:1.5">Modelled from when each muscle was last trained &middot; 72h to full (secondary work counts half).</div>
-  </div>
-
   <div class="scr" id="s-lib">
     <div class="h1">Library</div>
     <input class="wnotes" id="libSearch" placeholder="Search exercises" style="width:100%;margin-bottom:12px" oninput="renderLib()">
@@ -427,7 +420,7 @@ body.compact .mini-row{padding:9px 0}
       <div style="font-size:11px;color:var(--tf);padding:8px 0 4px;line-height:1.5">v2 shares its data with the current app automatically - sessions, weights and history stay in sync.</div>
     </div>
 
-    <div class="vtag">JAIDYN TRAIN v2 · shell 7</div>
+    <div class="vtag">JAIDYN TRAIN v2 · shell 8</div>
   </div>
 
 </div>
@@ -826,10 +819,10 @@ async function coachSend(){
   renderCLog();
 }
 
-/* hero start routes into Train tab */
+/* hero start opens the session picker */
 document.getElementById('heroGo').addEventListener('click', function(ev){
   ev.preventDefault();
-  document.querySelector('.tab[data-s="train"]').click();
+  openPicker();
 });
 
 
