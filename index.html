@@ -286,6 +286,17 @@ body.compact .mini-row{padding:9px 0}
 .pk-main em{font-style:normal;font-size:11px;color:var(--td)}
 .pk-arrow{color:var(--tf);flex-shrink:0}
 
+
+/* coach-built workout */
+.hero-alt{display:block;width:100%;background:transparent;border:none;color:rgba(255,255,255,.9);font-family:'Inter';font-size:12px;font-weight:600;padding:11px 0 0;cursor:pointer;text-align:center;text-decoration:underline;text-underline-offset:3px}
+.bprop{background:var(--s2);border:1px solid var(--a);border-radius:16px;padding:13px;margin:4px 0}
+.bprop-h{font-family:'Sora';font-weight:700;font-size:15px;margin-bottom:9px}
+.bprop-ex{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;padding:7px 0;border-bottom:1px solid var(--b)}
+.bprop-ex:last-of-type{border-bottom:none}
+.bprop-ex b{font-weight:600}
+.bprop-ex span{color:var(--td);white-space:nowrap;font-variant-numeric:tabular-nums}
+.bstart{width:100%;background:var(--grad);color:#fff;border:none;border-radius:13px;padding:13px;font-family:'Sora';font-weight:800;font-size:13.5px;margin-top:11px;cursor:pointer;box-shadow:0 8px 24px rgba(168,85,247,.3)}
+
 /* dock */
 .dock{position:fixed;left:0;right:0;bottom:0;background:rgba(16,12,32,.92);backdrop-filter:blur(24px);border-top:1px solid var(--b);display:flex;padding:8px 8px calc(10px + env(safe-area-inset-bottom));z-index:50}
 .dock-in{max-width:480px;margin:0 auto;display:flex;flex:1}
@@ -312,6 +323,7 @@ body.compact .mini-row{padding:9px 0}
       <div class="t" id="heroTitle">Upper Push</div>
       <div class="m" id="heroMeta"><b>Ready when you are.</b></div>
       <a class="go" href="#" id="heroGo">Choose &amp; start &rarr;</a>
+      <button class="hero-alt" onclick="openBuild()">or let the coach build today's session &rarr;</button>
     </div>
 
     <div class="chips" id="chips"></div>
@@ -420,7 +432,7 @@ body.compact .mini-row{padding:9px 0}
       <div style="font-size:11px;color:var(--tf);padding:8px 0 4px;line-height:1.5">v2 shares its data with the current app automatically - sessions, weights and history stay in sync.</div>
     </div>
 
-    <div class="vtag">JAIDYN TRAIN v2 · shell 8</div>
+    <div class="vtag">JAIDYN TRAIN v2 · shell 11</div>
   </div>
 
 </div>
@@ -430,6 +442,13 @@ body.compact .mini-row{padding:9px 0}
   <div class="cbox">
     <div class="chd"><div><div class="k">Start session</div><div class="t">Pick your workout</div></div><button class="cx" onclick="closePicker()">&#10005;</button></div>
     <div class="clog" id="pkList" style="padding:12px"></div>
+  </div>
+</div>
+<div class="csheet" id="buildSheet">
+  <div class="cbox">
+    <div class="chd"><div><div class="k">Coach</div><div class="t">Build today's session</div></div><button class="cx" onclick="closeBuild()">&#10005;</button></div>
+    <div class="clog" id="buildLog"></div>
+    <div class="cin"><input id="buildInput" placeholder="Reply to the coach&hellip;" onkeydown="if(event.key==='Enter'){event.preventDefault();buildSend();}"><button onclick="buildSend()">Send</button></div>
   </div>
 </div>
 <div class="rest" id="restChip">Rest 1:30</div>
@@ -773,7 +792,37 @@ function finishWO(){
 }
 
 /* === COACH (same Netlify function as the main app) === */
-var COACH_PERSONA = "You are a personal trainer AI built specifically for Jaidyn. Direct, knowledgeable, evidence-based. No fluff. ATHLETE: intermediate ~2 years; goals hypertrophy, strength, fat loss, general fitness (upper-body priority); 4-5 days/week at home (commercial gym), 3 days/week on site (FIFO, limited gym; on site = NO leg work, ~30 min sessions, offer dumbbell alternatives). Very deconditioned start, low VO2 max, dyspraxia: prefer machines and simple stable movements, form before load, never ego-load. LIVE DATA: working weights, this session's sets, and recent history arrive in CONTEXT with each message - source of truth; never ask for numbers already provided; weights are working weights NOT 1RMs; no percentage math. RULES: RPE 7-8 hypertrophy, 8-9 strength. Double progression: reps to top of range first; add load only after top at target RPE 2 consecutive sessions; upper +2.5kg, lower +5kg, accessories reps first. Deload every 4-6 weeks or on stall. Conditioning: 1-2 short zone-2 sessions weekly, never before lifting. SAFETY: sharp or joint pain = stop the movement, substitute, flag it, never train through pain; persistent pain = see a professional. RESPOND: in-set coaching is the primary mode - 2-4 sentences, lead with the call for the next set (add a rep / hold / drop X kg / rest longer), one cue max, no emojis.";
+var COACH_PERSONA = `IDENTITY
+You are a personal trainer AI built specifically for Jaidyn. You are direct, knowledgeable, and evidence-based. No fluff — talk like a coach who actually trains. Adapt your tone to the athlete over time.
+
+ATHLETE PROFILE
+Name: Jaidyn.
+Training experience: 2 years / intermediate.
+Goals: all of them — hypertrophy, strength, fat loss, general fitness. Main focus is upper body.
+Schedule: 4–5 days/week while at home; 3 days/week while on site (FIFO).
+Equipment: commercial gym when not working; on site the gym is limited, so always offer an alternative dumbbell exercise if a machine is taken or unavailable.
+Injuries/limitations: incredibly weak, low VO2 max — progress conservatively and never ego-load.
+
+CURRENT WORKING WEIGHTS & LIFT LOG
+The athlete's current working weights and recent lift log are injected automatically in the CONTEXT block below with every message — that is the source of truth. These are working weights, NOT one-rep maxes: never calculate percentages from them; use them as the baseline and apply RPE-based progression only. For any exercise with no entry yet, make a reasonable estimate, flag it as a calibration weight, and confirm the actual weight after session 1. Never contradict the logged numbers.
+
+PROGRAMMING RULES
+- Use RPE-based loading: RPE 7–8 for hypertrophy, 8–9 for strength. Never calculate working weights from percentages — always use the logged working weights as the baseline.
+- Progressive overload: add weight when the athlete hits the top of a rep range at target RPE for 2 consecutive sessions. Upper-body compounds +2.5 kg, lower-body compounds +5 kg, accessories add reps before adding weight.
+- Suggest a deload every 4–6 weeks or when fatigue or stalling is flagged.
+- Prioritise compound movements; use accessories to address weak points.
+- Treat Week 1 of any new programme as a calibration week — flag anything that needs adjusting before Week 2.
+- Base each new session on the most recent log entries.
+- While on site: NO lower-body/leg exercises, and keep sessions to ~30 min (time is limited). Lower body can be trained when off site.
+- Ask the athlete for their goals when relevant.
+- Analyse the athlete's Evolt scans when provided — judge trends across multiple scans, not single readings.
+
+HOW TO RESPOND
+- In-set coaching (the main use): the athlete reports how a set felt. Reply in 2–4 sentences, lead with the call for the next set (add a rep / hold / drop X kg / rest longer), one cue max, no emojis.
+- When the athlete logs a session: acknowledge it, note any weight increases, and flag anything worth adjusting.
+- When asked for the next session: programme it with specific weights, sets, reps and RPE targets from the log — use a table.
+- When asked about progress: pull concrete numbers and trends from the log.
+- Keep responses concise. No waffle.`;
 var cMsgs = [], cEx = null, cSet = null;
 function openCoach(ei, si){
   cEx = ei; cSet = si; cMsgs = [];
@@ -1322,6 +1371,187 @@ function warmupsFor(name, w){
   function rnd(x){ return Math.max(20, Math.round(x/2.5)*2.5); }
   return [ {reps:10, w:rnd(wt*0.5)}, {reps:5, w:rnd(wt*0.72)} ];
 }
+
+
+/* ── COACH-BUILT WORKOUT ─────────────────────────────── */
+var BUILD_MODE = "You are now in SESSION-BUILDER mode: you are helping the athlete put together the workout they are about to do RIGHT NOW. Ask short questions to fill gaps (training at home or on site, time available, energy/soreness, any focus). Respect the athlete profile and programming rules, and if they are ON SITE do NOT program legs and keep it to roughly 30 minutes. Use the working weights in CONTEXT for the suggested weight of each exercise; if a weight is unknown, estimate and mark it as a calibration weight. When - and only when - you have enough to build the session, write a short plain-text summary of your plan, then append the full session as a fenced code block starting with ```json on its own line, containing exactly this shape: {\"name\":\"Session name\",\"exercises\":[{\"name\":\"Exercise\",\"sets\":3,\"reps\":\"8-12\",\"rpe\":\"7-8\",\"weight\":\"40\"}]}. Only include the json block once you are confident and ready; otherwise just keep asking. Keep everything concise.";
+
+var buildMsgs = [];
+function openBuild(){
+  if(typeof PROGRAMME==='undefined'){ alert('Programme still loading, try again.'); return; }
+  buildMsgs = [{r:'a', t:"Let's build today's session. Quick questions:\n\n1. Home or on site today?\n2. How much time have you got?\n3. Energy level - and anything sore?\n4. A focus in mind, or should I pick based on what you've trained least?\n\nAnswer any or all and I'll put a session together."}];
+  document.getElementById('buildSheet').classList.add('on');
+  renderBuildLog();
+  setTimeout(function(){ var i=document.getElementById('buildInput'); if(i) i.focus(); }, 150);
+}
+function closeBuild(){ document.getElementById('buildSheet').classList.remove('on'); }
+
+function renderBuildLog(){
+  var el = document.getElementById('buildLog');
+  el.innerHTML = buildMsgs.map(function(m, idx){
+    if(m.r==='prop'){
+      var w = m.w;
+      return '<div class="bprop"><div class="bprop-h">'+esc(w.name||'Session')+'</div>' +
+        (w.exercises||[]).map(function(e){
+          return '<div class="bprop-ex"><b>'+esc(e.name)+'</b><span>'+esc(e.sets)+'&times;'+esc(e.reps)+(e.weight?' &middot; '+esc(e.weight)+'kg':'')+'</span></div>';
+        }).join('') +
+        '<button class="bstart" onclick="buildStart('+idx+')">Start this workout &rarr;</button></div>';
+    }
+    return '<div class="cmsg '+(m.r==='u'?'u':'a')+'">'+esc(m.t)+'</div>';
+  }).join('');
+  el.scrollTop = el.scrollHeight;
+}
+
+function muscleRecoveryMap(){
+  var now = Date.now(), lastHit = {};
+  sessions.forEach(function(s){
+    var t = parseDate(s.date); if(!t) return;
+    (s.exercises||[]).forEach(function(e){
+      if(!(e.sets||[]).some(function(st){return st.completed;})) return;
+      var m = MUSCLE_MAP[e.name]; if(!m) return;
+      var stamp = t.getTime();
+      if(!lastHit[m.primary] || stamp > lastHit[m.primary].t) lastHit[m.primary] = {t:stamp, w:1};
+      (m.secondary||[]).forEach(function(sec){ if(!lastHit[sec] || stamp > lastHit[sec].t) lastHit[sec] = {t:stamp, w:0.5}; });
+    });
+  });
+  var groups = ['Chest','Back','Shoulders','Biceps','Triceps','Quads','Hamstrings','Glutes','Core','Calves'], out = {};
+  groups.forEach(function(g){
+    var h = lastHit[g], pct = 100;
+    if (h){ pct = Math.min(100, Math.round(((now-h.t)/36e5)/(72*(h.w||1))*100)); }
+    out[g] = pct;
+  });
+  return out;
+}
+
+/* Build an in-depth dossier the coach reasons from before programming */
+function buildContext(){
+  var L = [], now = Date.now();
+
+  // 1) Per-exercise history: current weight, last 3 results, trend, stall/PR
+  var exLines = [];
+  Object.keys(progLog).forEach(function(k){
+    var h = progLog[k]; if(!h || !h.length) return;
+    var last3 = h.slice(-3).map(function(e){ return e.weight+'kg x'+e.reps+(e.rpe?(' @RPE'+e.rpe):''); });
+    var cur = h[h.length-1];
+    var best = h.reduce(function(a,e){ return parseFloat(e.weight)>parseFloat(a.weight)?e:a; }, h[0]);
+    // stall: same weight, not hitting top, 3 in a row
+    var stalled = h.length>=3 && h.slice(-3).every(function(e){ return e.weight===cur.weight && !e.allHit; });
+    var atTop = cur.allHit;
+    var tag = stalled ? ' [STALLED - consider deload/variation]' : (atTop ? ' [hit top of range - ready to add load]' : '');
+    exLines.push('  ' + k + ': now ' + cur.weight + 'kg; best ' + best.weight + 'kg; recent ' + last3.join(' -> ') + tag);
+  });
+  // exercises never logged (from programme) so the coach knows they need calibration
+  var logged = {}; Object.keys(progLog).forEach(function(k){logged[k]=1;});
+  var uncal = [];
+  ['onsite','offsite'].forEach(function(t){ (PROGRAMME[t]||[]).forEach(function(d){ d.exercises.forEach(function(ex){ if(!logged[ex.name] && uncal.indexOf(ex.name)<0) uncal.push(ex.name); }); }); });
+  if(exLines.length) L.push('EXERCISE HISTORY (source of truth):\n' + exLines.join('\n'));
+  if(uncal.length) L.push('NOT YET LOGGED (estimate + flag as calibration): ' + uncal.join(', '));
+
+  // 2) Muscle recovery right now
+  var rec = muscleRecoveryMap();
+  L.push('MUSCLE RECOVERY NOW (100 = fresh): ' + Object.keys(rec).map(function(g){return g+' '+rec[g]+'%';}).join(', '));
+  var fresh = Object.keys(rec).filter(function(g){return rec[g]>=90;});
+  var tired = Object.keys(rec).filter(function(g){return rec[g]<60;});
+  L.push('Freshest: ' + (fresh.join(', ')||'none') + '. Least recovered (avoid heavy loading): ' + (tired.join(', ')||'none') + '.');
+
+  // 3) Recent sessions with detail
+  var r = sessions.slice(0,4).map(function(s){
+    var v = 0, sets = 0;
+    (s.exercises||[]).forEach(function(e){ (e.sets||[]).forEach(function(st){ if(st.completed){ sets++; v+=(parseFloat(st.weight)||0)*(parseInt(st.reps)||0); } }); });
+    return '  ' + (s.date||'') + ' ' + (s.name||'') + ' - ' + sets + ' sets, ' + Math.round(v) + 'kg, exercises: ' + (s.exercises||[]).map(function(e){return e.name;}).join(', ');
+  });
+  if(r.length) L.push('RECENT SESSIONS:\n' + r.join('\n'));
+
+  // 4) Cadence: days since last trained + weekly count
+  var last = sessions.map(parseDateSafe).filter(Boolean).sort(function(a,b){return b-a;})[0];
+  if(last) L.push('Days since last session: ' + Math.floor((now-last)/864e5));
+  var wk = sessions.filter(function(s){ var t=parseDate(s.date); return t && now-t.getTime()<7*864e5; }).length;
+  L.push('Sessions in last 7 days: ' + wk);
+
+  // 5) Programme options
+  ['onsite','offsite'].forEach(function(t){
+    var d = (PROGRAMME[t]||[]).map(function(x){return x.name;});
+    if(d.length) L.push((t==='onsite'?'On-site':'Off-site')+' programme days available: '+d.join(', '));
+  });
+
+  return L.join('\n\n');
+}
+function parseDateSafe(s){ var t=parseDate(s.date); return t?t.getTime():null; }
+
+function stripFences(t){
+  var f='```', i=t.indexOf(f);
+  if(i<0) return t.trim();
+  var j=t.indexOf(f, i+3);
+  if(j<0) return t.slice(0,i).trim();
+  return (t.slice(0,i)+' '+t.slice(j+3)).trim();
+}
+function extractWorkout(t){
+  var f='```', s=null;
+  var i=t.indexOf(f);
+  if(i>-1){
+    var after=t.slice(i+3);
+    if(after.slice(0,4).toLowerCase()==='json') after=after.slice(4);
+    var j=after.indexOf(f);
+    if(j>-1) s=after.slice(0,j);
+  }
+  if(!s){
+    var a=t.indexOf('{'), b=t.lastIndexOf('}');
+    if(a>-1&&b>a&&t.slice(a,b+1).indexOf('exercises')>-1) s=t.slice(a,b+1);
+  }
+  if(!s) return null;
+  try { var w=JSON.parse(s.trim()); return (w&&w.exercises&&w.exercises.length)?w:null; } catch(e){ return null; }
+}
+
+async function buildSend(){
+  var inp=document.getElementById('buildInput');
+  var t=(inp.value||'').trim();
+  if(!t) return;
+  inp.value='';
+  buildMsgs.push({r:'u', t:t});
+  buildMsgs.push({r:'a', t:'…'});
+  renderBuildLog();
+  try{
+    var payload = buildMsgs.filter(function(m){return m.r==='u'||(m.r==='a'&&m.t!=='…');})
+      .map(function(m){ return {role: m.r==='u'?'user':'assistant', content: m.t}; });
+    var r = await fetch('/.netlify/functions/coach', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ model:'claude-sonnet-4-6', max_tokens:1400, system: COACH_PERSONA + '\n\n' + BUILD_MODE + '\n\nCONTEXT (live):\n' + buildContext(), messages: payload })
+    });
+    var data=null; try{ data=await r.json(); }catch(e){}
+    buildMsgs.pop();
+    var reply = (data && Array.isArray(data.content)) ? data.content.map(function(b){return b.type==='text'?b.text:'';}).filter(Boolean).join('\n').trim() : '';
+    if(reply){
+      var w = extractWorkout(reply);
+      var prose = stripFences(reply);
+      if(prose) buildMsgs.push({r:'a', t:prose});
+      if(w) buildMsgs.push({r:'prop', w:w});
+      if(!prose && !w) buildMsgs.push({r:'a', t:reply});
+    } else {
+      buildMsgs.push({r:'a', t:'Coach error: '+((data&&data.error&&(data.error.message||JSON.stringify(data.error)))||('HTTP '+r.status))});
+    }
+  }catch(e){
+    buildMsgs.pop();
+    buildMsgs.push({r:'a', t:'Could not reach the coach - check connection.'});
+  }
+  renderBuildLog();
+}
+
+function buildFromJSON(w){
+  if(!w||!w.exercises||!w.exercises.length) return;
+  active = { name: w.name||'Coached session', startTime: Date.now(),
+    exercises: w.exercises.map(function(ex){
+      var reps=String(ex.reps||'8');
+      var low=(reps.match(/\d+/)||['8'])[0];
+      var n=parseInt(ex.sets)||3;
+      var sets=[];
+      for(var i=0;i<n;i++) sets.push({reps:low, weight:String(ex.weight||''), rpe:'', completed:false});
+      return {name:ex.name, swap:ex.swap||'', usingSwap:false, targetReps:reps, targetSets:String(n), rpe:String(ex.rpe||''), sets:sets};
+    })
+  };
+  saveActive(); showWorkout();
+}
+function buildStart(idx){ var m=buildMsgs[idx]; if(m&&m.w){ closeBuild(); buildFromJSON(m.w); } }
+
 
 /* tabs */
 document.querySelectorAll('.tab').forEach(function(t){
