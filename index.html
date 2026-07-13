@@ -23,7 +23,7 @@ body{
   color:var(--t);font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;
 }
 .wrap{max-width:480px;margin:0 auto;min-height:100%;display:flex;flex-direction:column}
-.page{flex:1;padding:20px 16px calc(96px + env(safe-area-inset-bottom))}
+.page{flex:1;padding:20px 16px calc(80px + env(safe-area-inset-bottom))}
 .scr{display:none}.scr.on{display:block}
 
 /* greeting */
@@ -432,7 +432,7 @@ body.compact .mini-row{padding:9px 0}
       <div style="font-size:11px;color:var(--tf);padding:8px 0 4px;line-height:1.5">v2 shares its data with the current app automatically - sessions, weights and history stay in sync.</div>
     </div>
 
-    <div class="vtag">JAIDYN TRAIN v2 · shell 11</div>
+    <div class="vtag">JAIDYN TRAIN v2 · shell 12</div>
   </div>
 
 </div>
@@ -528,7 +528,7 @@ document.getElementById('greetSub').textContent = hr<12?'Good morning,':(hr<18?'
 (function(){
   var el=document.getElementById('recent');
   if(!sessions.length){ el.innerHTML='<div class="empty">No sessions logged yet — data appears here from your main app automatically.</div>'; return; }
-  el.innerHTML=sessions.slice(0,4).map(function(s){
+  el.innerHTML=sessions.slice(0,8).map(function(s){
     return '<div class="mini-row"><div><div class="n">'+esc(s.name||'Session')+'</div><div class="d">'+esc(s.date||'')+'</div></div><div class="v">'+Math.round(volOf(s)).toLocaleString()+' kg</div></div>';
   }).join('');
 })();
